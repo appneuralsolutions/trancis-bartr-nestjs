@@ -1,12 +1,38 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Res, Session, Sse } from '@nestjs/common';
+import { readFileSync } from 'fs';
+import { Response } from 'express';
+import { join } from 'path';
+import { interval, map, Observable } from 'rxjs';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  index(@Res() response: Response) {
+    response
+      .type('text/html')
+      .send(readFileSync(join(__dirname, 'index.html')).toString());
+  }
+
+  @Sse('sse')
+  sse(): Observable<MessageEvent> {
+    return interval(1000).pipe(
+      map((_) => ({ data: { hello: 'world' } } as MessageEvent)),
+    );
+  }
+
+  @Get('session')
+  session(@Session() session: Record<string, any>) {
+    session.visits = session.visits ? session.visits + 1 : 1;
+    return session;
+  }
+
+  @Get('hello-world')
+  getHello() {
+    return 'hello world';
+  }
+
+  @Get('feeds')
+  getFeeds() {
+    return 'hello world';
   }
 }
