@@ -13,7 +13,7 @@ import { CreateCardDto } from './@dtos/create-card.dto';
 import { UpdateCardDto } from './@dtos/update-card.dto';
 
 @ApiTags('Cards')
-@Controller('cards')
+@Controller()
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 

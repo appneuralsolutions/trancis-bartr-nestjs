@@ -31,10 +31,10 @@ import { AuthInterceptor } from 'src/auth/@interceptors/auth.interceptor';
     PreferencesService,
     WishlistService,
     FeedbackService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: AuthInterceptor,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: AuthInterceptor,
+    // },
   ],
 })
 export class MeModule {}

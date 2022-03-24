@@ -9,11 +9,11 @@ import {
   Delete,
 } from '@nestjs/common';
 import { SubjectsService } from './subjects.service';
-import { CreateSubjectDto } from './@dto/create-subject.dto';
-import { UpdateSubjectDto } from './@dto/update-subject.dto';
+import { CreateSubjectDto } from './@dtos/create-subject.dto';
+import { UpdateSubjectDto } from './@dtos/update-subject.dto';
 
-@ApiTags('Admin -> Subjects')
-@Controller('subjects')
+@ApiTags('Subjects')
+@Controller()
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 

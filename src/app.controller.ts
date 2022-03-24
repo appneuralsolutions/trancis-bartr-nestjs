@@ -1,3 +1,4 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Res, Session, Sse } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import { Response } from 'express';
@@ -31,6 +32,7 @@ export class AppController {
     return 'hello world';
   }
 
+  @ApiTags('Feeds')
   @Get('feeds')
   getFeeds() {
     return 'hello world';

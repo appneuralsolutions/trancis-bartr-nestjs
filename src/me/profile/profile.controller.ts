@@ -1,3 +1,10 @@
+import { ErrorMessage } from 'src/shared/@constants/error.constant';
+import { IResponse } from './../../shared/@interfaces/response.interface';
+import {
+  ResponseSuccess,
+  ResponseError,
+} from './../../shared/@dtos/response.dto';
+import { Message } from './../../shared/@constants/messages.constant';
 import { ApiTags } from '@nestjs/swagger';
 import {
   Controller,
@@ -19,18 +26,53 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
   @Post()
-  create(@Body() createProfileDto: CreateProfileDto) {
-    return this.profileService.create(createProfileDto);
+  async create(@Body() createProfileDto: CreateProfileDto): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
+  }
+
+  @Post('photo')
+  async uploadPhoto(): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Get()
-  findAll() {
-    return this.profileService.findAll();
+  async findAll(): Promise<IResponse> {
+    // await this.profileService.findAll();
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.profileService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<IResponse> {
+    // return await this.profileService.findOne(+id);
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Patch(':id')

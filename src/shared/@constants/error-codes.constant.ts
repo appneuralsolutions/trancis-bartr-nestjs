@@ -1,6 +1,6 @@
 export const ErrorCodes = {
   E00001: {
-    message: 'User can not be created because user already exists',
+    message: 'Un-Authorized Access',
     type: 'Auth',
     statusCode: 401,
   },
@@ -20,6 +20,11 @@ export const ErrorCodes = {
     statusCode: 401,
   },
   E00008: {
+    message: 'User can not be created because user already exists',
+    type: 'Auth',
+    statusCode: 405,
+  },
+  E00009: {
     message: 'User can not be created because user already exists',
     type: 'Auth',
     statusCode: 405,

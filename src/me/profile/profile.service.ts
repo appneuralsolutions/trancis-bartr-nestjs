@@ -4,12 +4,15 @@ import { UpdateProfileDto } from './@dto/update-profile.dto';
 
 @Injectable()
 export class ProfileService {
-  create(createProfileDto: CreateProfileDto) {
+  constructor() {}
+  async create(createProfileDto: CreateProfileDto) {
     return 'This action adds a new profile';
   }
 
-  findAll() {
-    return `This action returns all profile`;
+  async findAll(): Promise<string> {
+    return new Promise((resolve) => {
+      resolve('find all');
+    });
   }
 
   findOne(id: number) {

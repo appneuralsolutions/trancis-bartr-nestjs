@@ -45,10 +45,7 @@ export class AuthController {
   async sendEmailToken(@Param('email') email: string): Promise<IResponse> {
     const isSentEmailToken = await this.authService.sendEmailToken(email);
     if (isSentEmailToken) {
-      return new ResponseSuccess(
-        Message.LOGIN_SUCCESSFULLY_SENT_EMAIL_TOKEN,
-        {},
-      );
+      return new ResponseSuccess(Message.SUCCESSFULLY_SENT_EMAIL_TOKEN, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -67,10 +64,7 @@ export class AuthController {
       token,
     );
     if (isVerifiedEmailToken) {
-      return new ResponseSuccess(
-        Message.LOGIN_SUCCESSFULLY_VERIFIED_EMAIL_TOKEN,
-        {},
-      );
+      return new ResponseSuccess(Message.SUCCESSFULLY_VERIFIED_EMAIL_TOKEN, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_VERIFIED_EMAIL_TOKEN,
@@ -84,7 +78,7 @@ export class AuthController {
     const isVerifiedLoggedIn = await this.authService.validateLogin(loginDto);
     if (isVerifiedLoggedIn) {
       return new ResponseSuccess(
-        Message.LOGIN_SUCCESSFULLY_LOGGED_IN,
+        Message.SUCCESSFULLY_LOGGED_IN,
         {},
         // HttpStatus.CREATED,
       );
@@ -100,10 +94,7 @@ export class AuthController {
   async resetRequest(@Param('email') email: string): Promise<IResponse> {
     const isResetRequest = await this.authService.resetRequest(email);
     if (isResetRequest) {
-      return new ResponseSuccess(
-        Message.LOGIN_SUCCESSFULLY_SENT_RESET_REQUEST,
-        {},
-      );
+      return new ResponseSuccess(Message.SUCCESSFULLY_SENT_RESET_REQUEST, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_RESET_REQUEST,
@@ -164,7 +155,7 @@ export class AuthController {
   async logout(email: string): Promise<IResponse> {
     const isVerified = await this.authService.logout(email);
     if (isVerified) {
-      return new ResponseSuccess(Message.LOGIN_SUCCESSFULLY_LOGGED_OUT, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_LOGGED_OUT, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_LOGGED_OUT,
