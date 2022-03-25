@@ -23,7 +23,7 @@ import { Me } from '../@decorators/me.decorator';
 @ApiTags('Me -> Profile')
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(private readonly profileService: ProfileService) { }
 
   @Post()
   async create(@Body() createProfileDto: CreateProfileDto): Promise<IResponse> {
@@ -76,12 +76,29 @@ export class ProfileController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return this.profileService.update(+id, updateProfileDto);
+  async update(
+    @Param('id') id: string, 
+    @Body() updateProfileDto: UpdateProfileDto,
+  ): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.profileService.remove(+id);
+  async remove(@Param('id') id: string): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 }

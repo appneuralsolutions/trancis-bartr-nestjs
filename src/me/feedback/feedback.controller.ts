@@ -12,15 +12,29 @@ import {
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './@dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './@dto/update-feedback.dto';
+import { IResponse } from './../../shared/@interfaces/response.interface';
+import { Message } from './../../shared/@constants/messages.constant';
+import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
+import { ResponseError } from './../../shared/@dtos/response.dto';
+import { ErrorMessage } from './../../shared/@constants/error.constant';
 
 @ApiTags('Me -> Feedback')
 @Controller('feedback')
 export class FeedbackController {
-  constructor(private readonly feedbackService: FeedbackService) {}
+  constructor(private readonly feedbackService: FeedbackService) { }
 
   @Post()
-  create(@Body() createFeedbackDto: CreateFeedbackDto) {
-    return this.feedbackService.create(createFeedbackDto);
+  async create(
+    @Body() createFeedbackDto: CreateFeedbackDto
+  ): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   // @Get()
@@ -29,17 +43,41 @@ export class FeedbackController {
   // }
 
   @Get()
-  findMy(@Me() me: string) {
-    return this.feedbackService.findMy(+me);
+  async findMy(@Me() me: string): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Patch()
-  update(@Me() me: string, @Body() updateFeedbackDto: UpdateFeedbackDto) {
-    return this.feedbackService.update(+me, updateFeedbackDto);
+  async update(
+    @Me() me: string, 
+    @Body() updateFeedbackDto: UpdateFeedbackDto
+  ): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Delete()
-  remove(@Me() me: string) {
-    return this.feedbackService.remove(+me);
+  async remove(@Me() me: string): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 }

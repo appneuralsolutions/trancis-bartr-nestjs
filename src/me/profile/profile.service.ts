@@ -15,15 +15,25 @@ export class ProfileService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} profile`;
+  async findOne(id: number): Promise<string> {
+    return new Promise((resolve) => {
+      resolve('findOne');
+    });
   }
 
-  update(id: number, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
+  async update(
+    id: number,
+    updateProfileDto: UpdateProfileDto
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      resolve('update');
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} profile`;
+  async remove(id: number): Promise<string> {
+    return new Promise((resolve) => {
+      resolve('remove');
+    });
   }
+
 }

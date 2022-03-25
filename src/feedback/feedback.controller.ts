@@ -11,37 +11,78 @@ import {
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './dto/update-feedback.dto';
+import { IResponse } from './../shared/@interfaces/response.interface';
+import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
+import { Message } from './../shared/@constants/messages.constant';
+import { ResponseError } from './../shared/@dtos/response.dto';
+import { ErrorMessage } from './../shared/@constants/error.constant';
 
 @ApiTags('Feedback')
 @Controller()
 export class FeedbackController {
-  constructor(private readonly feedbackService: FeedbackService) {}
-
+  constructor(private readonly feedbackService: FeedbackService) { }
   @Post()
-  create(@Body() createFeedbackDto: CreateFeedbackDto) {
-    return this.feedbackService.create(createFeedbackDto);
+  async create(
+    @Body() createFeedbackDto: CreateFeedbackDto
+  ): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Get()
-  findAll() {
-    return this.feedbackService.findAll();
+  async findAll(): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.feedbackService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateFeedbackDto: UpdateFeedbackDto,
-  ) {
-    return this.feedbackService.update(+id, updateFeedbackDto);
+  ): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.feedbackService.remove(+id);
+  async remove(@Param('id') id: string): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 }

@@ -11,6 +11,11 @@ import {
 import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
+import { IResponse } from './../../shared/@interfaces/response.interface';
+import { Message } from './../../shared/@constants/messages.constant';
+import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
+import { ResponseError } from './../../shared/@dtos/response.dto';
+import { ErrorMessage } from './../../shared/@constants/error.constant';
 
 @ApiTags('Me -> Wishlist')
 @Controller('wishlist')
@@ -18,30 +23,67 @@ export class WishlistController {
   constructor(private readonly wishlistService: WishlistService) {}
 
   @Post()
-  create(@Body() createWishlistDto: CreateWishlistDto) {
-    return this.wishlistService.create(createWishlistDto);
+  async create(
+    @Body() createWishlistDto: CreateWishlistDto
+  ): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Get()
-  findAll() {
-    return this.wishlistService.findAll();
+  async findAll(): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.wishlistService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateWishlistDto: UpdateWishlistDto,
-  ) {
-    return this.wishlistService.update(+id, updateWishlistDto);
+  ): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.wishlistService.remove(+id);
+  async remove(@Param('id') id: string): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        {},
+      );
+    }
   }
 }

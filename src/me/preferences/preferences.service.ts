@@ -4,23 +4,37 @@ import { UpdatePreferenceDto } from './@dto/update-preference.dto';
 
 @Injectable()
 export class PreferencesService {
-  create(createPreferenceDto: CreatePreferenceDto) {
-    return 'This action adds a new preference';
+  async create(createPreferenceDto: CreatePreferenceDto): Promise<string> {
+    return new Promise((resolve) => {
+      resolve('This action adds a new preference');
+    });
   }
 
-  findAll() {
-    return `This action returns all preferences`;
+  async findAll(): Promise<string> {
+    return new Promise((resolve) => {
+      resolve(`This action returns all preferences`);
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} preference`;
+  async findOne(id: number): Promise<string> {
+    return new Promise((resolve) => {
+      resolve(`This action returns a #${id} preference`);
+    });
   }
 
-  update(id: number, updatePreferenceDto: UpdatePreferenceDto) {
-    return `This action updates a #${id} preference`;
+  async update(
+    id: number,
+    updatePreferenceDto: UpdatePreferenceDto
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      resolve(`This action updates a #${id} preference`);
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} preference`;
+  async remove(id: number): Promise<string> {
+    return new Promise((resolve) => {
+      resolve(`This action removes a #${id} preference`);
+    });
   }
+
 }
