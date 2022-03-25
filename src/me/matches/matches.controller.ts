@@ -14,7 +14,7 @@ export class MatchesController {
   @Get()
   async findAll(): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,

@@ -1,1 +1,4 @@
-export class CreateCardDto {}
+
+export class CreateCardDto {
+
+}

@@ -25,7 +25,7 @@ export class UsersController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_USER, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -37,7 +37,7 @@ export class UsersController {
   @Get()
   async findAll(): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_USERS, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -49,7 +49,7 @@ export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -64,7 +64,7 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -76,7 +76,7 @@ export class UsersController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_USER, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,

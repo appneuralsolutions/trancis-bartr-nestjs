@@ -40,7 +40,7 @@ export class ProfileController {
   @Post('photo')
   async uploadPhoto(): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_PROFILE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -53,7 +53,7 @@ export class ProfileController {
   async findAll(): Promise<IResponse> {
     // await this.profileService.findAll();
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_PROFILE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -66,7 +66,7 @@ export class ProfileController {
   async findOne(@Param('id') id: string): Promise<IResponse> {
     // return await this.profileService.findOne(+id);
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_PROFILE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -77,11 +77,11 @@ export class ProfileController {
 
   @Patch(':id')
   async update(
-    @Param('id') id: string, 
+    @Param('id') id: string,
     @Body() updateProfileDto: UpdateProfileDto,
   ): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_PROFILE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -93,7 +93,7 @@ export class ProfileController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_PROFILE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,

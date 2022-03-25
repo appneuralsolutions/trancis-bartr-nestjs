@@ -27,7 +27,7 @@ export class PreferencesController {
     @Body() createPreferenceDto: CreatePreferenceDto
   ): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PREFERENCE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -39,7 +39,7 @@ export class PreferencesController {
   @Get()
   async findAll(): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_PREFERENCE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -51,7 +51,7 @@ export class PreferencesController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_PREFERENCE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -66,7 +66,7 @@ export class PreferencesController {
     @Body() updatePreferenceDto: UpdatePreferenceDto,
   ): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_PREFERENCE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
@@ -78,7 +78,7 @@ export class PreferencesController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_PREFERENCE, {});
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
