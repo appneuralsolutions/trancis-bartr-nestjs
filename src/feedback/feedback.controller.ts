@@ -26,10 +26,10 @@ export class FeedbackController {
     @Body() createFeedbackDto: CreateFeedbackDto
   ): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_FEEDBACK, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_CREATED_FEEDBACK,
         {},
       );
     }
@@ -38,10 +38,10 @@ export class FeedbackController {
   @Get()
   async findAll(): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_FEEDBACK, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_FEEDBACK,
         {},
       );
     }
@@ -50,10 +50,10 @@ export class FeedbackController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IResponse> {
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_FEEDBACK, {});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_FEEDBACK, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_FEEDBACK,
         {},
       );
     }
@@ -68,7 +68,7 @@ export class FeedbackController {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_FEEDBACK, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_UPDATED_FEEDBACK,
         {},
       );
     }
@@ -80,7 +80,7 @@ export class FeedbackController {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_FEEDBACK, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_DELETED_FEEDBACK,
         {},
       );
     }

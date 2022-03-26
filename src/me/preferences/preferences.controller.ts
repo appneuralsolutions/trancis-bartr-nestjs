@@ -30,7 +30,7 @@ export class PreferencesController {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PREFERENCE, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_CREATED_PREFERENCE,
         {},
       );
     }
@@ -42,7 +42,7 @@ export class PreferencesController {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_PREFERENCE, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_PREFERENCE,
         {},
       );
     }
@@ -54,7 +54,7 @@ export class PreferencesController {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_PREFERENCE, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_PREFERENCE,
         {},
       );
     }
@@ -69,7 +69,7 @@ export class PreferencesController {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_PREFERENCE, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_UPDATED_PREFERENCE,
         {},
       );
     }
@@ -81,7 +81,7 @@ export class PreferencesController {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_PREFERENCE, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_DELETED_PREFERENCE,
         {},
       );
     }

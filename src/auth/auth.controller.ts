@@ -15,17 +15,17 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() registerDto: RegisterDto): Promise<IResponse> {
-    const validUser = await this.authService.validateUser(registerDto.email);
+    // const validUser = await this.authService.validateUser(registerDto.email);
 
-    if (validUser) {
-      return new ResponseError(
-        ErrorMessage.USER_ALREADY_EXISTS,
-        {},
-        HttpStatus.EXPECTATION_FAILED,
-      );
-    } else {
-      const registeredUser = await this.authService.register(registerDto);
-      if (registeredUser) {
+    // if (validUser) {
+      // return new ResponseError(
+        // ErrorMessage.USER_ALREADY_EXISTS,
+        // {},
+        // HttpStatus.EXPECTATION_FAILED,
+      // );
+    // } else {
+      // const registeredUser = await this.authService.register(registerDto);
+      if (false) {
         return new ResponseSuccess(
           Message.REGISTERED_SUCCESSFULLY,
           {},
@@ -35,10 +35,9 @@ export class AuthController {
         return new ResponseError(
           ErrorMessage.REGISTER_NOT_SUCCESSFULLY,
           {},
-          HttpStatus.EXPECTATION_FAILED,
         );
       }
-    }
+    // }
   }
 
   @Get('send-email-token/:email')

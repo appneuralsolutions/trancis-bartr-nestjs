@@ -44,7 +44,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
         exception.response.statusCode,
       );
     } else {
-      console.log();
       if (
         typeof exception === 'object' &&
         exception.constructor.name === 'MongoServerError'

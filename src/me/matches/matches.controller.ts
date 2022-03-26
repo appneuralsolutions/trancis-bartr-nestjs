@@ -13,11 +13,11 @@ export class MatchesController {
   constructor(private readonly MatchesService: MatchesService) {}
   @Get()
   async findAll(): Promise<IResponse> {
-    if (true) {
+    if (false) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES,
         {},
       );
     }

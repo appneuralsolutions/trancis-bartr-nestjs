@@ -28,7 +28,7 @@ export class SubjectsController {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_SUBJECT, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_CREATED_SUBJECT,
         {},
       );
     }
@@ -40,7 +40,7 @@ export class SubjectsController {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_SUBJECT, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_SUBJECT,
         {},
       );
     }
@@ -52,7 +52,7 @@ export class SubjectsController {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_SUBJECT, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_SUBJECT,
         {},
       );
     }
@@ -67,7 +67,7 @@ export class SubjectsController {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_SUBJECT, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_UPDATED_SUBJECT,
         {},
       );
     }
@@ -79,7 +79,7 @@ export class SubjectsController {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_SUBJECT, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_DELETED_SUBJECT,
         {},
       );
     }

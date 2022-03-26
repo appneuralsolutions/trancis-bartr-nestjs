@@ -2,18 +2,19 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 // success: true => message, data
 // success: false => errorMessage, error
 import { IResponse } from '../@interfaces/response.interface';
+import { ErrorCodes } from './../@constants/error-codes.constant';
 
 export class ResponseError implements IResponse {
-  constructor(infoMessage: string, error?: any, statusCode?: number) {
-    this.statusCode = statusCode | HttpStatus.BAD_REQUEST;
+  constructor(errorCode: string, error?: any) {
+    this.statusCode = ErrorCodes[errorCode].statusCode | HttpStatus.BAD_REQUEST;
     this.success = false;
-    this.message = infoMessage;
+    this.message = ErrorCodes[errorCode].message;
     this.error = error;
-    // throw this;
+    throw this;
     console.warn(
       new Date().toString() +
         ' - [Response]: ' +
-        infoMessage +
+        errorCode +
         (error ? ' - ' + JSON.stringify(error) : ''),
     );
   }

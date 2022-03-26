@@ -30,7 +30,7 @@ export class WishlistController {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_WISHLIST, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_CREATED_WISHLIST,
         {},
       );
     }
@@ -42,7 +42,7 @@ export class WishlistController {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_WISHLIST, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_WISHLIST,
         {},
       );
     }
@@ -54,7 +54,7 @@ export class WishlistController {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIMD_WISHLIST, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_FIMD_WISHLIST,
         {},
       );
     }
@@ -69,7 +69,7 @@ export class WishlistController {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_WISHLIST, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_UPDATED_WISHLIST,
         {},
       );
     }
@@ -81,7 +81,7 @@ export class WishlistController {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_WISHLIST, {});
     } else {
       return new ResponseError(
-        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_SENT_EMAIL_TOKEN,
+        ErrorMessage.NOT_SUCCESSFULLY_DELETED_WISHLIST,
         {},
       );
     }
