@@ -20,17 +20,14 @@ import { ErrorMessage } from './../shared/@constants/error.constant';
 @ApiTags('Cards')
 @Controller()
 export class CardsController {
-  constructor(private readonly cardsService: CardsService) { }
+  constructor(private readonly cardsService: CardsService) {}
 
   @Post()
   async create(@Body() createCardDto: CreateCardDto): Promise<IResponse> {
     if (false) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_CREATED_CARD,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_CREATED_CARD, {});
     }
   }
 
@@ -39,10 +36,7 @@ export class CardsController {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
   }
 
@@ -51,24 +45,18 @@ export class CardsController {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
   }
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateCardDto: UpdateCardDto
+    @Body() updateCardDto: UpdateCardDto,
   ): Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_UPDATED_CARD,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_CARD, {});
     }
   }
 
@@ -77,10 +65,7 @@ export class CardsController {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_CARD, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_DELETED_CARD,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_DELETED_CARD, {});
     }
   }
 }

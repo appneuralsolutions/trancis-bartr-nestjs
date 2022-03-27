@@ -23,8 +23,8 @@ export class WishlistService {
   }
 
   async update(
-    id: number, 
-    updateWishlistDto: UpdateWishlistDto
+    id: number,
+    updateWishlistDto: UpdateWishlistDto,
   ): Promise<string> {
     return new Promise((resolve) => {
       resolve(`This action updates a #${id} wishlist`);

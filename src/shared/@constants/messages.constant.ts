@@ -22,10 +22,10 @@ export const Message = {
   SUCCESSFULLY_FIND_ALL_CARDS: 'Successfully Find All Cards',
   SUCCESSFULLY_UPDATED_CARD: 'Successfully Updated Card',
   SUCCESSFULLY_DELETED_CARD: 'Successfully Deleted card',
-  SUCCESSFULLY_CREATED_MY_FEEDBACK:'Successfully Created My Feedback',
-  SUCCESSFULLY_FIND_MY_FEEDBACK:'Successfully find My Feedback',
-  SUCCESSFULLY_UPDATED_MY_FEEDBACK:'Successfully Updated My Feedback',
-  SUCCESSFULLY_DELETED_MY_FEEDBACK:'Successfully Deleted My Feedback',
+  SUCCESSFULLY_CREATED_MY_FEEDBACK: 'Successfully Created My Feedback',
+  SUCCESSFULLY_FIND_MY_FEEDBACK: 'Successfully find My Feedback',
+  SUCCESSFULLY_UPDATED_MY_FEEDBACK: 'Successfully Updated My Feedback',
+  SUCCESSFULLY_DELETED_MY_FEEDBACK: 'Successfully Deleted My Feedback',
   SUCCESSFULLY_CREATED_FEEDBACK: 'Successfully Created Feedback',
   SUCCESSFULLY_FIND_FEEDBACK: 'Successfully find Feedback',
   SUCCESSFULLY_FIND_ALL_FEEDBACK: 'Successfully find All Feedback',
@@ -46,5 +46,5 @@ export const Message = {
   SUCCESSFULLY_FIND_ALL_SUBJECT: 'Successfully Find All Subject',
   SUCCESSFULLY_FIND_SUBJECT: 'Successfully Find Subject',
   SUCCESSFULLY_UPDATED_SUBJECT: 'Successfully Updated Subject',
-  SUCCESSFULLY_DELETED_SUBJECT: 'Successfully Deleted Subject'
+  SUCCESSFULLY_DELETED_SUBJECT: 'Successfully Deleted Subject',
 };

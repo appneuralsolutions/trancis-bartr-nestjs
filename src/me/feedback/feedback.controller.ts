@@ -21,11 +21,11 @@ import { ErrorMessage } from './../../shared/@constants/error.constant';
 @ApiTags('Me -> Feedback')
 @Controller('feedback')
 export class FeedbackController {
-  constructor(private readonly feedbackService: FeedbackService) { }
+  constructor(private readonly feedbackService: FeedbackService) {}
 
   @Post()
   async create(
-    @Body() createFeedbackDto: CreateFeedbackDto
+    @Body() createFeedbackDto: CreateFeedbackDto,
   ): Promise<IResponse> {
     if (false) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_MY_FEEDBACK, {});
@@ -56,8 +56,8 @@ export class FeedbackController {
 
   @Patch()
   async update(
-    @Me() me: string, 
-    @Body() updateFeedbackDto: UpdateFeedbackDto
+    @Me() me: string,
+    @Body() updateFeedbackDto: UpdateFeedbackDto,
   ): Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_MY_FEEDBACK, {});

@@ -20,17 +20,14 @@ import { ErrorMessage } from 'src/shared/@constants/error.constant';
 @ApiTags('Admin -> Users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<IResponse> {
     if (false) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_USER, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_CREATED_USER,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_CREATED_USER, {});
     }
   }
 
@@ -51,10 +48,7 @@ export class UsersController {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_FIND_USER,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_USER, {});
     }
   }
 
@@ -66,10 +60,7 @@ export class UsersController {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_UPDATED_USER,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_USER, {});
     }
   }
 
@@ -78,10 +69,7 @@ export class UsersController {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_USER, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_DELETED_USER,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_DELETED_USER, {});
     }
   }
 }

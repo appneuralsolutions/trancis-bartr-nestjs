@@ -24,7 +24,7 @@ export class PreferencesController {
 
   @Post()
   async create(
-    @Body() createPreferenceDto: CreatePreferenceDto
+    @Body() createPreferenceDto: CreatePreferenceDto,
   ): Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PREFERENCE, {});

@@ -11,15 +11,13 @@ import { ErrorMessage } from './../../shared/@constants/error.constant';
 @Controller('matches')
 export class MatchesController {
   constructor(private readonly MatchesService: MatchesService) {}
+
   @Get()
   async findAll(): Promise<IResponse> {
     if (false) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES, {});
     }
   }
 }

@@ -1,23 +1,50 @@
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { ISubject } from './@interfaces/subject.interface';
 import { Injectable } from '@nestjs/common';
 import { CreateSubjectDto } from './@dtos/create-subject.dto';
 import { UpdateSubjectDto } from './@dtos/update-subject.dto';
 
 @Injectable()
 export class SubjectsService {
-  create(createSubjectDto: CreateSubjectDto) {
-    return 'This action adds a new subject';
+  constructor(
+    @InjectModel('Subject')
+    private readonly subjectModel: Model<ISubject>,
+  ) {}
+
+  async create(createSubjectDto: CreateSubjectDto): Promise<any> {
+    const createdData = await new this.subjectModel(createSubjectDto).save();
+    return new Promise((resolve, reject) => {
+      resolve(createdData);
+    });
   }
 
-  findAll() {
-    return `This action returns all subjects`;
+  async findAll(): Promise<ISubject[]> {
+    const subjects = await this.subjectModel.find();
+    return new Promise((resolve, reject) => {
+      resolve(subjects);
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subject`;
+  async findOne(_id: string): Promise<ISubject> {
+    const subject = await this.subjectModel.findOne({ _id });
+    return new Promise((resolve, reject) => {
+      resolve(subject);
+    });
   }
 
-  update(id: number, updateSubjectDto: UpdateSubjectDto) {
-    return `This action updates a #${id} subject`;
+  async update(
+    _id: string,
+    updateSubjectDto: UpdateSubjectDto,
+  ): Promise<ISubject> {
+    const subject = await this.subjectModel.findOneAndUpdate(
+      { _id },
+      updateSubjectDto,
+      { new: true },
+    );
+    return new Promise((resolve, reject) => {
+      resolve(subject);
+    });
   }
 
   remove(id: number) {

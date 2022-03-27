@@ -23,7 +23,7 @@ import { Me } from '../@decorators/me.decorator';
 @ApiTags('Me -> Profile')
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService) { }
+  constructor(private readonly profileService: ProfileService) {}
 
   @Post()
   async create(@Body() createProfileDto: CreateProfileDto): Promise<IResponse> {
@@ -68,10 +68,7 @@ export class ProfileController {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_PROFILE, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_FIND_PROFILE,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_PROFILE, {});
     }
   }
 

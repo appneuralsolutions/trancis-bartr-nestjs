@@ -20,10 +20,10 @@ import { ErrorMessage } from './../shared/@constants/error.constant';
 @ApiTags('Feedback')
 @Controller()
 export class FeedbackController {
-  constructor(private readonly feedbackService: FeedbackService) { }
+  constructor(private readonly feedbackService: FeedbackService) {}
   @Post()
   async create(
-    @Body() createFeedbackDto: CreateFeedbackDto
+    @Body() createFeedbackDto: CreateFeedbackDto,
   ): Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_FEEDBACK, {});
@@ -52,10 +52,7 @@ export class FeedbackController {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_FEEDBACK, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_FIND_FEEDBACK,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_FEEDBACK, {});
     }
   }
 

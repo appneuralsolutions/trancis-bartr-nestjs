@@ -23,7 +23,7 @@ export class ProfileService {
 
   async update(
     id: number,
-    updateProfileDto: UpdateProfileDto
+    updateProfileDto: UpdateProfileDto,
   ): Promise<string> {
     return new Promise((resolve) => {
       resolve('update');
@@ -35,5 +35,4 @@ export class ProfileService {
       resolve('remove');
     });
   }
-
 }

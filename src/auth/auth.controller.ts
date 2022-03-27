@@ -18,25 +18,22 @@ export class AuthController {
     // const validUser = await this.authService.validateUser(registerDto.email);
 
     // if (validUser) {
-      // return new ResponseError(
-        // ErrorMessage.USER_ALREADY_EXISTS,
-        // {},
-        // HttpStatus.EXPECTATION_FAILED,
-      // );
+    // return new ResponseError(
+    // ErrorMessage.USER_ALREADY_EXISTS,
+    // {},
+    // HttpStatus.EXPECTATION_FAILED,
+    // );
     // } else {
-      // const registeredUser = await this.authService.register(registerDto);
-      if (false) {
-        return new ResponseSuccess(
-          Message.REGISTERED_SUCCESSFULLY,
-          {},
-          HttpStatus.CREATED,
-        );
-      } else {
-        return new ResponseError(
-          ErrorMessage.REGISTER_NOT_SUCCESSFULLY,
-          {},
-        );
-      }
+    // const registeredUser = await this.authService.register(registerDto);
+    if (false) {
+      return new ResponseSuccess(
+        Message.REGISTERED_SUCCESSFULLY,
+        {},
+        HttpStatus.CREATED,
+      );
+    } else {
+      return new ResponseError(ErrorMessage.REGISTER_NOT_SUCCESSFULLY, {});
+    }
     // }
   }
 

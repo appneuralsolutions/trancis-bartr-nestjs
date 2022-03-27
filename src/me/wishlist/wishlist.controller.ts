@@ -24,7 +24,7 @@ export class WishlistController {
 
   @Post()
   async create(
-    @Body() createWishlistDto: CreateWishlistDto
+    @Body() createWishlistDto: CreateWishlistDto,
   ): Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_WISHLIST, {});
@@ -53,10 +53,7 @@ export class WishlistController {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIMD_WISHLIST, {});
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_FIMD_WISHLIST,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIMD_WISHLIST, {});
     }
   }
 

@@ -1,3 +1,4 @@
+import { ISubject } from './@interfaces/subject.interface';
 import { ApiTags } from '@nestjs/swagger';
 import {
   Controller,
@@ -24,8 +25,12 @@ export class SubjectsController {
 
   @Post()
   async create(@Body() createSubjectDto: CreateSubjectDto): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_SUBJECT, {});
+    const createdData = await this.subjectsService.create(createSubjectDto);
+    if (createdData) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_CREATED_SUBJECT,
+        createdData,
+      );
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_CREATED_SUBJECT,
@@ -35,9 +40,10 @@ export class SubjectsController {
   }
 
   @Get()
-  async findAll(): Promise<IResponse> {
+  async findAll(): Promise<IResponse | ISubject[]> {
+    const subjects = await this.subjectsService.findAll();
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_SUBJECT, {});
+      return subjects;
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_SUBJECT,
@@ -47,21 +53,19 @@ export class SubjectsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<IResponse> {
+  async findOne(@Param('id') id: string): Promise<IResponse | ISubject> {
+    const subject = await this.subjectsService.findOne(id);
     if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_SUBJECT, {});
+      return subject;
     } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_FIND_SUBJECT,
-        {},
-      );
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_SUBJECT, {});
     }
   }
 
   @Patch(':id')
   async update(
-    @Param('id') id: string, 
-    @Body() updateSubjectDto: UpdateSubjectDto
+    @Param('id') id: string,
+    @Body() updateSubjectDto: UpdateSubjectDto,
   ): Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_SUBJECT, {});

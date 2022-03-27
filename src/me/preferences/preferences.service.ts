@@ -24,7 +24,7 @@ export class PreferencesService {
 
   async update(
     id: number,
-    updatePreferenceDto: UpdatePreferenceDto
+    updatePreferenceDto: UpdatePreferenceDto,
   ): Promise<string> {
     return new Promise((resolve) => {
       resolve(`This action updates a #${id} preference`);
@@ -36,5 +36,4 @@ export class PreferencesService {
       resolve(`This action removes a #${id} preference`);
     });
   }
-
 }

@@ -18,7 +18,7 @@ export class FeedbackService {
 
   async update(
     id: number,
-    updateFeedbackDto: UpdateFeedbackDto
+    updateFeedbackDto: UpdateFeedbackDto,
   ): Promise<string> {
     return new Promise((resolve) => {
       resolve(`This action updates a #${id} feedback`);

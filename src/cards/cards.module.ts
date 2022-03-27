@@ -6,6 +6,6 @@ import { SharedModule } from 'src/shared/shared.module';
 @Module({
   imports: [SharedModule],
   controllers: [CardsController],
-  providers: [CardsService]
+  providers: [CardsService],
 })
 export class CardsModule {}
