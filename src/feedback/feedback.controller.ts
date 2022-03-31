@@ -8,6 +8,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import {Feedback} from'./@interfaces/feedback.interface'
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './dto/update-feedback.dto';
@@ -18,15 +19,17 @@ import { ResponseError } from './../shared/@dtos/response.dto';
 import { ErrorMessage } from './../shared/@constants/error.constant';
 
 @ApiTags('Feedback')
-@Controller()
+@Controller('api/v1/feedback')
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
+
   @Post()
   async create(
-    @Body() createFeedbackDto: CreateFeedbackDto,
-  ): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_FEEDBACK, {});
+    @Body() createFeedbackDto: CreateFeedbackDto): Promise<IResponse | Feedback> {
+    const data = await this.feedbackService.create(createFeedbackDto)  
+    if (data) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_FEEDBACK, {data});
+
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_CREATED_FEEDBACK,
@@ -36,21 +39,23 @@ export class FeedbackController {
   }
 
   @Get()
-  async findAll(): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_FEEDBACK, {});
+  async findAll(): Promise<IResponse | Feedback> {
+    const feedback = await this.feedbackService.findAll()
+    if (feedback) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_FEEDBACK, {feedback});
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_FEEDBACK,
         {},
       );
     }
-  }
+  } 
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_FEEDBACK, {});
+    const feedback = await this.feedbackService.findOne(id);
+    if (feedback) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_FEEDBACK, {feedback});
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_FEEDBACK, {});
     }
@@ -59,10 +64,11 @@ export class FeedbackController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateFeedbackDto: UpdateFeedbackDto,
+    @Body() createFeedbackDto: CreateFeedbackDto,
   ): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_FEEDBACK, {});
+    const feedback = await this.feedbackService.update(id,createFeedbackDto)
+    if (feedback) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_FEEDBACK, {feedback});
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_UPDATED_FEEDBACK,
@@ -73,8 +79,9 @@ export class FeedbackController {
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_FEEDBACK, {});
+    const feedback = await this.feedbackService.remove(id)
+    if (feedback) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_FEEDBACK, {feedback});
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_DELETED_FEEDBACK,

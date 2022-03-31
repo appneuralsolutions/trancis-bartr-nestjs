@@ -1,41 +1,40 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Length, IsOptional, Matches } from 'class-validator';
 export class CreateUserDto {
+  @IsOptional()
   @IsNotEmpty()
-  @IsString()
-  @ApiProperty({ default: 'Ajay' })
-  firstName: string;
-
-  // @IsNotEmpty()
-  @IsString()
-  @ApiProperty({ default: 'Prajapat' })
-  lastName: string;
-
+  firstname: string;
+  
+  @IsOptional()
   @IsNotEmpty()
+  lastname: string;
+  
+  @IsOptional()
+  @IsNotEmpty()
+  username: string;
+  
+  @IsOptional()
   @IsEmail()
-  @ApiProperty({ default: 'ajayprajapat@live.com' })
+  @IsNotEmpty()
   email: string;
-
+  
+  @IsOptional()
   @IsNotEmpty()
-  @IsString()
-  @ApiProperty({ default: 'ajayprajapat' })
-  uname: string;
+  DOB: Date;
 
-  // @Length(13)
+  @IsOptional()
   @IsNotEmpty()
-  @ApiProperty({ default: '8769962237' })
-  phone: string;
-
-  @IsNotEmpty()
-  @ApiProperty({ default: '07-10-1995' })
-  dob: string;
-
-  @IsNotEmpty()
-  @ApiProperty({ default: 'india' })
   location: string;
+  
+  @IsOptional()
+  @Matches(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,24}$/, {
+      message: 'password should have 1 uppercase, lowercase along special charcter and number'
+  })
 
-  @Length(6)
+  @IsOptional()
   @IsNotEmpty()
-  @ApiProperty({ default: '12345678' })
   password: string;
+
+  @IsOptional()
+  picture: string;
 }

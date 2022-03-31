@@ -19,12 +19,12 @@ import { ErrorMessage } from './../shared/@constants/error.constant';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 
 @ApiTags('Subjects')
-@Controller()
+@Controller('api/v1/subjects')
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
-  @Post()
-  async create(@Body() createSubjectDto: CreateSubjectDto): Promise<IResponse> {
+  @Post('api/v1/subjects')
+  async create(@Body() createSubjectDto: CreateSubjectDto): Promise<IResponse | ISubject> {
     const createdData = await this.subjectsService.create(createSubjectDto);
     if (createdData) {
       return new ResponseSuccess(
@@ -42,8 +42,11 @@ export class SubjectsController {
   @Get()
   async findAll(): Promise<IResponse | ISubject[]> {
     const subjects = await this.subjectsService.findAll();
-    if (true) {
-      return subjects;
+    if (subjects) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_CREATED_SUBJECT,
+        subjects,
+      );
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_SUBJECT,
@@ -55,20 +58,21 @@ export class SubjectsController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IResponse | ISubject> {
     const subject = await this.subjectsService.findOne(id);
-    if (true) {
-      return subject;
-    } else {
+    if (subject) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_CREATED_SUBJECT,
+        subject,
+      );
+    }else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_SUBJECT, {});
     }
   }
 
   @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateSubjectDto: UpdateSubjectDto,
-  ): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_SUBJECT, {});
+  async update(@Param('id') id: string, @Body() updateSubjectDto: UpdateSubjectDto,): Promise<IResponse | ISubject> {
+    const subject = await this.subjectsService.update(id,updateSubjectDto)
+    if (subject) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_SUBJECT, {subject});
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_UPDATED_SUBJECT,
@@ -79,8 +83,9 @@ export class SubjectsController {
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_SUBJECT, {});
+    const subject = await this.subjectsService.remove(id)
+    if (subject) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_SUBJECT, {subject});
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_DELETED_SUBJECT,

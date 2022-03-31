@@ -1,4 +1,4 @@
 export interface ISubject {
-  user: string;
+  user_Id: string;
   subject: string;
 }

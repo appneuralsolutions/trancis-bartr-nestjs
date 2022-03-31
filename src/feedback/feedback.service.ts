@@ -1,39 +1,51 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './dto/update-feedback.dto';
+import { Model } from 'mongoose';
+import {Feedback} from'./@interfaces/feedback.interface'
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class FeedbackService {
-  async create(createFeedbackDto: CreateFeedbackDto): Promise<string> {
-    return new Promise((resolve) => {
-      resolve('This action adds a new feedback');
+  constructor( @InjectModel('Feedback')private readonly feedbackModel: Model<Feedback>,) {}
+
+  
+  async create(createFeedbackDto: CreateFeedbackDto): Promise<Feedback> {
+    const createdData = await new this.feedbackModel(createFeedbackDto).save();
+    return new Promise((resolve, reject) => {
+      resolve(createdData);
     });
   }
 
-  async findAll(): Promise<string> {
-    return new Promise((resolve) => {
-      resolve(`This action returns all feedback`);
+  async findAll(): Promise<Feedback[]> {
+    const feedback = await this.feedbackModel.find();
+    return new Promise((resolve, reject) => {
+      resolve(feedback);
     });
   }
 
-  async findOne(id: number): Promise<string> {
-    return new Promise((resolve) => {
-      resolve(`This action returns a #${id} feedback`);
+  async findOne(_id: string): Promise<Feedback> {
+    const feedback = await this.feedbackModel.findOne({ _id });
+    return new Promise((resolve, reject) => {
+      resolve(feedback);
     });
   }
 
   async update(
-    id: number,
-    updateFeedbackDto: UpdateFeedbackDto,
-  ): Promise<string> {
-    return new Promise((resolve) => {
-      resolve(`This action updates a #${id} feedback`);
+    _id: string,
+    createFeedbackDto: CreateFeedbackDto,
+  ): Promise<Feedback> {
+    const feedback = await this.feedbackModel.findOneAndUpdate(
+      { _id },
+      createFeedbackDto,
+      { new: true },
+    );
+    return new Promise((resolve, reject) => {
+      resolve(feedback);
     });
   }
 
-  async remove(id: number): Promise<string> {
-    return new Promise((resolve) => {
-      resolve(`This action removes a #${id} feedback`);
-    });
+  remove(id: string) {
+    return  this.feedbackModel.findOneAndDelete({_id:id}).exec();
   }
 }

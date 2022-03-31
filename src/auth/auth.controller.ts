@@ -7,28 +7,21 @@ import { IResponse } from './../shared/@interfaces/response.interface';
 import { Body, Controller, Param, Post, Get, HttpStatus } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
+import { NewUserdto } from './@dtos/new-user.dto';
+import { NewUser } from './@interfaces/new-user.interface';
 
 @ApiTags('Auth')
 @Controller()
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('register')
-  async register(@Body() registerDto: RegisterDto): Promise<IResponse> {
-    // const validUser = await this.authService.validateUser(registerDto.email);
-
-    // if (validUser) {
-    // return new ResponseError(
-    // ErrorMessage.USER_ALREADY_EXISTS,
-    // {},
-    // HttpStatus.EXPECTATION_FAILED,
-    // );
-    // } else {
-    // const registeredUser = await this.authService.register(registerDto);
-    if (false) {
+  @Post('registration')
+  async register(@Body() NewUserdto: NewUserdto): Promise<NewUser | IResponse> {
+    const data = await this.authService.AddUser(NewUserdto)
+    if (data) {
       return new ResponseSuccess(
         Message.REGISTERED_SUCCESSFULLY,
-        {},
+        {data},
         HttpStatus.CREATED,
       );
     } else {
@@ -75,7 +68,7 @@ export class AuthController {
     if (isVerifiedLoggedIn) {
       return new ResponseSuccess(
         Message.SUCCESSFULLY_LOGGED_IN,
-        {},
+        {isVerifiedLoggedIn},
         // HttpStatus.CREATED,
       );
     } else {
@@ -125,19 +118,12 @@ export class AuthController {
 
   @Post('reset-password/:token')
   async resetPassword(
-    email: string,
-    oldPassword: string,
-    password: string,
-  ): Promise<IResponse> {
-    const isResetPassword = await this.authService.resetPassword(
-      email,
-      oldPassword,
-      password,
-    );
+    @Body() @Param('id') id:string, NewUserdto: NewUserdto): Promise<NewUser | IResponse> {
+    const isResetPassword = await this.authService.resetPassword(id, NewUserdto );
     if (isResetPassword) {
       return new ResponseSuccess(
         Message.LOGIN_SUCCESSFULLY_CHANGED_PASSWORD,
-        {},
+        {isResetPassword},
       );
     } else {
       return new ResponseError(

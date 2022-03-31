@@ -12,7 +12,7 @@ export class SubjectsService {
     private readonly subjectModel: Model<ISubject>,
   ) {}
 
-  async create(createSubjectDto: CreateSubjectDto): Promise<any> {
+  async create(createSubjectDto: CreateSubjectDto): Promise<ISubject> {
     const createdData = await new this.subjectModel(createSubjectDto).save();
     return new Promise((resolve, reject) => {
       resolve(createdData);
@@ -47,7 +47,7 @@ export class SubjectsService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} subject`;
+  remove(id: string) {
+    return  this.subjectModel.findOneAndDelete({_id:id}).exec();
   }
 }

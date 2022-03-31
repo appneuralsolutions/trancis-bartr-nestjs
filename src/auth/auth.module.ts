@@ -18,6 +18,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_FILTER } from '@nestjs/core';
 import { AuthUserSchema } from './@schemas/user.schema';
+import { NewUserSchema } from './@schemas/new-user.schema';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AuthUserSchema } from './@schemas/user.schema';
       { name: 'User-Profile', schema: UserProfileSchema },
       { name: 'User-Auth', schema: UserAuthSchema },
       { name: 'User', schema: AuthUserSchema },
+      { name: 'NewUser', schema: NewUserSchema }
     ]),
     PassportModule.register({
       defaultStrategy: 'jwt',

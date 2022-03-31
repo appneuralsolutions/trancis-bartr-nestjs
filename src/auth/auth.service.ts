@@ -13,6 +13,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
+import { NewUserdto } from './@dtos/new-user.dto';
+import { NewUser } from './@interfaces/new-user.interface';
 import { HttpService } from '@nestjs/axios';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Model } from 'mongoose';
@@ -20,6 +22,8 @@ import { Model } from 'mongoose';
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectModel('NewUser')
+    private readonly NewUserModel: Model<NewUser>,
     @InjectModel('Consent-Registry')
     private readonly consentRegistryModel: Model<IConsentRegistry>,
     @InjectModel('Email-Verification')
@@ -31,6 +35,17 @@ export class AuthService {
     private readonly mailerService: MailerService,
   ) {}
 
+
+  async AddUser(NewUserdto: NewUserdto): Promise<NewUser> {
+    // throw new ResponseError('asd', {}, HttpStatus.ACCEPTED);
+
+    const salt = await bcrypt.genSalt();
+        const password = await bcrypt.hash(NewUserdto.password,salt)
+        const register = new this.NewUserModel(NewUserdto);
+        register.password = password;
+        return await register.save() 
+  }
+  
   async saveUserConsent(email: string): Promise<IConsentRegistry> {
     try {
       const http = new HttpService();
@@ -80,10 +95,14 @@ export class AuthService {
     return user;
   }
 
-  async validateLogin(loginDto: ILogin): Promise<IAuthUser | IResponse> {
-    const validUser = await this.validateUser(loginDto.username);
 
-    return new AuthUserDto({});
+
+  async validateLogin(loginDto: ILogin): Promise<NewUser | IResponse> {
+    const validUser = await this.NewUserModel
+    .findOne({
+      username: loginDto.username,
+    });
+
     if (!validUser) {
       throw ErrorMessage.INTERNAL_SERVER_ERROR;
     }
@@ -94,9 +113,9 @@ export class AuthService {
     );
 
     if (isValidPass) {
-      const jwtToken = this.signToken(validUser);
+      const jwt:any = await this.jwtService.signAsync({username: loginDto.username,})
       //   user.jwtToken = await jwtToken;
-      return new AuthUserDto(validUser);
+      return jwt
     } else {
       throw 'PASSWORD_ERROR';
     }
@@ -131,37 +150,7 @@ export class AuthService {
     }
   }
 
-  async register(registerDto: IRegister): Promise<boolean> {
-    // throw new ResponseError('asd', {}, HttpStatus.ACCEPTED);
-
-    const splittedName = registerDto.fullName.split(' ');
-    const profile: IUserProfile = {
-      firstName: splittedName[0],
-      middleName: '',
-      lastName: splittedName[splittedName.length - 1],
-      bio: '',
-      gender: registerDto.gender,
-      gallery: [],
-      photo: '',
-      birthDate: registerDto.dateOfBirth,
-      nationality: null,
-      maritalStatus: null,
-      socialLinks: null,
-    };
-    // registerDto.profile = profile;
-    // throw ErrorMessage.INTERNAL_SERVER_ERROR;
-
-    const user = await new this.userAuthModel(registerDto).save();
-    // throw 'xyz';
-
-    return new Promise((resolve) => {
-      if (user) {
-        resolve(true);
-      } else {
-        resolve(true);
-      }
-    });
-  }
+  
 
   async sendEmailToken(email: string): Promise<boolean> {
     const model = await this.emailVerificationModel.findOne({ email });
@@ -215,15 +204,19 @@ export class AuthService {
     });
   }
 
-  async resetPassword(
-    email: string,
-    oldPassword: string,
-    password: string,
-  ): Promise<boolean> {
-    console.log(email, oldPassword, password);
-    return new Promise((resolve) => {
-      resolve(true);
-    });
+  
+
+  async resetPassword(id:string, loginDto: ILogin): Promise<NewUser> {
+    
+       try{
+        const salt = await bcrypt.genSalt();  
+       loginDto.password = await bcrypt.hash(loginDto.password,salt)
+       return await this.NewUserModel.findOneAndUpdate({_id:id}, loginDto, {new:true}).exec()
+       }
+       catch(err){
+         return err
+       }
+        
   }
 
   async logout(email: string): Promise<boolean> {

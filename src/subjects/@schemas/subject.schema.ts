@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
 export const SubjectSchema = new mongoose.Schema({
-  user: String,
+  user_Id: String,
   subject: String,
 });
