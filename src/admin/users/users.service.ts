@@ -22,7 +22,7 @@ export class UsersService {
     
   }
 
-  async findAll(): Promise<NewUser> {
+  async findAll(): Promise<NewUser[]> {
     const user = await this.NewUserModel.find()
     return new Promise((resolve) => {
       resolve(user);
@@ -42,14 +42,14 @@ export class UsersService {
       { new: true },
     );
     return new Promise((resolve) => {
-      resolve(`${user} updated`);
+      resolve(user);
     });
   }
 
   async remove(id: String): Promise<NewUser> {
     const user =   this.NewUserModel.findOneAndDelete({_id:id}).exec()
     return new Promise((resolve) => {
-      resolve(`${user} deleted`);
+      resolve(user);
     });
   }
 }

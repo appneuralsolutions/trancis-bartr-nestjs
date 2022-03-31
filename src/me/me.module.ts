@@ -13,6 +13,9 @@ import { FeedsService } from './feeds/feeds.service';
 import { MatchesService } from './matches/matches.service';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthInterceptor } from 'src/auth/@interceptors/auth.interceptor';
+import { AuthModule } from 'src/auth/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { NewUserSchema } from 'src/auth/@schemas/new-user.schema';
 
 @Module({
   controllers: [
@@ -23,7 +26,8 @@ import { AuthInterceptor } from 'src/auth/@interceptors/auth.interceptor';
     WishlistController,
     FeedbackController,
   ],
-  imports: [],
+  imports: [AuthModule,
+    MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }])],
   providers: [
     FeedsService,
     MatchesService,

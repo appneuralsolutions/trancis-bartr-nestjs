@@ -60,7 +60,7 @@ export class UsersController {
   async update(
     @Param('id') id: string,
     @Body() createUserDto: CreateUserDto,
-  ): Promise<IResponse> {
+  ): Promise<IResponse | NewUser> {
     const userupdate = await this.usersService.update(id,createUserDto)
     if (userupdate) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {userupdate});
