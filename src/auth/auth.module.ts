@@ -33,7 +33,7 @@ import { NewUserSchema } from './@schemas/new-user.schema';
       { name: 'User-Profile', schema: UserProfileSchema },
       { name: 'User-Auth', schema: UserAuthSchema },
       { name: 'User', schema: AuthUserSchema },
-      { name: 'NewUser', schema: NewUserSchema }
+      { name: 'NewUser', schema: NewUserSchema },
     ]),
     PassportModule.register({
       defaultStrategy: 'jwt',

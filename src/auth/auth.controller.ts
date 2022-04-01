@@ -17,11 +17,11 @@ export class AuthController {
 
   @Post('registration')
   async register(@Body() NewUserdto: NewUserdto): Promise<NewUser | IResponse> {
-    const data = await this.authService.AddUser(NewUserdto)
+    const data = await this.authService.AddUser(NewUserdto);
     if (data) {
       return new ResponseSuccess(
         Message.REGISTERED_SUCCESSFULLY,
-        {data},
+        { data },
         HttpStatus.CREATED,
       );
     } else {
@@ -68,7 +68,7 @@ export class AuthController {
     if (isVerifiedLoggedIn) {
       return new ResponseSuccess(
         Message.SUCCESSFULLY_LOGGED_IN,
-        {isVerifiedLoggedIn},
+        { isVerifiedLoggedIn },
         // HttpStatus.CREATED,
       );
     } else {
@@ -118,13 +118,17 @@ export class AuthController {
 
   @Post('reset-password/:token')
   async resetPassword(
-    @Body() @Param('id') id:string, NewUserdto: NewUserdto): Promise<NewUser | IResponse> {
-    const isResetPassword = await this.authService.resetPassword(id, NewUserdto );
+    @Body() @Param('id') id: string,
+    NewUserdto: NewUserdto,
+  ): Promise<NewUser | IResponse> {
+    const isResetPassword = await this.authService.resetPassword(
+      id,
+      NewUserdto,
+    );
     if (isResetPassword) {
-      return new ResponseSuccess(
-        Message.LOGIN_SUCCESSFULLY_CHANGED_PASSWORD,
-        {isResetPassword},
-      );
+      return new ResponseSuccess(Message.LOGIN_SUCCESSFULLY_CHANGED_PASSWORD, {
+        isResetPassword,
+      });
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_CHANGED_PASSWORD,

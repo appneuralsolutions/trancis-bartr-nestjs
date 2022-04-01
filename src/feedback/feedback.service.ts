@@ -2,14 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './dto/update-feedback.dto';
 import { Model } from 'mongoose';
-import {Feedback} from'./@interfaces/feedback.interface'
+import { Feedback } from './@interfaces/feedback.interface';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class FeedbackService {
-  constructor( @InjectModel('Feedback')private readonly feedbackModel: Model<Feedback>,) {}
+  constructor(
+    @InjectModel('Feedback') private readonly feedbackModel: Model<Feedback>,
+  ) {}
 
-  
   async create(createFeedbackDto: CreateFeedbackDto): Promise<Feedback> {
     const createdData = await new this.feedbackModel(createFeedbackDto).save();
     return new Promise((resolve, reject) => {
@@ -46,6 +47,6 @@ export class FeedbackService {
   }
 
   remove(id: string) {
-    return  this.feedbackModel.findOneAndDelete({_id:id}).exec();
+    return this.feedbackModel.findOneAndDelete({ _id: id }).exec();
   }
 }

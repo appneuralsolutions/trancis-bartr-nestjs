@@ -35,17 +35,16 @@ export class AuthService {
     private readonly mailerService: MailerService,
   ) {}
 
-
   async AddUser(NewUserdto: NewUserdto): Promise<NewUser> {
     // throw new ResponseError('asd', {}, HttpStatus.ACCEPTED);
 
     const salt = await bcrypt.genSalt();
-        const password = await bcrypt.hash(NewUserdto.password,salt)
-        const register = new this.NewUserModel(NewUserdto);
-        register.password = password;
-        return await register.save() 
+    const password = await bcrypt.hash(NewUserdto.password, salt);
+    const register = new this.NewUserModel(NewUserdto);
+    register.password = password;
+    return await register.save();
   }
-  
+
   async saveUserConsent(email: string): Promise<IConsentRegistry> {
     try {
       const http = new HttpService();
@@ -95,11 +94,8 @@ export class AuthService {
     return user;
   }
 
-
-
   async validateLogin(loginDto: ILogin): Promise<NewUser | IResponse> {
-    const validUser = await this.NewUserModel
-    .findOne({
+    const validUser = await this.NewUserModel.findOne({
       username: loginDto.username,
     });
 
@@ -113,9 +109,11 @@ export class AuthService {
     );
 
     if (isValidPass) {
-      const jwt:any = await this.jwtService.signAsync({username: loginDto.username,})
+      const jwt: any = await this.jwtService.signAsync({
+        username: loginDto.username,
+      });
       //   user.jwtToken = await jwtToken;
-      return jwt
+      return jwt;
     } else {
       throw 'PASSWORD_ERROR';
     }
@@ -149,8 +147,6 @@ export class AuthService {
       return true;
     }
   }
-
-  
 
   async sendEmailToken(email: string): Promise<boolean> {
     const model = await this.emailVerificationModel.findOne({ email });
@@ -204,19 +200,16 @@ export class AuthService {
     });
   }
 
-  
-
-  async resetPassword(id:string, loginDto: ILogin): Promise<NewUser> {
-    
-       try{
-        const salt = await bcrypt.genSalt();  
-       loginDto.password = await bcrypt.hash(loginDto.password,salt)
-       return await this.NewUserModel.findOneAndUpdate({_id:id}, loginDto, {new:true}).exec()
-       }
-       catch(err){
-         return err
-       }
-        
+  async resetPassword(id: string, loginDto: ILogin): Promise<NewUser> {
+    try {
+      const salt = await bcrypt.genSalt();
+      loginDto.password = await bcrypt.hash(loginDto.password, salt);
+      return await this.NewUserModel.findOneAndUpdate({ _id: id }, loginDto, {
+        new: true,
+      }).exec();
+    } catch (err) {
+      return err;
+    }
   }
 
   async logout(email: string): Promise<boolean> {

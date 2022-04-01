@@ -1,5 +1,4 @@
 export interface Feedback {
-    message :string,
-    rating: string
-  }
-  
+  message: string;
+  rating: string;
+}

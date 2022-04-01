@@ -24,7 +24,9 @@ export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
   @Post('api/v1/subjects')
-  async create(@Body() createSubjectDto: CreateSubjectDto): Promise<IResponse | ISubject> {
+  async create(
+    @Body() createSubjectDto: CreateSubjectDto,
+  ): Promise<IResponse | ISubject> {
     const createdData = await this.subjectsService.create(createSubjectDto);
     if (createdData) {
       return new ResponseSuccess(
@@ -59,20 +61,22 @@ export class SubjectsController {
   async findOne(@Param('id') id: string): Promise<IResponse | ISubject> {
     const subject = await this.subjectsService.findOne(id);
     if (subject) {
-      return new ResponseSuccess(
-        Message.SUCCESSFULLY_CREATED_SUBJECT,
-        subject,
-      );
-    }else {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_SUBJECT, subject);
+    } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_SUBJECT, {});
     }
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateSubjectDto: UpdateSubjectDto,): Promise<IResponse | ISubject> {
-    const subject = await this.subjectsService.update(id,updateSubjectDto)
+  async update(
+    @Param('id') id: string,
+    @Body() updateSubjectDto: UpdateSubjectDto,
+  ): Promise<IResponse | ISubject> {
+    const subject = await this.subjectsService.update(id, updateSubjectDto);
     if (subject) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_SUBJECT, {subject});
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_SUBJECT, {
+        subject,
+      });
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_UPDATED_SUBJECT,
@@ -83,9 +87,11 @@ export class SubjectsController {
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {
-    const subject = await this.subjectsService.remove(id)
+    const subject = await this.subjectsService.remove(id);
     if (subject) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_SUBJECT, {subject});
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_SUBJECT, {
+        subject,
+      });
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_DELETED_SUBJECT,

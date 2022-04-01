@@ -48,6 +48,6 @@ export class SubjectsService {
   }
 
   remove(id: string) {
-    return  this.subjectModel.findOneAndDelete({_id:id}).exec();
+    return this.subjectModel.findOneAndDelete({ _id: id }).exec();
   }
 }

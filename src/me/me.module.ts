@@ -26,8 +26,10 @@ import { NewUserSchema } from 'src/auth/@schemas/new-user.schema';
     WishlistController,
     FeedbackController,
   ],
-  imports: [AuthModule,
-    MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }])],
+  imports: [
+    AuthModule,
+    MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }]),
+  ],
   providers: [
     FeedsService,
     MatchesService,

@@ -51,37 +51,47 @@ export class ProfileController {
   @Post('photo')
   @UseInterceptors(
     FileInterceptor('image', {
-        storage: diskStorage({
-            destination: './profiles',
-            filename: editFileName,
-        }),
-        fileFilter: imageFileFilter,
+      storage: diskStorage({
+        destination: './profiles',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
     }),
-)
-  async uploadPhoto(@UploadedFile() file, @Headers('authorization') authorization: any,
-  @Body(ValidationPipe) createProfileDto: CreateProfileDto): Promise<IResponse | NewUser>  {
-
+  )
+  async uploadPhoto(
+    @UploadedFile() file,
+    @Headers('authorization') authorization: any,
+    @Body(ValidationPipe) createProfileDto: CreateProfileDto,
+  ): Promise<IResponse | NewUser> {
     const response = {
       originalname: file.originalname,
       filename: file.filename,
-  };
-  if((!authorization)) {
+    };
+    if (!authorization) {
       throw new HttpException(
-          'authorization token is not define or invalid',
-          HttpStatus.BAD_REQUEST,
-      )
-  }
-  let userPayload: any = this.jwtService.decode(authorization.replace('Bearer ', ''));
-        if((!userPayload)) {
-            throw new HttpException(
-                'authorization token is not define or invalid',
-                HttpStatus.BAD_REQUEST,
-            )
-        }
-     const result = await this.profileService.uploadPhoto(createProfileDto, userPayload, file);   
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const userPayload: any = this.jwtService.decode(
+      authorization.replace('Bearer ', ''),
+    );
+    if (!userPayload) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const result = await this.profileService.uploadPhoto(
+      createProfileDto,
+      userPayload,
+      file,
+    );
     if (result) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPLOAD_PROFILE_PHOTO, {result});
-    } 
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPLOAD_PROFILE_PHOTO, {
+        result,
+      });
+    }
   }
 
   @Get()
@@ -101,7 +111,7 @@ export class ProfileController {
   async findOne(@Param('id') id: string): Promise<IResponse | NewUser> {
     const user = await this.profileService.findOne(id);
     if (user) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, {user});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, { user });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_USER, {});
     }
@@ -112,9 +122,11 @@ export class ProfileController {
     @Param('id') id: string,
     @Body() CreateProfileDto: CreateProfileDto,
   ): Promise<IResponse | NewUser> {
-    const userupdate = await this.profileService.update(id,CreateProfileDto)
+    const userupdate = await this.profileService.update(id, CreateProfileDto);
     if (userupdate) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {userupdate});
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {
+        userupdate,
+      });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_USER, {});
     }
@@ -122,9 +134,9 @@ export class ProfileController {
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {
-    const user = await this.profileService.remove(id)
+    const user = await this.profileService.remove(id);
     if (user) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_USER, {user});
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_USER, { user });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_DELETED_USER, {});
     }

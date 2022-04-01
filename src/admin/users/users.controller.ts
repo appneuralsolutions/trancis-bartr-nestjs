@@ -24,10 +24,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<IResponse | NewUser> {
-    const data = await this.usersService.create(createUserDto)
+  async create(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<IResponse | NewUser> {
+    const data = await this.usersService.create(createUserDto);
     if (data) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_USER, {data});
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_USER, { data });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_CREATED_USER, {});
     }
@@ -37,7 +39,9 @@ export class UsersController {
   async findAll(): Promise<IResponse | NewUser[]> {
     const users = await this.usersService.findAll();
     if (users) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_USERS, {users});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_USERS, {
+        users,
+      });
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_USERS,
@@ -50,7 +54,7 @@ export class UsersController {
   async findOne(@Param('id') id: string): Promise<IResponse | NewUser> {
     const user = await this.usersService.findOne(id);
     if (user) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, {user});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, { user });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_USER, {});
     }
@@ -61,9 +65,11 @@ export class UsersController {
     @Param('id') id: string,
     @Body() createUserDto: CreateUserDto,
   ): Promise<IResponse | NewUser> {
-    const userupdate = await this.usersService.update(id,createUserDto)
+    const userupdate = await this.usersService.update(id, createUserDto);
     if (userupdate) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {userupdate});
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {
+        userupdate,
+      });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_USER, {});
     }
@@ -71,9 +77,9 @@ export class UsersController {
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {
-    const user = await this.usersService.remove(id)
+    const user = await this.usersService.remove(id);
     if (user) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_USER, {user});
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_USER, { user });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_DELETED_USER, {});
     }
