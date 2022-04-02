@@ -1,40 +1,66 @@
-import { Injectable } from '@nestjs/common';
-// import { CreateCardDto } from './@dtos/create-card.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CreateCardDto } from './@dtos/create-card.dto';
+import { CreateCard } from './@interface/card.interface';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 // import { UpdateCardDto } from './@dtos/update-card.dto';
 
 @Injectable()
 export class CardsService {
-  async create(): // createCardDto: CreateCardDto
-  Promise<string> {
+  constructor(@InjectModel("card") private CreateCardModel: Model<CreateCard>){}
+
+  async create(data:CreateCardDto, userpayload, file): Promise<CreateCard> {
+    const createcard = new this.CreateCardModel(data);
+        let photoUrl = '/card/' + file.filename;
+        data.image= photoUrl;
+        let email = userpayload.email;
+        data.email = email;
+        let res =  createcard.save();
+        if((!res)) {
+            throw new HttpException(
+                'authorization token is not define or invalid',
+                HttpStatus.BAD_REQUEST,
+            )
+        }
+        else{
+          return new Promise((resolve) => {
+            resolve(res);
+        });
+      }
+  }
+
+  async findAll(): Promise<CreateCard[]>{
+    const card = await this.CreateCardModel.find();
     return new Promise((resolve) => {
-      resolve('This action adds a new card');
+      resolve(card);
     });
   }
 
-  async findAll(): Promise<string> {
+  async findOne(id: number): Promise<CreateCard> {
+    const card = await this.CreateCardModel.findOne({ id });
     return new Promise((resolve) => {
-      resolve(`This action returns all cards`);
-    });
-  }
-
-  async findOne(id: number): Promise<string> {
-    return new Promise((resolve) => {
-      resolve(`This action returns a #${id} card`);
+      resolve(card);
     });
   }
 
   async update(
-    id: number,
-    // updateCardDto: UpdateCardDto
-  ): Promise<string> {
+    _id: string,
+    data: CreateCardDto,
+  ): Promise<CreateCard> {
+    const card = await this.CreateCardModel.findOneAndUpdate(
+      { _id },
+      data,
+      { new: true },
+    );
     return new Promise((resolve) => {
-      resolve(`This action updates a #${id} card`);
+      resolve(card);
     });
   }
 
-  async remove(id: number): Promise<string> {
+  async remove(id: number): Promise<CreateCard> {
     return new Promise((resolve) => {
-      resolve(`This action removes a #${id} card`);
+      let card = this.CreateCardModel.findOneAndDelete({ _id: id }).exec();
+      resolve(card);
     });
   }
 }
