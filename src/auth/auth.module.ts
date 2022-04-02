@@ -1,10 +1,10 @@
-import { MongoExceptionFilter } from './../shared/@filters/mongo-exception.filter';
+// import { MongoExceptionFilter } from './../shared/@filters/mongo-exception.filter';
 import { UserAuthSchema } from './@schemas/user-auth.schema';
 import { UserEducationalSchema } from './@schemas/user-educational.schema';
 import { UserEmploymentSchema } from './@schemas/user-employment.schema';
 import { UserMedicalSchema } from './@schemas/user-medical.schema';
 import { UserProfileSchema } from './@schemas/user-profile.schema';
-import { AllExceptionsFilter } from './../shared/@filters/all-exception.filter';
+// import { AllExceptionsFilter } from './../shared/@filters/all-exception.filter';
 import { ForgottenPasswordSchema } from './@schemas/forgotten-password.schema';
 import { EmailVerificationSchema } from './@schemas/email-verification.schema';
 import { ConsentRegistrySchema } from './@schemas/consent-registry.schema';
@@ -16,7 +16,7 @@ import { AuthController } from './auth.controller';
 import { AuthGateway } from './auth.gateway';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { APP_FILTER } from '@nestjs/core';
+// import { APP_FILTER } from '@nestjs/core';
 import { AuthUserSchema } from './@schemas/user.schema';
 import { NewUserSchema } from './@schemas/new-user.schema';
 

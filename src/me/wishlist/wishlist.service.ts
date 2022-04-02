@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWishlistDto } from './dto/create-wishlist.dto';
-import { UpdateWishlistDto } from './dto/update-wishlist.dto';
+// import { CreateWishlistDto } from './dto/create-wishlist.dto';
+// import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 
 @Injectable()
 export class WishlistService {
-  async create(createWishlistDto: CreateWishlistDto): Promise<string> {
+  async create(): // createWishlistDto: CreateWishlistDto
+  Promise<string> {
     return new Promise((resolve) => {
       resolve('This action adds a new wishlist');
     });
@@ -24,7 +25,7 @@ export class WishlistService {
 
   async update(
     id: number,
-    updateWishlistDto: UpdateWishlistDto,
+    // updateWishlistDto: UpdateWishlistDto,
   ): Promise<string> {
     return new Promise((resolve) => {
       resolve(`This action updates a #${id} wishlist`);

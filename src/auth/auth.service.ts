@@ -1,11 +1,14 @@
-import { AuthUser } from './@entities/auth-user.entity';
+// import { AuthUser } from './@entities/auth-user.entity';
 import { IResponse } from './../shared/@interfaces/response.interface';
 import { ErrorMessage } from './../shared/@constants/error.constant';
-import { ResponseError } from './../shared/@dtos/response.dto';
-import { AuthUserDto } from './@dtos/auth-user.dto';
-import { IRegister } from './@interfaces/register.interface';
+// import { ResponseError } from './../shared/@dtos/response.dto';
+// import { AuthUserDto } from './@dtos/auth-user.dto';
+// import { IRegister } from './@interfaces/register.interface';
 import { ILogin } from './@interfaces/login.interface';
-import { IAuthUser, IUserProfile } from './@interfaces/auth-user.interface';
+import {
+  IAuthUser,
+  // , IUserProfile
+} from './@interfaces/auth-user.interface';
 import { IForgottenPassword } from './@interfaces/forgotten-password.interface';
 import { IEmailVerification } from './@interfaces/email-verification.interface';
 import { IConsentRegistry } from './@interfaces/consent-registry.interface';

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
-import { UpdateFeedbackDto } from './dto/update-feedback.dto';
+// import { UpdateFeedbackDto } from './dto/update-feedback.dto';
 import { Model } from 'mongoose';
 import { Feedback } from './@interfaces/feedback.interface';
 import { InjectModel } from '@nestjs/mongoose';
@@ -13,21 +13,21 @@ export class FeedbackService {
 
   async create(createFeedbackDto: CreateFeedbackDto): Promise<Feedback> {
     const createdData = await new this.feedbackModel(createFeedbackDto).save();
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(createdData);
     });
   }
 
   async findAll(): Promise<Feedback[]> {
     const feedback = await this.feedbackModel.find();
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(feedback);
     });
   }
 
   async findOne(_id: string): Promise<Feedback> {
     const feedback = await this.feedbackModel.findOne({ _id });
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(feedback);
     });
   }
@@ -41,7 +41,7 @@ export class FeedbackService {
       createFeedbackDto,
       { new: true },
     );
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(feedback);
     });
   }

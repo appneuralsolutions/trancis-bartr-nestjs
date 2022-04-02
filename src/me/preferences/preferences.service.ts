@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePreferenceDto } from './@dto/create-preference.dto';
-import { UpdatePreferenceDto } from './@dto/update-preference.dto';
+// import { UpdatePreferenceDto } from './@dto/update-preference.dto';
 
 @Injectable()
 export class PreferencesService {
-  async create(createPreferenceDto: CreatePreferenceDto): Promise<string> {
+  async create(): Promise<string> {
     return new Promise((resolve) => {
       resolve('This action adds a new preference');
     });
@@ -22,10 +21,7 @@ export class PreferencesService {
     });
   }
 
-  async update(
-    id: number,
-    updatePreferenceDto: UpdatePreferenceDto,
-  ): Promise<string> {
+  async update(id: number): Promise<string> {
     return new Promise((resolve) => {
       resolve(`This action updates a #${id} preference`);
     });

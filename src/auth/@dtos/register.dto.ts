@@ -1,6 +1,11 @@
 import { Gender } from './../@interfaces/auth-user.interface';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEmail, IsNotEmpty, Length } from 'class-validator';
+import {
+  //  IsDate,
+  IsEmail,
+  IsNotEmpty,
+  Length,
+} from 'class-validator';
 import { IUserProfile } from '../@interfaces/auth-user.interface';
 import { IRegister } from './../@interfaces/register.interface';
 export class RegisterDto implements IRegister {
@@ -31,7 +36,8 @@ export class RegisterDto implements IRegister {
 
   profile: IUserProfile;
 
-  constructor(obj) {
+  constructor() {
+    // obj
     // if (!obj.email && obj.mobileNo) {
     // TODO: create  validator for email or mobile (should be one of them)
     // }

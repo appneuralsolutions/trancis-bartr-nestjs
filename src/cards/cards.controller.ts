@@ -3,14 +3,14 @@ import {
   Controller,
   Get,
   Post,
-  Body,
+  // Body,
   Patch,
-  Param,
+  // Param,
   Delete,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
-import { CreateCardDto } from './@dtos/create-card.dto';
-import { UpdateCardDto } from './@dtos/update-card.dto';
+// import { CreateCardDto } from './@dtos/create-card.dto';
+// import { UpdateCardDto } from './@dtos/update-card.dto';
 import { IResponse } from './../shared/@interfaces/response.interface';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { Message } from './../shared/@constants/messages.constant';
@@ -23,7 +23,8 @@ export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
   @Post()
-  async create(@Body() createCardDto: CreateCardDto): Promise<IResponse> {
+  async create(): // @Body() createCardDto: CreateCardDto
+  Promise<IResponse> {
     if (false) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, {});
     } else {
@@ -41,7 +42,8 @@ export class CardsController {
   }
 
   @Get()
-  async findOne(@Param('id') id: string): Promise<IResponse> {
+  async findOne(): // @Param('id') id: string
+  Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, {});
     } else {
@@ -49,10 +51,9 @@ export class CardsController {
     }
   }
   @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateCardDto: UpdateCardDto,
-  ): Promise<IResponse> {
+  async update(): // @Param('id') id: string,
+  // @Body() updateCardDto: UpdateCardDto,
+  Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, {});
     } else {
@@ -61,7 +62,8 @@ export class CardsController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<IResponse> {
+  async remove(): // @Param('id') id: string
+  Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_CARD, {});
     } else {

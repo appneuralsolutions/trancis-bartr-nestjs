@@ -23,8 +23,8 @@ import {
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './@dto/create-profile.dto';
-import { UpdateProfileDto } from './@dto/update-profile.dto';
-import { Me } from '../@decorators/me.decorator';
+// import { UpdateProfileDto } from './@dto/update-profile.dto';
+// import { Me } from '../@decorators/me.decorator';
 import { NewUser } from 'src/auth/@interfaces/new-user.interface';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { diskStorage } from 'multer';
@@ -37,7 +37,8 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
   @Post()
-  async create(@Body() createProfileDto: CreateProfileDto): Promise<IResponse> {
+  async create(): // @Body() createProfileDto: CreateProfileDto
+  Promise<IResponse> {
     if (true) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
     } else {
@@ -63,10 +64,10 @@ export class ProfileController {
     @Headers('authorization') authorization: any,
     @Body(ValidationPipe) createProfileDto: CreateProfileDto,
   ): Promise<IResponse | NewUser> {
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
+    // const response = {
+    //   originalname: file.originalname,
+    //   filename: file.filename,
+    // };
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',

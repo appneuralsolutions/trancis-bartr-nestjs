@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './@dtos/create-user.dto';
-import { UpdateUserDto } from './@dtos/update-user.dto';
+// import { UpdateUserDto } from './@dtos/update-user.dto';
 import { IResponse } from './../../shared/@interfaces/response.interface';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { Message } from './../../shared/@constants/messages.constant';

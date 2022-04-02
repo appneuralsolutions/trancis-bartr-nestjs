@@ -14,21 +14,21 @@ export class SubjectsService {
 
   async create(createSubjectDto: CreateSubjectDto): Promise<ISubject> {
     const createdData = await new this.subjectModel(createSubjectDto).save();
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(createdData);
     });
   }
 
   async findAll(): Promise<ISubject[]> {
     const subjects = await this.subjectModel.find();
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(subjects);
     });
   }
 
   async findOne(_id: string): Promise<ISubject> {
     const subject = await this.subjectModel.findOne({ _id });
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(subject);
     });
   }
@@ -42,7 +42,7 @@ export class SubjectsService {
       updateSubjectDto,
       { new: true },
     );
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(subject);
     });
   }

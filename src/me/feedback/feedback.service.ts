@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFeedbackDto } from './@dto/create-feedback.dto';
-import { UpdateFeedbackDto } from './@dto/update-feedback.dto';
+// import { CreateFeedbackDto } from './@dto/create-feedback.dto';
+// import { UpdateFeedbackDto } from './@dto/update-feedback.dto';
 
 @Injectable()
 export class FeedbackService {
-  async create(createFeedbackDto: CreateFeedbackDto): Promise<string> {
+  async create(): // createFeedbackDto: CreateFeedbackDto
+  Promise<string> {
     return new Promise((resolve) => {
       resolve('This action adds a new feedback');
     });
@@ -18,7 +19,7 @@ export class FeedbackService {
 
   async update(
     id: number,
-    updateFeedbackDto: UpdateFeedbackDto,
+    // updateFeedbackDto: UpdateFeedbackDto,
   ): Promise<string> {
     return new Promise((resolve) => {
       resolve(`This action updates a #${id} feedback`);

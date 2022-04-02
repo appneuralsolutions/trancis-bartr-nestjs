@@ -1,10 +1,10 @@
 import { ErrorCodes } from './../@constants/error-codes.constant';
-import { ErrorMessage } from './../@constants/error.constant';
+// import { ErrorMessage } from './../@constants/error.constant';
 import {
   ExceptionFilter,
   Catch,
   ArgumentsHost,
-  HttpException,
+  // HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
@@ -20,10 +20,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const ctx = host.switchToHttp();
 
-    const httpStatus =
-      exception instanceof HttpException
-        ? exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR;
+    // const httpStatus =
+    //   exception instanceof HttpException
+    //     ? exception.getStatus()
+    //     : HttpStatus.INTERNAL_SERVER_ERROR;
 
     if (exception.statusCode) {
       const responseBody = {
