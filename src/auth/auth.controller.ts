@@ -2,7 +2,7 @@ import { ErrorMessage } from './../shared/@constants/error.constant';
 import { Message } from './../shared/@constants/messages.constant';
 import { LoginDto } from './@dtos/login.dto';
 import { ResponseSuccess, ResponseError } from './../shared/@dtos/response.dto';
-import { RegisterDto } from './@dtos/register.dto';
+// import { RegisterDto } from './@dtos/register.dto';
 import { IResponse } from './../shared/@interfaces/response.interface';
 import { Body, Controller, Param, Post, Get, HttpStatus } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -13,7 +13,7 @@ import { NewUser } from './@interfaces/new-user.interface';
 @ApiTags('Auth')
 @Controller()
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Post('registration')
   async register(@Body() NewUserdto: NewUserdto): Promise<NewUser | IResponse> {
