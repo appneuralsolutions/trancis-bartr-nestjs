@@ -8,13 +8,14 @@ import { MeModule } from './me/me.module';
 import { PaymentModule } from './payment/payment.module';
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
+import { UsersModule } from './_old/v1/admin/users/users.module';
 
 @Module({
   imports: [
     RouterModule.register([
       {
-        path: 'admin',
-        module: AdminModule,
+        path: 'admin/users',
+        module: UsersModule,
       },
       {
         path: 'auth',
