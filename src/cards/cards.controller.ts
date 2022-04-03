@@ -62,7 +62,7 @@ export class CardsController {
       originalname: file.originalname,
       filename: file.filename,
     };
-     const userPayload: any = this.jwtService.decode(
+    const userPayload: any = this.jwtService.decode(
       authorization.replace('Bearer ', ''),
     );
     if (!userPayload) {

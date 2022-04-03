@@ -55,7 +55,7 @@ export class CardsService {
 
   async remove(id: number): Promise<CreateCard> {
     return new Promise((resolve) => {
-      let card = this.CreateCardModel.findOneAndDelete({ _id: id }).exec();
+      const card = this.CreateCardModel.findOneAndDelete({ _id: id }).exec();
       resolve(card);
     });
   }
