@@ -37,7 +37,7 @@ export class CardsService {
     });
   }
 
-  async findOne(id: number): Promise<CreateCard> {
+  async findOne(id: string): Promise<CreateCard> {
     const card = await this.CreateCardModel.findOne({ id });
     return new Promise((resolve) => {
       resolve(card);
@@ -53,7 +53,7 @@ export class CardsService {
     });
   }
 
-  async remove(id: number): Promise<CreateCard> {
+  async remove(id: string): Promise<CreateCard> {
     return new Promise((resolve) => {
       const card = this.CreateCardModel.findOneAndDelete({ _id: id }).exec();
       resolve(card);

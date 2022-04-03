@@ -14,6 +14,7 @@ import {
   Headers,
   HttpException,
   HttpStatus,
+  Param,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
@@ -80,39 +81,43 @@ export class CardsController {
   }
 
   @Get()
-  async findAll(): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {});
+  async findAll(): Promise<IResponse | CreateCard> {
+    const card = this.cardsService.findAll()
+    if (card) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {card});
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
   }
 
-  @Get()
-  async findOne(): // @Param('id') id: string
-  Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, {});
+  @Get(':id')
+  async findOne(@Param('id') id: string): // @Param('id') id: string
+  Promise<IResponse | CreateCard> {
+    const card = this.cardsService.findOne(id)
+    if (card) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, {card});
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
   }
   @Patch(':id')
-  async update(): // @Param('id') id: string,
+  async update(@Body(ValidationPipe) data: CreateCardDto, @Param('id') id: string): // @Param('id') id: string,
   // @Body() updateCardDto: UpdateCardDto,
-  Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, {});
+  Promise<IResponse | CreateCard> {
+    const card = this.cardsService.update(id, data)
+    if (card) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, {card});
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_CARD, {});
     }
   }
 
   @Delete(':id')
-  async remove(): // @Param('id') id: string
-  Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_CARD, {});
+  async remove(@Param('id') id: string): // @Param('id') id: string
+  Promise<IResponse | CreateCard> {
+    const card = this.cardsService.remove(id)
+    if (card) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_CARD, {card});
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_DELETED_CARD, {});
     }
