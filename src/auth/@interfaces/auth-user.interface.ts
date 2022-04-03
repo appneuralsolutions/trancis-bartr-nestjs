@@ -82,9 +82,10 @@ export interface IUserProfile {
   gallery: [];
   photo: string;
   birthDate: Date;
+  mobileNo: string;
   nationality: string;
   maritalStatus: MaritalStatus;
-  socialLinks: [{ name: string; url: string }];
+  // socialLinks: [{ name: string; url: string }];
 }
 
 export interface IUserEducationQualification {
@@ -138,7 +139,7 @@ export interface IUserEducationActivity {
   date: string;
 }
 
-export interface IUserEducationSocialLink {
+export interface IUserSocialLink {
   name: string;
   link: string;
 }
@@ -151,7 +152,7 @@ export interface IUserEducation {
   internships: [IUserEducationInternship];
   hobbies: [string];
   otherActivities: [IUserEducationActivity];
-  socialLinks: [IUserEducationSocialLink];
+  socialLinks: [IUserSocialLink];
 }
 export interface IUserEmploymentExperience {
   CompanyName: string;
@@ -194,9 +195,15 @@ export interface IAuthUser {
   _id: string;
   email: string;
   phone: string;
+  uname: string;
   password: string;
   roles: [IRole];
   auth: IUserAuth;
   isActive: boolean;
   privileges: object;
+  profile: IUserProfile;
+  medical: IUserMedical;
+  educational: IUserEducation;
+  employment: IUserEmployment;
+  jwtToken: string;
 }

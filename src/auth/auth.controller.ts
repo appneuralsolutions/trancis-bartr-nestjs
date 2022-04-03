@@ -1,14 +1,15 @@
+import { AuthUserDto } from './@dtos/auth-user.dto';
 import { ErrorMessage } from './../shared/@constants/error.constant';
 import { Message } from './../shared/@constants/messages.constant';
 import { LoginDto } from './@dtos/login.dto';
 import { ResponseSuccess, ResponseError } from './../shared/@dtos/response.dto';
 // import { RegisterDto } from './@dtos/register.dto';
 import { IResponse } from './../shared/@interfaces/response.interface';
-import { Body, Controller, Param, Post, Get, HttpStatus, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get, HttpStatus } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { NewUserdto } from './@dtos/new-user.dto';
 import { NewUser } from './@interfaces/new-user.interface';
+import { RegisterDto } from './@dtos/register.dto';
 
 @ApiTags('Auth')
 @Controller()
@@ -16,12 +17,14 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('registration')
-  async register(@Body(ValidationPipe) NewUserdto: NewUserdto): Promise<NewUser | IResponse> {
-    const data = await this.authService.AddUser(NewUserdto);
+  async register(
+    @Body() registerDto: RegisterDto,
+  ): Promise<NewUser | IResponse> {
+    const data = await this.authService.creatUser(registerDto);
     if (data) {
       return new ResponseSuccess(
         Message.REGISTERED_SUCCESSFULLY,
-        { data },
+        data,
         HttpStatus.CREATED,
       );
     } else {
@@ -119,15 +122,15 @@ export class AuthController {
   @Post('reset-password/:token')
   async resetPassword(
     @Body() @Param('id') id: string,
-    NewUserdto: NewUserdto,
+    authUserDto: AuthUserDto,
   ): Promise<NewUser | IResponse> {
-    const isResetPassword = await this.authService.resetPassword(
-      id,
-      NewUserdto,
-    );
-    if (isResetPassword) {
+    // const isResetPassword = await this.authService.resetPassword(
+    //   id,
+    //   NewUserdto,
+    // );
+    if (true) {
       return new ResponseSuccess(Message.LOGIN_SUCCESSFULLY_CHANGED_PASSWORD, {
-        isResetPassword,
+        // isResetPassword,
       });
     } else {
       return new ResponseError(

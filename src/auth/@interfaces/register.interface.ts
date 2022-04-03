@@ -1,11 +1,11 @@
 import { Gender, IUserProfile } from './auth-user.interface';
 
 export interface IRegister {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   mobileNo: string;
   password: string;
-  dateOfBirth: Date;
-  profile: IUserProfile;
+  birthDate: Date;
   gender: Gender;
 }

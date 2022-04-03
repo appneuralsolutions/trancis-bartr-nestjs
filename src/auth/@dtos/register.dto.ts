@@ -1,6 +1,11 @@
-import { Gender } from './../@interfaces/auth-user.interface';
+import {
+  Gender,
+  MaritalStatus,
+  IUserSocialLink,
+} from './../@interfaces/auth-user.interface';
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsDate,
   //  IsDate,
   IsEmail,
   IsNotEmpty,
@@ -9,32 +14,39 @@ import {
 import { IUserProfile } from '../@interfaces/auth-user.interface';
 import { IRegister } from './../@interfaces/register.interface';
 export class RegisterDto implements IRegister {
-  @ApiProperty()
+  @ApiProperty({ default: 'Ajay' })
   @IsNotEmpty()
-  fullName: string;
+  firstName: string;
 
-  @ApiProperty()
+  middleName: string;
+
+  @ApiProperty({ default: 'Prajapat' })
+  @IsNotEmpty()
+  lastName: string;
+
+  @ApiProperty({ default: 'ajayprajapat@live.com' })
   @IsNotEmpty()
   @IsEmail()
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({ default: '8769962237' })
   @Length(10)
   mobileNo: string;
 
-  @ApiProperty()
+  @ApiProperty({ default: '1234567' })
   @Length(5, 12)
   @IsNotEmpty()
   password: string;
 
   @ApiProperty()
   // @IsDate()
-  dateOfBirth: Date;
+  birthDate: Date;
 
   @ApiProperty({ default: 'male' })
   gender: Gender;
 
-  profile: IUserProfile;
+  maritalStatus: MaritalStatus;
+  bio: string;
 
   constructor() {
     // obj

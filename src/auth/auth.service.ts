@@ -1,3 +1,5 @@
+import { AuthUser } from './@classes/auth-user.class';
+import { RegisterDto } from './@dtos/register.dto';
 // import { AuthUser } from './@entities/auth-user.entity';
 import { IResponse } from './../shared/@interfaces/response.interface';
 import { ErrorMessage } from './../shared/@constants/error.constant';
@@ -7,6 +9,7 @@ import { ErrorMessage } from './../shared/@constants/error.constant';
 import { ILogin } from './@interfaces/login.interface';
 import {
   IAuthUser,
+  IUserProfile,
   // , IUserProfile
 } from './@interfaces/auth-user.interface';
 import { IForgottenPassword } from './@interfaces/forgotten-password.interface';
@@ -16,44 +19,55 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import { NewUserdto } from './@dtos/new-user.dto';
 import { NewUser } from './@interfaces/new-user.interface';
 import { HttpService } from '@nestjs/axios';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Model } from 'mongoose';
+import { AuthUserDto } from './@dtos/auth-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel('NewUser')
-    private readonly NewUserModel: Model<NewUser>,
     @InjectModel('Consent-Registry')
     private readonly consentRegistryModel: Model<IConsentRegistry>,
     @InjectModel('Email-Verification')
     private readonly emailVerificationModel: Model<IEmailVerification>,
     @InjectModel('Forgotten-Password')
     private readonly forgottenPasswordModel: Model<IForgottenPassword>,
-    @InjectModel('User') private readonly userAuthModel: Model<IAuthUser>,
+    @InjectModel('User') private readonly userModel: Model<IAuthUser>,
+    @InjectModel('User-Profile')
+    private readonly userProfileModel: Model<IAuthUser>,
     private jwtService: JwtService,
     private readonly mailerService: MailerService,
   ) {}
 
-  async AddUser(NewUserdto: NewUserdto): Promise<NewUser | string> {
-    // throw new ResponseError('asd', {}, HttpStatus.ACCEPTED);
-
-    const salt = await bcrypt.genSalt();
-    const password = await bcrypt.hash(NewUserdto.password, salt);
-    const validation = await this.NewUserModel.findOne({
-      email: NewUserdto.email})
-    if(!validation){
-      const register = new this.NewUserModel(NewUserdto);
-    register.password = password;
-    return await register.save();
-    }
-    else{
-      return "user already present"
-    }  
-    
+  async creatUser(registerDto: RegisterDto): Promise<IAuthUser | Document> {
+    return new Promise((resolve, reject) => {
+      new this.userProfileModel({
+        firstName: registerDto.firstName,
+        middleName: registerDto.middleName,
+        lastName: registerDto.lastName,
+        mobileNo: registerDto.mobileNo,
+        bio: registerDto.bio,
+        gender: registerDto.gender,
+        gallery: [],
+        photo: '/profiles/registerDto.email',
+        birthDate: registerDto.birthDate,
+        nationality: 'Indian',
+        maritalStatus: registerDto.maritalStatus,
+      }).save((err, userProfile) => {
+        if (err) return reject(err);
+        new this.userModel({
+          email: registerDto.email,
+          phone: registerDto.mobileNo,
+          password: registerDto.password,
+          profile: userProfile._id,
+        }).save((err, user) => {
+          if (err) return reject(err);
+          resolve(user);
+        });
+      });
+    });
   }
 
   async saveUserConsent(email: string): Promise<IConsentRegistry> {
@@ -96,7 +110,7 @@ export class AuthService {
   }
 
   async validateUser(userId: string): Promise<IAuthUser | null> {
-    const user: IAuthUser = await this.userAuthModel.findOne({
+    const user: IAuthUser = await this.userModel.findOne({
       email: userId,
       isActive: true,
       'auth.verification.email': true,
@@ -106,7 +120,7 @@ export class AuthService {
   }
 
   async validateLogin(loginDto: ILogin): Promise<NewUser | IResponse> {
-    const validUser = await this.NewUserModel.findOne({
+    const validUser = await this.userModel.findOne({
       username: loginDto.username,
     });
 
@@ -211,17 +225,15 @@ export class AuthService {
     });
   }
 
-  async resetPassword(id: string, loginDto: ILogin): Promise<NewUser> {
-    try {
-      const salt = await bcrypt.genSalt();
-      loginDto.password = await bcrypt.hash(loginDto.password, salt);
-      return await this.NewUserModel.findOneAndUpdate({ _id: id }, loginDto, {
-        new: true,
-      }).exec();
-    } catch (err) {
-      return err;
-    }
-  }
+  // async resetPassword(id: string, loginDto: ILogin): Promise<IUser> {
+  //   // const salt = await bcrypt.genSalt();
+  //   // loginDto.password = await bcrypt.hash(loginDto.password, salt);
+  //   // return await this.userModel
+  //   //   .findOneAndUpdate({ _id: id }, loginDto, {
+  //   //     new: true,
+  //   //   })
+  //   //   .exec();
+  // }
 
   async logout(email: string): Promise<boolean> {
     console.log(email);

@@ -7,6 +7,7 @@ export const UserProfileSchema = new mongoose.Schema({
   lastName: String,
   displayName: String,
   bio: String,
+  email: { type: String, unique: true, require: true },
   gender: {
     type: String,
     enum: ['male', 'female', 'other'],
