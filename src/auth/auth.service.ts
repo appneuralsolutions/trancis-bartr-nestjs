@@ -38,14 +38,22 @@ export class AuthService {
     private readonly mailerService: MailerService,
   ) {}
 
-  async AddUser(NewUserdto: NewUserdto): Promise<NewUser> {
+  async AddUser(NewUserdto: NewUserdto): Promise<NewUser | string> {
     // throw new ResponseError('asd', {}, HttpStatus.ACCEPTED);
 
     const salt = await bcrypt.genSalt();
     const password = await bcrypt.hash(NewUserdto.password, salt);
-    const register = new this.NewUserModel(NewUserdto);
+    const validation = await this.NewUserModel.findOne({
+      email: NewUserdto.email})
+    if(!validation){
+      const register = new this.NewUserModel(NewUserdto);
     register.password = password;
     return await register.save();
+    }
+    else{
+      return "user already present"
+    }  
+    
   }
 
   async saveUserConsent(email: string): Promise<IConsentRegistry> {

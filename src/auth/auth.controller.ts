@@ -4,7 +4,7 @@ import { LoginDto } from './@dtos/login.dto';
 import { ResponseSuccess, ResponseError } from './../shared/@dtos/response.dto';
 // import { RegisterDto } from './@dtos/register.dto';
 import { IResponse } from './../shared/@interfaces/response.interface';
-import { Body, Controller, Param, Post, Get, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get, HttpStatus, ValidationPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { NewUserdto } from './@dtos/new-user.dto';
@@ -16,7 +16,7 @@ export class AuthController {
   constructor(private authService: AuthService) { }
 
   @Post('registration')
-  async register(@Body() NewUserdto: NewUserdto): Promise<NewUser | IResponse> {
+  async register(@Body(ValidationPipe) NewUserdto: NewUserdto): Promise<NewUser | IResponse> {
     const data = await this.authService.AddUser(NewUserdto);
     if (data) {
       return new ResponseSuccess(
