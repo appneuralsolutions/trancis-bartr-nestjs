@@ -7,29 +7,30 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class CardsService {
-  constructor(@InjectModel("card") private CreateCardModel: Model<CreateCard>){}
+  constructor(
+    @InjectModel('card') private CreateCardModel: Model<CreateCard>,
+  ) {}
 
-  async create(data:CreateCardDto, userpayload, file): Promise<CreateCard> {
+  async create(data: CreateCardDto, userpayload, file): Promise<CreateCard> {
     const createcard = new this.CreateCardModel(data);
-        let photoUrl = '/card/' + file.filename;
-        data.image= photoUrl;
-        let email = userpayload.email;
-        data.email = email;
-        let res =  createcard.save();
-        if((!res)) {
-            throw new HttpException(
-                'authorization token is not define or invalid',
-                HttpStatus.BAD_REQUEST,
-            )
-        }
-        else{
-          return new Promise((resolve) => {
-            resolve(res);
-        });
-      }
+    const photoUrl = '/card/' + file.filename;
+    data.image = photoUrl;
+    const email = userpayload.email;
+    data.email = email;
+    const res = createcard.save();
+    if (!res) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    } else {
+      return new Promise((resolve) => {
+        resolve(res);
+      });
+    }
   }
 
-  async findAll(): Promise<CreateCard[]>{
+  async findAll(): Promise<CreateCard[]> {
     const card = await this.CreateCardModel.find();
     return new Promise((resolve) => {
       resolve(card);
@@ -43,15 +44,10 @@ export class CardsService {
     });
   }
 
-  async update(
-    _id: string,
-    data: CreateCardDto,
-  ): Promise<CreateCard> {
-    const card = await this.CreateCardModel.findOneAndUpdate(
-      { _id },
-      data,
-      { new: true },
-    );
+  async update(_id: string, data: CreateCardDto): Promise<CreateCard> {
+    const card = await this.CreateCardModel.findOneAndUpdate({ _id }, data, {
+      new: true,
+    });
     return new Promise((resolve) => {
       resolve(card);
     });
@@ -59,7 +55,7 @@ export class CardsService {
 
   async remove(id: number): Promise<CreateCard> {
     return new Promise((resolve) => {
-      let card = this.CreateCardModel.findOneAndDelete({ _id: id }).exec();
+      const card = this.CreateCardModel.findOneAndDelete({ _id: id }).exec();
       resolve(card);
     });
   }

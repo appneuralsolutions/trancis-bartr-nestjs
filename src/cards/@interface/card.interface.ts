@@ -1,16 +1,14 @@
-
-import { Document } from "mongoose";
-
+import { Document } from 'mongoose';
 
 export interface CreateCard extends Document {
-    availableOf: string;
-    price: string;
-    title: string;
-    lable: string;
-    value: string;
-    description: string;
-    image: string;
-    email: string;
+  availableOf: string;
+  price: string;
+  title: string;
+  lable: string;
+  value: string;
+  description: string;
+  image: string;
+  email: string;
 }
 
 /* availableOf: String,

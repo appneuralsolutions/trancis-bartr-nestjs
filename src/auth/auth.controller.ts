@@ -13,7 +13,7 @@ import { NewUser } from './@interfaces/new-user.interface';
 @ApiTags('Auth')
 @Controller()
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Post('registration')
   async register(@Body(ValidationPipe) NewUserdto: NewUserdto): Promise<NewUser | IResponse> {
