@@ -1,3 +1,5 @@
+import { NewUserSchema } from './../auth/@schemas/new-user.schema';
+import { AuthModule } from './../_old/v1/auth/auth.module';
 import { WishlistService } from './wishlist/wishlist.service';
 import { PreferencesService } from './preferences/preferences.service';
 import { ProfileService } from './profile/profile.service';
@@ -13,9 +15,7 @@ import { FeedsService } from './feeds/feeds.service';
 import { MatchesService } from './matches/matches.service';
 // import { APP_INTERCEPTOR } from '@nestjs/core';
 // import { AuthInterceptor } from 'src/auth/@interceptors/auth.interceptor';
-import { AuthModule } from 'src/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { NewUserSchema } from 'src/auth/@schemas/new-user.schema';
 
 @Module({
   controllers: [
