@@ -1,3 +1,4 @@
+import { AuthModule } from 'src/auth/auth.module';
 import { Module } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CardsController } from './cards.controller';
@@ -7,6 +8,7 @@ import { CreateCardSchema } from './@schemas/card.schema';
 
 @Module({
   imports: [
+    AuthModule,
     SharedModule,
     MongooseModule.forFeature([{ name: 'card', schema: CreateCardSchema }]),
   ],

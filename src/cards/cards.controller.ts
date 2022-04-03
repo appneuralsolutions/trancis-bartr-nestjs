@@ -13,7 +13,7 @@ import {
   UploadedFile,
   Headers,
   HttpException,
-  HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
@@ -32,42 +32,48 @@ import { JwtService } from '@nestjs/jwt';
 @ApiTags('Cards')
 @Controller()
 export class CardsController {
-  constructor(private readonly cardsService: CardsService,
-    private jwtService: JwtService) {}
+  constructor(
+    private readonly cardsService: CardsService,
+    private jwtService: JwtService,
+  ) {}
 
   @Post()
   @UseInterceptors(
     FileInterceptor('image', {
-        storage: diskStorage({
-            destination: './card',
-            filename: editFileName,
-        }),
-        fileFilter: imageFileFilter,
+      storage: diskStorage({
+        destination: './card',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
     }),
-)
-  async create(@UploadedFile() file, @Headers('authorization') authorization: any 
-  ,@Body(ValidationPipe) data: CreateCardDto ): 
-  Promise<IResponse | CreateCard> {
-    if((!authorization)) {
+  )
+  async create(
+    @UploadedFile() file,
+    @Headers('authorization') authorization: any,
+    @Body(ValidationPipe) data: CreateCardDto,
+  ): Promise<IResponse | CreateCard> {
+    if (!authorization) {
       throw new HttpException(
-          'authorization token is not define or invalid',
-          HttpStatus.BAD_REQUEST,
-      )
-  }
-  const response = {
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const response = {
       originalname: file.originalname,
       filename: file.filename,
-  };
-  let userPayload: any = this.jwtService.decode(authorization.replace('Bearer ', ''));
-  if((!userPayload)) {
+    };
+     const userPayload: any = this.jwtService.decode(
+      authorization.replace('Bearer ', ''),
+    );
+    if (!userPayload) {
       throw new HttpException(
-          'authorization token is not define or invalid',
-          HttpStatus.BAD_REQUEST,
-      )
-  }
-  let card =  this.cardsService.create(data, userPayload, file);
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const card = this.cardsService.create(data, userPayload, file);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, {card});
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { card });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_CREATED_CARD, {});
     }

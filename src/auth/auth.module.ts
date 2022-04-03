@@ -46,6 +46,6 @@ import { NewUserSchema } from './@schemas/new-user.schema';
   ],
   providers: [AuthService, AuthGateway],
   controllers: [AuthController],
-  exports: [SharedModule, AuthService, AuthGateway],
+  exports: [JwtModule, SharedModule, AuthService, AuthGateway],
 })
 export class AuthModule {}
