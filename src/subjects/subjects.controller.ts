@@ -19,11 +19,11 @@ import { ErrorMessage } from './../shared/@constants/error.constant';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 
 @ApiTags('Subjects')
-@Controller('api/v1/subjects')
+@Controller()
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
-  @Post('api/v1/subjects')
+  @Post()
   async create(
     @Body() createSubjectDto: CreateSubjectDto,
   ): Promise<IResponse | ISubject> {

@@ -1,3 +1,4 @@
+import { NewUser } from './../../auth/@interfaces/new-user.interface';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { IResponse } from './../../shared/@interfaces/response.interface';
 import {
@@ -25,7 +26,6 @@ import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './@dto/create-profile.dto';
 // import { UpdateProfileDto } from './@dto/update-profile.dto';
 // import { Me } from '../@decorators/me.decorator';
-import { NewUser } from 'src/auth/@interfaces/new-user.interface';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from './utils/file-upload.utils';

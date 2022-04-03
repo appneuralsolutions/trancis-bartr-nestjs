@@ -19,7 +19,7 @@ import { ResponseError } from './../shared/@dtos/response.dto';
 import { ErrorMessage } from './../shared/@constants/error.constant';
 
 @ApiTags('Feedback')
-@Controller('api/v1/feedback')
+@Controller()
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 

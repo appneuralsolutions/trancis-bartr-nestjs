@@ -48,9 +48,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
         typeof exception === 'object' &&
         exception.constructor.name === 'MongoServerError'
       ) {
+        const responseBody = {
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: exception.message,
+          path: httpAdapter.getRequestUrl(ctx.getRequest()),
+          timestamp: new Date().toISOString(),
+          error: exception,
+        };
         httpAdapter.reply(
           ctx.getResponse(),
-          exception,
+          responseBody,
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       } else {
