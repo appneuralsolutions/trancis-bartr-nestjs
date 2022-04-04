@@ -15,6 +15,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Put,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
@@ -39,40 +40,10 @@ export class CardsController {
   ) {}
 
   @Post()
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './card',
-        filename: editFileName,
-      }),
-      fileFilter: imageFileFilter,
-    }),
-  )
   async create(
-    @UploadedFile() file,
-    @Headers('authorization') authorization: any,
-    @Body(ValidationPipe) data: CreateCardDto,
+    @Body() data: CreateCardDto,
   ): Promise<IResponse | CreateCard> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const card = this.cardsService.create(data, userPayload, file);
+    const card = await this.cardsService.create(data);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { card });
     } else {
@@ -82,7 +53,7 @@ export class CardsController {
 
   @Get()
   async findAll(): Promise<IResponse | CreateCard> {
-    const card = this.cardsService.findAll()
+    const card = await this.cardsService.findAll()
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {card});
     } else {
@@ -93,18 +64,18 @@ export class CardsController {
   @Get(':id')
   async findOne(@Param('id') id: string): // @Param('id') id: string
   Promise<IResponse | CreateCard> {
-    const card = this.cardsService.findOne(id)
+    const card = await this.cardsService.findOne(id)
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, {card});
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
   }
-  @Patch(':id')
+  @Put(':id')
   async update(@Body(ValidationPipe) data: CreateCardDto, @Param('id') id: string): // @Param('id') id: string,
   // @Body() updateCardDto: UpdateCardDto,
   Promise<IResponse | CreateCard> {
-    const card = this.cardsService.update(id, data)
+    const card = await this.cardsService.update(id, data)
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, {card});
     } else {
@@ -115,7 +86,7 @@ export class CardsController {
   @Delete(':id')
   async remove(@Param('id') id: string): // @Param('id') id: string
   Promise<IResponse | CreateCard> {
-    const card = this.cardsService.remove(id)
+    const card = await this.cardsService.remove(id)
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_CARD, {card});
     } else {
