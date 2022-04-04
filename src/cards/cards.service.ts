@@ -42,6 +42,17 @@ export class CardsService {
     });
   }
 
+  async uploadImage(id: string, data: CreateCardDto, file): Promise<CreateCard> {
+    let photoUrl = '/card/' + file.filename;
+    data.image= photoUrl;
+    const card = await this.CreateCardModel.findOneAndUpdate({ _id:id }, data, {
+      new: true,
+    });
+    return new Promise((resolve) => {
+      resolve(card);
+    });
+  }
+
   async update(id: string, data: CreateCardDto): Promise<CreateCard> {
     const card = await this.CreateCardModel.findOneAndUpdate({ _id:id }, data, {
       new: true,

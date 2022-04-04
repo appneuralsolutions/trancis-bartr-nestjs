@@ -71,6 +71,30 @@ export class CardsController {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
   }
+  @Put(':id/images')
+  @UseInterceptors(
+    FileInterceptor('image', {
+        storage: diskStorage({
+            destination: './card',
+            filename: editFileName,
+        }),
+        fileFilter: imageFileFilter,
+    }),
+)
+  async uploadImage(@UploadedFile() file , @Body() data: CreateCardDto, @Param('id') id: string):
+  Promise<IResponse | CreateCard> {
+    const response = {
+      originalname: file.originalname,
+      filename: file.filename,
+  };
+    const card = await this.cardsService.uploadImage(id, data, file)
+    if (card) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, {card});
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_CARD, {});
+    }
+  }
+
   @Put(':id')
   async update(@Body(ValidationPipe) data: CreateCardDto, @Param('id') id: string): // @Param('id') id: string,
   // @Body() updateCardDto: UpdateCardDto,
