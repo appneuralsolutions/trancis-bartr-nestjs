@@ -16,30 +16,33 @@ export class ProfileService {
     userpayload,
     file,
   ): Promise<NewUser> {
-    const createprofile = await new this.NewUserModel(CreateProfileDto);
-    const photoUrl = '/card/' + file.filename;
+    
+    const photoUrl = '/profile/' + file.filename;
     data.picture = photoUrl;
-    const email = userpayload.email;
-    data.email = email;
-    const res = createprofile.save();
+    const id = userpayload._id;
+    const card = await this.NewUserModel.findOneAndUpdate({_id : id }, data, {
+      new: true,
+    });
     return new Promise((resolve) => {
-      resolve(res);
+      resolve(card);
     });
   }
 
-  async findOne(_id: string): Promise<NewUser> {
-    const user = await this.NewUserModel.findOne({ _id });
+  async findOne(userPayload): Promise<NewUser> {
+    const id = userPayload._id;
+    const user = await this.NewUserModel.findOne({_id : id });
     return new Promise((resolve) => {
       resolve(user);
     });
   }
 
   async update(
-    _id: string,
+    userPayload,
     CreateProfileDto: CreateProfileDto,
   ): Promise<NewUser> {
+    const id = userPayload._id;
     const user = await this.NewUserModel.findOneAndUpdate(
-      { _id },
+      { _id : id  },
       CreateProfileDto,
       { new: true },
     );
@@ -48,7 +51,8 @@ export class ProfileService {
     });
   }
 
-  async remove(id: string): Promise<NewUser> {
+  async remove(userPayload): Promise<NewUser> {
+    const id = userPayload._id;
     const user = this.NewUserModel.findOneAndDelete({ _id: id }).exec();
     return new Promise((resolve) => {
       resolve(user);

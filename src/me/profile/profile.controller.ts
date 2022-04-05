@@ -21,6 +21,7 @@ import {
   HttpException,
   HttpStatus,
   ValidationPipe,
+  Put,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './@dto/create-profile.dto';
@@ -29,12 +30,13 @@ import { CreateProfileDto } from './@dto/create-profile.dto';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from './utils/file-upload.utils';
+import { JwtService } from '@nestjs/jwt';
 
 @ApiTags('Me -> Profile')
 @Controller('profile')
 export class ProfileController {
-  jwtService: any;
-  constructor(private readonly profileService: ProfileService) {}
+  constructor(private readonly profileService: ProfileService,
+    private jwtService: JwtService ) {}
 
   @Post()
   async create(): // @Body() createProfileDto: CreateProfileDto
@@ -49,7 +51,7 @@ export class ProfileController {
     }
   }
 
-  @Post('photo')
+  @Put('photo')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
@@ -95,7 +97,7 @@ export class ProfileController {
     }
   }
 
-  @Get()
+ /* @Get()
   async findAll(): Promise<IResponse> {
     // await this.profileService.findAll();
     if (true) {
@@ -106,11 +108,26 @@ export class ProfileController {
         {},
       );
     }
-  }
+  } */
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<IResponse | NewUser> {
-    const user = await this.profileService.findOne(id);
+  @Get()
+  async findOne(@Headers('authorization') authorization: any): Promise<IResponse | NewUser> {
+    if (!authorization) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const userPayload: any = this.jwtService.decode(
+      authorization.replace('Bearer ', ''),
+    );
+    if (!userPayload) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const user = await this.profileService.findOne(userPayload);
     if (user) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, { user });
     } else {
@@ -118,12 +135,27 @@ export class ProfileController {
     }
   }
 
-  @Patch(':id')
+  @Put()
   async update(
-    @Param('id') id: string,
+    @Headers('authorization') authorization: any,
     @Body() CreateProfileDto: CreateProfileDto,
   ): Promise<IResponse | NewUser> {
-    const userupdate = await this.profileService.update(id, CreateProfileDto);
+    if (!authorization) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const userPayload: any = this.jwtService.decode(
+      authorization.replace('Bearer ', ''),
+    );
+    if (!userPayload) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const userupdate = await this.profileService.update(userPayload, CreateProfileDto);
     if (userupdate) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {
         userupdate,
@@ -133,9 +165,24 @@ export class ProfileController {
     }
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<IResponse> {
-    const user = await this.profileService.remove(id);
+  @Delete()
+  async remove(@Headers('authorization') authorization: any): Promise<IResponse> {
+    if (!authorization) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const userPayload: any = this.jwtService.decode(
+      authorization.replace('Bearer ', ''),
+    );
+    if (!userPayload) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const user = await this.profileService.remove(userPayload);
     if (user) {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_USER, { user });
     } else {
