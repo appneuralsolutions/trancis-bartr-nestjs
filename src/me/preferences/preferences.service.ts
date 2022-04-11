@@ -28,7 +28,7 @@ export class PreferencesService {
     
   }
 
-  async findAll(): Promise<string> {
+  /* async findAll(): Promise<string> {
     return new Promise((resolve) => {
       resolve(`This action returns all preferences`);
     });
@@ -50,5 +50,5 @@ export class PreferencesService {
     return new Promise((resolve) => {
       resolve(`This action removes a #${id} preference`);
     });
-  }
+  } */
 }
