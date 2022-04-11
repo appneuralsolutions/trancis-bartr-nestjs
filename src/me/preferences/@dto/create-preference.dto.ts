@@ -12,10 +12,7 @@ export class CreatePreferenceDto  {
   
   @ApiProperty()
   @IsOptional()
-  price: {
-    condition: string,
-    value: string
- };
+  price: string
 
   @ApiProperty()
   @IsOptional()

@@ -15,6 +15,7 @@ import { PreferencesCard } from './@interface/preferences.interface';
 import { ResponseError, ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { Message } from 'src/shared/@constants/messages.constant';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
+import { CreateCard } from 'src/cards/@interface/card.interface';
 // import { UpdatePreferenceDto } from './@dto/update-preference.dto';
 // import { IResponse } from './../../shared/@interfaces/response.interface';
 // import { Message } from './../../shared/@constants/messages.constant';
@@ -30,7 +31,7 @@ export class PreferencesController {
   @Post()
   async create(
     @Body() data: CreatePreferenceDto,
-  ): Promise<IResponse | PreferencesCard> {
+  ): Promise<IResponse | CreateCard[]> {
     const perference = await this.preferencesService.create(data);
     if (perference) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { perference });
