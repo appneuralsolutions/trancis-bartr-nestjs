@@ -16,6 +16,7 @@ import {
   HttpStatus,
   Param,
   Put,
+  Query,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
@@ -71,7 +72,7 @@ export class CardsController {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
   }
-  @Put(':id/images')
+  @Put('/images?')
   @UseInterceptors(
     FileInterceptor('image', {
         storage: diskStorage({
@@ -81,7 +82,7 @@ export class CardsController {
         fileFilter: imageFileFilter,
     }),
 )
-  async uploadImage(@UploadedFile() file , @Body() data: CreateCardDto, @Param('id') id: string):
+  async uploadImage(@UploadedFile() file , @Body() data: CreateCardDto, @Query('id') id: string):
   Promise<IResponse | CreateCard> {
     const response = {
       originalname: file.originalname,
@@ -95,8 +96,8 @@ export class CardsController {
     }
   }
 
-  @Put(':id')
-  async update(@Body(ValidationPipe) data: CreateCardDto, @Param('id') id: string): // @Param('id') id: string,
+  @Put('?')
+  async update(@Body(ValidationPipe) data: CreateCardDto, @Query('id') id: string): // @Param('id') id: string,
   // @Body() updateCardDto: UpdateCardDto,
   Promise<IResponse | CreateCard> {
     const card = await this.cardsService.update(id, data)
@@ -107,8 +108,8 @@ export class CardsController {
     }
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): // @Param('id') id: string
+  @Delete('?')
+  async remove(@Query("id") id: string): // @Param('id') id: string
   Promise<IResponse | CreateCard> {
     const card = await this.cardsService.remove(id)
     if (card) {

@@ -38,18 +38,7 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService,
     private jwtService: JwtService ) {}
 
-  @Post()
-  async create(): // @Body() createProfileDto: CreateProfileDto
-  Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_PROFILE, {});
-    } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_CREATED_PROFILE,
-        {},
-      );
-    }
-  }
+  
 
   @Put('photo')
   @UseInterceptors(
