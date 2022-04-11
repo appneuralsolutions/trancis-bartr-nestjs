@@ -1,11 +1,21 @@
+import { Preference } from './@entities/preference.entity';
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { CreatePreferenceDto } from './@dto/create-preference.dto';
+import { PreferencesCard } from './@interface/preferences.interface';
+import { Model } from 'mongoose';
 // import { UpdatePreferenceDto } from './@dto/update-preference.dto';
 
 @Injectable()
 export class PreferencesService {
-  async create(): Promise<string> {
+  constructor(
+    @InjectModel('Perference') private PreferenceModel: Model<PreferencesCard>,
+  ) {}
+  
+  async create(data: CreatePreferenceDto): Promise<PreferencesCard> {
+    const Preference = await new this.PreferenceModel(data).save();
     return new Promise((resolve) => {
-      resolve('This action adds a new preference');
+      resolve(Preference);
     });
   }
 

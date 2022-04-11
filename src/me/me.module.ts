@@ -1,3 +1,4 @@
+import { PreferencesSchema } from './preferences/@schemas/preferences.schema';
 import { NewUserSchema } from './../auth/@schemas/new-user.schema';
 import { AuthModule } from './../_old/v1/auth/auth.module';
 import { WishlistService } from './wishlist/wishlist.service';
@@ -31,6 +32,7 @@ import { CreateCardSchema } from 'src/cards/@schemas/card.schema';
     AuthModule,
     MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }]),
     MongooseModule.forFeature([{ name: 'Card', schema: CreateCardSchema }]),
+    MongooseModule.forFeature([{ name: 'Perference', schema: PreferencesSchema }]),
   ],
   providers: [
     FeedsService,
