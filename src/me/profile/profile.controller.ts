@@ -32,6 +32,7 @@ import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from './utils/file-upload.utils';
 import { JwtService } from '@nestjs/jwt';
+import { IUser } from './../../_old/v1/auth/interfaces/user.interface';
 
 @ApiTags('Me -> Profile')
 @Controller('profile')
@@ -55,7 +56,7 @@ export class ProfileController {
     @UploadedFile() file,
     @Headers('authorization') authorization: any,
     @Body(ValidationPipe) createProfileDto: CreateProfileDto,
-  ): Promise<IResponse | NewUser> {
+  ): Promise<IResponse | IUser> {
     // const response = {
     //   originalname: file.originalname,
     //   filename: file.filename,
@@ -101,7 +102,7 @@ export class ProfileController {
   } */
 
   @Get()
-  async findOne(@Headers('authorization') authorization: any): Promise<IResponse | NewUser> {
+  async findOne(@Headers('authorization') authorization: any): Promise<IResponse | IUser> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -129,7 +130,7 @@ export class ProfileController {
   async update(
     @Headers('authorization') authorization: any,
     @Body() CreateProfileDto: CreateProfileDto,
-  ): Promise<IResponse | NewUser> {
+  ): Promise<IResponse | IUser> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -139,7 +140,7 @@ export class ProfileController {
     const userPayload: any = this.jwtService.decode(
       authorization.replace('Bearer ', ''),
     );
-    console.log(userPayload)
+    console.log(userPayload.email)
     if (!userPayload) {
       throw new HttpException(
         'authorization token is not define or invalid',

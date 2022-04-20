@@ -3,24 +3,26 @@ import { Injectable } from '@nestjs/common';
 import { CreateProfileDto } from './@dto/create-profile.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { IUser } from './../../_old/v1/auth/interfaces/user.interface';
 
 @Injectable()
 export class ProfileService {
   constructor(
     @InjectModel('NewUser')
     private readonly NewUserModel: Model<NewUser>,
+    @InjectModel('User') private readonly userModel: Model<IUser>,
   ) {}
 
   async uploadPhoto(
     data: CreateProfileDto,
     userpayload,
     file,
-  ): Promise<NewUser> {
+  ): Promise<IUser> {
     
     const photoUrl = '/profile/' + file.filename;
     data.picture = photoUrl;
-    const id = userpayload._id;
-    const card = await this.NewUserModel.findOneAndUpdate({_id : id }, data, {
+    const email = userpayload.email;
+    const card = await this.userModel.findOneAndUpdate({email : email }, data, {
       new: true,
     });
     return new Promise((resolve) => {
@@ -28,9 +30,9 @@ export class ProfileService {
     });
   }
 
-  async findOne(userPayload): Promise<NewUser> {
+  async findOne(userPayload): Promise<IUser> {
     const email = userPayload.email;
-    const user = await this.NewUserModel.findOne({email : email });
+    const user = await this.userModel.findOne({email : email });
     return new Promise((resolve) => {
       resolve(user);
     });
@@ -39,9 +41,9 @@ export class ProfileService {
   async update(
     userPayload,
     CreateProfileDto: CreateProfileDto,
-  ): Promise<NewUser> {
+  ): Promise<IUser> {
     const email = userPayload.email;
-    const user = await this.NewUserModel.findOneAndUpdate(
+    const user = await this.userModel.findOneAndUpdate(
       { email : email  },
       CreateProfileDto,
       { new: true },
@@ -51,9 +53,9 @@ export class ProfileService {
     });
   }
 
-  async remove(userPayload): Promise<NewUser> {
-    const id = userPayload._id;
-    const user = this.NewUserModel.findOneAndDelete({ _id: id }).exec();
+  async remove(userPayload): Promise<IUser> {
+    const email = userPayload.email;
+    const user = this.userModel.findOneAndDelete({ email : email }).exec();
     return new Promise((resolve) => {
       resolve(user);
     });
