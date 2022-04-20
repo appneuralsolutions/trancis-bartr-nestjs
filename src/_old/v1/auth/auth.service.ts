@@ -9,7 +9,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { HttpService } from '@nestjs/axios';
-import * as bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcrypt';
 import { default as config } from '../../config';
 import { JwtService } from '@nestjs/jwt';
 import { IConsentRegistry } from './interfaces/consent-registry.interface';
@@ -48,7 +48,7 @@ export class AuthService {
     @InjectModel('User') private readonly userModel: Model<IUser>,
     private jwtService: JwtService,
     private emailService: EmailService,
-  ) {}
+  ) { }
 
   // guid(){
   //   function s4() {
@@ -67,28 +67,29 @@ export class AuthService {
     } else return false;
   }
 
-  async validateLogin(loginDto: LoginDto): Promise<any> {
+  async validateLogin(loginDto): Promise<any> {
     // console.log(loginDto.username);
     const user: any = await this.userModel.findOne({
       email: loginDto.username,
     });
-
     if (!user) throw 'LOGIN.USER_NOT_FOUND';
-    if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
+    // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
-    const isValidPass = await bcrypt.compare(loginDto.password, user.password);
-
+    const isValidPass = await bcrypt.compareSync(loginDto.password, user.password);
+console.log(user.password,loginDto.password)
     if (isValidPass) {
-      //  console.log(user);
+       console.log(isValidPass);
       const jwtToken = await this.signToken(user);
       user.jwtToken = await jwtToken;
+      console.log(user.jwtToken)
       // console.log(user, jwtToken);
       // return await user;
-      const resUser = new AuthUserDto(user);
-      delete resUser['auth'];
-      delete resUser['isActive'];
-      delete resUser['jwtToken'];
-      return resUser;
+      // const resUser = new AuthUserDto(user);
+      // delete resUser['auth'];
+      // delete resUser['isActive'];
+      // delete resUser['jwtToken'];
+      // return resUser;
+      return jwtToken;
     } else {
       throw 'PASSWORD_ERROR';
     }
@@ -157,7 +158,7 @@ export class AuthService {
     if (
       emailVerification &&
       (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 <
-        15
+      15
     ) {
       throw new HttpException(
         'LOGIN.EMAIL_SENDED_RECENTLY',
@@ -188,7 +189,7 @@ export class AuthService {
     if (
       forgottenPassword &&
       (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 <
-        15
+      15
     ) {
       throw new HttpException(
         'RESET_PASSWORD.EMAIL_SENDED_RECENTLY',
@@ -327,20 +328,20 @@ export class AuthService {
   async register(newUser): Promise<any> {
     // newUser.uname = newUser.uname.toLowerCase().replace(/ /g, '');
     // console.log(newUser);
-    if (this.isValidEmail(newUser.email) && newUser.password) {
-      const userRegistered = await this.userModel
-        .findOne({ email: newUser.email })
-        .exec();
-      // console.log(userRegistered);
-      if (!userRegistered) {
-        return await new this.userModel(newUser).save();
-      } else if (!userRegistered.auth.validation.email) {
-        throw 'USER.REGISTERED.EMAIL.NOT.VERIFIED';
-      } else {
-        throw 'REGISTRATION.USER_ALREADY_REGISTERED';
-      }
+    const userRegistered = await this.userModel
+      .findOne({ email: newUser.email })
+      .exec();
+    // console.log(userRegistered);
+    const salt = await bcrypt.genSalt();
+    const password = newUser.password;
+    const hash = await bcrypt.hash(password, salt);
+    newUser.password = hash;
+    if (!userRegistered) {
+      return await new this.userModel(newUser).save();
+    } else if (!userRegistered.auth.validation.email) {
+      throw 'USER.REGISTERED.EMAIL.NOT.VERIFIED';
     } else {
-      throw 'REGISTRATION.MISSING_MANDATORY_PARAMETERS';
+      throw 'REGISTRATION.USER_ALREADY_REGISTERED';
     }
   }
 

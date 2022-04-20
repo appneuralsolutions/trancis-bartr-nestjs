@@ -25,18 +25,19 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.OK)
-  async register(@Body() regDTO: CreateUserDto): Promise<IResponse> {
+  async register(@Body() regDTO: RegisterDto): Promise<IResponse> {
     try {
-      const newUser = new AuthUserDto(await this.authService.register(regDTO));
-      await this.authService.createEmailToken(newUser.email);
-      await this.authService.saveUserConsent(newUser.email);
-      const sent = await this.authService.sendEmailVerificationToken(
-        newUser.email,
-      );
+      // const newUser = new AuthUserDto(await this.authService.register(regDTO));
+      // await this.authService.createEmailToken(newUser.email);
+      // await this.authService.saveUserConsent(newUser.email);
+      // const sent = await this.authService.sendEmailVerificationToken(
+      //   newUser.email,
+      // );
       // console.log(await newUser);
+      const newUser = await this.authService.register(regDTO)
       if (newUser) {
         // console.log(newUser);
-        return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY');
+        return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY',newUser);
       } else {
         return new ResponseError('REGISTRATION.ERROR.MAIL_NOT_SENT');
       }

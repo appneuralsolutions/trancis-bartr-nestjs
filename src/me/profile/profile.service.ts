@@ -29,8 +29,8 @@ export class ProfileService {
   }
 
   async findOne(userPayload): Promise<NewUser> {
-    const id = userPayload._id;
-    const user = await this.NewUserModel.findOne({_id : id });
+    const email = userPayload.email;
+    const user = await this.NewUserModel.findOne({email : email });
     return new Promise((resolve) => {
       resolve(user);
     });
@@ -40,9 +40,9 @@ export class ProfileService {
     userPayload,
     CreateProfileDto: CreateProfileDto,
   ): Promise<NewUser> {
-    const id = userPayload._id;
+    const email = userPayload.email;
     const user = await this.NewUserModel.findOneAndUpdate(
-      { _id : id  },
+      { email : email  },
       CreateProfileDto,
       { new: true },
     );

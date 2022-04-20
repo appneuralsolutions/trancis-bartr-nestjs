@@ -22,6 +22,7 @@ import {
   HttpStatus,
   ValidationPipe,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './@dto/create-profile.dto';
@@ -138,6 +139,7 @@ export class ProfileController {
     const userPayload: any = this.jwtService.decode(
       authorization.replace('Bearer ', ''),
     );
+    console.log(userPayload)
     if (!userPayload) {
       throw new HttpException(
         'authorization token is not define or invalid',
