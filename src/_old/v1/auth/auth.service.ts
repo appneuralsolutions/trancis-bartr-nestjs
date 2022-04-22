@@ -75,8 +75,8 @@ export class AuthService {
     if (!user) throw 'LOGIN.USER_NOT_FOUND';
     // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
-    const isValidPass = await bcrypt.compareSync(loginDto.password, user.password);
-console.log(user.password,loginDto.password)
+    const isValidPass = bcrypt.compare( loginDto.password, user.password);
+console.log(isValidPass)
     if (isValidPass) {
        console.log(isValidPass);
       const jwtToken = await this.signToken(user);
