@@ -38,6 +38,15 @@ export class ProfileService {
     });
   }
 
+  async findProfilePic(userPayload): Promise<any> {
+    const email = userPayload.email;
+    const user = await this.userModel.findOne({email : email });
+    const profilePic = user.picture
+    return new Promise((resolve) => {
+      resolve(profilePic);
+    });
+  }
+
   async update(
     userPayload,
     CreateProfileDto: CreateProfileDto,

@@ -198,4 +198,5 @@ export class User implements IUser {
   auth: UserAuth;
   isActive: boolean;
   jwtToken: string;
+  picture: string;
 }
