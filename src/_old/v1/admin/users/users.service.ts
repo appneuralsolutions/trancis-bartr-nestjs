@@ -9,9 +9,9 @@ export class UsersService {
     @InjectModel('User') private readonly userModel: Model<IUser>,
   ) {}
 
-  async getUser(_id) {
-    return await this.userModel.findOne({ _id }).populate({});
-  }
+  /*async getUser(_id) {
+    return await this.userModel.findOne({ _id });
+  } */
 
   async getUsers() {
     return await this.userModel.find();

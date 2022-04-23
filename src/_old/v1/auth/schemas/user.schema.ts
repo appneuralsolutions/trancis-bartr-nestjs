@@ -11,6 +11,7 @@ export const UserSchema = new mongoose.Schema({
   dob: { type: String, require: true },
   location: { type: String, require: true },
   password: { require: true, type: String },
+  picture:{type: String},
   // roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }],
   // privileges: {},
   // profile: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Profile' },

@@ -101,6 +101,31 @@ export class ProfileController {
     }
   } */
 
+  @Get('photo')
+  async findProfilePic(@Headers('authorization') authorization: any): Promise<IResponse | IUser> {
+    if (!authorization) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const userPayload: any = this.jwtService.decode(
+      authorization.replace('Bearer ', ''),
+    );
+    if (!userPayload) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const user = await this.profileService.findProfilePic(userPayload);
+    if (user) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, { user });
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_USER, {});
+    }
+  }
+
   @Get()
   async findOne(@Headers('authorization') authorization: any): Promise<IResponse | IUser> {
     if (!authorization) {

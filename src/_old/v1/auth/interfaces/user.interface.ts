@@ -209,4 +209,5 @@ export interface IUser{
   auth: IUserAuth;
   isActive: boolean;
   jwtToken: string;
+  picture: string;
 }
