@@ -19,7 +19,9 @@ import {
   ResponseError,
   ResponseSuccess,
 } from '../../../../_old/v1/auth/dtos/response.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller()
 export class UsersController {
   constructor(private usersService: UsersService) {}

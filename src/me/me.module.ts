@@ -18,6 +18,7 @@ import { MatchesService } from './matches/matches.service';
 // import { AuthInterceptor } from 'src/auth/@interceptors/auth.interceptor';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CreateCardSchema } from 'src/cards/@schemas/card.schema';
+import { FeedbackModule } from 'src/feedback/feedback.module';
 
 @Module({
   controllers: [
@@ -30,6 +31,7 @@ import { CreateCardSchema } from 'src/cards/@schemas/card.schema';
   ],
   imports: [
     AuthModule,
+    FeedbackModule,
     MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }]),
     MongooseModule.forFeature([{ name: 'Card', schema: CreateCardSchema }]),
     MongooseModule.forFeature([{ name: 'Perference', schema: PreferencesSchema }]),
