@@ -43,8 +43,24 @@ export class CardsController {
   @Post()
   async create(
     @Body() data: CreateCardDto,
+    @Headers('authorization') authorization: any
   ): Promise<IResponse | CreateCard> {
-    const card = await this.cardsService.create(data);
+    if (!authorization) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const userPayload: any = this.jwtService.decode(
+      authorization.replace('Bearer ', ''),
+    );
+    if (!userPayload) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const card = await this.cardsService.create(data, userPayload);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { card });
     } else {
@@ -55,6 +71,32 @@ export class CardsController {
   @Get()
   async findAll(): Promise<IResponse | CreateCard> {
     const card = await this.cardsService.findAll()
+    if (card) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {card});
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
+    }
+  }
+
+  @Get('me')
+  async findByProfile(@Headers('authorization') authorization: any):
+   Promise<IResponse | CreateCard> {
+    if (!authorization) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const userPayload: any = this.jwtService.decode(
+      authorization.replace('Bearer ', ''),
+    );
+    if (!userPayload) {
+      throw new HttpException(
+        'authorization token is not define or invalid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const card = await this.cardsService.findByProfile(userPayload)
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {card});
     } else {

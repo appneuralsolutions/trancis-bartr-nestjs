@@ -9,6 +9,9 @@ export interface CreateCard extends Document {
   description: string;
   image: string;
   email: string;
+  subject: string;
+  likes: number;
+  views: number;
 }
 
 /* availableOf: String,

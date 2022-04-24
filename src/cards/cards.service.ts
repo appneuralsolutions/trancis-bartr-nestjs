@@ -11,11 +11,12 @@ export class CardsService {
     @InjectModel('card') private CreateCardModel: Model<CreateCard>,
   ) {}
 
-  async create(data: CreateCardDto): Promise<CreateCard> {
+  async create(data: CreateCardDto, userPayload): Promise<CreateCard> {
     const cardTitle = await this.CreateCardModel
         .findOne({ title: data.title })
         .exec();
     if(!cardTitle){
+      data.email = userPayload.email
       const createdData = await new this.CreateCardModel(data).save();
       console.log(createdData)
       return new Promise((resolve) => {
@@ -30,6 +31,14 @@ export class CardsService {
 
   async findAll(): Promise<CreateCard[]> {
     const card = await this.CreateCardModel.find();
+    return new Promise((resolve) => {
+      resolve(card);
+    });
+  }
+
+  async findByProfile(userPayload): Promise<CreateCard[]> {
+    const email = userPayload.email
+    const card = await this.CreateCardModel.find({email: email});
     return new Promise((resolve) => {
       resolve(card);
     });

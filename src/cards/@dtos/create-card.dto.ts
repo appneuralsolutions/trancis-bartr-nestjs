@@ -41,4 +41,16 @@ export class CreateCardDto {
   @IsOptional()
   @IsEmail()
   email: string;
+
+  @ApiProperty()
+  @IsOptional()
+  subject: string;
+
+  @ApiProperty()
+  @IsOptional()
+  likes: number;
+
+  @ApiProperty()
+  @IsOptional()
+  views: number;
 }

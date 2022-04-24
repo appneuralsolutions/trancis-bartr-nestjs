@@ -9,4 +9,7 @@ export const CreateCardSchema = new mongoose.Schema({
   description: String,
   image: String,
   email: String,
+  subject: String,
+  likes: {type:Number, default: 0}, 
+  views:{type: Number, default: 0}
 });
