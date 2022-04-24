@@ -4,19 +4,20 @@ import {
   Controller,
   Get,
   Post,
-  // Body,
+  Body,
   Patch,
   // Param,
   // Delete,
 } from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
-// import { CreateFeedbackDto } from './@dto/create-feedback.dto';
+import { CreateFeedbackDto } from './@dto/create-feedback.dto';
 // import { UpdateFeedbackDto } from './@dto/update-feedback.dto';
 import { IResponse } from './../../shared/@interfaces/response.interface';
 import { Message } from './../../shared/@constants/messages.constant';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { ResponseError } from './../../shared/@dtos/response.dto';
 import { ErrorMessage } from './../../shared/@constants/error.constant';
+import { Feedback } from './@entities/feedback.entity';
 
 @ApiTags('Me -> Feedback')
 @Controller('feedback')
@@ -24,10 +25,14 @@ export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
   @Post()
-  async create(): // @Body() createFeedbackDto: CreateFeedbackDto,
-  Promise<IResponse> {
-    if (false) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_MY_FEEDBACK, {});
+  async create(
+    @Body() createFeedbackDto: CreateFeedbackDto,
+  ): Promise<IResponse | Feedback> {
+    const data = await this.feedbackService.create(createFeedbackDto);
+    if (data) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_MY_FEEDBACK, {
+        data,
+      });
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_CREATED_MY_FEEDBACK,

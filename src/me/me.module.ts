@@ -19,6 +19,7 @@ import { MatchesService } from './matches/matches.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CreateCardSchema } from 'src/cards/@schemas/card.schema';
 import { WishlistSchema } from './wishlist/schemas/wishlist.schema';
+import { FeedbackModule } from 'src/feedback/feedback.module';
 
 @Module({
   controllers: [
@@ -31,6 +32,7 @@ import { WishlistSchema } from './wishlist/schemas/wishlist.schema';
   ],
   imports: [
     AuthModule,
+    FeedbackModule,
     MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }]),
     MongooseModule.forFeature([{ name: 'Card', schema: CreateCardSchema }]),
     MongooseModule.forFeature([{ name: 'Perference', schema: PreferencesSchema }]),
