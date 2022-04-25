@@ -61,19 +61,19 @@ export class UsersController {
     }
   }
 
-  @Patch(':id')
-  @HttpCode(HttpStatus.CREATED)
-  async patchUser(
-    @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    try {
-      await this.usersService.updateRole(id, updateUserDto);
-      return new ResponseSuccess('', {});
-    } catch (error) {
-      return new ResponseError('USER.NOT_UPDATED_SUCCESSFULLY');
-    }
-  }
+  // @Patch(':id')
+  // @HttpCode(HttpStatus.CREATED)
+  // async patchUser(
+  //   @Param('id') id: string,
+  //   @Body() updateUserDto: UpdateUserDto,
+  // ) {
+  //   try {
+  //     await this.usersService.updateRole(id, updateUserDto);
+  //     return new ResponseSuccess('', {});
+  //   } catch (error) {
+  //     return new ResponseError('USER.NOT_UPDATED_SUCCESSFULLY');
+  //   }
+  // }
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
