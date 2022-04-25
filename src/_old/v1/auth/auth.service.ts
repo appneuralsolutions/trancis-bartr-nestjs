@@ -9,7 +9,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { HttpService } from '@nestjs/axios';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { default as config } from '../../config';
 import { JwtService } from '@nestjs/jwt';
 import { IConsentRegistry } from './interfaces/consent-registry.interface';
@@ -75,8 +75,8 @@ export class AuthService {
     if (!user) throw 'LOGIN.USER_NOT_FOUND';
     // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
-    const isValidPass = bcrypt.compare( loginDto.password, user.password);
-console.log(isValidPass)
+var isValidPass = await bcrypt.compare( loginDto.password, user.password);
+console.log(isValidPass, loginDto.password)
     if (isValidPass) {
        console.log(isValidPass);
       const jwtToken = await this.signToken(user);
@@ -332,10 +332,10 @@ console.log(isValidPass)
       .findOne({ email: newUser.email })
       .exec();
     // console.log(userRegistered);
-    const salt = await bcrypt.genSalt();
-    const password = newUser.password;
-    const hash = await bcrypt.hash(password, salt);
-    newUser.password = hash;
+    // const salt = await bcrypt.genSalt(10);
+    // const password = newUser.password;
+    // const hash = await bcrypt.hash(password,salt);
+    // newUser.password = hash;
     if (!userRegistered) {
       return await new this.userModel(newUser).save();
     } else if (!userRegistered.auth.validation.email) {
