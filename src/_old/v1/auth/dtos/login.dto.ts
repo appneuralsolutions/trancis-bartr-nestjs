@@ -7,7 +7,7 @@ export class LoginDto {
     description: 'Email or UserId',
     default: 'ajayprajapat@live.com',
   })
-  username: string;
+  email: string;
 
   @IsNotEmpty()
   @ApiProperty({default:  '12345678'})

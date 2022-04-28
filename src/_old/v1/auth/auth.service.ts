@@ -70,15 +70,14 @@ export class AuthService {
   async validateLogin(loginDto): Promise<any> {
     // console.log(loginDto.username);
     const user: any = await this.userModel.findOne({
-      email: loginDto.username,
+      email: loginDto.email,
     });
-    if (!user) throw 'LOGIN.USER_NOT_FOUND';
+    if (!user) throw 'Email Not Found';
     // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
 var isValidPass = await bcrypt.compare( loginDto.password, user.password);
 console.log(isValidPass, loginDto.password)
     if (isValidPass) {
-       console.log(isValidPass);
       const jwtToken = await this.signToken(user);
       user.jwtToken = await jwtToken;
       console.log(user.jwtToken)
@@ -91,7 +90,7 @@ console.log(isValidPass, loginDto.password)
       // return resUser;
       return jwtToken;
     } else {
-      throw 'PASSWORD_ERROR';
+      throw 'Incorrect Email address or Password';
     }
   }
 
