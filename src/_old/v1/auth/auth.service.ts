@@ -94,7 +94,9 @@ export class AuthService {
           // return resUser;
           return jwtToken;
         } else {
-          throw 'Incorrect Email address or Password';
+          //check email empty or password empty
+         
+          // throw 'Incorrect Email address or Password';
         }
     
 
@@ -105,7 +107,28 @@ export class AuthService {
 
     } else {
 
-      throw 'Email or Password Not Valid'
+
+     
+
+      if((!loginDto.email)&&(!loginDto.password)){
+        throw 'Email or Password Not Valid'
+      }else{
+        if(loginDto.email){
+          const isValidEmail = this.isValidEmail(loginDto.email);
+          if(!isValidEmail){
+            throw 'Invalid Email'
+          }
+  
+        }else{
+          throw 'Invalid Email'
+        }
+  
+        if(!loginDto.password){
+          throw 'Invalid Password'
+        }
+      }
+
+      // throw 'Email or Password Not Valid'
 
     }
 
