@@ -150,7 +150,7 @@ console.log(isValidPass, loginDto.password)
     }
   }
 
-  async createEmailToken(email: string): Promise<boolean> {
+  async createEmailToken(email: string, EmailDTO: any): Promise<boolean> {
     const emailVerification = await this.emailVerificationModel.findOne({
       email: email,
     });
@@ -164,17 +164,14 @@ console.log(isValidPass, loginDto.password)
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     } else {
-      await this.emailVerificationModel.findOneAndUpdate(
-        { email: email },
-        {
-          email: email,
-          emailToken: (
-            Math.floor(Math.random() * 9000000) + 1000000
-          ).toString(), //Generate 7 digits number
-          timestamp: new Date(),
-        },
-        { upsert: true },
-      );
+      
+      EmailDTO.email0 = email
+      EmailDTO.emailToken = (
+          Math.floor(Math.random() * 9000000) + 1000000
+        ).toString(), //Generate 7 digits number
+        EmailDTO.timestamp = new Date(),
+      
+      await new this.emailVerificationModel(EmailDTO).save();
       return true;
     }
   }
@@ -330,12 +327,8 @@ console.log(isValidPass, loginDto.password)
     const userRegistered = await this.userModel
       .findOne({ email: newUser.email })
       .exec();
-    // console.log(userRegistered);
-    // const salt = await bcrypt.genSalt(10);
-    // const password = newUser.password;
-    // const hash = await bcrypt.hash(password,salt);
-    // newUser.password = hash;
-    if (!userRegistered) {
+       
+    if (!userRegistered ) {
       return await new this.userModel(newUser).save();
     } else if (!userRegistered.auth.validation.email) {
       throw 'USER.REGISTERED.EMAIL.NOT.VERIFIED';
