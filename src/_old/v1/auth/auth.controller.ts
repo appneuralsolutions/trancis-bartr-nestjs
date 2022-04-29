@@ -78,6 +78,7 @@ export class AuthController {
     try {
       return await this.authService.validateLogin(loginDTO);
     } catch (error) {
+      console.log(error)
       return new ResponseError(error);
     }
   }

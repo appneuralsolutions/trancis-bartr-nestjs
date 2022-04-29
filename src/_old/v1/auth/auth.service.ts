@@ -68,30 +68,49 @@ export class AuthService {
   }
 
   async validateLogin(loginDto): Promise<any> {
-    // console.log(loginDto.username);
-    const user: any = await this.userModel.findOne({
-      email: loginDto.email,
-    });
-    if (!user) throw 'Email Not Found';
-    // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
+    console.log(loginDto.email)
+    if ((loginDto.email)  && (loginDto.password)) {
+      const isValidEmail = this.isValidEmail(loginDto.email);
+      if(isValidEmail){
+        const user: any = await this.userModel.findOne({
+          email: loginDto.email,
+        });
+        console.log(user)
+        if (!user) throw 'Email Not Found';
+        // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
+    
+        var isValidPass = await bcrypt.compare(loginDto.password, user.password);
+        console.log(isValidPass, loginDto.password)
+        if (isValidPass) {
+          const jwtToken = await this.signToken(user);
+          user.jwtToken = await jwtToken;
+          console.log(user.jwtToken)
+          // console.log(user, jwtToken);
+          // return await user;
+          // const resUser = new AuthUserDto(user);
+          // delete resUser['auth'];
+          // delete resUser['isActive'];
+          // delete resUser['jwtToken'];
+          // return resUser;
+          return jwtToken;
+        } else {
+          throw 'Incorrect Email address or Password';
+        }
+    
 
-var isValidPass = await bcrypt.compare( loginDto.password, user.password);
-console.log(isValidPass, loginDto.password)
-    if (isValidPass) {
-      const jwtToken = await this.signToken(user);
-      user.jwtToken = await jwtToken;
-      console.log(user.jwtToken)
-      // console.log(user, jwtToken);
-      // return await user;
-      // const resUser = new AuthUserDto(user);
-      // delete resUser['auth'];
-      // delete resUser['isActive'];
-      // delete resUser['jwtToken'];
-      // return resUser;
-      return jwtToken;
+      }else{
+        throw 'Not Valid Email'
+      }
+
+
     } else {
-      throw 'Incorrect Email address or Password';
+
+      throw 'Email or Password Not Valid'
+
     }
+
+    // console.log(loginDto.username);
+    
   }
 
   signToken(user: any): string {
