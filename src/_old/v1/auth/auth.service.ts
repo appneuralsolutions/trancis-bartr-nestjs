@@ -278,13 +278,13 @@ export class AuthService {
           'Hi! <br><br> Thanks for your registration<br><br>' +
           'token is ' +
           model.emailToken +
-          '<hr>',
-        // +
-        // '<a href=' +
-        // config.domain +
-        // '/auth/email/verify-token/' + email + '/'+
-        // model.emailToken +
-        // '>Click here to activate your account</a>', // html body
+          '<hr>'
+         +
+         '<a href=' +
+         config.domain +
+         '/auth/email/verify-token/' + email + '/'+
+         model.emailToken +
+         '>Click here to activate your account</a>'
       };
 
       const sent = await this.emailService.sendEmail(mailOptions);
@@ -372,8 +372,6 @@ export class AuthService {
        
     if (!userRegistered ) {
       return await new this.userModel(newUser).save();
-    } else if (!userRegistered.auth.validation.email) {
-      throw 'USER.REGISTERED.EMAIL.NOT.VERIFIED';
     } else {
       throw 'REGISTRATION.USER_ALREADY_REGISTERED';
     }

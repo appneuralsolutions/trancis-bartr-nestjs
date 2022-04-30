@@ -8,7 +8,7 @@ export class ResponseError implements IResponse{
     this.success = false;
     this.message = infoMessage;
     this.data = data;
-    throw new HttpException(this, statusCode? statusCode: HttpStatus.BAD_REQUEST)
+    throw new HttpException(this, statusCode? statusCode: HttpStatus.BAD_REQUEST )
     console.warn(new Date().toString() + ' - [Response]: ' + infoMessage + (data ? ' - ' + JSON.stringify(data): ''));
   };
   message: string;

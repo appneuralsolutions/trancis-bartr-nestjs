@@ -30,22 +30,20 @@ export class AuthController {
     try {
       // const newUser = new AuthUserDto(await this.authService.register(regDTO));
       // 
-      // await this.authService.saveUserConsent(newUser.email);
+      
       // const sent = await this.authService.sendEmailVerificationToken(
       //   newUser.email,
       // );
       // console.log(await newUser);
       const newUser = await this.authService.register(regDTO)
+      await this.authService.saveUserConsent(newUser.email);
       const emailToken = await this.authService.createEmailToken(newUser.email,EmailDTO);
-      if (newUser && emailToken) {
+      if (newUser) {
         // console.log(newUser);
-        return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY',newUser,emailToken);
-      } else {
-        return new ResponseError('REGISTRATION.ERROR.MAIL_NOT_SENT');
-      }
+        return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY',newUser);
+      } 
     } catch (error) {
-      return new ResponseError(error);
-      // console.log(error);
+      return error;
     }
   }
 
@@ -100,7 +98,7 @@ export class AuthController {
     try {
       const isVerified = await this.authService.verifyEmailToken(email, token);
       if (isVerified) {
-        return new ResponseSuccess('VERIFICATION.VERIFIED_SUCCESSFULLY');
+        return new ResponseSuccess('VERIFICATION.VERIFIED_SUCCESSFULLY',isVerified);
       } else {
         return new ResponseError('VERIFICATION.NOT_VERIFIED_SUCCESSFULLY');
       }
