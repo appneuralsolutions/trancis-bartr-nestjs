@@ -199,6 +199,7 @@ export interface IUser{
   email: string;
   phone: string;
   password: string;
+  userType:string;
   roles: [IRole];
   privileges: object;
   profile: IUserProfile;

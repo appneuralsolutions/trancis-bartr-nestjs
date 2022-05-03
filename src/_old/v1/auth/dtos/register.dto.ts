@@ -33,6 +33,12 @@ export class RegisterDto {
   @ApiProperty({ default: '8769962237' })
   phone: string;
 
+
+  @IsNotEmpty()
+  @IsOptional()
+  @ApiProperty({ default: 'Buyer' })
+  userType: string;
+
   @IsNotEmpty()
   @IsOptional()
   @ApiProperty({ default: '07-10-1995' })

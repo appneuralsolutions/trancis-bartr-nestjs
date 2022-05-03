@@ -7,6 +7,7 @@ export const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true, require: true },
   uname: { type: String,  require: true },
   phone: { type: String, unique: true, require: true },
+  userType:{type: String,require:true},
   // empCode: { type: String, unique: true, require: true },
   dob: { type: String, require: true },
   location: { type: String, require: true },

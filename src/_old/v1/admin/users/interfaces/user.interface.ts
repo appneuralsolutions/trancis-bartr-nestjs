@@ -58,6 +58,7 @@ export interface IUserProfile {
   gallery: [string];
   photo: string;
   birthDate: Date;
+  userType:string
   nationality: string;
   maritalStatus: MaritalStatus;
 }

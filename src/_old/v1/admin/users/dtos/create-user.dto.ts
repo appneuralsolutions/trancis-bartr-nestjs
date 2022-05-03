@@ -35,6 +35,11 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsOptional()
+  @ApiProperty({ default: 'Buyer' })
+  userType: string;
+
+  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({ default: '07-10-1995' })
   dob: string;
 

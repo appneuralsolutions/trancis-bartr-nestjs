@@ -40,8 +40,21 @@ export class UsersController {
   @Get()
   @HttpCode(HttpStatus.CREATED)
   async getUsers() {
+    console.log('get all user')
     try {
       return await this.usersService.getUsers();
+    } catch (error) {
+      return new ResponseError('USER.NOT_FETCHED_SUCCESSFULLY');
+    }
+  }
+
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async getUser( @Param('id') id: string) {
+    console.log('get user by id',id)
+    try {
+      return await this.usersService.getUser(id);
     } catch (error) {
       return new ResponseError('USER.NOT_FETCHED_SUCCESSFULLY');
     }
