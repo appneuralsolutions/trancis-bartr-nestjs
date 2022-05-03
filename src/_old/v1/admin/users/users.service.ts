@@ -21,10 +21,10 @@ export class UsersService {
   //   return await this.userModel.findOne({ _id })
   // }
 
-  async createUser(createUserDto: any) {
-    const newUser = await new this.userModel(createUserDto).save();
-    return newUser;
-  }
+    async createUser(createUserDto: any) {
+      const newUser = await new this.userModel(createUserDto).save();
+      return newUser;
+    }
 
   async updateRole(_id: string, updateUserDto) {
     return await this.userModel.findByIdAndUpdate({ _id }, updateUserDto);
