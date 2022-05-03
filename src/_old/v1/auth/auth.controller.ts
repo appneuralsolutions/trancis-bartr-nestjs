@@ -38,9 +38,9 @@ export class AuthController {
       const newUser = await this.authService.register(regDTO)
       await this.authService.saveUserConsent(newUser.email);
       const emailToken = await this.authService.createEmailToken(newUser.email,EmailDTO);
-      if (newUser) {
+      if (newUser && emailToken) {
         // console.log(newUser);
-        return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY',newUser);
+        return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY',{newUser,emailToken});
       } 
     } catch (error) {
       return error;
@@ -60,7 +60,7 @@ export class AuthController {
     
   ): Promise<IResponse> {
     try {
-      const sentMail = await this.authService.sendEmailVerificationToken(email);
+      const sentMail = await this.authService.sendEmailVerification(email);
       if (sentMail) {
         return new ResponseSuccess(
           'VERIFICATION.SENT_EMAIL_VERIFICATION_TOKEN', sentMail
