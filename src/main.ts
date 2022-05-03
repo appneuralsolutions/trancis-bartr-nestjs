@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { VersioningType } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common'; 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import * as cookieParser from 'cookie-parser';
@@ -12,7 +13,7 @@ import * as compression from 'compression';
 async function bootstrap() {
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors();
+  app.useGlobalPipes(new ValidationPipe());
 
   // app.useStaticAssets(join(__dirname, '..', 'www'));
   app.use(cookieParser());

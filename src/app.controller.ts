@@ -36,9 +36,5 @@ export class AppController {
   //   return 'hello world';
   // }
 
-  @ApiTags('Feeds')
-  @Get('feeds')
-  getFeeds() {
-    return 'hello world';
-  }
+  
 }

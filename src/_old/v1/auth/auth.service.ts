@@ -16,6 +16,7 @@ import { IConsentRegistry } from './interfaces/consent-registry.interface';
 import { IEmailVerification } from './interfaces/email-verification.interface';
 import { IForgottenPassword } from './interfaces/forgotten-password.interface';
 import { IUserActivity } from './interfaces/user-activity.interface';
+import * as nodemailer from 'nodemailer';
 import {
   IUser,
   IUserEducation,
@@ -192,7 +193,7 @@ export class AuthService {
     }
   }
 
-  async createEmailToken(email: string): Promise<boolean> {
+  async createEmailToken(email: string, EmailDTO: any): Promise<boolean> {
     const emailVerification = await this.emailVerificationModel.findOne({
       email: email,
     });
@@ -206,17 +207,14 @@ export class AuthService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     } else {
-      await this.emailVerificationModel.findOneAndUpdate(
-        { email: email },
-        {
-          email: email,
-          emailToken: (
-            Math.floor(Math.random() * 9000000) + 1000000
-          ).toString(), //Generate 7 digits number
-          timestamp: new Date(),
-        },
-        { upsert: true },
-      );
+      
+      EmailDTO.email0 = email
+      EmailDTO.emailToken = (
+          Math.floor(Math.random() * 9000000) + 1000000
+        ).toString(), //Generate 7 digits number
+        EmailDTO.timestamp = new Date(),
+      
+      await new this.emailVerificationModel(EmailDTO).save();
       return true;
     }
   }
@@ -268,45 +266,80 @@ export class AuthService {
     });
   }
 
-  async sendEmailVerificationToken(email: string): Promise<boolean> {
-    const model = await this.emailVerificationModel.findOne({ email: email });
-
-    if (model && model.emailToken) {
-      const mailOptions = {
-        from: '"Company" <' + config.mail.user + '>',
-        to: email, // list of receivers (separated by ,)
-        subject: 'Verify Email',
-        text: 'Verify Email',
-        html:
-          'Hi! <br><br> Thanks for your registration<br><br>' +
-          'token is ' +
-          model.emailToken +
-          '<hr>',
-        // +
-        // '<a href=' +
-        // config.domain +
-        // '/auth/email/verify-token/' + email + '/'+
-        // model.emailToken +
-        // '>Click here to activate your account</a>', // html body
-      };
-
-      const sent = await this.emailService.sendEmail(mailOptions);
-      console.log(sent, 'sent');
-      console.log('Message sent: %s', sent.messageId);
-      if (sent) return true;
-      else return false;
-    } else {
-      throw 'REGISTER.USER_NOT_REGISTERED';
+  async sendEmailVerification(email: string): Promise<any>{
+    var model = await this.emailVerificationModel.findOne({ email: email});
+    if(model){
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "ashwin@appneural.com",
+          pass: "ashashA@01"
+        }
+      })
+      const options = {
+        from: "ashwin@appneural.com",
+        to: model.email,
+        subject: "Email verifaction code",
+        text: model.emailToken
+      }
+      transporter.sendMail(options, function(err, info){
+        if(err){
+          console.log(err)
+          return err
+        }
+        else{
+          console.log(info.response)
+          return info.response
+        }
+      })
     }
   }
 
-  async verifyEmailToken(email, token: string): Promise<boolean> {
+ /* async sendEmailVerification(email: string): Promise<boolean> {   
+    var model = await this.emailVerificationModel.findOne({ email: email});
+
+    if(model && model.emailToken){
+        let transporter = nodemailer.createTransport({
+            host: config.mail.host,
+            port: config.mail.port,
+            secure: config.mail.secure, // true for 465, false for other ports
+            auth: {
+                user: config.mail.user,
+                pass: config.mail.pass
+            }
+        });
+    
+        var mailOptions = {
+          from: '"Company" <' + config.mail.user + '>', 
+          to: email, // list of receivers (separated by ,)
+          subject: 'Verify Email', 
+          text: 'Verify Email', 
+          html: 'Hi! <br><br> Thanks for your registration<br><br>'+
+          '<a href='+ config.host.url + ':' + config.host.port +'/auth/email/verify/'+ model.emailToken + '>Click here to activate your account</a>'  // html body
+        };
+    
+        var sent = await new Promise<boolean>(async function(resolve, reject) {
+          return await transporter.sendMail(mailOptions, async (error, info) => {
+              if (error) {      
+                console.log('Message sent: %s', error);
+                return reject(false);
+              }
+              console.log('Message sent: %s', info.messageId);
+              resolve(true);
+          });      
+        })
+
+        return sent;
+    } else {
+      throw new HttpException('REGISTER.USER_NOT_REGISTERED', HttpStatus.FORBIDDEN);
+    }
+  } */
+
+  async verifyEmailToken(email, token: string): Promise<any> {
     const emailVerif = await this.emailVerificationModel.findOne({
-      email,
-      emailToken: token,
+      email: email
     });
-    console.log(email, token, emailVerif);
-    if (emailVerif && emailVerif.email) {
+    if (emailVerif.emailToken === token) {
       const userFromDb = await this.userModel.findOne({
         email: emailVerif.email,
       });
@@ -372,15 +405,9 @@ export class AuthService {
     const userRegistered = await this.userModel
       .findOne({ email: newUser.email })
       .exec();
-    // console.log(userRegistered);
-    // const salt = await bcrypt.genSalt(10);
-    // const password = newUser.password;
-    // const hash = await bcrypt.hash(password,salt);
-    // newUser.password = hash;
-    if (!userRegistered) {
+       
+    if (!userRegistered ) {
       return await new this.userModel(newUser).save();
-    } else if (!userRegistered.auth.validation.email) {
-      throw 'USER.REGISTERED.EMAIL.NOT.VERIFIED';
     } else {
       throw 'REGISTRATION.USER_ALREADY_REGISTERED';
     }

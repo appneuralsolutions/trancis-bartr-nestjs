@@ -18,6 +18,7 @@ import { LoginDto } from './dtos/login.dto';
 import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { AuthUser } from './auth.decorator';
 import { CreateUserDto } from '../admin/users/dtos/create-user.dto';
+import {EmailVerificationDto} from '../auth/dtos/email-verfication.dto';
 
 @Controller()
 export class AuthController {
@@ -25,25 +26,24 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.OK)
-  async register(@Body() regDTO: RegisterDto): Promise<IResponse> {
+  async register(@Body() regDTO: RegisterDto,@Body() EmailDTO: EmailVerificationDto): Promise<IResponse> {
     try {
       // const newUser = new AuthUserDto(await this.authService.register(regDTO));
-      // await this.authService.createEmailToken(newUser.email);
-      // await this.authService.saveUserConsent(newUser.email);
+      // 
+      
       // const sent = await this.authService.sendEmailVerificationToken(
       //   newUser.email,
       // );
       // console.log(await newUser);
       const newUser = await this.authService.register(regDTO)
-      if (newUser) {
+      await this.authService.saveUserConsent(newUser.email);
+      const emailToken = await this.authService.createEmailToken(newUser.email,EmailDTO);
+      if (newUser && emailToken) {
         // console.log(newUser);
-        return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY',newUser);
-      } else {
-        return new ResponseError('REGISTRATION.ERROR.MAIL_NOT_SENT');
-      }
+        return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY',{newUser,emailToken});
+      } 
     } catch (error) {
-      return new ResponseError(error);
-      // console.log(error);
+      return error;
     }
   }
 
@@ -57,12 +57,13 @@ export class AuthController {
   })
   async sendEmailVerificationToken(
     @Param('email') email: string,
+    
   ): Promise<IResponse> {
     try {
-      const sentMail = await this.authService.sendEmailVerificationToken(email);
+      const sentMail = await this.authService.sendEmailVerification(email);
       if (sentMail) {
         return new ResponseSuccess(
-          'VERIFICATION.SENT_EMAIL_VERIFICATION_TOKEN',
+          'VERIFICATION.SENT_EMAIL_VERIFICATION_TOKEN', sentMail
         );
       } else {
         return new ResponseError('VERIFICATION.ERROR.MAIL_NOT_SENT');
@@ -97,7 +98,7 @@ export class AuthController {
     try {
       const isVerified = await this.authService.verifyEmailToken(email, token);
       if (isVerified) {
-        return new ResponseSuccess('VERIFICATION.VERIFIED_SUCCESSFULLY');
+        return new ResponseSuccess('VERIFICATION.VERIFIED_SUCCESSFULLY',isVerified);
       } else {
         return new ResponseError('VERIFICATION.NOT_VERIFIED_SUCCESSFULLY');
       }
