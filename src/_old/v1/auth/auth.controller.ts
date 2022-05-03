@@ -117,7 +117,7 @@ export class AuthController {
   //   } catch (error) {}
   // }
 
-  @Post('reset-request/:email')
+/*  @Post('reset-request/:email')
   @ApiParam({
     name: 'email',
     type: 'String',
@@ -136,18 +136,32 @@ export class AuthController {
     } catch (error) {
       return new ResponseError(error);
     }
+  } */
+
+  @Post('password-token')
+  async createPasswordToken(
+    @Body() resetPasswordDTO: ResetPasswordDto, @Param('email') email: string,
+  ): Promise<any> {
+    try {
+      const createtoken = await this.authService.createForgottenPasswordToken(email , resetPasswordDTO)
+      if (createtoken) {
+        return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY' , createtoken );
+      } else {
+        return new ResponseError('RESET.NOT_VERIFIED_SUCCESSFULLY');
+      }
+    } catch (error) {
+      return new ResponseError(error);
+    }
   }
 
   @Post('reset-password')
   async resetPassword(
-    @Body() resetPasswordDTO: ResetPasswordDto,
+    @Body() regDTO: RegisterDto, @Param('email') email: string, @Param('token') token: string
   ): Promise<any> {
     try {
-      const passwodChanged = await this.authService.resetPassword(
-        resetPasswordDTO,
-      );
-      if (passwodChanged) {
-        return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY');
+      const resetPassword = await this.authService.verifyPasswordToken(email , token, regDTO)
+      if (resetPassword) {
+        return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY' , resetPassword );
       } else {
         return new ResponseError('RESET.NOT_VERIFIED_SUCCESSFULLY');
       }

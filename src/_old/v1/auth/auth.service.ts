@@ -206,9 +206,23 @@ export class AuthService {
         'LOGIN.EMAIL_SENDED_RECENTLY',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
-    } else {
-      
-      EmailDTO.email0 = email
+    }
+    if(emailVerification && (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 >
+    15
+  ){
+      await this.emailVerificationModel.findOneAndUpdate(
+        { email: email },
+        {
+          emailToken: (
+            Math.floor(Math.random() * 9000000) + 1000000
+          ).toString(), //Generate 7 digits number,
+          timestamp: new Date(),
+        },
+        { upsert: true, new: true },
+      );
+    }  
+    else {
+      EmailDTO.email = email
       EmailDTO.emailToken = (
           Math.floor(Math.random() * 9000000) + 1000000
         ).toString(), //Generate 7 digits number
@@ -220,8 +234,8 @@ export class AuthService {
   }
 
   async createForgottenPasswordToken(
-    email: string,
-  ): Promise<IForgottenPassword> {
+    email: string, resetPasswordDTO:any
+  ): Promise<boolean> {
     const forgottenPassword = await this.forgottenPasswordModel.findOne({
       email: email,
     });
@@ -234,27 +248,29 @@ export class AuthService {
         'RESET_PASSWORD.EMAIL_SENDED_RECENTLY',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
-    } else {
-      const forgottenPasswordModel =
+    }
+      if(forgottenPassword && (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 >
+      15
+    ){
         await this.forgottenPasswordModel.findOneAndUpdate(
           { email: email },
           {
-            email: email,
-            newPasswordToken: (
+            token: (
               Math.floor(Math.random() * 9000000) + 1000000
             ).toString(), //Generate 7 digits number,
             timestamp: new Date(),
           },
           { upsert: true, new: true },
         );
-      if (forgottenPasswordModel) {
-        return forgottenPasswordModel;
-      } else {
-        throw new HttpException(
-          'LOGIN.ERROR.GENERIC_ERROR',
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
+      }  
+      else {
+        resetPasswordDTO.email = email
+        resetPasswordDTO.token = (
+            Math.floor(Math.random() * 9000000) + 1000000
+          ).toString(), //Generate 7 digits number
+        
+        await new this.forgottenPasswordModel(resetPasswordDTO).save();
+        return true;
     }
   }
 
@@ -264,6 +280,35 @@ export class AuthService {
     return await this.forgottenPasswordModel.findOne({
       newPasswordToken: newPasswordToken,
     });
+  }
+
+  async sendPasswordToken (email: string): Promise<any>{
+    var model = await this.forgottenPasswordModel.findOne({ email: email});
+    if(model){
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "ashwin@appneural.com",
+          pass: "ashashA@01"
+        }
+      })
+      const options = {
+        from: "ashwin@appneural.com",
+        to: model.email,
+        subject: "Email verifaction code",
+        text: model.token
+      }
+      transporter.sendMail(options, function(err, info){
+        if(err){
+          console.log(err)
+          return err
+        }
+        else{
+          console.log(info.response)
+          return info.response
+        }
+      })
+    }
   }
 
   async sendEmailVerification(email: string): Promise<any>{
@@ -354,6 +399,28 @@ export class AuthService {
     }
   }
 
+  async verifyPasswordToken(email, token: string, userDto): Promise<any> {
+    const passwordVerif = await this.forgottenPasswordModel.findOne({
+      email: email
+    });
+    if (passwordVerif.token === token) {
+      const userFromDb = await this.userModel.findOne({
+        email: passwordVerif.email,
+      });
+      const resetPassword = await this.userModel.findOneAndUpdate({email: passwordVerif.email},
+        userDto, { upsert: true, new: true }
+        )
+      if (userFromDb) {
+        userFromDb.auth.verification.email = true;
+        const savedUser = await userFromDb.save();
+        await passwordVerif.remove();
+        return !!savedUser;
+      }
+    } else {
+      throw 'VERIFICATION.EMAIL_CODE_NOT_VALID';
+    }
+  }
+
   async checkPassword(email: string, password: string) {
     const userFromDb = await this.userModel.findOne({ email });
     if (!userFromDb)
@@ -362,7 +429,7 @@ export class AuthService {
     return await bcrypt.compare(password, userFromDb.password);
   }
 
-  async resetRequest(email: string): Promise<boolean> {
+  /*async resetRequest(email: string): Promise<boolean> {
     const userFromDb = await this.userModel.findOne({ email });
     if (!userFromDb) throw 'LOGIN.USER_NOT_FOUND';
 
@@ -397,7 +464,7 @@ export class AuthService {
     } else {
       throw 'REGISTER.USER_NOT_REGISTERED';
     }
-  }
+  } */
 
   async register(newUser): Promise<any> {
     // newUser.uname = newUser.uname.toLowerCase().replace(/ /g, '');
