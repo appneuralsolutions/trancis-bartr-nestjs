@@ -44,4 +44,9 @@ export class UpdateUserDto {
   location: string;
 
 
+  @IsOptional()
+  @ApiProperty({ default: 'Seller' })
+  userType: string;
+
+
 }

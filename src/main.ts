@@ -11,6 +11,7 @@ import * as session from 'express-session';
 import * as compression from 'compression';
 
 async function bootstrap() {
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe());
 
