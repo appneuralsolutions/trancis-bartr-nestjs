@@ -96,7 +96,7 @@ export class AuthService {
           return jwtToken;
         } else {
           //check email empty or password empty
-         
+         throw 'not valid password';
           // throw 'Incorrect Email address or Password';
         }
     
@@ -105,33 +105,33 @@ export class AuthService {
         throw 'Not Valid Email'
       }
 
-
-    } else {
+    }
+    //  else {
 
 
      
 
-      if((!loginDto.email)&&(!loginDto.password)){
-        throw 'Email or Password Not Valid'
-      }else{
-        if(loginDto.email){
-          const isValidEmail = this.isValidEmail(loginDto.email);
-          if(!isValidEmail){
-            throw 'Invalid Email'
-          }
+    //   if((!loginDto.email)&&(!loginDto.password)){
+    //     throw 'Email or Password Not Valid'
+    //   }else{
+    //     if(loginDto.email){
+    //       const isValidEmail = this.isValidEmail(loginDto.email);
+    //       if(!isValidEmail){
+    //         throw 'Invalid Email'
+    //       }
   
-        }else{
-          throw 'Invalid Email'
-        }
+    //     }else{
+    //       throw 'Invalid Email'
+    //     }
   
-        if(!loginDto.password){
-          throw 'Invalid Password'
-        }
-      }
+    //     if(!loginDto.password){
+    //       throw 'Invalid Password'
+    //     }
+    //   }
 
-      // throw 'Email or Password Not Valid'
+    //   // throw 'Email or Password Not Valid'
 
-    }
+    // }
 
     // console.log(loginDto.username);
     
