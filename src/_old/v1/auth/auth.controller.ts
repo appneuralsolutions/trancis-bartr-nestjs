@@ -80,7 +80,7 @@ export class AuthController {
       return await this.authService.validateLogin(loginDTO);
     } catch (error) {
       console.log(error)
-      return new ResponseError(error);
+      return error;
     }
   }
 
