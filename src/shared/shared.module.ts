@@ -44,7 +44,6 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
     },
-    
   ],
 })
 export class SharedModule {}
