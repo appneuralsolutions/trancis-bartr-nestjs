@@ -20,6 +20,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CreateCardSchema } from 'src/cards/@schemas/card.schema';
 import { WishlistSchema } from './wishlist/schemas/wishlist.schema';
 import { FeedbackModule } from 'src/feedback/feedback.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   controllers: [
@@ -36,7 +37,8 @@ import { FeedbackModule } from 'src/feedback/feedback.module';
     MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }]),
     MongooseModule.forFeature([{ name: 'Card', schema: CreateCardSchema }]),
     MongooseModule.forFeature([{ name: 'Perference', schema: PreferencesSchema }]),
-    MongooseModule.forFeature([{name: 'wishlist', schema: WishlistSchema}])
+    MongooseModule.forFeature([{name: 'wishlist', schema: WishlistSchema}]),
+    ChatModule
   ],
   providers: [
     FeedsService,
