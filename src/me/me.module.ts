@@ -36,9 +36,11 @@ import { ChatModule } from './chat/chat.module';
     FeedbackModule,
     MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }]),
     MongooseModule.forFeature([{ name: 'Card', schema: CreateCardSchema }]),
-    MongooseModule.forFeature([{ name: 'Perference', schema: PreferencesSchema }]),
-    MongooseModule.forFeature([{name: 'wishlist', schema: WishlistSchema}]),
-    ChatModule
+    MongooseModule.forFeature([
+      { name: 'Perference', schema: PreferencesSchema },
+    ]),
+    MongooseModule.forFeature([{ name: 'wishlist', schema: WishlistSchema }]),
+    ChatModule,
   ],
   providers: [
     FeedsService,
@@ -52,5 +54,6 @@ import { ChatModule } from './chat/chat.module';
     //   useClass: AuthInterceptor,
     // },
   ],
+  exports: [ChatModule],
 })
 export class MeModule {}

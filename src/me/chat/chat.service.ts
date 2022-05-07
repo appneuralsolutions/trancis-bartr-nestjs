@@ -1,26 +1,73 @@
 import { Injectable } from '@nestjs/common';
-import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
+import { ReturnModelType } from '@typegoose/typegoose';
+import { InjectModel } from 'nestjs-typegoose';
+import { Chat } from './entities/chat.entity';
+import { defaultApp } from './auth/firebaseAdmin';
 
 @Injectable()
 export class ChatService {
-  create(createChatDto: CreateChatDto) {
-    return 'This action adds a new chat';
+  constructor(
+    @InjectModel(Chat) private readonly chatModel: ReturnModelType<typeof Chat>,
+  ) {}
+
+  private allUsers = [];
+  private connectedUsers = [];
+
+  async getChats(): Promise<Chat[]> {
+    return await this.chatModel.find();
   }
 
-  findAll() {
-    return `This action returns all chat`;
+  async saveChat(chat: Chat): Promise<void> {
+    const createdChat = new this.chatModel(chat);
+    await createdChat.save();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} chat`;
+  userConnected(userName: string, registrationToken: string) {
+    let user = { userName: userName, registrationToken: registrationToken };
+    const filteredUsers = this.allUsers.filter((u) => u.userName === userName);
+    if (filteredUsers.length == 0) {
+      this.allUsers.push(user);
+    } else {
+      user = filteredUsers[0];
+      user.registrationToken = registrationToken;
+    }
+    this.connectedUsers.push(userName);
+    console.log('All Users', this.allUsers);
+    console.log('Connected Users', this.connectedUsers);
   }
 
-  update(id: number, updateChatDto: UpdateChatDto) {
-    return `This action updates a #${id} chat`;
+  userDisconnected(userName: string) {
+    const userIndex = this.connectedUsers.indexOf(userName);
+    this.connectedUsers.splice(userIndex, 1);
+    console.log('All Users', this.allUsers);
+    console.log('Connected Users', this.connectedUsers);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} chat`;
+  async sendMessagesToOfflineUsers(chat: any) {
+    const messagePayload = {
+      data: {
+        type: 'CHAT',
+        title: 'chat',
+        message: chat.message,
+        sender: chat.sender,
+        recipient: chat.recipient,
+        time: chat.time,
+      },
+      tokens: [],
+    };
+    const userTokens = this.allUsers
+      .filter((user) => !this.connectedUsers.includes(user.userName))
+      .map((user) => {
+        return user.registrationToken;
+      });
+    if (userTokens.length == 0) {
+      return;
+    }
+    messagePayload.tokens = userTokens;
+    try {
+      await defaultApp.messaging().sendMulticast(messagePayload);
+    } catch (ex) {
+      console.log(JSON.stringify(ex));
+    }
   }
 }

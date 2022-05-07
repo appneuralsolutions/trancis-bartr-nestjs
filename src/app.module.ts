@@ -13,6 +13,7 @@ import { PaymentModule } from './payment/payment.module';
 import { CardsModule } from './cards/cards.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { SubjectsModule } from './subjects/subjects.module';
+import { TypegooseModule } from 'nestjs-typegoose';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { SubjectsModule } from './subjects/subjects.module';
       useUnifiedTopology: true,
       useNewUrlParser: true,
     }),
+    TypegooseModule.forRoot('mongodb://localhost:27017/bartr', {}),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'www'),
     }),
