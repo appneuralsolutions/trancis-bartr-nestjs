@@ -46,8 +46,9 @@ export class CardsController {
     @Body() data: CreateCardDto,
     @Me() me: string,
   ): Promise<IResponse | CreateCard> {
-    console.log(me)
-    const card = await this.cardsService.create(data, me);
+    const userPayload: any = this.jwtService.decode(me);
+
+    const card = await this.cardsService.create(data, userPayload);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { card });
     } else {
@@ -66,24 +67,9 @@ export class CardsController {
   }
 
   @Get('me')
-  async findByProfile(
-    @Headers('authorization') authorization: any,
-  ): Promise<IResponse | CreateCard> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+  async findByProfile(@Me() me: string): Promise<IResponse | CreateCard> {
+    const userPayload: any = this.jwtService.decode(me);
+
     const card = await this.cardsService.findByProfile(userPayload);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, { card });

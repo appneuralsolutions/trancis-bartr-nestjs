@@ -16,7 +16,7 @@ export class CardsService {
       title: data.title,
     }).exec();
     if (!cardTitle) {
-      data.email = userPayload.email;
+      // data.email = userPayload.email;
       const createdData = await new this.CreateCardModel(data).save();
       console.log(createdData);
       return new Promise((resolve) => {

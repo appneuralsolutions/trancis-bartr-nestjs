@@ -9,6 +9,6 @@ export const Me = createParamDecorator(
       : null;
     if (!jwtToken) throw ErrorMessage.UNAUTHORIZED_ACCESS;
 
-    return request.user;
+    return jwtToken;
   },
 );

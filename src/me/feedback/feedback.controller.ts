@@ -23,6 +23,7 @@ import { ResponseError } from './../../shared/@dtos/response.dto';
 import { ErrorMessage } from './../../shared/@constants/error.constant';
 import { Feedback } from './@entities/feedback.entity';
 import { JwtService } from '@nestjs/jwt';
+import { Me } from '../@decorators/me.decorator';
 
 @ApiTags('Me -> Feedback')
 @Controller('feedback')
@@ -35,23 +36,9 @@ export class FeedbackController {
   @Post()
   async create(
     @Body() createFeedbackDto: CreateFeedbackDto,
-    @Headers('authorization') authorization: any,
+    @Me() me: string,
   ): Promise<IResponse | Feedback> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    const userPayload: any = this.jwtService.decode(me);
     const data = await this.feedbackService.create(
       createFeedbackDto,
       userPayload,
@@ -74,25 +61,9 @@ export class FeedbackController {
   // }
 
   @Get()
-  async findMy(
-    @Headers('authorization') authorization: any,
-  ): // @Me() me: string
+  async findMy(@Me() me: string): // @Me() me: string
   Promise<IResponse> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    const userPayload: any = this.jwtService.decode(me);
     const data = await this.feedbackService.findMy(userPayload);
     if (data) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MY_FEEDBACK, data);
@@ -108,23 +79,9 @@ export class FeedbackController {
   async update(
     @Body() createFeedbackDto: CreateFeedbackDto,
     @Query('id') id: string,
-    @Headers('authorization') authorization: any,
+    @Me() me: string,
   ): Promise<IResponse> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    const userPayload: any = this.jwtService.decode(me);
     const data = await this.feedbackService.update(id, createFeedbackDto);
     if (data) {
       return new ResponseSuccess(
@@ -140,25 +97,8 @@ export class FeedbackController {
   }
 
   @Delete()
-  async remove(
-    @Headers('authorization') authorization: any,
-    @Query('id') id: string,
-  ): Promise<IResponse> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+  async remove(@Me() me: string, @Query('id') id: string): Promise<IResponse> {
+    const userPayload: any = this.jwtService.decode(me);
     const data = await this.feedbackService.remove(id);
     if (data) {
       return new ResponseSuccess(

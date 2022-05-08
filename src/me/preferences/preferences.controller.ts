@@ -20,6 +20,7 @@ import { Message } from 'src/shared/@constants/messages.constant';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { CreateCard } from 'src/cards/@interface/card.interface';
 import { JwtService } from '@nestjs/jwt';
+import { Me } from '../@decorators/me.decorator';
 // import { UpdatePreferenceDto } from './@dto/update-preference.dto';
 // import { IResponse } from './../../shared/@interfaces/response.interface';
 // import { Message } from './../../shared/@constants/messages.constant';
@@ -37,21 +38,11 @@ export class PreferencesController {
 
   @Post()
   async create(
-    @Headers('authorization') authorization: any,
+    @Me() me: string,
     @Body() data: CreatePreferenceDto,
   ): Promise<IResponse | CreateCard[]> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (userPayload) {
-      var perference = await this.preferencesService.create(data);
-    }
+    const userPayload: any = this.jwtService.decode(me);
+    const perference = await this.preferencesService.create(data);
 
     if (perference) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, {
