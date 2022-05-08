@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { IBartrSignupReward } from './interfaces/bartrSignupRewardInterface';
 import { Model } from 'mongoose';
 import { IBartrPointValue } from './interfaces/bartrPointValueInterface';
+import { BartrSignupRewardDTO } from './dtos/bartr-signup-reward.dto';
 
 @Injectable()
 export class BartrSettingService {
@@ -36,4 +37,17 @@ export class BartrSettingService {
   async getBartrPointValue() {
     return await this.bartrPointValueModel.find();
   }
+
+  updateSignupRewardValue(_id:string,BartrSignupRewardDTO){
+    try {
+      return this.bartrSignupRewardModel.findByIdAndUpdate({ _id }, BartrSignupRewardDTO)
+    } catch (error) {
+      
+    } 
+  }
+
+  updateBartrPointValue(id:string){
+
+  }
+
 }
