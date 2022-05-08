@@ -72,6 +72,12 @@ export class BartrSettingController {
     try {
       const updatedSignupRewardValueObj = await this._bartrSettingService.updateSignupRewardValue(id,BartrSignupRewardDTO);
       console.log(updatedSignupRewardValueObj)
+      const responseObj: any = {
+        statusCode: HttpStatus.OK,
+        data: updatedSignupRewardValueObj,
+        success: true,
+      };
+      return responseObj;
     } catch (error) {
       return error;
       

@@ -40,14 +40,19 @@ export class BartrSettingService {
 
   updateSignupRewardValue(_id:string,BartrSignupRewardDTO){
     try {
-      return this.bartrSignupRewardModel.findByIdAndUpdate({ _id }, BartrSignupRewardDTO)
+      return this.bartrSignupRewardModel.findByIdAndUpdate({ _id }, BartrSignupRewardDTO,{new: true},);
     } catch (error) {
-      
+      return error;
     } 
   }
 
-  updateBartrPointValue(id:string){
+  updateBartrPointValue(_id:string,BartrPointValueUpdateDTO){
+    try {
+      return this.bartrPointValueModel.findByIdAndUpdate({ _id }, BartrPointValueUpdateDTO,{new: true},);
 
+    } catch (error) {
+      return error;
+    } 
   }
 
 }
