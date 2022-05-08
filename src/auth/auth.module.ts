@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { SharedModule } from './../../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';

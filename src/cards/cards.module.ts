@@ -1,4 +1,4 @@
-import { AuthModule } from './../_old/v1/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 import { Module } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CardsController } from './cards.controller';

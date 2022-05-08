@@ -1,4 +1,4 @@
-import { EmailService } from './../../shared/email.service';
+import { EmailService } from '../shared/email.service';
 import {
   Injectable,
   HttpException,
@@ -10,7 +10,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { HttpService } from '@nestjs/axios';
 import * as bcrypt from 'bcryptjs';
-import { default as config } from '../../config';
 import { JwtService } from '@nestjs/jwt';
 import { IConsentRegistry } from './interfaces/consent-registry.interface';
 import { IEmailVerification } from './interfaces/email-verification.interface';

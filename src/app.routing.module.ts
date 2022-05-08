@@ -1,5 +1,5 @@
-import { AuthModule } from './_old/v1/auth/auth.module';
-import { AdminModule } from './_old/v1/admin/admin.module';
+import { AuthModule } from './auth/auth.module';
+import { AdminModule } from './admin/admin.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { CardsModule } from './cards/cards.module';
 import { SubjectsModule } from './subjects/subjects.module';
@@ -8,7 +8,7 @@ import { MeModule } from './me/me.module';
 import { PaymentModule } from './payment/payment.module';
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
-import { UsersModule } from './_old/v1/admin/users/users.module';
+import { UsersModule } from './admin/users/users.module';
 
 @Module({
   imports: [

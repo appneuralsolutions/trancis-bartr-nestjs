@@ -7,6 +7,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { EmailService } from './email.service';
 
 @Module({
   imports: [
@@ -34,8 +35,9 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     MongooseModule,
     HttpModule,
   ],
-  exports: [HttpModule, MailerModule, MongooseModule],
+  exports: [HttpModule, MailerModule, MongooseModule, EmailService],
   providers: [
+    EmailService,
     {
       provide: APP_FILTER,
       useClass: MongoExceptionFilter,

@@ -1,5 +1,5 @@
-import { AdminModule } from './_old/v1/admin/admin.module';
-import { AuthModule } from './_old/v1/auth/auth.module';
+import { AdminModule } from './admin/admin.module';
+import { AuthModule } from './auth/auth.module';
 import { AppRoutingModule } from './app.routing.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';

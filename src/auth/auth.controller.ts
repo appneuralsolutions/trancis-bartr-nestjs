@@ -17,7 +17,6 @@ import { ResponseError, ResponseSuccess } from './dtos/response.dto';
 import { LoginDto } from './dtos/login.dto';
 import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { AuthUser } from './auth.decorator';
-import { CreateUserDto } from '../admin/users/dtos/create-user.dto';
 import { EmailVerificationDto } from '../auth/dtos/email-verfication.dto';
 
 @Controller()

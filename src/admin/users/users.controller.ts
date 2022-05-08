@@ -14,11 +14,8 @@ import {
   Param,
   Body,
 } from '@nestjs/common';
-import { IResponse } from '../../../../_old/v1/auth/interfaces/response.interface';
-import {
-  ResponseError,
-  ResponseSuccess,
-} from '../../../../_old/v1/auth/dtos/response.dto';
+import { IResponse } from '../../auth/interfaces/response.interface';
+import { ResponseError, ResponseSuccess } from '../../auth/dtos/response.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Users')

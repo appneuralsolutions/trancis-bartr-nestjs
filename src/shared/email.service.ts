@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as nsp from 'nodemailer-smtp-transport';
 
-import { default as config } from '../config';
+let config: any;
 
 @Injectable()
 export class EmailService {
@@ -40,7 +40,7 @@ export class EmailService {
 
   async sendEmail(mailInfo) {
     // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       host: config.mail.host,
       port: config.mail.port,
       secure: config.mail.secure, // true for 465, false for other ports
@@ -51,7 +51,7 @@ export class EmailService {
     });
 
     // send mail with defined transport object
-    let sentMail = await transporter.sendMail(mailInfo);
+    const sentMail = await transporter.sendMail(mailInfo);
 
     console.log('Message sent: %s', sentMail.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
