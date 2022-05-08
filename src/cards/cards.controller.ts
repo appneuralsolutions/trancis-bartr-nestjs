@@ -31,6 +31,7 @@ import { diskStorage } from 'multer';
 import { CreateCard } from './@interface/card.interface';
 import { imageFileFilter, editFileName } from './utils/file-upload.utils';
 import { JwtService } from '@nestjs/jwt';
+import { Me } from 'src/me/@decorators/me.decorator';
 
 @ApiTags('Cards')
 @Controller()
@@ -43,24 +44,9 @@ export class CardsController {
   @Post()
   async create(
     @Body() data: CreateCardDto,
-    @Headers('authorization') authorization: any,
+    @Me() me: string,
   ): Promise<IResponse | CreateCard> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const card = await this.cardsService.create(data, userPayload);
+    const card = await this.cardsService.create(data, me);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { card });
     } else {
