@@ -25,6 +25,7 @@ import {
 } from './@interfaces/user.interface';
 import { LoginDto } from './@dtos/login.dto';
 import { AuthUserDto } from './@dtos/auth-user.dto';
+import { ErrorMessage } from 'src/shared/@constants/error.constant';
 
 @Injectable()
 export class AuthService {
@@ -98,7 +99,7 @@ export class AuthService {
           return jwtToken;
         } else {
           //check email empty or password empty
-          throw 'not valid password';
+          throw ErrorMessage.LOGIN_WRONG_USERNAME_OR_PASSWORD;
           // throw 'Incorrect Email address or Password';
         }
       } else {

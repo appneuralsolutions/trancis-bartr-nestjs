@@ -18,6 +18,8 @@ import { LoginDto } from './@dtos/login.dto';
 import { ResetPasswordDto } from './@dtos/reset-password.dto';
 import { AuthUser } from './auth.decorator';
 import { EmailVerificationDto } from './@dtos/email-verfication.dto';
+import { Message } from 'src/shared/@constants/messages.constant';
+import { ErrorMessage } from 'src/shared/@constants/error.constant';
 
 @Controller()
 export class AuthController {
@@ -79,16 +81,18 @@ export class AuthController {
     } catch (error) {}
   }
 
-  //   @UseGuards(LocalAuthGuard)
   @Post('login')
-  @HttpCode(HttpStatus.OK)
-  async login(@Body() loginDTO: LoginDto): Promise<any> {
-    // console.log(loginDTO);
-    try {
-      return await this.authService.validateLogin(loginDTO);
-    } catch (error) {
-      console.log(error);
-      return error;
+  async login(@Body() loginDTO: LoginDto): Promise<IResponse> {
+    const data = await this.authService.validateLogin(loginDTO);
+    if (data) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_LOGGED_IN, {
+        jwtToken: data,
+      });
+    } else {
+      return new ResponseError(
+        ErrorMessage.LOGIN_NOT_SUCCESSFULLY_LOGGED_IN,
+        {},
+      );
     }
   }
 
