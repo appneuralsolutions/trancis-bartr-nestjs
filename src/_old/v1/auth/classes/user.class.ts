@@ -188,7 +188,7 @@ export class User implements IUser {
   email: string;
   phone: string;
   password: string;
-  userType:string;
+  userType: string;
   roles: [Role];
   privileges: object;
   profile: UserProfile;

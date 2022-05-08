@@ -27,13 +27,15 @@ import { JwtService } from '@nestjs/jwt';
 @ApiTags('Me -> Feedback')
 @Controller('feedback')
 export class FeedbackController {
-  constructor(private readonly feedbackService: FeedbackService,
-    private jwtService: JwtService,) {}
+  constructor(
+    private readonly feedbackService: FeedbackService,
+    private jwtService: JwtService,
+  ) {}
 
   @Post()
   async create(
     @Body() createFeedbackDto: CreateFeedbackDto,
-    @Headers('authorization') authorization: any
+    @Headers('authorization') authorization: any,
   ): Promise<IResponse | Feedback> {
     if (!authorization) {
       throw new HttpException(
@@ -50,7 +52,10 @@ export class FeedbackController {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const data = await this.feedbackService.create(createFeedbackDto, userPayload);
+    const data = await this.feedbackService.create(
+      createFeedbackDto,
+      userPayload,
+    );
     if (data) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_MY_FEEDBACK, {
         data,
@@ -69,7 +74,9 @@ export class FeedbackController {
   // }
 
   @Get()
-  async findMy(@Headers('authorization') authorization: any): // @Me() me: string
+  async findMy(
+    @Headers('authorization') authorization: any,
+  ): // @Me() me: string
   Promise<IResponse> {
     if (!authorization) {
       throw new HttpException(
@@ -98,9 +105,11 @@ export class FeedbackController {
   }
 
   @Put('?')
-  async update(@Body() createFeedbackDto: CreateFeedbackDto, @Query('id') id: string,
-  @Headers('authorization') authorization: any):
-  Promise<IResponse> {
+  async update(
+    @Body() createFeedbackDto: CreateFeedbackDto,
+    @Query('id') id: string,
+    @Headers('authorization') authorization: any,
+  ): Promise<IResponse> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -118,7 +127,10 @@ export class FeedbackController {
     }
     const data = await this.feedbackService.update(id, createFeedbackDto);
     if (data) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_MY_FEEDBACK, data);
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_UPDATED_MY_FEEDBACK,
+        data,
+      );
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_UPDATED_MY_FEEDBACK,
@@ -127,9 +139,11 @@ export class FeedbackController {
     }
   }
 
-   @Delete()
-   async remove(@Headers('authorization') authorization: any,
-   @Query("id") id: string): Promise<IResponse> {
+  @Delete()
+  async remove(
+    @Headers('authorization') authorization: any,
+    @Query('id') id: string,
+  ): Promise<IResponse> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -146,13 +160,16 @@ export class FeedbackController {
       );
     }
     const data = await this.feedbackService.remove(id);
-     if (data) {
-       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_MY_FEEDBACK, data);
-     } else {
-       return new ResponseError(
-         ErrorMessage.NOT_SUCCESSFULLY_DELETED_MY_FEEDBACK,
-         {},
-       );
-     }
-   }
+    if (data) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_DELETED_MY_FEEDBACK,
+        data,
+      );
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_DELETED_MY_FEEDBACK,
+        {},
+      );
+    }
+  }
 }

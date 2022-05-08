@@ -6,15 +6,14 @@ import { BartrPointValueSchema } from './schemas/bartrPointValue.schema';
 import { BartrRewardPointSchema } from './schemas/bartrReward.schema';
 
 @Module({
-    imports: [
-     
-        MongooseModule.forFeature([
-          { name: 'bartrSignupReward', schema: BartrRewardPointSchema },
-          { name: 'bartrPointValue', schema: BartrPointValueSchema }
-        ]),
-      ],
-      controllers: [BartrSettingController],
-      providers: [BartrSettingService],
-      exports: [BartrSettingService, MongooseModule],
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'bartrSignupReward', schema: BartrRewardPointSchema },
+      { name: 'bartrPointValue', schema: BartrPointValueSchema },
+    ]),
+  ],
+  controllers: [BartrSettingController],
+  providers: [BartrSettingService],
+  exports: [BartrSettingService, MongooseModule],
 })
 export class BartrSettingModule {}

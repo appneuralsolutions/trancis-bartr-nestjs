@@ -9,7 +9,9 @@ describe('BartrPointSettingController', () => {
       controllers: [BartrPointSettingController],
     }).compile();
 
-    controller = module.get<BartrPointSettingController>(BartrPointSettingController);
+    controller = module.get<BartrPointSettingController>(
+      BartrPointSettingController,
+    );
   });
 
   it('should be defined', () => {

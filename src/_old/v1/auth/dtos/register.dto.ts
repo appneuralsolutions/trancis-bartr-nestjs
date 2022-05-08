@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Length, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+  Matches,
+} from 'class-validator';
 
 export class RegisterDto {
   @IsNotEmpty()
@@ -26,13 +33,11 @@ export class RegisterDto {
   @ApiProperty({ default: 'ajayprajapat' })
   uname: string;
 
-
   // @Length(13)
   @IsNotEmpty()
   @IsOptional()
   @ApiProperty({ default: '8769962237' })
   phone: string;
-
 
   @IsNotEmpty()
   @IsOptional()

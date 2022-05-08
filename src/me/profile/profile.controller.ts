@@ -37,10 +37,10 @@ import { IUser } from './../../_old/v1/auth/interfaces/user.interface';
 @ApiTags('Me -> Profile')
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly profileService: ProfileService,
-    private jwtService: JwtService ) {}
-
-  
+  constructor(
+    private readonly profileService: ProfileService,
+    private jwtService: JwtService,
+  ) {}
 
   @Put('photo')
   @UseInterceptors(
@@ -88,7 +88,7 @@ export class ProfileController {
     }
   }
 
- /* @Get()
+  /* @Get()
   async findAll(): Promise<IResponse> {
     // await this.profileService.findAll();
     if (true) {
@@ -102,7 +102,9 @@ export class ProfileController {
   } */
 
   @Get('photo')
-  async findProfilePic(@Headers('authorization') authorization: any): Promise<IResponse | IUser> {
+  async findProfilePic(
+    @Headers('authorization') authorization: any,
+  ): Promise<IResponse | IUser> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -127,7 +129,9 @@ export class ProfileController {
   }
 
   @Get()
-  async findOne(@Headers('authorization') authorization: any): Promise<IResponse | IUser> {
+  async findOne(
+    @Headers('authorization') authorization: any,
+  ): Promise<IResponse | IUser> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -165,14 +169,17 @@ export class ProfileController {
     const userPayload: any = this.jwtService.decode(
       authorization.replace('Bearer ', ''),
     );
-    console.log(userPayload.email)
+    console.log(userPayload.email);
     if (!userPayload) {
       throw new HttpException(
         'authorization token is not define or invalid',
         HttpStatus.BAD_REQUEST,
       );
     }
-    const userupdate = await this.profileService.update(userPayload, CreateProfileDto);
+    const userupdate = await this.profileService.update(
+      userPayload,
+      CreateProfileDto,
+    );
     if (userupdate) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {
         userupdate,
@@ -183,7 +190,9 @@ export class ProfileController {
   }
 
   @Delete()
-  async remove(@Headers('authorization') authorization: any): Promise<IResponse> {
+  async remove(
+    @Headers('authorization') authorization: any,
+  ): Promise<IResponse> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',

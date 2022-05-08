@@ -41,7 +41,7 @@ import { ConsentRegistrySchema } from './schemas/consent-registry.schema';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService,  AuthGateway],
+  providers: [AuthService, AuthGateway],
   exports: [MongooseModule, PassportModule, JwtModule, AuthService],
 })
 export class AuthModule {}

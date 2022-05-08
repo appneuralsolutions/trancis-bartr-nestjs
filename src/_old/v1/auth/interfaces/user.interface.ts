@@ -38,7 +38,7 @@ export enum Skill {
   SOFT = 'soft',
 }
 
-export interface IRolePrivilege{
+export interface IRolePrivilege {
   name: string;
   code: number;
   permissions: [Permission];
@@ -49,7 +49,7 @@ export interface IRole {
   privileges: [IRolePrivilege];
 }
 
-export interface IUserProfile{
+export interface IUserProfile {
   firstName: string;
   middleName: string;
   lastName: string;
@@ -62,7 +62,7 @@ export interface IUserProfile{
   maritalStatus: MaritalStatus;
 }
 
-export interface IUserPersonal{
+export interface IUserPersonal {
   firstName: string;
   middleName: string;
   lastName: string;
@@ -75,7 +75,7 @@ export interface IUserPersonal{
   maritalStatus: MaritalStatus;
 }
 
-export interface IUserEducationQualification{
+export interface IUserEducationQualification {
   standard: string;
   stream: [EducationStream];
   schooling: [EducationSchooling];
@@ -85,7 +85,7 @@ export interface IUserEducationQualification{
   academicYear: string;
 }
 
-export interface IUserEducationCertification{
+export interface IUserEducationCertification {
   title: string;
   description: string;
   institute: string;
@@ -94,14 +94,14 @@ export interface IUserEducationCertification{
   completedOn: string;
 }
 
-export interface IUserEducationSkill{
+export interface IUserEducationSkill {
   skill: string;
   type: Skill;
   industry: string;
   experience: string;
 }
 
-export interface IUserProject{
+export interface IUserProject {
   title: string;
   name: string;
   description: string;
@@ -113,7 +113,7 @@ export interface IUserProject{
   industry: string;
 }
 
-export interface IUserEducationInternship{
+export interface IUserEducationInternship {
   title: string;
   description: string;
   duration: string;
@@ -121,17 +121,17 @@ export interface IUserEducationInternship{
   projects: [IUserProject];
 }
 
-export interface IUserEducationActivity{
+export interface IUserEducationActivity {
   activity: string;
   date: string;
 }
 
-export interface IUserEducationSocialLink{
+export interface IUserEducationSocialLink {
   name: string;
   link: string;
 }
 
-export interface IUserEducation{
+export interface IUserEducation {
   user: string;
   qualifications: [IUserEducationQualification];
   certifications: [IUserEducationCertification];
@@ -152,25 +152,25 @@ export interface IUserEmployeementExperience {
   resignationReason: string;
 }
 
-export interface IUserEmployeementAward{
+export interface IUserEmployeementAward {
   title: string;
   awardedOn: string;
   awardedby: string;
   awardedfor: string;
 }
 
-export interface IUserEmployeement{
+export interface IUserEmployeement {
   student: string;
   experience: [IUserEmployeementExperience];
   awards: [IUserEmployeementAward];
   projects: [IUserProject];
 }
 
-export interface IUserMedical{
+export interface IUserMedical {
   user: string;
 }
 
-export interface IUserAuth{
+export interface IUserAuth {
   session: {
     isOnline: boolean;
     devices: [string];
@@ -194,12 +194,12 @@ export interface IUserAuth{
   isLocked: boolean;
 }
 
-export interface IUser{
+export interface IUser {
   _id: string;
   email: string;
   phone: string;
   password: string;
-  userType:string;
+  userType: string;
   roles: [IRole];
   privileges: object;
   profile: IUserProfile;

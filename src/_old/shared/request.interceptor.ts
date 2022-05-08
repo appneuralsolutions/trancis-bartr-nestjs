@@ -1,4 +1,10 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor, UnauthorizedException } from '@nestjs/common';
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -17,6 +23,5 @@ export class RequestInterceptor implements NestInterceptor {
     } catch (error) {
       throw new UnauthorizedException('JWT Token Expired');
     }
-
   }
 }

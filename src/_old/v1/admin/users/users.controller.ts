@@ -40,7 +40,7 @@ export class UsersController {
   @Get()
   @HttpCode(HttpStatus.CREATED)
   async getUsers() {
-    console.log('get all user')
+    console.log('get all user');
     try {
       return await this.usersService.getUsers();
     } catch (error) {
@@ -48,11 +48,10 @@ export class UsersController {
     }
   }
 
-
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getUser( @Param('id') id: string) {
-    console.log('get user by id',id)
+  async getUser(@Param('id') id: string) {
+    console.log('get user by id', id);
     try {
       return await this.usersService.getUser(id);
     } catch (error) {

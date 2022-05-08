@@ -1,7 +1,7 @@
-import {Document} from 'mongoose'
+import { Document } from 'mongoose';
 
 export interface wishlist extends Document {
-        title: string;
-        like: boolean;
-        email: string;
+  title: string;
+  like: boolean;
+  email: string;
 }

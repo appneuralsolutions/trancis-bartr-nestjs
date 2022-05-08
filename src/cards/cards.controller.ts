@@ -43,7 +43,7 @@ export class CardsController {
   @Post()
   async create(
     @Body() data: CreateCardDto,
-    @Headers('authorization') authorization: any
+    @Headers('authorization') authorization: any,
   ): Promise<IResponse | CreateCard> {
     if (!authorization) {
       throw new HttpException(
@@ -70,17 +70,18 @@ export class CardsController {
 
   @Get()
   async findAll(): Promise<IResponse | CreateCard> {
-    const card = await this.cardsService.findAll()
+    const card = await this.cardsService.findAll();
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {card});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, { card });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
   }
 
   @Get('me')
-  async findByProfile(@Headers('authorization') authorization: any):
-   Promise<IResponse | CreateCard> {
+  async findByProfile(
+    @Headers('authorization') authorization: any,
+  ): Promise<IResponse | CreateCard> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -96,9 +97,9 @@ export class CardsController {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const card = await this.cardsService.findByProfile(userPayload)
+    const card = await this.cardsService.findByProfile(userPayload);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {card});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, { card });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
@@ -107,9 +108,9 @@ export class CardsController {
   @Get(':id')
   async findOne(@Param('id') id: string): // @Param('id') id: string
   Promise<IResponse | CreateCard> {
-    const card = await this.cardsService.findOne(id)
+    const card = await this.cardsService.findOne(id);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, {card});
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, { card });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
@@ -117,45 +118,51 @@ export class CardsController {
   @Put('/images?')
   @UseInterceptors(
     FileInterceptor('image', {
-        storage: diskStorage({
-            destination: './card',
-            filename: editFileName,
-        }),
-        fileFilter: imageFileFilter,
+      storage: diskStorage({
+        destination: './card',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
     }),
-)
-  async uploadImage(@UploadedFile() file , @Body() data: CreateCardDto, @Query('id') id: string):
-  Promise<IResponse | CreateCard> {
+  )
+  async uploadImage(
+    @UploadedFile() file,
+    @Body() data: CreateCardDto,
+    @Query('id') id: string,
+  ): Promise<IResponse | CreateCard> {
     const response = {
       originalname: file.originalname,
       filename: file.filename,
-  };
-    const card = await this.cardsService.uploadImage(id, data, file)
+    };
+    const card = await this.cardsService.uploadImage(id, data, file);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, {card});
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, { card });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_CARD, {});
     }
   }
 
   @Put('?')
-  async update(@Body(ValidationPipe) data: CreateCardDto, @Query('id') id: string): // @Param('id') id: string,
+  async update(
+    @Body(ValidationPipe) data: CreateCardDto,
+    @Query('id') id: string,
+  ): // @Param('id') id: string,
   // @Body() updateCardDto: UpdateCardDto,
   Promise<IResponse | CreateCard> {
-    const card = await this.cardsService.update(id, data)
+    const card = await this.cardsService.update(id, data);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, {card});
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, { card });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_CARD, {});
     }
   }
 
   @Delete('?')
-  async remove(@Query("id") id: string): // @Param('id') id: string
+  async remove(@Query('id') id: string): // @Param('id') id: string
   Promise<IResponse | CreateCard> {
-    const card = await this.cardsService.remove(id)
+    const card = await this.cardsService.remove(id);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_CARD, {card});
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_CARD, { card });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_DELETED_CARD, {});
     }

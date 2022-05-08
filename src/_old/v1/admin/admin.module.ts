@@ -7,14 +7,8 @@ import { BartrSettingModule } from './bartr-setting/bartr-setting.module';
 import { BartrPointSettingController } from './bartr-point-setting/bartr-point-setting.controller';
 
 @Module({
-  imports: [
-    UsersModule,
-    BartrSettingModule,
-    
-  ],
-  providers: [
-   
-  BartrSettingService],
+  imports: [UsersModule, BartrSettingModule],
+  providers: [BartrSettingService],
   controllers: [BartrSettingController, BartrPointSettingController],
 })
 export class AdminModule {}

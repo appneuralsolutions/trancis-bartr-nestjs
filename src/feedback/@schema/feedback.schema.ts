@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const FeedbackSchema = new mongoose.Schema({
-  email:String,
+  email: String,
   message: String,
   rating: String,
 });

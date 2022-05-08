@@ -17,11 +17,11 @@ export class AuthUserDto {
   readonly lastName: string;
   auth: {};
   email: string;
-  uname: string
+  uname: string;
   phone: string;
   dob: string;
   location: string;
-  
+
   isActive: boolean;
   jwtToken: string;
   // roles: string[];

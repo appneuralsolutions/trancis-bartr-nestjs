@@ -6,16 +6,15 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class FeedsService {
+  constructor(@InjectModel('Card') private GetFeedModel: Model<CreateCard>) {}
 
-    constructor(
-        @InjectModel('Card') private GetFeedModel: Model<CreateCard>,
-      ) {}
-
-    async aggregateFeed(): Promise<CreateCard[]> {
-        const collection_length = await this.GetFeedModel.count()
-        const feed = await this.GetFeedModel.aggregate([{$sample: {size: collection_length}}])
-        return new Promise((resolve) => {
-          resolve(feed);
-        });
-      }
+  async aggregateFeed(): Promise<CreateCard[]> {
+    const collection_length = await this.GetFeedModel.count();
+    const feed = await this.GetFeedModel.aggregate([
+      { $sample: { size: collection_length } },
+    ]);
+    return new Promise((resolve) => {
+      resolve(feed);
+    });
+  }
 }

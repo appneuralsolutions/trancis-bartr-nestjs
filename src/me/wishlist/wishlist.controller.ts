@@ -1,16 +1,16 @@
 import { ApiTags } from '@nestjs/swagger';
 import {
   Controller,
-   Get,
-   Post,
-   Body,
-   Patch,
-   Put,
-   Param,
-   Delete,
-   Headers,
-   HttpException,
-   HttpStatus
+  Get,
+  Post,
+  Body,
+  Patch,
+  Put,
+  Param,
+  Delete,
+  Headers,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
@@ -25,14 +25,16 @@ import { JwtService } from '@nestjs/jwt';
 @ApiTags('Me -> Wishlist')
 @Controller('wishlist')
 export class WishlistController {
-  constructor(private readonly wishlistService: WishlistService,
-    private jwtService: JwtService,) {}
+  constructor(
+    private readonly wishlistService: WishlistService,
+    private jwtService: JwtService,
+  ) {}
 
-   @Post()
-   async create(
-     @Body() createWishlistDto: CreateWishlistDto,
-     @Headers('authorization') authorization: any,
-   ): Promise<IResponse> {
+  @Post()
+  async create(
+    @Body() createWishlistDto: CreateWishlistDto,
+    @Headers('authorization') authorization: any,
+  ): Promise<IResponse> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -48,19 +50,24 @@ export class WishlistController {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const result = await this.wishlistService.create(createWishlistDto, userPayload)
-     if (result) {
-       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_WISHLIST, result);
-     } else {
+    const result = await this.wishlistService.create(
+      createWishlistDto,
+      userPayload,
+    );
+    if (result) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_WISHLIST, result);
+    } else {
       return new ResponseError(
-         ErrorMessage.NOT_SUCCESSFULLY_CREATED_WISHLIST,
-         {},
-       );
-     }
-   }
+        ErrorMessage.NOT_SUCCESSFULLY_CREATED_WISHLIST,
+        {},
+      );
+    }
+  }
 
-   @Get()
-   async findAll(@Headers('authorization') authorization: any): Promise<IResponse> {
+  @Get()
+  async findAll(
+    @Headers('authorization') authorization: any,
+  ): Promise<IResponse> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -76,16 +83,19 @@ export class WishlistController {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const result = await this.wishlistService.findAll(userPayload)
-     if (result) {
-       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_WISHLIST, result);
-     } else {
-       return new ResponseError(
-         ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_WISHLIST,
-         {},
-       );
-     }
-   }
+    const result = await this.wishlistService.findAll(userPayload);
+    if (result) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_FIND_ALL_WISHLIST,
+        result,
+      );
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_WISHLIST,
+        {},
+      );
+    }
+  }
 
   // @Get(':id')
   // async findOne(@Param('id') id: string): Promise<IResponse> {
@@ -111,9 +121,11 @@ export class WishlistController {
   //   }
   // }
 
-   @Delete(':id')
-   async remove(@Param('id') id: string,
-   @Headers('authorization') authorization: any): Promise<IResponse> {
+  @Delete(':id')
+  async remove(
+    @Param('id') id: string,
+    @Headers('authorization') authorization: any,
+  ): Promise<IResponse> {
     if (!authorization) {
       throw new HttpException(
         'authorization token is not define or invalid',
@@ -129,14 +141,14 @@ export class WishlistController {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const result = await this.wishlistService.remove(id)
-     if (result) {
-       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_WISHLIST, result);
-     } else {
-       return new ResponseError(
-         ErrorMessage.NOT_SUCCESSFULLY_DELETED_WISHLIST,
-         {},
-       );
-     }
-   }
+    const result = await this.wishlistService.remove(id);
+    if (result) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_WISHLIST, result);
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_DELETED_WISHLIST,
+        {},
+      );
+    }
+  }
 }

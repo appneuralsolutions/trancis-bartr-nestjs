@@ -10,6 +10,6 @@ export class LoginDto {
   email: string;
 
   @IsNotEmpty()
-  @ApiProperty({default:  '12345678'})
+  @ApiProperty({ default: '12345678' })
   password: string;
 }

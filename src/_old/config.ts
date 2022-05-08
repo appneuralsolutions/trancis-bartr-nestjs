@@ -11,7 +11,7 @@ export default {
   host: {
     url: '<server-url>',
     port: '3000',
-  }, 
+  },
   isSecure: false,
   isInternalIp: true,
   servicePort: 3000,

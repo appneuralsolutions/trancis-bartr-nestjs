@@ -1,3 +1,3 @@
 export interface IBartrSignupReward {
-    bartrSignupReward:number
+  bartrSignupReward: number;
 }

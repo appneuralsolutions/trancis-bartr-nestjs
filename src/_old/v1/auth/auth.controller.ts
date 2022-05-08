@@ -18,7 +18,7 @@ import { LoginDto } from './dtos/login.dto';
 import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { AuthUser } from './auth.decorator';
 import { CreateUserDto } from '../admin/users/dtos/create-user.dto';
-import {EmailVerificationDto} from '../auth/dtos/email-verfication.dto';
+import { EmailVerificationDto } from '../auth/dtos/email-verfication.dto';
 
 @Controller()
 export class AuthController {
@@ -26,22 +26,31 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.OK)
-  async register(@Body() regDTO: RegisterDto,@Body() EmailDTO: EmailVerificationDto): Promise<IResponse> {
+  async register(
+    @Body() regDTO: RegisterDto,
+    @Body() EmailDTO: EmailVerificationDto,
+  ): Promise<IResponse> {
     try {
       // const newUser = new AuthUserDto(await this.authService.register(regDTO));
-      // 
-      
+      //
+
       // const sent = await this.authService.sendEmailVerificationToken(
       //   newUser.email,
       // );
       // console.log(await newUser);
-      const newUser = await this.authService.register(regDTO)
+      const newUser = await this.authService.register(regDTO);
       await this.authService.saveUserConsent(newUser.email);
-      const emailToken = await this.authService.createEmailToken(newUser.email,EmailDTO);
+      const emailToken = await this.authService.createEmailToken(
+        newUser.email,
+        EmailDTO,
+      );
       if (newUser && emailToken) {
         // console.log(newUser);
-        return new ResponseSuccess('REGISTRATION.USER_REGISTERED_SUCCESSFULLY',{newUser,emailToken});
-      } 
+        return new ResponseSuccess(
+          'REGISTRATION.USER_REGISTERED_SUCCESSFULLY',
+          { newUser, emailToken },
+        );
+      }
     } catch (error) {
       return error;
     }
@@ -57,13 +66,13 @@ export class AuthController {
   })
   async sendEmailVerificationToken(
     @Param('email') email: string,
-    
   ): Promise<IResponse> {
     try {
       const sentMail = await this.authService.sendEmailVerification(email);
       if (sentMail) {
         return new ResponseSuccess(
-          'VERIFICATION.SENT_EMAIL_VERIFICATION_TOKEN', sentMail
+          'VERIFICATION.SENT_EMAIL_VERIFICATION_TOKEN',
+          sentMail,
         );
       } else {
         return new ResponseError('VERIFICATION.ERROR.MAIL_NOT_SENT');
@@ -79,7 +88,7 @@ export class AuthController {
     try {
       return await this.authService.validateLogin(loginDTO);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return error;
     }
   }
@@ -98,7 +107,10 @@ export class AuthController {
     try {
       const isVerified = await this.authService.verifyEmailToken(email, token);
       if (isVerified) {
-        return new ResponseSuccess('VERIFICATION.VERIFIED_SUCCESSFULLY',isVerified);
+        return new ResponseSuccess(
+          'VERIFICATION.VERIFIED_SUCCESSFULLY',
+          isVerified,
+        );
       } else {
         return new ResponseError('VERIFICATION.NOT_VERIFIED_SUCCESSFULLY');
       }
@@ -117,7 +129,7 @@ export class AuthController {
   //   } catch (error) {}
   // }
 
-/*  @Post('reset-request/:email')
+  /*  @Post('reset-request/:email')
   @ApiParam({
     name: 'email',
     type: 'String',
@@ -140,12 +152,16 @@ export class AuthController {
 
   @Post('password-token')
   async createPasswordToken(
-    @Body() resetPasswordDTO: ResetPasswordDto, @Param('email') email: string,
+    @Body() resetPasswordDTO: ResetPasswordDto,
+    @Param('email') email: string,
   ): Promise<any> {
     try {
-      const createtoken = await this.authService.createForgottenPasswordToken(email , resetPasswordDTO)
+      const createtoken = await this.authService.createForgottenPasswordToken(
+        email,
+        resetPasswordDTO,
+      );
       if (createtoken) {
-        return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY' , createtoken );
+        return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY', createtoken);
       } else {
         return new ResponseError('RESET.NOT_VERIFIED_SUCCESSFULLY');
       }
@@ -156,12 +172,21 @@ export class AuthController {
 
   @Post('reset-password')
   async resetPassword(
-    @Body() regDTO: RegisterDto, @Param('email') email: string, @Param('token') token: string
+    @Body() regDTO: RegisterDto,
+    @Param('email') email: string,
+    @Param('token') token: string,
   ): Promise<any> {
     try {
-      const resetPassword = await this.authService.verifyPasswordToken(email , token, regDTO)
+      const resetPassword = await this.authService.verifyPasswordToken(
+        email,
+        token,
+        regDTO,
+      );
       if (resetPassword) {
-        return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY' , resetPassword );
+        return new ResponseSuccess(
+          'RESET.VERIFIED_SUCCESSFULLY',
+          resetPassword,
+        );
       } else {
         return new ResponseError('RESET.NOT_VERIFIED_SUCCESSFULLY');
       }
@@ -183,14 +208,17 @@ export class AuthController {
       } else if (updateUserDto.hasOwnProperty('email')) {
         // console.log('EMAIL is changing');
         return new ResponseError('USER.EMAIL_CANNOT_BE_CHANGED', {});
-      }else if (updateUserDto.hasOwnProperty('phone')) {
+      } else if (updateUserDto.hasOwnProperty('phone')) {
         // console.log('EMAIL is changing');
         return new ResponseError('USER.PHONE_CANNOT_BE_CHANGED', {});
-      }else {
-       const updatedUser =  await this.authService.updateUser(email, updateUserDto);
-       const userData = new AuthUserDto( updatedUser);
-       delete userData['auth'];
-       delete userData['isActive']
+      } else {
+        const updatedUser = await this.authService.updateUser(
+          email,
+          updateUserDto,
+        );
+        const userData = new AuthUserDto(updatedUser);
+        delete userData['auth'];
+        delete userData['isActive'];
         return new ResponseSuccess('USER.UPDATED_SUCCESSFULLY', userData);
       }
     } catch (error) {

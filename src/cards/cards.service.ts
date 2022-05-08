@@ -12,21 +12,19 @@ export class CardsService {
   ) {}
 
   async create(data: CreateCardDto, userPayload): Promise<CreateCard> {
-    const cardTitle = await this.CreateCardModel
-        .findOne({ title: data.title })
-        .exec();
-    if(!cardTitle){
-      data.email = userPayload.email
+    const cardTitle = await this.CreateCardModel.findOne({
+      title: data.title,
+    }).exec();
+    if (!cardTitle) {
+      data.email = userPayload.email;
       const createdData = await new this.CreateCardModel(data).save();
-      console.log(createdData)
+      console.log(createdData);
       return new Promise((resolve) => {
         resolve(createdData);
       });
+    } else {
+      throw 'Card already present';
     }
-    else{
-      throw "Card already present"
-    }    
-    
   }
 
   async findAll(): Promise<CreateCard[]> {
@@ -37,42 +35,56 @@ export class CardsService {
   }
 
   async findByProfile(userPayload): Promise<CreateCard[]> {
-    const email = userPayload.email
-    const card = await this.CreateCardModel.find({email: email});
+    const email = userPayload.email;
+    const card = await this.CreateCardModel.find({ email: email });
     return new Promise((resolve) => {
       resolve(card);
     });
   }
 
   async findOne(id: string): Promise<CreateCard> {
-    const card = await this.CreateCardModel.findOne({_id:id });
+    const card = await this.CreateCardModel.findOne({ _id: id });
     return new Promise((resolve) => {
       resolve(card);
     });
   }
 
-  async uploadImage(id: string, data: CreateCardDto, file): Promise<CreateCard> {
+  async uploadImage(
+    id: string,
+    data: CreateCardDto,
+    file,
+  ): Promise<CreateCard> {
     let photoUrl = '/card/' + file.filename;
-    data.image= photoUrl;
-    const card = await this.CreateCardModel.findOneAndUpdate({ _id:id }, data, {
-      new: true,
-    });
+    data.image = photoUrl;
+    const card = await this.CreateCardModel.findOneAndUpdate(
+      { _id: id },
+      data,
+      {
+        new: true,
+      },
+    );
     return new Promise((resolve) => {
       resolve(card);
     });
   }
 
   async update(id: string, data: CreateCardDto): Promise<CreateCard> {
-    const card = await this.CreateCardModel.findOneAndUpdate({ _id:id }, data, {
-      new: true,
-    });
+    const card = await this.CreateCardModel.findOneAndUpdate(
+      { _id: id },
+      data,
+      {
+        new: true,
+      },
+    );
     return new Promise((resolve) => {
       resolve(card);
     });
   }
 
   async remove(id: string): Promise<CreateCard> {
-    const card = await this.CreateCardModel.findOneAndDelete({ _id: id }).exec();
+    const card = await this.CreateCardModel.findOneAndDelete({
+      _id: id,
+    }).exec();
     return new Promise((resolve) => {
       resolve(card);
     });

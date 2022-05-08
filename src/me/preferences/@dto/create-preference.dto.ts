@@ -1,34 +1,31 @@
-import {IsOptional } from 'class-validator';
+import { IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreatePreferenceDto  {
+export class CreatePreferenceDto {
   @ApiProperty()
   @IsOptional()
-  typeofCard: string
+  typeofCard: string;
 
   @ApiProperty()
   @IsOptional()
-  ebayPoints: string
-  
+  ebayPoints: string;
+
   @ApiProperty()
   @IsOptional()
-  price: string
+  price: string;
 
   @ApiProperty()
   @IsOptional()
   title: string;
 
-
   @ApiProperty()
   @IsOptional()
   value: {
-    condition: string,
-    value: string
+    condition: string;
+    value: string;
   };
 
   @ApiProperty()
   @IsOptional()
   description: string;
-
 }
-

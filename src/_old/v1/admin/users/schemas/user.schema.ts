@@ -11,7 +11,10 @@ export const UserSchema = new mongoose.Schema({
   profile: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Profile' },
   personal: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Personal' },
   medical: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Medical' },
-  educational: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Educational', },
+  educational: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User-Educational',
+  },
   employment: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Employment' },
   auth: {
     session: {

@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -25,7 +31,6 @@ export class CreateUserDto {
   @IsOptional()
   @ApiProperty({ default: 'ajayprajapat' })
   uname: string;
-
 
   // @Length(13)
   @IsNotEmpty()

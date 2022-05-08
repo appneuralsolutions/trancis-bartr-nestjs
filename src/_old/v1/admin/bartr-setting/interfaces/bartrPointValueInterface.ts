@@ -1,3 +1,3 @@
 export interface IBartrPointValue {
-    bartrPointValue:number
+  bartrPointValue: number;
 }

@@ -14,29 +14,34 @@ export class WishlistService {
     @InjectModel('wishlist') private WishlistModel: Model<wishlist>,
     @InjectModel('Card') private GetCardModel: Model<CreateCard>,
   ) {}
-  async create(data: CreateWishlistDto, userPayload): Promise<wishlist> 
- {
-   data.email = userPayload.email;
-   const Card = await this.GetCardModel.find({title: data.title})
-   const like = Card[0].likes+1
-   console.log(Card)
-   if(Card){
-  const createdData = await new this.WishlistModel(data).save();
-  const Updatecard = await this.GetCardModel.findOneAndUpdate({title : data.title }, {$set: {likes: like}}, {
-    new: true,
-  });
-  console.log(Updatecard)
-    return new Promise((resolve) => {
-      resolve(createdData);
-    });
-  }
+  async create(data: CreateWishlistDto, userPayload): Promise<wishlist> {
+    data.email = userPayload.email;
+    const Card = await this.GetCardModel.find({ title: data.title });
+    const like = Card[0].likes + 1;
+    console.log(Card);
+    if (Card) {
+      const createdData = await new this.WishlistModel(data).save();
+      const Updatecard = await this.GetCardModel.findOneAndUpdate(
+        { title: data.title },
+        { $set: { likes: like } },
+        {
+          new: true,
+        },
+      );
+      console.log(Updatecard);
+      return new Promise((resolve) => {
+        resolve(createdData);
+      });
+    }
   }
 
   async findAll(userPayload): Promise<any> {
-    const email = userPayload.email
-    var wishlist = await this.WishlistModel.find({email:email});
-    for (let i=0 ;i<wishlist.length; i++){
-      var getCard = await this.GetCardModel.findOne({title: wishlist[i].title})
+    const email = userPayload.email;
+    var wishlist = await this.WishlistModel.find({ email: email });
+    for (let i = 0; i < wishlist.length; i++) {
+      var getCard = await this.GetCardModel.findOne({
+        title: wishlist[i].title,
+      });
     }
     return new Promise((resolve) => {
       resolve(getCard);
@@ -59,7 +64,9 @@ export class WishlistService {
   }
 
   async remove(id: string): Promise<wishlist> {
-    const wishlist = await this.WishlistModel.findOneAndDelete({ _id: id }).exec();
+    const wishlist = await this.WishlistModel.findOneAndDelete({
+      _id: id,
+    }).exec();
     return new Promise((resolve) => {
       resolve(wishlist);
     });

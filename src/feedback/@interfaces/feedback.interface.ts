@@ -1,5 +1,5 @@
 export interface Feedback {
-  email:string;
+  email: string;
   message: string;
   rating: string;
 }

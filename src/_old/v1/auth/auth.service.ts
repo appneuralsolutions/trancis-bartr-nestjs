@@ -49,7 +49,7 @@ export class AuthService {
     @InjectModel('User') private readonly userModel: Model<IUser>,
     private jwtService: JwtService,
     private emailService: EmailService,
-  ) { }
+  ) {}
 
   // guid(){
   //   function s4() {
@@ -69,23 +69,26 @@ export class AuthService {
   }
 
   async validateLogin(loginDto): Promise<any> {
-    console.log(loginDto.email)
-    if ((loginDto.email)  && (loginDto.password)) {
+    console.log(loginDto.email);
+    if (loginDto.email && loginDto.password) {
       const isValidEmail = this.isValidEmail(loginDto.email);
-      if(isValidEmail){
+      if (isValidEmail) {
         const user: any = await this.userModel.findOne({
           email: loginDto.email,
         });
-        console.log(user)
+        console.log(user);
         if (!user) throw 'Email Not Found';
         // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
-    
-        var isValidPass = await bcrypt.compare(loginDto.password, user.password);
-        console.log(isValidPass, loginDto.password)
+
+        var isValidPass = await bcrypt.compare(
+          loginDto.password,
+          user.password,
+        );
+        console.log(isValidPass, loginDto.password);
         if (isValidPass) {
           const jwtToken = await this.signToken(user);
           user.jwtToken = await jwtToken;
-          console.log(user.jwtToken)
+          console.log(user.jwtToken);
           // console.log(user, jwtToken);
           // return await user;
           // const resUser = new AuthUserDto(user);
@@ -96,20 +99,14 @@ export class AuthService {
           return jwtToken;
         } else {
           //check email empty or password empty
-         throw 'not valid password';
+          throw 'not valid password';
           // throw 'Incorrect Email address or Password';
         }
-    
-
-      }else{
-        throw 'Not Valid Email'
+      } else {
+        throw 'Not Valid Email';
       }
-
     }
     //  else {
-
-
-     
 
     //   if((!loginDto.email)&&(!loginDto.password)){
     //     throw 'Email or Password Not Valid'
@@ -119,11 +116,11 @@ export class AuthService {
     //       if(!isValidEmail){
     //         throw 'Invalid Email'
     //       }
-  
+
     //     }else{
     //       throw 'Invalid Email'
     //     }
-  
+
     //     if(!loginDto.password){
     //       throw 'Invalid Password'
     //     }
@@ -134,7 +131,6 @@ export class AuthService {
     // }
 
     // console.log(loginDto.username);
-    
   }
 
   signToken(user: any): string {
@@ -200,16 +196,18 @@ export class AuthService {
     if (
       emailVerification &&
       (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 <
-      15
+        15
     ) {
       throw new HttpException(
         'LOGIN.EMAIL_SENDED_RECENTLY',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
-    if(emailVerification && (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 >
-    15
-  ){
+    if (
+      emailVerification &&
+      (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 >
+        15
+    ) {
       await this.emailVerificationModel.findOneAndUpdate(
         { email: email },
         {
@@ -220,21 +218,20 @@ export class AuthService {
         },
         { upsert: true, new: true },
       );
-    }  
-    else {
-      EmailDTO.email = email
-      EmailDTO.emailToken = (
-          Math.floor(Math.random() * 9000000) + 1000000
-        ).toString(), //Generate 7 digits number
-        EmailDTO.timestamp = new Date(),
-      
-      await new this.emailVerificationModel(EmailDTO).save();
+    } else {
+      EmailDTO.email = email;
+      (EmailDTO.emailToken = (
+        Math.floor(Math.random() * 9000000) + 1000000
+      ).toString()), //Generate 7 digits number
+        (EmailDTO.timestamp = new Date()),
+        await new this.emailVerificationModel(EmailDTO).save();
       return true;
     }
   }
 
   async createForgottenPasswordToken(
-    email: string, resetPasswordDTO:any
+    email: string,
+    resetPasswordDTO: any,
   ): Promise<boolean> {
     const forgottenPassword = await this.forgottenPasswordModel.findOne({
       email: email,
@@ -242,35 +239,33 @@ export class AuthService {
     if (
       forgottenPassword &&
       (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 <
-      15
+        15
     ) {
       throw new HttpException(
         'RESET_PASSWORD.EMAIL_SENDED_RECENTLY',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
-      if(forgottenPassword && (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 >
-      15
-    ){
-        await this.forgottenPasswordModel.findOneAndUpdate(
-          { email: email },
-          {
-            token: (
-              Math.floor(Math.random() * 9000000) + 1000000
-            ).toString(), //Generate 7 digits number,
-            timestamp: new Date(),
-          },
-          { upsert: true, new: true },
-        );
-      }  
-      else {
-        resetPasswordDTO.email = email
-        resetPasswordDTO.token = (
-            Math.floor(Math.random() * 9000000) + 1000000
-          ).toString(), //Generate 7 digits number
-        
+    if (
+      forgottenPassword &&
+      (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 >
+        15
+    ) {
+      await this.forgottenPasswordModel.findOneAndUpdate(
+        { email: email },
+        {
+          token: (Math.floor(Math.random() * 9000000) + 1000000).toString(), //Generate 7 digits number,
+          timestamp: new Date(),
+        },
+        { upsert: true, new: true },
+      );
+    } else {
+      resetPasswordDTO.email = email;
+      (resetPasswordDTO.token = (
+        Math.floor(Math.random() * 9000000) + 1000000
+      ).toString()), //Generate 7 digits number
         await new this.forgottenPasswordModel(resetPasswordDTO).save();
-        return true;
+      return true;
     }
   }
 
@@ -282,65 +277,63 @@ export class AuthService {
     });
   }
 
-  async sendPasswordToken (email: string): Promise<any>{
-    var model = await this.forgottenPasswordModel.findOne({ email: email});
-    if(model){
+  async sendPasswordToken(email: string): Promise<any> {
+    var model = await this.forgottenPasswordModel.findOne({ email: email });
+    if (model) {
       const transporter = nodemailer.createTransport({
-        service: "gmail",
+        service: 'gmail',
         auth: {
-          user: "ashwin@appneural.com",
-          pass: "ashashA@01"
-        }
-      })
+          user: 'ashwin@appneural.com',
+          pass: 'ashashA@01',
+        },
+      });
       const options = {
-        from: "ashwin@appneural.com",
+        from: 'ashwin@appneural.com',
         to: model.email,
-        subject: "Email verifaction code",
-        text: model.token
-      }
-      transporter.sendMail(options, function(err, info){
-        if(err){
-          console.log(err)
-          return err
+        subject: 'Email verifaction code',
+        text: model.token,
+      };
+      transporter.sendMail(options, function (err, info) {
+        if (err) {
+          console.log(err);
+          return err;
+        } else {
+          console.log(info.response);
+          return info.response;
         }
-        else{
-          console.log(info.response)
-          return info.response
-        }
-      })
+      });
     }
   }
 
-  async sendEmailVerification(email: string): Promise<any>{
-    var model = await this.emailVerificationModel.findOne({ email: email});
-    if(model){
+  async sendEmailVerification(email: string): Promise<any> {
+    var model = await this.emailVerificationModel.findOne({ email: email });
+    if (model) {
       const transporter = nodemailer.createTransport({
-        service: "gmail",
+        service: 'gmail',
         auth: {
-          user: "ashwin@appneural.com",
-          pass: "ashashA@01"
-        }
-      })
+          user: 'ashwin@appneural.com',
+          pass: 'ashashA@01',
+        },
+      });
       const options = {
-        from: "ashwin@appneural.com",
+        from: 'ashwin@appneural.com',
         to: model.email,
-        subject: "Email verifaction code",
-        text: model.emailToken
-      }
-      transporter.sendMail(options, function(err, info){
-        if(err){
-          console.log(err)
-          return err
+        subject: 'Email verifaction code',
+        text: model.emailToken,
+      };
+      transporter.sendMail(options, function (err, info) {
+        if (err) {
+          console.log(err);
+          return err;
+        } else {
+          console.log(info.response);
+          return info.response;
         }
-        else{
-          console.log(info.response)
-          return info.response
-        }
-      })
+      });
     }
   }
 
- /* async sendEmailVerification(email: string): Promise<boolean> {   
+  /* async sendEmailVerification(email: string): Promise<boolean> {   
     var model = await this.emailVerificationModel.findOne({ email: email});
 
     if(model && model.emailToken){
@@ -382,7 +375,7 @@ export class AuthService {
 
   async verifyEmailToken(email, token: string): Promise<any> {
     const emailVerif = await this.emailVerificationModel.findOne({
-      email: email
+      email: email,
     });
     if (emailVerif.emailToken === token) {
       const userFromDb = await this.userModel.findOne({
@@ -401,15 +394,17 @@ export class AuthService {
 
   async verifyPasswordToken(email, token: string, userDto): Promise<any> {
     const passwordVerif = await this.forgottenPasswordModel.findOne({
-      email: email
+      email: email,
     });
     if (passwordVerif.token === token) {
       const userFromDb = await this.userModel.findOne({
         email: passwordVerif.email,
       });
-      const resetPassword = await this.userModel.findOneAndUpdate({email: passwordVerif.email},
-        userDto, { upsert: true, new: true }
-        )
+      const resetPassword = await this.userModel.findOneAndUpdate(
+        { email: passwordVerif.email },
+        userDto,
+        { upsert: true, new: true },
+      );
       if (userFromDb) {
         userFromDb.auth.verification.email = true;
         const savedUser = await userFromDb.save();
@@ -472,8 +467,8 @@ export class AuthService {
     const userRegistered = await this.userModel
       .findOne({ email: newUser.email })
       .exec();
-       
-    if (!userRegistered ) {
+
+    if (!userRegistered) {
       return await new this.userModel(newUser).save();
     } else {
       throw 'REGISTRATION.USER_ALREADY_REGISTERED';

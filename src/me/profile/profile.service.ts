@@ -13,16 +13,11 @@ export class ProfileService {
     @InjectModel('User') private readonly userModel: Model<IUser>,
   ) {}
 
-  async uploadPhoto(
-    data: CreateProfileDto,
-    userpayload,
-    file,
-  ): Promise<IUser> {
-    
+  async uploadPhoto(data: CreateProfileDto, userpayload, file): Promise<IUser> {
     const photoUrl = '/profile/' + file.filename;
     data.picture = photoUrl;
     const email = userpayload.email;
-    const card = await this.userModel.findOneAndUpdate({email : email }, data, {
+    const card = await this.userModel.findOneAndUpdate({ email: email }, data, {
       new: true,
     });
     return new Promise((resolve) => {
@@ -32,7 +27,7 @@ export class ProfileService {
 
   async findOne(userPayload): Promise<IUser> {
     const email = userPayload.email;
-    const user = await this.userModel.findOne({email : email });
+    const user = await this.userModel.findOne({ email: email });
     return new Promise((resolve) => {
       resolve(user);
     });
@@ -40,8 +35,8 @@ export class ProfileService {
 
   async findProfilePic(userPayload): Promise<any> {
     const email = userPayload.email;
-    const user = await this.userModel.findOne({email : email });
-    const profilePic = user.picture
+    const user = await this.userModel.findOne({ email: email });
+    const profilePic = user.picture;
     return new Promise((resolve) => {
       resolve(profilePic);
     });
@@ -53,7 +48,7 @@ export class ProfileService {
   ): Promise<IUser> {
     const email = userPayload.email;
     const user = await this.userModel.findOneAndUpdate(
-      { email : email  },
+      { email: email },
       CreateProfileDto,
       { new: true },
     );
@@ -64,7 +59,7 @@ export class ProfileService {
 
   async remove(userPayload): Promise<IUser> {
     const email = userPayload.email;
-    const user = this.userModel.findOneAndDelete({ email : email }).exec();
+    const user = this.userModel.findOneAndDelete({ email: email }).exec();
     return new Promise((resolve) => {
       resolve(user);
     });

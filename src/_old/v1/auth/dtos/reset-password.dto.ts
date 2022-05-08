@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class ResetPasswordDto {
   @IsEmail()
-  @ApiProperty({default: 'ajayprajapat@live.com'})
+  @ApiProperty({ default: 'ajayprajapat@live.com' })
   email: string;
 
   @IsNotEmpty()
@@ -11,6 +11,6 @@ export class ResetPasswordDto {
   token: string;
 
   @IsNotEmpty()
-  @ApiProperty({default: '123456'})
+  @ApiProperty({ default: '123456' })
   password: string;
 }

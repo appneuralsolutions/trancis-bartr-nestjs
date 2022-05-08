@@ -1,15 +1,15 @@
 import { ApiTags } from '@nestjs/swagger';
 import {
   Controller,
-   Get,
-   Post,
-   Body,
-   Patch,
-   Param,
-   Delete,
-   Headers,
-   HttpException,
-   HttpStatus,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Headers,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { PreferencesService } from './preferences.service';
 import { CreatePreferenceDto } from './@dto/create-preference.dto';
@@ -30,11 +30,14 @@ import { JwtService } from '@nestjs/jwt';
 @ApiTags('Me -> Preferences')
 @Controller('preferences')
 export class PreferencesController {
-  constructor(private readonly preferencesService: PreferencesService,
-    private jwtService: JwtService) {}
-  
+  constructor(
+    private readonly preferencesService: PreferencesService,
+    private jwtService: JwtService,
+  ) {}
+
   @Post()
-  async create( @Headers('authorization') authorization: any,
+  async create(
+    @Headers('authorization') authorization: any,
     @Body() data: CreatePreferenceDto,
   ): Promise<IResponse | CreateCard[]> {
     if (!authorization) {
@@ -46,17 +49,18 @@ export class PreferencesController {
     const userPayload: any = this.jwtService.decode(
       authorization.replace('Bearer ', ''),
     );
-    if(userPayload){
+    if (userPayload) {
       var perference = await this.preferencesService.create(data);
     }
-    
+
     if (perference) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { perference });
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, {
+        perference,
+      });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_CREATED_CARD, {});
     }
   }
-
 
   // @Post()
   // async create(
