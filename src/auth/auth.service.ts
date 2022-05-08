@@ -478,7 +478,7 @@ export class AuthService {
     if (!userRegistered) {
       return await new this.userModel(newUser).save();
     } else {
-      throw 'REGISTRATION.USER_ALREADY_REGISTERED';
+      throw ErrorMessage.USER_ALREADY_EXISTS;
     }
   }
 
