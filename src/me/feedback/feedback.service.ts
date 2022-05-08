@@ -11,7 +11,7 @@ export class FeedbackService {
     @InjectModel('Feedback') private readonly feedbackModel: Model<Feedback>,
   ) {}
   async create(data: CreateFeedbackDto, userPayload): Promise<Feedback> {
-    data.email = userPayload.email;
+    data.createdBy = userPayload.userId;
     const createdData = await new this.feedbackModel(data).save();
     return new Promise((resolve) => {
       resolve(createdData);
@@ -19,16 +19,20 @@ export class FeedbackService {
   }
 
   async findMy(userPayload): Promise<Feedback[]> {
-    const email = userPayload.email;
-    const data = await this.feedbackModel.find({ email: email });
+    const me = userPayload.userId;
+    const data = await this.feedbackModel.find({ createdBy: me });
     return new Promise((resolve) => {
       resolve(data);
     });
   }
 
-  async update(id: string, data: CreateFeedbackDto): Promise<Feedback> {
+  async update(
+    id: string,
+    data: CreateFeedbackDto,
+    userPayload: any,
+  ): Promise<Feedback> {
     const feedback = await this.feedbackModel.findOneAndUpdate(
-      { _id: id },
+      { _id: id, createdBy: userPayload.userId },
       data,
       {
         new: true,
