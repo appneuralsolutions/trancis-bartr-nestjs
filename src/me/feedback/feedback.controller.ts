@@ -12,6 +12,7 @@ import {
   Put,
   Delete,
   Query,
+  Param,
 } from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './@dto/create-feedback.dto';
@@ -78,7 +79,7 @@ export class FeedbackController {
   @Put('?')
   async update(
     @Body() createFeedbackDto: CreateFeedbackDto,
-    @Query('id') id: string,
+    @Param('id') id: string,
     @Me() me: string,
   ): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);
@@ -97,7 +98,7 @@ export class FeedbackController {
   }
 
   @Delete()
-  async remove(@Me() me: string, @Query('id') id: string): Promise<IResponse> {
+  async remove(@Me() me: string, @Param('id') id: string): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);
     const data = await this.feedbackService.remove(id);
     if (data) {

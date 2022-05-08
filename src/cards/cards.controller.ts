@@ -88,7 +88,7 @@ export class CardsController {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
   }
-  @Put('/images?')
+  @Put(':id/image?')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
@@ -101,7 +101,7 @@ export class CardsController {
   async uploadImage(
     @UploadedFile() file,
     @Body() data: CreateCardDto,
-    @Query('id') id: string,
+    @Param('id') id: string,
   ): Promise<IResponse | CreateCard> {
     const response = {
       originalname: file.originalname,
@@ -115,13 +115,11 @@ export class CardsController {
     }
   }
 
-  @Put('?')
+  @Put(':id')
   async update(
     @Body(ValidationPipe) data: CreateCardDto,
-    @Query('id') id: string,
-  ): // @Param('id') id: string,
-  // @Body() updateCardDto: UpdateCardDto,
-  Promise<IResponse | CreateCard> {
+    @Param('id') id: string,
+  ): Promise<IResponse | CreateCard> {
     const card = await this.cardsService.update(id, data);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, { card });
@@ -131,7 +129,7 @@ export class CardsController {
   }
 
   @Delete('?')
-  async remove(@Query('id') id: string): // @Param('id') id: string
+  async remove(@Param('id') id: string): // @Param('id') id: string
   Promise<IResponse | CreateCard> {
     const card = await this.cardsService.remove(id);
     if (card) {
