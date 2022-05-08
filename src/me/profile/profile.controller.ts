@@ -97,7 +97,7 @@ export class ProfileController {
     const userPayload: any = this.jwtService.decode(me);
     const myData = await this.userModel.findOne({ email: userPayload.email });
     console.log(myData);
-    res.sendFile(userPayload.userId, { root: '/uploads/profiles' });
+    res.sendFile(userPayload.userId, { root: '/uploads/profile-pics' });
   }
 
   @Get()
