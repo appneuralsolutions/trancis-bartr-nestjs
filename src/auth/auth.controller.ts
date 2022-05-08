@@ -31,29 +31,20 @@ export class AuthController {
     @Body() regDTO: RegisterDto,
     @Body() EmailDTO: EmailVerificationDto,
   ): Promise<IResponse> {
-    try {
-      // const newUser = new AuthUserDto(await this.authService.register(regDTO));
-      //
-
-      // const sent = await this.authService.sendEmailVerificationToken(
-      //   newUser.email,
-      // );
-      // console.log(await newUser);
-      const newUser = await this.authService.register(regDTO);
-      await this.authService.saveUserConsent(newUser.email);
-      const emailToken = await this.authService.createEmailToken(
-        newUser.email,
-        EmailDTO,
-      );
-      if (newUser && emailToken) {
-        // console.log(newUser);
-        return new ResponseSuccess(
-          'REGISTRATION.USER_REGISTERED_SUCCESSFULLY',
-          { newUser, emailToken },
-        );
-      }
-    } catch (error) {
-      return error;
+    const newUser = await this.authService.register(regDTO);
+    await this.authService.saveUserConsent(newUser.email);
+    const emailToken = await this.authService.createEmailToken(
+      newUser.email,
+      EmailDTO,
+    );
+    if (newUser && emailToken) {
+      // console.log(newUser);
+      return new ResponseSuccess(Message.REGISTERED_SUCCESSFULLY, {
+        newUser,
+        emailToken,
+      });
+    } else {
+      return new ResponseError(ErrorMessage.REGISTER_NOT_SUCCESSFULLY);
     }
   }
 

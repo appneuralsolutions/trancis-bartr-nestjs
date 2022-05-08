@@ -68,8 +68,16 @@ export class AuthService {
     } else return false;
   }
 
+  async validateUser(email): Promise<any> {
+    const user: any = await this.userModel.findOne({
+      email,
+    });
+    if (user && user.length > 0) {
+      return true;
+    } else false;
+  }
+
   async validateLogin(loginDto): Promise<any> {
-    console.log(loginDto.email);
     if (loginDto.email && loginDto.password) {
       const isValidEmail = this.isValidEmail(loginDto.email);
       if (isValidEmail) {
