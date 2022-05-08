@@ -1,4 +1,4 @@
-import { HttpExceptionFilter } from './@filters/http-exception.filter';
+// import { HttpExceptionFilter } from './@filters/http-exception.filter';
 import { MongoExceptionFilter } from './@filters/mongo-exception.filter';
 import { AllExceptionsFilter } from './@filters/all-exception.filter';
 import { APP_FILTER } from '@nestjs/core';
@@ -16,8 +16,8 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         port: 587,
         secure: false, // upgrade later with STARTTLS
         auth: {
-          user: 'username',
-          pass: 'password',
+          user: 'mail@appeural.com',
+          pass: 'm8>UuFuN',
         },
       },
       defaults: {
