@@ -3,7 +3,7 @@ export class AuthUserDto {
     this.firstName = object.firstName;
     this.lastName = object.lastName;
     this.email = object.email;
-    this.uname = object.uname;
+    // this.uname = object.uname;
     this.location = object.location;
     this.dob = object.dob;
     this.phone = object.phone;
@@ -17,7 +17,7 @@ export class AuthUserDto {
   readonly lastName: string;
   auth: {};
   email: string;
-  uname: string;
+  // uname: string;
   phone: string;
   dob: string;
   location: string;

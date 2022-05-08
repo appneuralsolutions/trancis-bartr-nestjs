@@ -26,11 +26,11 @@ export class CreateUserDto {
   @ApiProperty({ default: 'ajayprajapat@live.com' })
   email: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ default: 'ajayprajapat' })
-  uname: string;
+  // @IsNotEmpty()
+  // @IsString()
+  // @IsOptional()
+  // @ApiProperty({ default: 'ajayprajapat' })
+  // uname: string;
 
   // @Length(13)
   @IsNotEmpty()
