@@ -83,7 +83,11 @@ export class FeedbackController {
     @Me() me: string,
   ): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);
-    const data = await this.feedbackService.update(id, createFeedbackDto);
+    const data = await this.feedbackService.update(
+      id,
+      createFeedbackDto,
+      userPayload,
+    );
     if (data) {
       return new ResponseSuccess(
         Message.SUCCESSFULLY_UPDATED_MY_FEEDBACK,
