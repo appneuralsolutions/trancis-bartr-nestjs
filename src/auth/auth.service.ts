@@ -11,10 +11,10 @@ import { Model } from 'mongoose';
 import { HttpService } from '@nestjs/axios';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { IConsentRegistry } from './interfaces/consent-registry.interface';
-import { IEmailVerification } from './interfaces/email-verification.interface';
-import { IForgottenPassword } from './interfaces/forgotten-password.interface';
-import { IUserActivity } from './interfaces/user-activity.interface';
+import { IConsentRegistry } from './@interfaces/consent-registry.interface';
+import { IEmailVerification } from './@interfaces/email-verification.interface';
+import { IForgottenPassword } from './@interfaces/forgotten-password.interface';
+import { IUserActivity } from './@interfaces/user-activity.interface';
 import * as nodemailer from 'nodemailer';
 import {
   IUser,
@@ -22,9 +22,9 @@ import {
   IUserEmployeement,
   IUserMedical,
   IUserPersonal,
-} from './interfaces/user.interface';
-import { LoginDto } from './dtos/login.dto';
-import { AuthUserDto } from './dtos/auth-user.dto';
+} from './@interfaces/user.interface';
+import { LoginDto } from './@dtos/login.dto';
+import { AuthUserDto } from './@dtos/auth-user.dto';
 
 @Injectable()
 export class AuthService {

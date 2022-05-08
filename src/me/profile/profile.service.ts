@@ -1,9 +1,9 @@
-import { NewUser } from './../../auth/@interfaces/new-user.interface';
+import { NewUser } from '../../auth/@interfaces/new-user.interface';
 import { Injectable } from '@nestjs/common';
 import { CreateProfileDto } from './@dto/create-profile.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { IUser } from '../../auth/interfaces/user.interface';
+import { IUser } from '../../auth/@interfaces/user.interface';
 
 @Injectable()
 export class ProfileService {

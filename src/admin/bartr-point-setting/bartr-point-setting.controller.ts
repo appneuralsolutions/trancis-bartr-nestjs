@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { IResponse } from '../../auth/interfaces/response.interface';
+import { IResponse } from '../../auth/@interfaces/response.interface';
 import { BartrSettingService } from '../bartr-setting/bartr-setting.service';
 import { BartrPointValueDTO } from '../bartr-setting/dtos/bartr-point-value.dto';
 @ApiTags('Bartr-setting/PointValue')

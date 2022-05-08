@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { IResponse } from 'src/shared/@interfaces/response.interface';
-import { ResponseError, ResponseSuccess } from '../../auth/dtos/response.dto';
+import { ResponseError, ResponseSuccess } from '../../auth/@dtos/response.dto';
 import { BartrSettingService } from './bartr-setting.service';
 import { BartrPointValueDTO } from './dtos/bartr-point-value.dto';
 import { BartrSignupRewardDTO } from './dtos/bartr-signup-reward.dto';

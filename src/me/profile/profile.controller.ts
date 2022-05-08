@@ -1,4 +1,4 @@
-import { NewUser } from './../../auth/@interfaces/new-user.interface';
+import { NewUser } from '../../auth/@interfaces/new-user.interface';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { IResponse } from './../../shared/@interfaces/response.interface';
 import {
@@ -32,7 +32,7 @@ import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from './utils/file-upload.utils';
 import { JwtService } from '@nestjs/jwt';
-import { IUser } from '../../auth/interfaces/user.interface';
+import { IUser } from '../../auth/@interfaces/user.interface';
 import { Me } from '../@decorators/me.decorator';
 
 @ApiTags('Me -> Profile')

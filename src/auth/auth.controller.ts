@@ -10,14 +10,14 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiParam } from '@nestjs/swagger';
-import { RegisterDto } from './dtos/register.dto';
-import { IResponse } from './interfaces/response.interface';
-import { AuthUserDto } from './dtos/auth-user.dto';
-import { ResponseError, ResponseSuccess } from './dtos/response.dto';
-import { LoginDto } from './dtos/login.dto';
-import { ResetPasswordDto } from './dtos/reset-password.dto';
+import { RegisterDto } from './@dtos/register.dto';
+import { IResponse } from './@interfaces/response.interface';
+import { AuthUserDto } from './@dtos/auth-user.dto';
+import { ResponseError, ResponseSuccess } from './@dtos/response.dto';
+import { LoginDto } from './@dtos/login.dto';
+import { ResetPasswordDto } from './@dtos/reset-password.dto';
 import { AuthUser } from './auth.decorator';
-import { EmailVerificationDto } from '../auth/dtos/email-verfication.dto';
+import { EmailVerificationDto } from './@dtos/email-verfication.dto';
 
 @Controller()
 export class AuthController {

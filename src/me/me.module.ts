@@ -1,5 +1,5 @@
 import { PreferencesSchema } from './preferences/@schemas/preferences.schema';
-import { NewUserSchema } from './../auth/@schemas/new-user.schema';
+import { NewUserSchema } from '../auth/@schemas/new-user.schema';
 import { AuthModule } from '../auth/auth.module';
 import { WishlistService } from './wishlist/wishlist.service';
 import { PreferencesService } from './preferences/preferences.service';
