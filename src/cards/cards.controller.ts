@@ -46,6 +46,7 @@ export class CardsController {
     @Body() data: CreateCardDto,
     @Me() me: string,
   ): Promise<IResponse | CreateCard> {
+    console.log(me)
     const card = await this.cardsService.create(data, me);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { card });
