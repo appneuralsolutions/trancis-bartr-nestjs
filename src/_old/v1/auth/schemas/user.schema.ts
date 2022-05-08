@@ -5,7 +5,7 @@ export const UserSchema = new mongoose.Schema({
   firstName: { type: String, require: true },
   lastName: { type: String },
   email: { type: String, unique: true, require: true },
-  uname: { type: String, require: true },
+  uname: { type: String, require: true, unique: true },
   phone: { type: String, unique: true, require: true },
   userType: { type: String, require: true },
   // empCode: { type: String, unique: true, require: true },
