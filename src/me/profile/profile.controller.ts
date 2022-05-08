@@ -35,11 +35,14 @@ import { editFileName, imageFileFilter } from './utils/file-upload.utils';
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from '../../auth/@interfaces/user.interface';
 import { Me } from '../@decorators/me.decorator';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @ApiTags('Me -> Profile')
 @Controller('profile')
 export class ProfileController {
   constructor(
+    @InjectModel('User') private readonly userModel: Model<IUser>,
     private readonly profileService: ProfileService,
     private jwtService: JwtService,
   ) {}
@@ -48,7 +51,7 @@ export class ProfileController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: './uploads/profiles',
+        destination: './uploads/profile-pics',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
@@ -92,6 +95,8 @@ export class ProfileController {
   @Get('photo')
   async serveAvatar(@Me() me: string, @Res() res): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
+    const myData = await this.userModel.findOne({ email: userPayload.email });
+    console.log(myData);
     res.sendFile(userPayload.userId, { root: '/uploads/profiles' });
   }
 

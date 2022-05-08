@@ -18,10 +18,10 @@ export class ProfileService {
     userPayload: any,
     file,
   ): Promise<IUser> {
-    const photoUrl = '/uploads/profile-pics/' + userPayload.userId;
+    const photoUrl = '/uploads/profile-pics/' + file.filename;
     data.picture = photoUrl;
     const email = userPayload.email;
-    const card = await this.userModel.findOneAndUpdate({ email: email }, data, {
+    const card = await this.userModel.findOneAndUpdate({ email }, data, {
       new: true,
     });
     return new Promise((resolve) => {
@@ -31,7 +31,7 @@ export class ProfileService {
 
   async findOne(userPayload): Promise<IUser> {
     const email = userPayload.email;
-    const user = await this.userModel.findOne({ email: email });
+    const user = await this.userModel.findOne({ email });
     return new Promise((resolve) => {
       resolve(user);
     });
@@ -39,7 +39,7 @@ export class ProfileService {
 
   async findProfilePic(userPayload): Promise<any> {
     const email = userPayload.email;
-    const user = await this.userModel.findOne({ email: email });
+    const user = await this.userModel.findOne({ email });
     const profilePic = user.picture;
     return new Promise((resolve) => {
       resolve(profilePic);
