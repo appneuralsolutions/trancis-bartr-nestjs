@@ -92,7 +92,7 @@ export class CardsController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: './card',
+        destination: './uploads/cards',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
