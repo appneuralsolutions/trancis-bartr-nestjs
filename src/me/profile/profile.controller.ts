@@ -37,6 +37,7 @@ import { IUser } from '../../auth/@interfaces/user.interface';
 import { Me } from '../@decorators/me.decorator';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as fs from 'fs';
 
 @ApiTags('Me -> Profile')
 @Controller('profile')
@@ -96,8 +97,7 @@ export class ProfileController {
   async serveAvatar(@Me() me: string, @Res() res): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
     const myData = await this.userModel.findOne({ email: userPayload.email });
-    console.log(myData);
-    res.sendFile(myData.picture, { root: './uploads/profile-pics' });
+    res.sendFile(myData.picture, { root: './' });
   }
 
   @Get()
