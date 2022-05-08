@@ -95,8 +95,8 @@ export class UserProject implements IUserProject {
   description: string;
   role: string;
   duration: string;
-  members: Number;
-  year: Number;
+  members: number;
+  year: number;
   technology: string;
   industry: string;
 }

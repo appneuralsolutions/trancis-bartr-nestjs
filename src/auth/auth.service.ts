@@ -79,7 +79,7 @@ export class AuthService {
         if (!user) throw 'Email Not Found';
         // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
-        var isValidPass = await bcrypt.compare(
+        const isValidPass = await bcrypt.compare(
           loginDto.password,
           user.password,
         );
@@ -277,7 +277,7 @@ export class AuthService {
   }
 
   async sendPasswordToken(email: string): Promise<any> {
-    var model = await this.forgottenPasswordModel.findOne({ email: email });
+    const model = await this.forgottenPasswordModel.findOne({ email: email });
     if (model) {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -305,7 +305,7 @@ export class AuthService {
   }
 
   async sendEmailVerification(email: string): Promise<any> {
-    var model = await this.emailVerificationModel.findOne({ email: email });
+    const model = await this.emailVerificationModel.findOne({ email: email });
     if (model) {
       const transporter = nodemailer.createTransport({
         service: 'gmail',

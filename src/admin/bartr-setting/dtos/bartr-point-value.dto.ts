@@ -5,5 +5,5 @@ export class BartrPointValueDTO {
   @IsNotEmpty()
   @IsOptional()
   @ApiProperty({ default: 1 })
-  bartrPointValue: Number;
+  bartrPointValue: number;
 }

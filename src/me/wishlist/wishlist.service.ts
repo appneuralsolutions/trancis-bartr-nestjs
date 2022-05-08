@@ -37,7 +37,7 @@ export class WishlistService {
 
   async findAll(userPayload): Promise<any> {
     const email = userPayload.email;
-    var wishlist = await this.WishlistModel.find({ email: email });
+    const wishlist = await this.WishlistModel.find({ email: email });
     for (let i = 0; i < wishlist.length; i++) {
       var getCard = await this.GetCardModel.findOne({
         title: wishlist[i].title,

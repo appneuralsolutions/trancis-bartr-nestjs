@@ -54,7 +54,7 @@ export class CardsService {
     data: CreateCardDto,
     file,
   ): Promise<CreateCard> {
-    let photoUrl = '/card/' + file.filename;
+    const photoUrl = '/card/' + file.filename;
     data.image = photoUrl;
     const card = await this.CreateCardModel.findOneAndUpdate(
       { _id: id },

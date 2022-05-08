@@ -5,5 +5,5 @@ export class BartrSignupRewardDTO {
   @IsNotEmpty()
   @IsOptional()
   @ApiProperty({ default: 1 })
-  bartrSignupReward: Number;
+  bartrSignupReward: number;
 }
