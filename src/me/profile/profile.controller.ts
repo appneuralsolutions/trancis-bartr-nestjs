@@ -33,6 +33,7 @@ import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from './utils/file-upload.utils';
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from './../../_old/v1/auth/interfaces/user.interface';
+import { Me } from '../@decorators/me.decorator';
 
 @ApiTags('Me -> Profile')
 @Controller('profile')
@@ -54,28 +55,14 @@ export class ProfileController {
   )
   async uploadPhoto(
     @UploadedFile() file,
-    @Headers('authorization') authorization: any,
+    @Me() me: string,
     @Body(ValidationPipe) createProfileDto: CreateProfileDto,
   ): Promise<IResponse | IUser> {
     // const response = {
     //   originalname: file.originalname,
     //   filename: file.filename,
     // };
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    const userPayload: any = this.jwtService.decode(me);
     const result = await this.profileService.uploadPhoto(
       createProfileDto,
       userPayload,
@@ -102,24 +89,8 @@ export class ProfileController {
   } */
 
   @Get('photo')
-  async findProfilePic(
-    @Headers('authorization') authorization: any,
-  ): Promise<IResponse | IUser> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+  async findProfilePic(@Me() me: string): Promise<IResponse | IUser> {
+    const userPayload: any = this.jwtService.decode(me);
     const user = await this.profileService.findProfilePic(userPayload);
     if (user) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, { user });
@@ -129,24 +100,8 @@ export class ProfileController {
   }
 
   @Get()
-  async findOne(
-    @Headers('authorization') authorization: any,
-  ): Promise<IResponse | IUser> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+  async findOne(@Me() me: string): Promise<IResponse | IUser> {
+    const userPayload: any = this.jwtService.decode(me);
     const user = await this.profileService.findOne(userPayload);
     if (user) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, { user });
@@ -157,25 +112,10 @@ export class ProfileController {
 
   @Put()
   async update(
-    @Headers('authorization') authorization: any,
+    @Me() me: string,
     @Body() CreateProfileDto: CreateProfileDto,
   ): Promise<IResponse | IUser> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    console.log(userPayload.email);
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    const userPayload: any = this.jwtService.decode(me);
     const userupdate = await this.profileService.update(
       userPayload,
       CreateProfileDto,
@@ -190,24 +130,8 @@ export class ProfileController {
   }
 
   @Delete()
-  async remove(
-    @Headers('authorization') authorization: any,
-  ): Promise<IResponse> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+  async remove(@Me() me: string): Promise<IResponse> {
+    const userPayload: any = this.jwtService.decode(me);
     const user = await this.profileService.remove(userPayload);
     if (user) {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_USER, { user });

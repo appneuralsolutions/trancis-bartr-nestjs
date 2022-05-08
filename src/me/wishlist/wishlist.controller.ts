@@ -21,6 +21,7 @@ import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { ResponseError } from './../../shared/@dtos/response.dto';
 import { ErrorMessage } from './../../shared/@constants/error.constant';
 import { JwtService } from '@nestjs/jwt';
+import { Me } from '../@decorators/me.decorator';
 
 @ApiTags('Me -> Wishlist')
 @Controller('wishlist')
@@ -33,23 +34,9 @@ export class WishlistController {
   @Post()
   async create(
     @Body() createWishlistDto: CreateWishlistDto,
-    @Headers('authorization') authorization: any,
+    @Me() me: string,
   ): Promise<IResponse> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    const userPayload: any = this.jwtService.decode(me);
     const result = await this.wishlistService.create(
       createWishlistDto,
       userPayload,
@@ -65,24 +52,8 @@ export class WishlistController {
   }
 
   @Get()
-  async findAll(
-    @Headers('authorization') authorization: any,
-  ): Promise<IResponse> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+  async findAll(@Me() me: string): Promise<IResponse> {
+    const userPayload: any = this.jwtService.decode(me);
     const result = await this.wishlistService.findAll(userPayload);
     if (result) {
       return new ResponseSuccess(
@@ -122,25 +93,8 @@ export class WishlistController {
   // }
 
   @Delete(':id')
-  async remove(
-    @Param('id') id: string,
-    @Headers('authorization') authorization: any,
-  ): Promise<IResponse> {
-    if (!authorization) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const userPayload: any = this.jwtService.decode(
-      authorization.replace('Bearer ', ''),
-    );
-    if (!userPayload) {
-      throw new HttpException(
-        'authorization token is not define or invalid',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+  async remove(@Param('id') id: string, @Me() me: string): Promise<IResponse> {
+    const userPayload: any = this.jwtService.decode(me);
     const result = await this.wishlistService.remove(id);
     if (result) {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_WISHLIST, result);
