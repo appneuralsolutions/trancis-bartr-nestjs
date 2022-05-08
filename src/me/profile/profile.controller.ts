@@ -23,6 +23,7 @@ import {
   ValidationPipe,
   Put,
   Query,
+  Res,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './@dto/create-profile.dto';
@@ -43,11 +44,11 @@ export class ProfileController {
     private jwtService: JwtService,
   ) {}
 
-  @Put('photo')
+  @Post('photo')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: './profiles',
+        destination: './uploads/profiles',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
@@ -89,14 +90,9 @@ export class ProfileController {
   } */
 
   @Get('photo')
-  async findProfilePic(@Me() me: string): Promise<IResponse | IUser> {
+  async serveAvatar(@Me() me: string, @Res() res): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
-    const user = await this.profileService.findProfilePic(userPayload);
-    if (user) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, { user });
-    } else {
-      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_USER, {});
-    }
+    res.sendFile(userPayload.userId, { root: '/uploads/profiles' });
   }
 
   @Get()

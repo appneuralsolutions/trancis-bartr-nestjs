@@ -127,7 +127,7 @@ export class CardsController {
     }
   }
 
-  @Delete('?')
+  @Delete(':id')
   async remove(@Param('id') id: string): // @Param('id') id: string
   Promise<IResponse | CreateCard> {
     const card = await this.cardsService.remove(id);

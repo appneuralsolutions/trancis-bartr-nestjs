@@ -13,10 +13,14 @@ export class ProfileService {
     @InjectModel('User') private readonly userModel: Model<IUser>,
   ) {}
 
-  async uploadPhoto(data: CreateProfileDto, userpayload, file): Promise<IUser> {
-    const photoUrl = '/uploads/profile-pics/' + file.filename;
+  async uploadPhoto(
+    data: CreateProfileDto,
+    userPayload: any,
+    file,
+  ): Promise<IUser> {
+    const photoUrl = '/uploads/profile-pics/' + userPayload.userId;
     data.picture = photoUrl;
-    const email = userpayload.email;
+    const email = userPayload.email;
     const card = await this.userModel.findOneAndUpdate({ email: email }, data, {
       new: true,
     });

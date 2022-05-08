@@ -9,12 +9,17 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import * as compression from 'compression';
+import { join } from 'path';
+import * as fs from 'fs';
+
+if (!fs.existsSync('./uploads')) {
+  fs.mkdirSync('./uploads');
+}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe());
 
-  // app.useStaticAssets(join(__dirname, '..', 'www'));
   app.use(cookieParser());
   app.use(compression());
   app.use(
