@@ -16,7 +16,7 @@ export class CardsService {
       title: data.title,
     }).exec();
     if (!cardTitle) {
-      // data.email = userPayload.email;
+      data.createdBy = userPayload.userId;
       const createdData = await new this.CreateCardModel(data).save();
       console.log(createdData);
       return new Promise((resolve) => {
@@ -36,14 +36,14 @@ export class CardsService {
 
   async findByProfile(userPayload): Promise<CreateCard[]> {
     const email = userPayload.email;
-    const card = await this.CreateCardModel.find({ email: email });
+    const card = await this.CreateCardModel.find({ email });
     return new Promise((resolve) => {
       resolve(card);
     });
   }
 
-  async findOne(id: string): Promise<CreateCard> {
-    const card = await this.CreateCardModel.findOne({ _id: id });
+  async findOne(_id: string): Promise<CreateCard> {
+    const card = await this.CreateCardModel.findOne({ _id });
     return new Promise((resolve) => {
       resolve(card);
     });
@@ -68,22 +68,18 @@ export class CardsService {
     });
   }
 
-  async update(id: string, data: CreateCardDto): Promise<CreateCard> {
-    const card = await this.CreateCardModel.findOneAndUpdate(
-      { _id: id },
-      data,
-      {
-        new: true,
-      },
-    );
+  async update(_id: string, data: CreateCardDto): Promise<CreateCard> {
+    const card = await this.CreateCardModel.findOneAndUpdate({ _id }, data, {
+      new: true,
+    });
     return new Promise((resolve) => {
       resolve(card);
     });
   }
 
-  async remove(id: string): Promise<CreateCard> {
+  async remove(_id: string): Promise<CreateCard> {
     const card = await this.CreateCardModel.findOneAndDelete({
-      _id: id,
+      _id,
     }).exec();
     return new Promise((resolve) => {
       resolve(card);

@@ -5,7 +5,7 @@ export const UserSchema = new mongoose.Schema({
   firstName: { type: String, require: true },
   lastName: { type: String },
   email: { type: String, unique: true, require: true },
-  uname: { type: String, require: true, unique: true },
+  // uname: { type: String, require: true, unique: true },
   phone: { type: String, unique: true, require: true },
   userType: { type: String, require: true },
   // empCode: { type: String, unique: true, require: true },
@@ -48,6 +48,8 @@ export const UserSchema = new mongoose.Schema({
     isLocked: { type: Boolean, default: false },
   },
   isActive: { type: Boolean, default: true },
+  createdBy: String,
+  modifiedBy: String,
 }).set('timestamps', true);
 
 UserSchema.pre('save', function (next) {

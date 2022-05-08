@@ -47,4 +47,8 @@ export class CreateCardDto {
   @ApiProperty()
   @IsOptional()
   views: number;
+
+  @ApiProperty()
+  @IsOptional()
+  createdBy: string;
 }

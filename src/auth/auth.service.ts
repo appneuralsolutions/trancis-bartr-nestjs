@@ -135,9 +135,8 @@ export class AuthService {
   signToken(user: any): string {
     // console.log(user.fullName, 'USER');
     const payload = {
-      userId: user.firstName,
+      userId: user._id,
       email: user.email,
-      // roles: user.roles.map((r) => r.name),
     };
     const accessToken = this.jwtService.sign(payload);
     return accessToken;

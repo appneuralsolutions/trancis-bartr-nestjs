@@ -47,7 +47,6 @@ export class CardsController {
     @Me() me: string,
   ): Promise<IResponse | CreateCard> {
     const userPayload: any = this.jwtService.decode(me);
-
     const card = await this.cardsService.create(data, userPayload);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { card });
