@@ -85,18 +85,18 @@ export class FeedbackController {
   //   }
   // }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<IResponse> {
-    const feedback = await this.feedbackService.remove(id);
-    if (feedback) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_FEEDBACK, {
-        feedback,
-      });
-    } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_DELETED_FEEDBACK,
-        {},
-      );
-    }
-  }
+  // @Delete(':id')
+  // async remove(@Param('id') id: string): Promise<IResponse> {
+  //   const feedback = await this.feedbackService.remove(id);
+  //   if (feedback) {
+  //     return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_FEEDBACK, {
+  //       feedback,
+  //     });
+  //   } else {
+  //     return new ResponseError(
+  //       ErrorMessage.NOT_SUCCESSFULLY_DELETED_FEEDBACK,
+  //       {},
+  //     );
+  //   }
+  // }
 }

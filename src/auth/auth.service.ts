@@ -85,7 +85,7 @@ export class AuthService {
           email: loginDto.email,
         });
         console.log(user);
-        if (!user) throw 'Email Not Found';
+        if (!user) throw 'Username Not found';
         // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
         const isValidPass = await bcrypt.compare(
