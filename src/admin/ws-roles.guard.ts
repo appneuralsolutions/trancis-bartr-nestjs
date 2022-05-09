@@ -10,7 +10,7 @@ export class WsRolesGuard implements CanActivate {
     const bearerToken =
       context.args[0].handshake.headers.authorization.split(' ')[1];
     try {
-      const decoded = jwt.verify(bearerToken, 'secret') as any;
+      // const decoded = jwt.verify(bearerToken, 'secret') as any;
       return new Promise((resolve, reject) => {
         // return this.authService.getUser(decoded.userId).then((user) => {
         //   if (user) {

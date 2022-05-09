@@ -1,5 +1,4 @@
 import { AuthModule } from './auth/auth.module';
-import { AdminModule } from './admin/admin.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { CardsModule } from './cards/cards.module';
 import { SubjectsModule } from './subjects/subjects.module';

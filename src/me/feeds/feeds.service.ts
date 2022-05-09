@@ -1,4 +1,3 @@
-import { Length } from 'class-validator';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateCard } from 'src/cards/@interface/card.interface';

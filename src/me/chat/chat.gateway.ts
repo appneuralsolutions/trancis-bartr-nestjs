@@ -6,14 +6,14 @@ import {
 } from '@nestjs/websockets';
 import { NestGateway } from '@nestjs/websockets/interfaces/nest-gateway.interface';
 import { ChatService } from './chat.service';
-import { Bind, UseInterceptors } from '@nestjs/common';
+import { Bind } from '@nestjs/common';
 import { Chat } from './entities/chat.entity';
 
 @WebSocketGateway()
 export class ChatGateway implements NestGateway {
   constructor(private chatService: ChatService) {}
 
-  afterInit(server: any) {
+  afterInit() {
     // console.log('Init', server);
   }
 

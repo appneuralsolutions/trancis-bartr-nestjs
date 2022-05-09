@@ -31,23 +31,23 @@ export class UsersService {
     return await this.userModel.findByIdAndDelete({ _id });
   }
 
-  async lockUser(_id: string) {
+  async lockUser() {
     // return await this.userModel.findByIdAndDelete({_id: id});
   }
 
-  async unlockUser(_id: string) {
+  async unlockUser() {
     // return await this.userModel.findByIdAndDelete({_id: id});
   }
 
-  async setHomeRoute(_id: string) {
+  async setHomeRoute() {
     // return await this.userModel.findByIdAndDelete({_id: id});
   }
 
-  async changePassword(_id: string) {
+  async changePassword() {
     // return await this.userModel.findByIdAndDelete({_id: id});
   }
 
-  async sendResetRequest(_id: string) {
+  async sendResetRequest() {
     // return await this.userModel.findByIdAndDelete({_id: id});
   }
 }

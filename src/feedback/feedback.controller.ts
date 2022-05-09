@@ -6,7 +6,6 @@ import {
   // Body,
   // Patch,
   Param,
-  Delete,
 } from '@nestjs/common';
 import { Feedback } from './@interfaces/feedback.interface';
 import { FeedbackService } from './feedback.service';

@@ -1,4 +1,4 @@
-import { EmailService } from '../shared/email.service';
+  import { EmailService } from '../shared/email.service';
 import {
   Injectable,
   HttpException,
@@ -23,8 +23,6 @@ import {
   IUserMedical,
   IUserPersonal,
 } from './@interfaces/user.interface';
-import { LoginDto } from './@dtos/login.dto';
-import { AuthUserDto } from './@dtos/auth-user.dto';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 
 @Injectable()

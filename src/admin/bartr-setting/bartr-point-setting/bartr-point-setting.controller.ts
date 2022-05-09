@@ -1,4 +1,13 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { IResponse } from '../../../auth/@interfaces/response.interface';
 import { BartrSettingService } from '../bartr-setting.service';
@@ -61,14 +70,19 @@ export class BartrPointSettingController {
     }
   }
 
-  
   @Put(':id')
   @HttpCode(HttpStatus.OK)
-  async updateBartrPointValue(@Param('id') id: string,@Body() BartrPointValueDTO: UpdateBartrPointValue){
-   
+  async updateBartrPointValue(
+    @Param('id') id: string,
+    @Body() BartrPointValueDTO: UpdateBartrPointValue,
+  ) {
     try {
-      const updatedSignupRewardValueObj = await this._bartrSettingService.updateBartrPointValue(id,BartrPointValueDTO);
-      console.log(updatedSignupRewardValueObj)
+      const updatedSignupRewardValueObj =
+        await this._bartrSettingService.updateBartrPointValue(
+          id,
+          BartrPointValueDTO,
+        );
+      console.log(updatedSignupRewardValueObj);
       const responseObj: any = {
         statusCode: HttpStatus.OK,
         data: updatedSignupRewardValueObj,
@@ -77,10 +91,6 @@ export class BartrPointSettingController {
       return responseObj;
     } catch (error) {
       return error;
-      
     }
   }
-
-
-
 }
