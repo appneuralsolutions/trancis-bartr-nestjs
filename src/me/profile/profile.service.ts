@@ -30,8 +30,11 @@ export class ProfileService {
   }
 
   async findOne(userPayload): Promise<IUser> {
+    console.log(userPayload)
     const email = userPayload.email;
+    console.log(email)
     const user = await this.userModel.findOne({ email });
+    console.log(user)
     return new Promise((resolve) => {
       resolve(user);
     });
