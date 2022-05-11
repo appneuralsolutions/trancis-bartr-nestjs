@@ -9,7 +9,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import * as compression from 'compression';
-import { join } from 'path';
 import * as fs from 'fs';
 
 if (!fs.existsSync('./uploads')) {

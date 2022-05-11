@@ -1,4 +1,3 @@
-import { Preference } from './@entities/preference.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreatePreferenceDto } from './@dto/create-preference.dto';

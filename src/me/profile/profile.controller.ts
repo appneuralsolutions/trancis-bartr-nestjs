@@ -1,4 +1,3 @@
-import { NewUser } from '../../auth/@interfaces/new-user.interface';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { IResponse } from './../../shared/@interfaces/response.interface';
 import {
@@ -12,17 +11,11 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
   Delete,
   UseInterceptors,
   UploadedFile,
-  Headers,
-  HttpException,
-  HttpStatus,
   ValidationPipe,
   Put,
-  Query,
   Res,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
@@ -37,7 +30,6 @@ import { IUser } from '../../auth/@interfaces/user.interface';
 import { Me } from '../@decorators/me.decorator';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import * as fs from 'fs';
 
 @ApiTags('Me -> Profile')
 @Controller('profile')

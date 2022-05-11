@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateCardDto } from './@dtos/create-card.dto';
 import { CreateCard } from './@interface/card.interface';
 import { InjectModel } from '@nestjs/mongoose';

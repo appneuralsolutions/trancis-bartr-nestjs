@@ -6,7 +6,6 @@ import {
   // Body,
   // Patch,
   Param,
-  Delete,
 } from '@nestjs/common';
 import { Feedback } from './@interfaces/feedback.interface';
 import { FeedbackService } from './feedback.service';
@@ -85,18 +84,18 @@ export class FeedbackController {
   //   }
   // }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<IResponse> {
-    const feedback = await this.feedbackService.remove(id);
-    if (feedback) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_FEEDBACK, {
-        feedback,
-      });
-    } else {
-      return new ResponseError(
-        ErrorMessage.NOT_SUCCESSFULLY_DELETED_FEEDBACK,
-        {},
-      );
-    }
-  }
+  // @Delete(':id')
+  // async remove(@Param('id') id: string): Promise<IResponse> {
+  //   const feedback = await this.feedbackService.remove(id);
+  //   if (feedback) {
+  //     return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_FEEDBACK, {
+  //       feedback,
+  //     });
+  //   } else {
+  //     return new ResponseError(
+  //       ErrorMessage.NOT_SUCCESSFULLY_DELETED_FEEDBACK,
+  //       {},
+  //     );
+  //   }
+  // }
 }

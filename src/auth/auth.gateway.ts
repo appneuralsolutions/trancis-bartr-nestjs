@@ -9,25 +9,25 @@ export class AuthGateway {
 
   @UseGuards(WsAuthGuard)
   @SubscribeMessage('login')
-  login(client: any, payload: any): string {
+  login(): string {
     return 'Hello world!';
   }
 
   @UseGuards(WsAuthGuard)
   @SubscribeMessage('deactive')
-  deactive(client: any, payload: any): string {
+  deactive(): string {
     return 'Hello world!';
   }
 
   @UseGuards(WsAuthGuard)
   @SubscribeMessage('active')
-  active(client: any, payload: any): string {
+  active(): string {
     return 'Hello world!';
   }
 
   @UseGuards(WsAuthGuard)
   @SubscribeMessage('logout')
-  logout(client: any, payload: any): string {
+  logout(): string {
     return 'Hello world!';
   }
 }

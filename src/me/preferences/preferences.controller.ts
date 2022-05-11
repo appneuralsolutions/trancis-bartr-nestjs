@@ -1,20 +1,8 @@
 import { ApiTags } from '@nestjs/swagger';
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Headers,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { PreferencesService } from './preferences.service';
 import { CreatePreferenceDto } from './@dto/create-preference.dto';
 import { IResponse } from 'src/shared/@interfaces/response.interface';
-import { PreferencesCard } from './@interface/preferences.interface';
 import { ResponseError, ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { Message } from 'src/shared/@constants/messages.constant';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
@@ -41,7 +29,6 @@ export class PreferencesController {
     @Me() me: string,
     @Body() data: CreatePreferenceDto,
   ): Promise<IResponse | CreateCard[]> {
-    const userPayload: any = this.jwtService.decode(me);
     const perference = await this.preferencesService.create(data);
 
     if (perference) {

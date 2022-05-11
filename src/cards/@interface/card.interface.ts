@@ -4,7 +4,7 @@ export interface CreateCard extends Document {
   availableOf: string;
   price: string;
   title: string;
-  lable: string;
+  label: string;
   value: string;
   description: string;
   image: string;

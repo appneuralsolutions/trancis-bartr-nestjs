@@ -4,9 +4,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { wishlist } from './interface/wishlist.interface';
 import { Model } from 'mongoose';
 import { CreateCard } from 'src/cards/@interface/card.interface';
-// import { UpdateWishlistDto } from './dto/update-wishlist.dto';
-import { Card } from './../../cards/@entities/card.entity';
-import { UpdateCardDto } from './../../cards/@dtos/update-card.dto';
+// // import { UpdateWishlistDto } from './dto/update-wishlist.dto';
+// import { Card } from './../../cards/@entities/card.entity';
+// import { UpdateCardDto } from './../../cards/@dtos/update-card.dto';
 
 @Injectable()
 export class WishlistService {

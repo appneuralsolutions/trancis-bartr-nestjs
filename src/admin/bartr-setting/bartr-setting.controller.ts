@@ -1,12 +1,18 @@
-import { Body, Controller, Get,Put,HttpStatus, Post, HttpCode, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Put,
+  HttpStatus,
+  Post,
+  HttpCode,
+  Param,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { IResponse } from 'src/shared/@interfaces/response.interface';
-import { ResponseError, ResponseSuccess } from '../../auth/@dtos/response.dto';
 import { BartrSettingService } from './bartr-setting.service';
-import { BartrPointValueDTO } from './dtos/bartr-point-value.dto';
 import { BartrSignupRewardDTO } from './dtos/bartr-signup-reward.dto';
 import { UpdateBartrSingupReward } from './dtos/update-bartr-signup-reward.dto';
-import { IBartrSignupReward } from './interfaces/bartrSignupRewardInterface';
 @ApiTags('Bartr-setting/SignupReward')
 @Controller('bartr-setting')
 export class BartrSettingController {
@@ -68,10 +74,17 @@ export class BartrSettingController {
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
-  async updateSignupRewardValue(@Param('id') id: string,@Body() BartrSignupRewardDTO: UpdateBartrSingupReward){
+  async updateSignupRewardValue(
+    @Param('id') id: string,
+    @Body() BartrSignupRewardDTO: UpdateBartrSingupReward,
+  ) {
     try {
-      const updatedSignupRewardValueObj = await this._bartrSettingService.updateSignupRewardValue(id,BartrSignupRewardDTO);
-      console.log(updatedSignupRewardValueObj)
+      const updatedSignupRewardValueObj =
+        await this._bartrSettingService.updateSignupRewardValue(
+          id,
+          BartrSignupRewardDTO,
+        );
+      console.log(updatedSignupRewardValueObj);
       const responseObj: any = {
         statusCode: HttpStatus.OK,
         data: updatedSignupRewardValueObj,
@@ -80,11 +93,6 @@ export class BartrSettingController {
       return responseObj;
     } catch (error) {
       return error;
-      
     }
   }
-
-
-
-
 }

@@ -38,21 +38,27 @@ export class BartrSettingService {
     return await this.bartrPointValueModel.find();
   }
 
-  updateSignupRewardValue(_id:string,BartrSignupRewardDTO){
+  updateSignupRewardValue(_id: string, BartrSignupRewardDTO) {
     try {
-      return this.bartrSignupRewardModel.findByIdAndUpdate({ _id }, BartrSignupRewardDTO,{new: true});
+      return this.bartrSignupRewardModel.findByIdAndUpdate(
+        { _id },
+        BartrSignupRewardDTO,
+        { new: true },
+      );
     } catch (error) {
       return error;
-    } 
+    }
   }
 
-  updateBartrPointValue(_id:string,BartrPointValueUpdateDTO){
+  updateBartrPointValue(_id: string, BartrPointValueUpdateDTO) {
     try {
-      return this.bartrPointValueModel.findByIdAndUpdate({ _id }, BartrPointValueUpdateDTO,{new: true});
-
+      return this.bartrPointValueModel.findByIdAndUpdate(
+        { _id },
+        BartrPointValueUpdateDTO,
+        { new: true },
+      );
     } catch (error) {
       return error;
-    } 
+    }
   }
-
 }

@@ -3,20 +3,13 @@ import {
   Controller,
   Get,
   Post,
-  // Body,
-  Patch,
-  // Param,
   Delete,
   UseInterceptors,
   ValidationPipe,
   Body,
   UploadedFile,
-  Headers,
-  HttpException,
-  HttpStatus,
   Param,
   Put,
-  Query,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
@@ -102,10 +95,6 @@ export class CardsController {
     @Body() data: CreateCardDto,
     @Param('id') id: string,
   ): Promise<IResponse | CreateCard> {
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
     const card = await this.cardsService.uploadImage(id, data, file);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, { card });

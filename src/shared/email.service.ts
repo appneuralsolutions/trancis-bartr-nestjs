@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import * as nsp from 'nodemailer-smtp-transport';
 
 let config: any;
 

@@ -5,13 +5,8 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Headers,
-  HttpException,
-  HttpStatus,
   Put,
   Delete,
-  Query,
   Param,
 } from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
@@ -103,7 +98,6 @@ export class FeedbackController {
 
   @Delete()
   async remove(@Me() me: string, @Param('id') id: string): Promise<IResponse> {
-    const userPayload: any = this.jwtService.decode(me);
     const data = await this.feedbackService.remove(id);
     if (data) {
       return new ResponseSuccess(

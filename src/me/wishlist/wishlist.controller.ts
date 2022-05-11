@@ -1,20 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Put,
-  Param,
-  Delete,
-  Headers,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
-import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 import { IResponse } from './../../shared/@interfaces/response.interface';
 import { Message } from './../../shared/@constants/messages.constant';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
@@ -93,8 +80,7 @@ export class WishlistController {
   // }
 
   @Delete(':id')
-  async remove(@Param('id') id: string, @Me() me: string): Promise<IResponse> {
-    const userPayload: any = this.jwtService.decode(me);
+  async remove(@Param('id') id: string): Promise<IResponse> {
     const result = await this.wishlistService.remove(id);
     if (result) {
       return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_WISHLIST, result);

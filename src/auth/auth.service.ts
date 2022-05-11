@@ -1,4 +1,4 @@
-import { EmailService } from '../shared/email.service';
+  import { EmailService } from '../shared/email.service';
 import {
   Injectable,
   HttpException,
@@ -23,8 +23,6 @@ import {
   IUserMedical,
   IUserPersonal,
 } from './@interfaces/user.interface';
-import { LoginDto } from './@dtos/login.dto';
-import { AuthUserDto } from './@dtos/auth-user.dto';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 
 @Injectable()
@@ -85,7 +83,7 @@ export class AuthService {
           email: loginDto.email,
         });
         console.log(user);
-        if (!user) throw 'Email Not Found';
+        if (!user) throw 'Username Not found';
         // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
         const isValidPass = await bcrypt.compare(
