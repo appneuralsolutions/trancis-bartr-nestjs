@@ -7,7 +7,7 @@ export const ErrorCodes = {
   E00002: {
     message: 'User Already Exists',
     type: 'Auth',
-    statusCode: 401,
+    statusCode: 409,
   },
   E00003: {
     message: 'Wrong user name and password',
