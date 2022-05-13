@@ -10,10 +10,28 @@ export class SubjectsService {
   constructor(
     @InjectModel('Subject')
     private readonly subjectModel: Model<ISubject>,
+    @InjectModel('Subject-Category')
+    private readonly subjectCategoryModel: Model<ISubject>,
   ) {}
 
-  async create(createSubjectDto: CreateSubjectDto): Promise<ISubject> {
+  async createSubject(createSubjectDto: CreateSubjectDto): Promise<ISubject> {
     const createdData = await new this.subjectModel(createSubjectDto).save();
+    return new Promise((resolve) => {
+      resolve(createdData);
+    });
+  }
+
+  async createSubjectCategory(createSubjectCategoryDto: any): Promise<any> {
+    //ISubjectCategory
+    const subjectCategory: any = await new this.subjectCategoryModel(
+      createSubjectCategoryDto,
+    ).save();
+    const createdData = await this.subjectModel.findOneAndUpdate(
+      { _id: subjectCategory.subjectId },
+      { $push: { categories: subjectCategory._id } },
+      { new: true },
+    );
+
     return new Promise((resolve) => {
       resolve(createdData);
     });

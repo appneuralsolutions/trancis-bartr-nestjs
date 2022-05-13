@@ -27,7 +27,29 @@ export class SubjectsController {
   async create(
     @Body() createSubjectDto: CreateSubjectDto,
   ): Promise<IResponse | ISubject> {
-    const createdData = await this.subjectsService.create(createSubjectDto);
+    const createdData = await this.subjectsService.createSubject(
+      createSubjectDto,
+    );
+    if (createdData) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_CREATED_SUBJECT,
+        createdData,
+      );
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_CREATED_SUBJECT,
+        {},
+      );
+    }
+  }
+
+  @Post()
+  async createSubjectCategory(
+    @Body() createSubjectCategoryDto: any,
+  ): Promise<IResponse | ISubject> {
+    const createdData = await this.subjectsService.createSubjectCategory(
+      createSubjectCategoryDto,
+    );
     if (createdData) {
       return new ResponseSuccess(
         Message.SUCCESSFULLY_CREATED_SUBJECT,

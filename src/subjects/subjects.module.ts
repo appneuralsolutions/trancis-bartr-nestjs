@@ -1,5 +1,8 @@
 import { MongooseModule } from '@nestjs/mongoose';
-import { SubjectSchema } from './@schemas/subject.schema';
+import {
+  SubjectCategorySchema,
+  SubjectSchema,
+} from './@schemas/subject.schema';
 import { Module } from '@nestjs/common';
 import { SubjectsService } from './subjects.service';
 import { SubjectsController } from './subjects.controller';
@@ -8,7 +11,7 @@ import { SubjectsController } from './subjects.controller';
   imports: [
     MongooseModule.forFeature([
       { name: 'Subject', schema: SubjectSchema },
-      { name: 'Sub-Category', schema: SubjectCategorySchema },
+      { name: 'Subject-Category', schema: SubjectCategorySchema },
     ]),
   ],
   controllers: [SubjectsController],
