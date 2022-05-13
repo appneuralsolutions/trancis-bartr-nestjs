@@ -21,13 +21,16 @@ export class SubjectsService {
     });
   }
 
-  async createSubjectCategory(createSubjectCategoryDto: any): Promise<any> {
+  async createSubjectCategory(
+    subjectId,
+    createSubjectCategoryDto: any,
+  ): Promise<any> {
     //ISubjectCategory
     const subjectCategory: any = await new this.subjectCategoryModel(
       createSubjectCategoryDto,
     ).save();
     const createdData = await this.subjectModel.findOneAndUpdate(
-      { _id: subjectCategory.subjectId },
+      { _id: subjectId },
       { $push: { categories: subjectCategory._id } },
       { new: true },
     );
@@ -45,7 +48,9 @@ export class SubjectsService {
   }
 
   async findOne(_id: string): Promise<ISubject> {
-    const subject = await this.subjectModel.findOne({ _id });
+    const subject = await this.subjectModel
+      .findOne({ _id })
+      .populate('categories');
     return new Promise((resolve) => {
       resolve(subject);
     });

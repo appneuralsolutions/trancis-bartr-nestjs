@@ -43,12 +43,14 @@ export class SubjectsController {
     }
   }
 
-  @Post()
+  @Post(':id/category')
   async createSubjectCategory(
     @Body() createSubjectCategoryDto: any,
+    @Param('id') subjectId: string,
   ): Promise<IResponse | ISubject> {
     const createdData = await this.subjectsService.createSubjectCategory(
-      createSubjectCategoryDto,
+      subjectId,
+      { ...createSubjectCategoryDto, subjectId },
     );
     if (createdData) {
       return new ResponseSuccess(
