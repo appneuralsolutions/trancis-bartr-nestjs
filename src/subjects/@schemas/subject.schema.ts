@@ -6,10 +6,9 @@ export const SubjectCategorySchema = new mongoose.Schema({
   subjectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject' },
   image: String,
 });
+
 export const SubjectSchema = new mongoose.Schema({
   user_Id: String,
   subject: String,
-  categories: [String]
-
+  categories: [String],
 });
-

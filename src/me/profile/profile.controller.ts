@@ -95,14 +95,14 @@ export class ProfileController {
   @Get()
   async findOne(@Me() me: string): Promise<IResponse | IUser> {
     const userPayload: any = this.jwtService.decode(me);
-    console.log(userPayload)
+    console.log(userPayload);
     const user = await this.profileService.findOne(userPayload);
-    console.log(user)
+    console.log(user);
     if (user) {
-      console.log('if')
+      console.log('if');
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_USER, { user });
     } else {
-      console.log('else')
+      console.log('else');
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_USER, {});
     }
   }

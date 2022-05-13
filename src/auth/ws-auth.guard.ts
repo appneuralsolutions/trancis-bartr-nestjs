@@ -9,7 +9,6 @@ export class WsAuthGuard implements CanActivate {
   canActivate(
     context: any,
   ): boolean | any | Promise<boolean | any> | Observable<boolean | any> {
-    
     try {
       return new Promise(() => {});
     } catch (ex) {
