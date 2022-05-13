@@ -6,7 +6,8 @@ import { SubjectsController } from './subjects.controller';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Subject', schema: SubjectSchema }]),
+    MongooseModule.forFeature([{ name: 'Subject', schema: SubjectSchema },{ name: 'Sub-Category', schema:  SubjectCategorySchema}]),
+
   ],
   controllers: [SubjectsController],
   providers: [SubjectsService],
