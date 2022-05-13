@@ -9,6 +9,6 @@ export const SubjectCategorySchema = new mongoose.Schema({
 
 export const SubjectSchema = new mongoose.Schema({
   user_Id: String,
-  subject: String,
+  name: String,
   categories: [String],
 });
