@@ -17,6 +17,7 @@ import { Message } from './../shared/@constants/messages.constant';
 import { ResponseError } from './../shared/@dtos/response.dto';
 import { ErrorMessage } from './../shared/@constants/error.constant';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
+import { CreateSubjectCategoryDTO } from './@dtos/create-subject-category.dto';
 
 @ApiTags('Subjects')
 @Controller()
@@ -45,7 +46,7 @@ export class SubjectsController {
 
   @Post(':id/category')
   async createSubjectCategory(
-    @Body() createSubjectCategoryDto: any,
+    @Body() createSubjectCategoryDto: CreateSubjectCategoryDTO  ,
     @Param('id') subjectId: string,
   ): Promise<IResponse | ISubject> {
     const createdData = await this.subjectsService.createSubjectCategory(
