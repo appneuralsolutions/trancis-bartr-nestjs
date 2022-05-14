@@ -6,5 +6,5 @@ export class CreateSubjectDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  subject: string;
+  name: string;
 }

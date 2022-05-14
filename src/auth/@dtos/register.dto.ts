@@ -58,7 +58,7 @@ export class RegisterDto {
   @IsOptional()
   @IsNotEmpty()
   @ApiProperty({ default: '12345678' })
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
+  // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
   password: string;
 
   @IsOptional()
