@@ -54,11 +54,10 @@ export class RegisterDto {
   @ApiProperty({ default: 'india' })
   location: string;
 
-  @Length(6)
+  
   @IsOptional()
   @IsNotEmpty()
   @ApiProperty({ default: '12345678' })
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
   password: string;
 
   @IsOptional()
