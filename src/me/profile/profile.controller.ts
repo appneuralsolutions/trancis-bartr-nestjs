@@ -24,7 +24,10 @@ import { CreateProfileDto } from './@dto/create-profile.dto';
 // import { Me } from '../@decorators/me.decorator';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { diskStorage } from 'multer';
-import { editFileName, imageFileFilter } from './utils/file-upload.utils';
+import {
+  editFileName,
+  imageFileFilter,
+} from '../../shared/utils/file-upload.utils';
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from '../../auth/@interfaces/user.interface';
 import { Me } from '../@decorators/me.decorator';

@@ -4,11 +4,22 @@ import {
   Controller,
   Get,
   Post,
+  Param,
   Body,
   Patch,
-  Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
+  ValidationPipe,
+  Put,
+  Res,
 } from '@nestjs/common';
+import { diskStorage } from 'multer';
+import {
+  editFileName,
+  imageFileFilter,
+} from '../shared/utils/file-upload.utils';
+import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { SubjectsService } from './subjects.service';
 import { CreateSubjectDto } from './@dtos/create-subject.dto';
 import { UpdateSubjectDto } from './@dtos/update-subject.dto';
@@ -17,6 +28,8 @@ import { Message } from './../shared/@constants/messages.constant';
 import { ResponseError } from './../shared/@dtos/response.dto';
 import { ErrorMessage } from './../shared/@constants/error.constant';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
+import { CreateSubjectCategoryDto } from './@dtos/create-subject-category.dto';
+import { ISubjectCategory } from './@interfaces/subject-category.interface';
 
 @ApiTags('Subjects')
 @Controller()
@@ -43,26 +56,46 @@ export class SubjectsController {
     }
   }
 
-  @Post(':id/category')
+  @Post(':id/categories')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './uploads/subject-categories',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
   async createSubjectCategory(
-    @Body() createSubjectCategoryDto: any,
+    @UploadedFile() file,
+    @Body() createSubjectCategoryDto: CreateSubjectCategoryDto,
     @Param('id') subjectId: string,
-  ): Promise<IResponse | ISubject> {
-    const createdData = await this.subjectsService.createSubjectCategory(
+  ): Promise<IResponse | ISubjectCategory> {
+    const result = await this.subjectsService.uploadSubjectCategoryPhoto(
       subjectId,
-      { ...createSubjectCategoryDto, subjectId },
+      createSubjectCategoryDto,
+      file,
     );
-    if (createdData) {
-      return new ResponseSuccess(
-        Message.SUCCESSFULLY_CREATED_SUBJECT,
-        createdData,
-      );
+
+    if (result) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_SUBJECT, result);
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_CREATED_SUBJECT,
         {},
       );
     }
+  }
+
+  @Get(':id/categories/:cid/photo')
+  async serveAvatar(
+    @Param('id') subjectId: string,
+    @Param('cid') categoryId: string,
+    @Res() res,
+  ): Promise<any> {
+    // const userPayload: any = this.jwtService.decode(me);
+    const myData = await this.subjectsService.findOneCategory(categoryId);
+    res.sendFile(myData.image, { root: './' });
   }
 
   @Get()

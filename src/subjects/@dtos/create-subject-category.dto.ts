@@ -1,10 +1,10 @@
 import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateSubjectDto {
-  user_Id: string;
-
+export class CreateSubjectCategoryDto {
   @ApiProperty()
   @IsNotEmpty()
   name: string;
+
+  image: string;
 }
