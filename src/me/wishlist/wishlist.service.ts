@@ -12,16 +12,16 @@ import { CreateCard } from 'src/cards/@interface/card.interface';
 export class WishlistService {
   constructor(
     @InjectModel('wishlist') private WishlistModel: Model<wishlist>,
-    @InjectModel('Card') private GetCardModel: Model<CreateCard>,
+    @InjectModel('Card') private cardModel: Model<CreateCard>,
   ) {}
   async create(data: CreateWishlistDto, userPayload): Promise<wishlist> {
     data.email = userPayload.email;
-    const Card = await this.GetCardModel.find({ title: data.title });
+    const Card = await this.cardModel.find({ title: data.title });
     const like = Card[0].likes + 1;
     console.log(Card);
     if (Card) {
       const createdData = await new this.WishlistModel(data).save();
-      const Updatecard = await this.GetCardModel.findOneAndUpdate(
+      const Updatecard = await this.cardModel.findOneAndUpdate(
         { title: data.title },
         { $set: { likes: like } },
         {
@@ -39,7 +39,7 @@ export class WishlistService {
     const email = userPayload.email;
     const wishlist = await this.WishlistModel.find({ email: email });
     for (let i = 0; i < wishlist.length; i++) {
-      var getCard = await this.GetCardModel.findOne({
+      var getCard = await this.cardModel.findOne({
         title: wishlist[i].title,
       });
     }

@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  Length,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -53,7 +47,6 @@ export class CreateUserDto {
   @ApiProperty({ default: 'india' })
   location: string;
 
-  @Length(6)
   @IsNotEmpty()
   @IsOptional()
   @ApiProperty({ default: '12345678' })

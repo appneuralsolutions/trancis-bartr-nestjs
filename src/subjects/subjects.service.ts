@@ -1,3 +1,5 @@
+import { ISubjectCategory } from './@interfaces/subject-category.interface';
+import { CreateSubjectCategoryDto } from './@dtos/create-subject-category.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ISubject } from './@interfaces/subject.interface';
@@ -24,19 +26,32 @@ export class SubjectsService {
   async createSubjectCategory(
     subjectId,
     createSubjectCategoryDto: any,
-  ): Promise<any> {
+  ): Promise<ISubjectCategory> {
     //ISubjectCategory
     const subjectCategory: any = await new this.subjectCategoryModel(
       createSubjectCategoryDto,
     ).save();
-    const createdData = await this.subjectModel.findOneAndUpdate(
+    await this.subjectModel.findOneAndUpdate(
       { _id: subjectId },
       { $push: { categories: subjectCategory._id } },
       { new: true },
     );
 
     return new Promise((resolve) => {
-      resolve(createdData);
+      resolve(subjectCategory);
+    });
+  }
+
+  async uploadSubjectCategoryPhoto(
+    subjectId: string,
+    data: CreateSubjectCategoryDto,
+    file,
+  ): Promise<any> {
+    const photoUrl = './uploads/subject-categories/' + file.filename;
+    data.image = photoUrl;
+    const updatedInDB = await this.createSubjectCategory(subjectId, data);
+    return new Promise((resolve) => {
+      resolve(updatedInDB);
     });
   }
 
@@ -50,9 +65,16 @@ export class SubjectsService {
   async findOne(_id: string): Promise<ISubject> {
     const subject = await this.subjectModel
       .findOne({ _id })
-      .populate('categories');
+      .populate({ path: 'categories' });
     return new Promise((resolve) => {
       resolve(subject);
+    });
+  }
+
+  async findOneCategory(_id: string): Promise<any> {
+    const subjectCategory = await this.subjectCategoryModel.findOne({ _id });
+    return new Promise((resolve) => {
+      resolve(subjectCategory);
     });
   }
 

@@ -7,17 +7,17 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class CardsService {
-  constructor(
-    @InjectModel('card') private CreateCardModel: Model<CreateCard>,
-  ) {}
+  constructor(@InjectModel('card') private cardModel: Model<CreateCard>) {}
 
   async create(data: CreateCardDto, userPayload): Promise<CreateCard> {
-    const cardTitle = await this.CreateCardModel.findOne({
-      title: data.title,
-    }).exec();
+    const cardTitle = await this.cardModel
+      .findOne({
+        title: data.title,
+      })
+      .exec();
     if (!cardTitle) {
       data.createdBy = userPayload.userId;
-      const createdData = await new this.CreateCardModel(data).save();
+      const createdData = await new this.cardModel(data).save();
       console.log(createdData);
       return new Promise((resolve) => {
         resolve(createdData);
@@ -28,7 +28,7 @@ export class CardsService {
   }
 
   async findAll(): Promise<CreateCard[]> {
-    const card = await this.CreateCardModel.find();
+    const card = await this.cardModel.find();
     return new Promise((resolve) => {
       resolve(card);
     });
@@ -36,40 +36,40 @@ export class CardsService {
 
   async findByProfile(userPayload): Promise<CreateCard[]> {
     const email = userPayload.email;
-    const card = await this.CreateCardModel.find({ email });
+    const card = await this.cardModel.find({ email });
     return new Promise((resolve) => {
       resolve(card);
     });
   }
 
   async findOne(_id: string): Promise<CreateCard> {
-    const card = await this.CreateCardModel.findOne({ _id });
+    const card = await this.cardModel.findOne({ _id });
     return new Promise((resolve) => {
       resolve(card);
     });
   }
 
-  async uploadImage(
-    id: string,
+  async uploadImages(
+    _id: string,
     data: CreateCardDto,
-    file,
+    files,
   ): Promise<CreateCard> {
-    const photoUrl = '/card/' + file.filename;
-    data.image = photoUrl;
-    const card = await this.CreateCardModel.findOneAndUpdate(
-      { _id: id },
-      data,
-      {
-        new: true,
-      },
-    );
+    const images = [];
+    files.forEach((file: any) => {
+      images.push(file.path.replace('uploads', ''));
+    });
+    // const photoUrl = '/card/' + file.filename;
+    data.images = images;
+    const card = await this.cardModel.findOneAndUpdate({ _id }, data, {
+      new: true,
+    });
     return new Promise((resolve) => {
       resolve(card);
     });
   }
 
   async update(_id: string, data: CreateCardDto): Promise<CreateCard> {
-    const card = await this.CreateCardModel.findOneAndUpdate({ _id }, data, {
+    const card = await this.cardModel.findOneAndUpdate({ _id }, data, {
       new: true,
     });
     return new Promise((resolve) => {
@@ -78,9 +78,11 @@ export class CardsService {
   }
 
   async remove(_id: string): Promise<CreateCard> {
-    const card = await this.CreateCardModel.findOneAndDelete({
-      _id,
-    }).exec();
+    const card = await this.cardModel
+      .findOneAndDelete({
+        _id,
+      })
+      .exec();
     return new Promise((resolve) => {
       resolve(card);
     });

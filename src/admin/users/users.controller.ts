@@ -11,6 +11,7 @@ import {
   Delete,
   Param,
   Body,
+  Res,
 } from '@nestjs/common';
 import { IResponse } from '../../auth/@interfaces/response.interface';
 import { ResponseError, ResponseSuccess } from '../../auth/@dtos/response.dto';
@@ -41,6 +42,12 @@ export class UsersController {
     } catch (error) {
       return new ResponseError('USER.NOT_FETCHED_SUCCESSFULLY');
     }
+  }
+
+  @Get(':id/photo')
+  async serveAvatar(@Res() res: any, @Param('id') id: string): Promise<any> {
+    const user = await this.usersService.getUser(id);
+    res.sendFile(user.picture, { root: './' });
   }
 
   @Get(':id')
