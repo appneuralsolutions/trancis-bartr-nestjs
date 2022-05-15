@@ -9,4 +9,4 @@ export const NewUserSchema = new mongoose.Schema({
   location: String,
   password: String,
   photo: String,
-});
+}).set('timestamps', true);
