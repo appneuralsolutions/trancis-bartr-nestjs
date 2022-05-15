@@ -1,5 +1,4 @@
 import { FeedsService } from './feeds.service';
-import { ApiTags } from '@nestjs/swagger';
 import { Controller, Get } from '@nestjs/common';
 import { IResponse } from 'src/shared/@interfaces/response.interface';
 import { ResponseError, ResponseSuccess } from 'src/shared/@dtos/response.dto';
