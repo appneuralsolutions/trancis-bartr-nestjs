@@ -14,6 +14,7 @@ import { CardsModule } from './cards/cards.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { TypegooseModule } from 'nestjs-typegoose';
+import { FeedsModule } from './feeds/feeds.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { TypegooseModule } from 'nestjs-typegoose';
     CardsModule,
     FeedbackModule,
     SubjectsModule,
+    FeedsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
