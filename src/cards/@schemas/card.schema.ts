@@ -14,4 +14,4 @@ export const CreateCardSchema = new mongoose.Schema({
   views: { type: Number, default: 0 },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   modifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-});
+}).set('timestamps', true);

@@ -8,12 +8,10 @@ export class FeedsService {
   constructor(@InjectModel('Card') private feedModel: Model<CreateCard>) {}
 
   async aggregateFeed(): Promise<CreateCard[]> {
-    const collection_length = await this.feedModel.count();
-    const feed = await this.feedModel.aggregate([
-      { $sample: { size: collection_length } },
-    ]);
+    // const collection_length = await this.feedModel.count();
+    const feeds = await this.feedModel.find({}).sort({ createdOn: -1 });
     return new Promise((resolve) => {
-      resolve(feed);
+      resolve(feeds);
     });
   }
 }
