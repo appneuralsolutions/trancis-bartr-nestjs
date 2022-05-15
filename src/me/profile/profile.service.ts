@@ -18,7 +18,7 @@ export class ProfileService {
     userPayload: any,
     file,
   ): Promise<IUser> {
-    const photoUrl = './uploads/profile-pics/' + file.filename;
+    const photoUrl = '/profile-pics/' + file.filename;
     data.picture = photoUrl;
     const email = userPayload.email;
     const card = await this.userModel.findOneAndUpdate({ email }, data, {
