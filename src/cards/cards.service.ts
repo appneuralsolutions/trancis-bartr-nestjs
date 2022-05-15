@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class CardsService {
-  constructor(@InjectModel('card') private cardModel: Model<CreateCard>) {}
+  constructor(@InjectModel('Card') private cardModel: Model<CreateCard>) {}
 
   async create(data: CreateCardDto, userPayload): Promise<CreateCard> {
     const cardTitle = await this.cardModel

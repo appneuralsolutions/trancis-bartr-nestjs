@@ -17,7 +17,7 @@ import { MatchesService } from './matches/matches.service';
 // import { APP_INTERCEPTOR } from '@nestjs/core';
 // import { AuthInterceptor } from 'src/auth/@interceptors/auth.interceptor';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CreateCardSchema } from 'src/cards/@schemas/card.schema';
+import { CardSchema } from 'src/cards/@schemas/card.schema';
 import { WishlistSchema } from './wishlist/schemas/wishlist.schema';
 import { FeedbackModule } from 'src/feedback/feedback.module';
 import { ChatModule } from './chat/chat.module';
@@ -38,12 +38,11 @@ import { CardsModule } from 'src/cards/cards.module';
     AuthModule,
     FeedbackModule,
     CardsModule,
-    MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }]),
-    MongooseModule.forFeature([{ name: 'Card', schema: CreateCardSchema }]),
     MongooseModule.forFeature([
+      { name: 'NewUser', schema: NewUserSchema },
       { name: 'Perference', schema: PreferencesSchema },
+      { name: 'wishlist', schema: WishlistSchema },
     ]),
-    MongooseModule.forFeature([{ name: 'wishlist', schema: WishlistSchema }]),
     ChatModule,
   ],
   providers: [

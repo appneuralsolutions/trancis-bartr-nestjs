@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export const CreateCardSchema = new mongoose.Schema({
+export const CardSchema = new mongoose.Schema({
   availableOf: String,
   price: String,
   title: String,

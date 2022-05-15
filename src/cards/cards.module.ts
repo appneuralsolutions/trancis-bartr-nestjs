@@ -4,16 +4,16 @@ import { CardsService } from './cards.service';
 import { CardsController } from './cards.controller';
 import { SharedModule } from 'src/shared/shared.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CreateCardSchema } from './@schemas/card.schema';
+import { CardSchema } from './@schemas/card.schema';
 
 @Module({
   imports: [
     AuthModule,
     SharedModule,
-    MongooseModule.forFeature([{ name: 'card', schema: CreateCardSchema }]),
+    MongooseModule.forFeature([{ name: 'Card', schema: CardSchema }]),
   ],
   controllers: [CardsController],
   providers: [CardsService],
-  exports: [CardsService],
+  exports: [MongooseModule, CardsService],
 })
 export class CardsModule {}
