@@ -55,9 +55,8 @@ export class CardsService {
   ): Promise<CreateCard> {
     const images = [];
     files.forEach((file: any) => {
-      images.push(file.path.replace('uploads', ''));
+      images.push(file.path.replace('uploads', 'data'));
     });
-    // const photoUrl = '/data/cards/' + file.filename;
     data.images = images;
     const card = await this.cardModel.findOneAndUpdate({ _id }, data, {
       new: true,

@@ -35,14 +35,30 @@ export class CardsController {
   ) {}
 
   @Post()
+  @UseInterceptors(
+    AnyFilesInterceptor({
+      storage: diskStorage({
+        destination: './uploads/cards',
+        filename: editFileName,
+      }),
+      limits: { files: 20 },
+      fileFilter: imageFileFilter,
+    }),
+  )
   async create(
     @Body() data: CreateCardDto,
     @Me() me: string,
+    @UploadedFiles() files: any,
   ): Promise<IResponse | CreateCard> {
     const userPayload: any = this.jwtService.decode(me);
-    const card = await this.cardsService.create(data, userPayload);
-    if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { card });
+    const createdCard = await this.cardsService.create(data, userPayload);
+    const cards = await this.cardsService.uploadImages(
+      createdCard._id,
+      data,
+      files,
+    );
+    if (cards) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_CARD, { cards });
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_CREATED_CARD, {});
     }
