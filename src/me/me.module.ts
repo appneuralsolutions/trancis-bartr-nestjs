@@ -21,6 +21,8 @@ import { CreateCardSchema } from 'src/cards/@schemas/card.schema';
 import { WishlistSchema } from './wishlist/schemas/wishlist.schema';
 import { FeedbackModule } from 'src/feedback/feedback.module';
 import { ChatModule } from './chat/chat.module';
+import { CardsController } from './cards/cards.controller';
+import { CardsModule } from 'src/cards/cards.module';
 
 @Module({
   controllers: [
@@ -30,10 +32,12 @@ import { ChatModule } from './chat/chat.module';
     PreferencesController,
     WishlistController,
     FeedbackController,
+    CardsController,
   ],
   imports: [
     AuthModule,
     FeedbackModule,
+    CardsModule,
     MongooseModule.forFeature([{ name: 'NewUser', schema: NewUserSchema }]),
     MongooseModule.forFeature([{ name: 'Card', schema: CreateCardSchema }]),
     MongooseModule.forFeature([

@@ -12,4 +12,6 @@ export const CreateCardSchema = new mongoose.Schema({
   subject: String,
   likes: { type: Number, default: 0 },
   views: { type: Number, default: 0 },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  modifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });

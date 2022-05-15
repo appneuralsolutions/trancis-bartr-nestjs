@@ -58,18 +58,6 @@ export class CardsController {
     }
   }
 
-  @Get('me')
-  async findByProfile(@Me() me: string): Promise<IResponse | CreateCard> {
-    const userPayload: any = this.jwtService.decode(me);
-
-    const card = await this.cardsService.findByProfile(userPayload);
-    if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, { card });
-    } else {
-      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
-    }
-  }
-
   @Get(':id')
   async findOne(@Param('id') id: string): // @Param('id') id: string
   Promise<IResponse | CreateCard> {

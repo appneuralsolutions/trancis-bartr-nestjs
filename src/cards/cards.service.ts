@@ -35,10 +35,9 @@ export class CardsService {
   }
 
   async findByProfile(userPayload): Promise<CreateCard[]> {
-    const email = userPayload.email;
-    const card = await this.cardModel.find({ email });
+    const cards = await this.cardModel.find({ createdBy: userPayload.userId });
     return new Promise((resolve) => {
-      resolve(card);
+      resolve(cards);
     });
   }
 
