@@ -54,7 +54,6 @@ export class RegisterDto {
   @ApiProperty({ default: 'india' })
   location: string;
 
-  
   @IsOptional()
   @IsNotEmpty()
   @ApiProperty({ default: '12345678' })

@@ -53,7 +53,6 @@ export class CreateUserDto {
   @ApiProperty({ default: 'india' })
   location: string;
 
-  
   @IsNotEmpty()
   @IsOptional()
   @ApiProperty({ default: '12345678' })
