@@ -10,8 +10,6 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
-  ValidationPipe,
-  Put,
   Res,
 } from '@nestjs/common';
 import { diskStorage } from 'multer';

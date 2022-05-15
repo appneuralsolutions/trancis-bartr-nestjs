@@ -10,18 +10,17 @@ export class AuthUserDto {
     this.jwtToken = object.jwtToken;
     this.isActive = object.isActive;
     // this.privileges = object.privileges;
-    this.auth = object.auth;
+    // this.auth = object.auth;
     // this.roles = object.roles.map((r) => r.name);
   }
   readonly firstName: string;
   readonly lastName: string;
-  auth: {};
+  // auth: {};
   email: string;
   // uname: string;
   phone: string;
   dob: string;
   location: string;
-
   isActive: boolean;
   jwtToken: string;
   // roles: string[];

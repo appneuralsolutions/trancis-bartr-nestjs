@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { IBartrSignupReward } from './interfaces/bartrSignupRewardInterface';
 import { Model } from 'mongoose';
 import { IBartrPointValue } from './interfaces/bartrPointValueInterface';
-import { BartrSignupRewardDTO } from './dtos/bartr-signup-reward.dto';
+// import { BartrSignupRewardDTO } from './dtos/bartr-signup-reward.dto';
 
 @Injectable()
 export class BartrSettingService {

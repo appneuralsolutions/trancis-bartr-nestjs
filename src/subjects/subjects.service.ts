@@ -26,7 +26,7 @@ export class SubjectsService {
   async createSubjectCategory(
     subjectId,
     createSubjectCategoryDto: any,
-  ): Promise<any> {
+  ): Promise<ISubjectCategory> {
     //ISubjectCategory
     const subjectCategory: any = await new this.subjectCategoryModel(
       createSubjectCategoryDto,

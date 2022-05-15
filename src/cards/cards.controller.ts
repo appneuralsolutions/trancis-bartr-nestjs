@@ -19,11 +19,7 @@ import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { Message } from './../shared/@constants/messages.constant';
 import { ResponseError } from './../shared/@dtos/response.dto';
 import { ErrorMessage } from './../shared/@constants/error.constant';
-import {
-  AnyFilesInterceptor,
-  FileInterceptor,
-} from '@nestjs/platform-express/multer';
-import { Express } from 'express';
+import { AnyFilesInterceptor } from '@nestjs/platform-express/multer';
 import { diskStorage } from 'multer';
 import { CreateCard } from './@interface/card.interface';
 import { imageFileFilter, editFileName } from './utils/file-upload.utils';

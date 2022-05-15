@@ -405,7 +405,7 @@ export class AuthService {
       const userFromDb = await this.userModel.findOne({
         email: passwordVerif.email,
       });
-      const resetPassword = await this.userModel.findOneAndUpdate(
+      await this.userModel.findOneAndUpdate(
         { email: passwordVerif.email },
         userDto,
         { upsert: true, new: true },

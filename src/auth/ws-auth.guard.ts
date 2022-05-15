@@ -6,11 +6,10 @@ import { AuthService } from './auth.service';
 export class WsAuthGuard implements CanActivate {
   constructor(private authService: AuthService) {}
 
-  canActivate(
-    context: any,
-  ): boolean | any | Promise<boolean | any> | Observable<boolean | any> {
+  canActivate(): // context: any,
+  boolean | any | Promise<boolean | any> | Observable<boolean | any> {
     try {
-      return new Promise(() => {});
+      // return new Promise(() => {});
     } catch (ex) {
       console.log(ex);
       return false;

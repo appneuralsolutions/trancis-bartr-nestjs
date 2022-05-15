@@ -52,7 +52,7 @@ export const UserSchema = new mongoose.Schema({
   modifiedBy: String,
 }).set('timestamps', true);
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', (next) => {
   const user: any = this;
   if (!user.isModified('password')) {
     return next();
@@ -71,12 +71,12 @@ UserSchema.pre('save', function (next) {
   });
 }).set('timestamps', true);
 
-UserSchema.methods.checkPassword = function (attempt, callback) {
-  const user: any = this;
-  bcrypt.compare(attempt, user.password, (err, isMatch) => {
-    if (err) {
-      return callback(err);
-    }
-    callback(null, isMatch);
-  });
-};
+// UserSchema.methods.checkPassword = function (attempt, callback) {
+//   const user: any = this;
+//   bcrypt.compare(attempt, user.password, (err, isMatch) => {
+//     if (err) {
+//       return callback(err);
+//     }
+//     callback(null, isMatch);
+//   });
+// };
