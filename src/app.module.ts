@@ -24,7 +24,7 @@ import { TypegooseModule } from 'nestjs-typegoose';
     }),
     TypegooseModule.forRoot('mongodb://localhost:27017/bartr', {}),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'www'),
+      rootPath: join(__dirname, '.', 'uploads'),
     }),
     AuthModule,
     MeModule,

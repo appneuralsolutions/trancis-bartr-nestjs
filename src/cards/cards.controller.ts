@@ -7,9 +7,9 @@ import {
   UseInterceptors,
   ValidationPipe,
   Body,
-  UploadedFile,
   Param,
   Put,
+  UploadedFiles,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
@@ -19,7 +19,11 @@ import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { Message } from './../shared/@constants/messages.constant';
 import { ResponseError } from './../shared/@dtos/response.dto';
 import { ErrorMessage } from './../shared/@constants/error.constant';
-import { FileInterceptor } from '@nestjs/platform-express/multer';
+import {
+  AnyFilesInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express/multer';
+import { Express } from 'express';
 import { diskStorage } from 'multer';
 import { CreateCard } from './@interface/card.interface';
 import { imageFileFilter, editFileName } from './utils/file-upload.utils';
@@ -80,22 +84,32 @@ export class CardsController {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
   }
-  @Put(':id/image?')
+
+  @Put(':id/images?')
   @UseInterceptors(
-    FileInterceptor('image', {
+    AnyFilesInterceptor({
       storage: diskStorage({
         destination: './uploads/cards',
         filename: editFileName,
       }),
+      limits: { files: 20 },
       fileFilter: imageFileFilter,
     }),
+    // FileInterceptor('files', {
+    //   storage: diskStorage({
+    //     destination: './uploads/cards',
+    //     filename: editFileName,
+    //   }),
+    //   limits: { files: 20 },
+    //   fileFilter: imageFileFilter,
+    // }),
   )
-  async uploadImage(
-    @UploadedFile() file,
+  async uploadImages(
+    @UploadedFiles() files: any,
     @Body() data: CreateCardDto,
     @Param('id') id: string,
   ): Promise<IResponse | CreateCard> {
-    const card = await this.cardsService.uploadImage(id, data, file);
+    const card = await this.cardsService.uploadImages(id, data, files);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, { card });
     } else {

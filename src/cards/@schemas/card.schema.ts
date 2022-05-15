@@ -7,7 +7,7 @@ export const CreateCardSchema = new mongoose.Schema({
   label: { type: String, unique: true, require: true },
   value: String,
   description: String,
-  image: String,
+  images: [String],
   email: String,
   subject: String,
   likes: { type: Number, default: 0 },

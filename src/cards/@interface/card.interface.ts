@@ -7,7 +7,7 @@ export interface CreateCard extends Document {
   label: string;
   value: string;
   description: string;
-  image: string;
+  image: string[];
   email: string;
   subject: string;
   likes: number;
