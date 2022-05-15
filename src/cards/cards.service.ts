@@ -58,7 +58,7 @@ export class CardsService {
     files.forEach((file: any) => {
       images.push(file.path.replace('uploads', ''));
     });
-    // const photoUrl = '/card/' + file.filename;
+    // const photoUrl = '/data/cards/' + file.filename;
     data.images = images;
     const card = await this.cardModel.findOneAndUpdate({ _id }, data, {
       new: true,

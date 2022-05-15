@@ -47,7 +47,7 @@ export class SubjectsService {
     data: CreateSubjectCategoryDto,
     file,
   ): Promise<any> {
-    const photoUrl = './uploads/subject-categories/' + file.filename;
+    const photoUrl = '/data/subject-categories/' + file.filename;
     data.image = photoUrl;
     const updatedInDB = await this.createSubjectCategory(subjectId, data);
     return new Promise((resolve) => {
