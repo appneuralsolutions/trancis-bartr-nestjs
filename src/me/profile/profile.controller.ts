@@ -43,7 +43,7 @@ export class ProfileController {
     private jwtService: JwtService,
   ) {}
 
-  @Post('photo')
+  @Put('photo')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
