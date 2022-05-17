@@ -47,7 +47,7 @@ export class ProfileController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: './uploads/profile-pics',
+        destination: '../uploads/profile-pics',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
