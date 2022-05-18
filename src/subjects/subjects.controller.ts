@@ -58,7 +58,7 @@ export class SubjectsController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: '../uploads/subject-categories',
+        destination: './uploads/subject-categories',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
