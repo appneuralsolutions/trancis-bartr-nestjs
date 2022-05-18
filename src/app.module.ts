@@ -19,11 +19,11 @@ import { FeedsModule } from './feeds/feeds.module';
 @Module({
   imports: [
     AppRoutingModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/bartr', {
+    MongooseModule.forRoot('mongodb://localhost:27017/bartr-v1', {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     }),
-    TypegooseModule.forRoot('mongodb://localhost:27017/bartr', {}),
+    TypegooseModule.forRoot('mongodb://localhost:27017/bartr-v1', {}),
     ServeStaticModule.forRoot({
       serveRoot: '/',
       rootPath: join(__dirname, '../www'),
