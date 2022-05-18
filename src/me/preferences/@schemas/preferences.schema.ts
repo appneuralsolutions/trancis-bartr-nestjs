@@ -7,4 +7,4 @@ export const PreferencesSchema = new mongoose.Schema({
   ebayPoints: String,
   price: String,
   value: String,
-});
+}).set('timestamps', true);

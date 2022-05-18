@@ -9,4 +9,4 @@ export const AddressSchema = new mongoose.Schema({
   country: String,
   landMark: String,
   gpsLocation: String,
-});
+}).set('timestamps', true);

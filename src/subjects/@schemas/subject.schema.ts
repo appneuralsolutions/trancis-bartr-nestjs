@@ -12,4 +12,4 @@ export const SubjectSchema = new mongoose.Schema({
   categories: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Subject-Category' },
   ],
-});
+}).set('timestamps', true);
