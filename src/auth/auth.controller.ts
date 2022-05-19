@@ -31,18 +31,24 @@ export class AuthController {
     @Body() regDTO: RegisterDto,
     @Body() EmailDTO: EmailVerificationDto,
   ): Promise<IResponse> {
+    console.log(regDTO, 'auth controller');
     const newUser = await this.authService.register(regDTO);
-    await this.authService.saveUserConsent(newUser.email);
-    const emailToken = await this.authService.createEmailToken(
-      newUser.email,
-      EmailDTO,
-    );
-    if (newUser && emailToken) {
-      // console.log(newUser);
-      return new ResponseSuccess(Message.REGISTERED_SUCCESSFULLY, {
-        newUser,
-        emailToken,
-      });
+    console.log(newUser);
+    if (newUser) {
+      await this.authService.saveUserConsent(newUser.email);
+      const emailToken = await this.authService.createEmailToken(
+        newUser.email,
+        EmailDTO,
+      );
+      if (newUser && emailToken) {
+        // console.log(newUser);
+        return new ResponseSuccess(Message.REGISTERED_SUCCESSFULLY, {
+          newUser,
+          emailToken,
+        });
+      } else {
+        return new ResponseError(ErrorMessage.REGISTER_NOT_SUCCESSFULLY);
+      }
     } else {
       return new ResponseError(ErrorMessage.REGISTER_NOT_SUCCESSFULLY);
     }
@@ -74,7 +80,9 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDTO: LoginDto): Promise<IResponse> {
+    console.log(loginDTO);
     const data = await this.authService.validateLogin(loginDTO);
+    console.log(data,'validate login ')
     if (data) {
       return new ResponseSuccess(Message.SUCCESSFULLY_LOGGED_IN, {
         jwtToken: data,

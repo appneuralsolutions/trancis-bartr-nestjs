@@ -52,16 +52,17 @@ export const UserSchema = new mongoose.Schema({
   modifiedBy: String,
 }).set('timestamps', true);
 
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', async (next) => {
+  console.log(this);
   const user: any = this;
   if (!user.isModified('password')) {
     return next();
   }
-  bcrypt.genSalt(10, (err, salt) => {
+  await bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       return next(err);
     }
-    bcrypt.hash(user.password, salt, (err1, hash) => {
+    bcrypt.hash(user?.password, salt, (err1, hash) => {
       if (err1) {
         return next(err1);
       }
