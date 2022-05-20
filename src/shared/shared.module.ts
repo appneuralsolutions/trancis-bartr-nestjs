@@ -17,8 +17,8 @@ import { EmailService } from './email.service';
         port: 587,
         secure: false, // upgrade later with STARTTLS
         auth: {
-          user: 'mail@appeural.com',
-          pass: 'm8>UuFuN',
+          user: 'kailash@appneural.com',
+          pass: '9549230227@Appneural',
         },
       },
       defaults: {

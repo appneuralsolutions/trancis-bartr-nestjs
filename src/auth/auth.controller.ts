@@ -36,9 +36,8 @@ export class AuthController {
     console.log(newUser);
     if (newUser) {
       await this.authService.saveUserConsent(newUser.email);
-      const emailToken = await this.authService.createEmailToken(
-        newUser.email,
-        EmailDTO,
+      const emailToken = await this.authService.sendEmailVerification(
+        newUser.email
       );
       if (newUser && emailToken) {
         // console.log(newUser);

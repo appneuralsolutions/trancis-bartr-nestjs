@@ -47,7 +47,7 @@ export class AuthService {
     @InjectModel('User') private readonly userModel: Model<IUser>,
     private jwtService: JwtService,
     private emailService: EmailService,
-  ) {}
+  ) { }
 
   // guid(){
   //   function s4() {
@@ -90,7 +90,7 @@ export class AuthService {
           loginDto.password,
           user.password,
         );
-        console.log(isValidPass, loginDto.password);
+        console.log(isValidPass, typeof loginDto.password);
         if (isValidPass) {
           const jwtToken = await this.signToken(user);
           user.jwtToken = await jwtToken;
@@ -201,7 +201,7 @@ export class AuthService {
     if (
       emailVerification &&
       (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 <
-        15
+      15
     ) {
       throw new HttpException(
         'LOGIN.EMAIL_SENDED_RECENTLY',
@@ -211,7 +211,7 @@ export class AuthService {
     if (
       emailVerification &&
       (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 >
-        15
+      15
     ) {
       await this.emailVerificationModel.findOneAndUpdate(
         { email: email },
@@ -230,6 +230,7 @@ export class AuthService {
       ).toString()), //Generate 7 digits number
         (EmailDTO.timestamp = new Date()),
         await new this.emailVerificationModel(EmailDTO).save();
+
       return true;
     }
   }
@@ -244,7 +245,7 @@ export class AuthService {
     if (
       forgottenPassword &&
       (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 <
-        15
+      15
     ) {
       throw new HttpException(
         'RESET_PASSWORD.EMAIL_SENDED_RECENTLY',
@@ -254,7 +255,7 @@ export class AuthService {
     if (
       forgottenPassword &&
       (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 >
-        15
+      15
     ) {
       await this.forgottenPasswordModel.findOneAndUpdate(
         { email: email },
@@ -288,12 +289,12 @@ export class AuthService {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'ashwin@appneural.com',
-          pass: 'ashashA@01',
+          user: 'kailash@appneural.com',
+          pass: '9549230227@Appneural',
         },
       });
       const options = {
-        from: 'ashwin@appneural.com',
+        from: 'kailash@appneural.com',
         to: model.email,
         subject: 'Email verifaction code',
         text: model.token,
@@ -311,31 +312,37 @@ export class AuthService {
   }
 
   async sendEmailVerification(email: string): Promise<any> {
-    const model = await this.emailVerificationModel.findOne({ email: email });
-    if (model) {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'ashwin@appneural.com',
-          pass: 'ashashA@01',
-        },
-      });
-      const options = {
-        from: 'ashwin@appneural.com',
-        to: model.email,
-        subject: 'Email verifaction code',
-        text: model.emailToken,
-      };
-      transporter.sendMail(options, function (err, info) {
-        if (err) {
-          console.log(err);
-          return err;
-        } else {
-          console.log(info.response);
-          return info.response;
-        }
-      });
-    }
+    return new Promise(async (resolve, reject) => {
+
+      const model = await this.emailVerificationModel.findOne({ email: email });
+      if (model) {
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'kailash@appneural.com',
+            pass: '9549230227@Appneural',
+          },
+        });
+        const options = {
+          from: 'kailash@appneural.com',
+          to: model.email,
+          subject: 'Email verifaction code',
+          text: model.emailToken,
+        };
+        transporter.sendMail(options, function (err, info) {
+          if (err) {
+            console.log(err);
+            return err;
+          } else {
+            console.log(info.response);
+            resolve(info.response)
+            return info.response;
+          }
+        });
+      }
+
+    })
+
   }
 
   /* async sendEmailVerification(email: string): Promise<boolean> {   
