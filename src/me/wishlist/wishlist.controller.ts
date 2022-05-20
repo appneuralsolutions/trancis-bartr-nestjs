@@ -1,5 +1,13 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { IResponse } from './../../shared/@interfaces/response.interface';
@@ -9,6 +17,7 @@ import { ResponseError } from './../../shared/@dtos/response.dto';
 import { ErrorMessage } from './../../shared/@constants/error.constant';
 import { JwtService } from '@nestjs/jwt';
 import { Me } from '../@decorators/me.decorator';
+import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 
 @ApiTags('Me -> Wishlist')
 @Controller('wishlist')
@@ -64,20 +73,20 @@ export class WishlistController {
   //   }
   // }
 
-  // @Patch(':id')
-  // async update(
-  //   @Param('id') id: string,
-  //   @Body() updateWishlistDto: UpdateWishlistDto,
-  // ): Promise<IResponse> {
-  //   if (true) {
-  //     return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_WISHLIST, {});
-  //   } else {
-  //     return new ResponseError(
-  //       ErrorMessage.NOT_SUCCESSFULLY_UPDATED_WISHLIST,
-  //       {},
-  //     );
-  //   }
-  // }
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateWishlistDto: UpdateWishlistDto,
+  ): Promise<IResponse> {
+    if (true) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_WISHLIST, {});
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_UPDATED_WISHLIST,
+        {},
+      );
+    }
+  }
 
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {

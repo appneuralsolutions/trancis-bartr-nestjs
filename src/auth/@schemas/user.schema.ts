@@ -5,7 +5,7 @@ export const UserSchema = new mongoose.Schema({
   firstName: { type: String, require: true },
   lastName: { type: String },
   email: { type: String, unique: true, require: true },
-  // uname: { type: String, require: true, unique: true },
+  uname: { type: String, require: true, unique: true },
   phone: { type: String, unique: true, require: true },
   userType: { type: String, require: true },
   // empCode: { type: String, unique: true, require: true },
@@ -54,10 +54,11 @@ export const UserSchema = new mongoose.Schema({
 
 UserSchema.pre('save', async (next) => {
   console.log(this);
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user: any = this;
-  if (!user.isModified('password')) {
-    return next();
-  }
+  // if (!user.isModified('password')) {
+  //   return next();
+  // }
   await bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       return next(err);

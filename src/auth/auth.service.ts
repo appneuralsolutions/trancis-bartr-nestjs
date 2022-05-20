@@ -467,7 +467,7 @@ export class AuthService {
   } */
 
   async register(newUser): Promise<any> {
-    // newUser.uname = newUser.uname.toLowerCase().replace(/ /g, '');
+    newUser.uname = newUser.uname.toLowerCase().replace(/ /g, '');
     // console.log(newUser);
     const userRegistered = await this.userModel
       .findOne({ email: newUser.email })

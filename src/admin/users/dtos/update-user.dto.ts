@@ -16,12 +16,12 @@ export class UpdateUserDto {
   @ApiProperty({ default: 'Prajapat' })
   lastName: string;
 
-  // // @IsNotEmpty()
-  // // @IsEmpty()
-  // // @IsString()
-  // @IsOptional()
-  // @ApiProperty({ default: 'ajayprajapat' })
-  // uname: string;
+  // @IsNotEmpty()
+  // @IsEmpty()
+  // @IsString()
+  @IsOptional()
+  @ApiProperty({ default: 'ajayprajapat' })
+  uname: string;
 
   // @Length(13)
   // @IsNotEmpty()
