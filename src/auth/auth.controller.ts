@@ -188,10 +188,7 @@ export class AuthController {
         resetPasswordDto,
       );
       if (resetPassword) {
-        return new ResponseSuccess(
-          'RESET.VERIFIED_SUCCESSFULLY',
-          resetPassword,
-        );
+        return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY', {});
       } else {
         return new ResponseError('RESET.NOT_VERIFIED_SUCCESSFULLY');
       }
