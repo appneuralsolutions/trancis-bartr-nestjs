@@ -415,7 +415,7 @@ export class AuthService {
       });
 
       // await bcrypt.compare(password, userFromDb.password);
-      let hasPassword;
+      // let hasPassword;
       // bcrypt.genSalt(10, function (err, salt) {
       //   if (err) return '';
 
@@ -431,6 +431,8 @@ export class AuthService {
       //     }
       //   });
       // });
+      await passwordVerif.remove();
+
       userFromDb.auth.verification.email = true;
       userFromDb.password = resetPasswordDto.password;
       const savedUser = await userFromDb.save();
