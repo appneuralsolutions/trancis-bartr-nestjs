@@ -84,7 +84,7 @@ export class AuthService {
           'auth.verification.email': true,
         });
         console.log(user);
-        if (!user) throw 'Username Not found';
+        if (!user) throw ErrorMessage.VERIFY_LOGIN_EMAIL_TOKEN_FIRST;
         // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
         const isValidPass = await bcrypt.compare(
@@ -103,7 +103,7 @@ export class AuthService {
           // delete resUser['isActive'];
           // delete resUser['jwtToken'];
           // return resUser;
-          return jwtToken;
+          return user;
         } else {
           //check email empty or password empty
           throw ErrorMessage.LOGIN_WRONG_USERNAME_OR_PASSWORD;

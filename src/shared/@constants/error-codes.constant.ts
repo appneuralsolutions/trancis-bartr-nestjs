@@ -259,4 +259,9 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00053: {
+    message: 'Please verify your email token first',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };
