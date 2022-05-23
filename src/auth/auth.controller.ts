@@ -117,7 +117,7 @@ export class AuthController {
       const isVerified = await this.authService.verifyEmailToken(email, token);
       if (isVerified) {
         return new ResponseSuccess(
-          'VERIFICATION.VERIFIED_SUCCESSFULLY',
+          Message.SUCCESSFULLY_VERIFIED_EMAIL_TOKEN,
           isVerified,
         );
       } else {
@@ -138,14 +138,13 @@ export class AuthController {
   //   } catch (error) {}
   // }
 
-  /*  @Post('reset-request/:email')
+  @Post('reset-request/:email')
   @ApiParam({
     name: 'email',
     type: 'String',
     example: 'ajayprajapat@live.com',
     required: true,
   })
-  @HttpCode(HttpStatus.OK)
   async resetRequest(@Param('email') email: string): Promise<any> {
     try {
       const sentRequest = await this.authService.resetRequest(email);
@@ -157,7 +156,7 @@ export class AuthController {
     } catch (error) {
       return new ResponseError(error);
     }
-  } */
+  }
 
   @Post('password-token')
   async createPasswordToken(
@@ -167,7 +166,6 @@ export class AuthController {
     try {
       const createtoken = await this.authService.createForgottenPasswordToken(
         email,
-        resetPasswordDTO,
       );
       if (createtoken) {
         return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY', createtoken);
@@ -181,15 +179,13 @@ export class AuthController {
 
   @Post('reset-password')
   async resetPassword(
-    @Body() regDTO: RegisterDto,
-    @Param('email') email: string,
-    @Param('token') token: string,
+    @Body() resetPasswordDto: ResetPasswordDto,
+    // @Param('email') email: string,
+    // @Param('token') token: string,
   ): Promise<any> {
     try {
       const resetPassword = await this.authService.verifyPasswordToken(
-        email,
-        token,
-        regDTO,
+        resetPasswordDto,
       );
       if (resetPassword) {
         return new ResponseSuccess(

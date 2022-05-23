@@ -264,4 +264,24 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00054: {
+    message: 'Email Token Has Been Sent Recently',
+    type: 'Auth',
+    statusCode: 405,
+  },
+  E00055: {
+    message: 'User not found',
+    type: 'Auth',
+    statusCode: 405,
+  },
+  E00056: {
+    message: 'Sorry, we are not able to send email token',
+    type: 'Auth',
+    statusCode: 405,
+  },
+  E00057: {
+    message: 'Invalid Token, please make sure your latest token',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };

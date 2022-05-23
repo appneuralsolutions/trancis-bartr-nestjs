@@ -1,5 +1,5 @@
 export interface IForgottenPassword {
   email: string;
-  token: string;
+  newPasswordToken: string;
   timestamp: Date;
 }

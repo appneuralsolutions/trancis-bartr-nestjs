@@ -1,3 +1,4 @@
+import { ResetPasswordDto } from './@dtos/reset-password.dto';
 import { EmailService } from '../shared/email.service';
 import {
   Injectable,
@@ -238,22 +239,16 @@ export class AuthService {
     }
   }
 
-  async createForgottenPasswordToken(
-    email: string,
-    resetPasswordDTO: any,
-  ): Promise<boolean> {
+  async createForgottenPasswordToken(email: string): Promise<any> {
     const forgottenPassword = await this.forgottenPasswordModel.findOne({
-      email: email,
+      email,
     });
     if (
       forgottenPassword &&
       (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 <
         15
     ) {
-      throw new HttpException(
-        'RESET_PASSWORD.EMAIL_SENDED_RECENTLY',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw ErrorMessage.EMAIL_TOKEN_SENT_RECENTLY;
     }
     if (
       forgottenPassword &&
@@ -269,12 +264,15 @@ export class AuthService {
         { upsert: true, new: true },
       );
     } else {
-      resetPasswordDTO.email = email;
-      (resetPasswordDTO.token = (
-        Math.floor(Math.random() * 9000000) + 1000000
-      ).toString()), //Generate 7 digits number
-        await new this.forgottenPasswordModel(resetPasswordDTO).save();
-      return true;
+      const resetPassword = {
+        email,
+        newPasswordToken: (
+          Math.floor(Math.random() * 9000000) + 1000000
+        ).toString(),
+        timestamp: new Date(),
+      };
+
+      return await new this.forgottenPasswordModel(resetPassword).save();
     }
   }
 
@@ -300,7 +298,7 @@ export class AuthService {
         from: 'kailash@appneural.com',
         to: model.email,
         subject: 'Email verifaction code',
-        text: model.token,
+        text: model.newPasswordToken,
       };
       transporter.sendMail(options, function (err, info) {
         if (err) {
@@ -407,27 +405,38 @@ export class AuthService {
     }
   }
 
-  async verifyPasswordToken(email, token: string, userDto): Promise<any> {
+  async verifyPasswordToken(resetPasswordDto: ResetPasswordDto): Promise<any> {
     const passwordVerif = await this.forgottenPasswordModel.findOne({
-      email: email,
+      email: resetPasswordDto.email,
     });
-    if (passwordVerif.token === token) {
+    if (passwordVerif.newPasswordToken === resetPasswordDto.token) {
       const userFromDb = await this.userModel.findOne({
         email: passwordVerif.email,
       });
-      await this.userModel.findOneAndUpdate(
-        { email: passwordVerif.email },
-        userDto,
-        { upsert: true, new: true },
-      );
-      if (userFromDb) {
-        userFromDb.auth.verification.email = true;
-        const savedUser = await userFromDb.save();
-        await passwordVerif.remove();
-        return !!savedUser;
-      }
+
+      // await bcrypt.compare(password, userFromDb.password);
+      let hasPassword;
+      // bcrypt.genSalt(10, function (err, salt) {
+      //   if (err) return '';
+
+      //   // hash the password using our new salt
+      //   bcrypt.hash(resetPasswordDto.password, salt, async (err, hash) => {
+      //     if (err) return '';
+      //     // override the cleartext password with the hashed one
+      //     hasPassword = hash;
+      //     if (userFromDb) {
+
+      //       // await passwordVerif.remove();
+      //       return !!savedUser;
+      //     }
+      //   });
+      // });
+      userFromDb.auth.verification.email = true;
+      userFromDb.password = resetPasswordDto.password;
+      const savedUser = await userFromDb.save();
+      return savedUser;
     } else {
-      throw 'VERIFICATION.EMAIL_CODE_NOT_VALID';
+      throw ErrorMessage.EMAIL_NOT_SENT;
     }
   }
 
@@ -439,16 +448,15 @@ export class AuthService {
     return await bcrypt.compare(password, userFromDb.password);
   }
 
-  /*async resetRequest(email: string): Promise<boolean> {
+  async resetRequest(email: string): Promise<boolean> {
     const userFromDb = await this.userModel.findOne({ email });
-    if (!userFromDb) throw 'LOGIN.USER_NOT_FOUND';
+    if (!userFromDb) throw ErrorMessage.USER_NOT_FOUND;
 
-    const tokenModel = await this.createForgottenPasswordToken(email);
-    console.log(tokenModel);
+    const tokenModel: any = await this.createForgottenPasswordToken(email);
 
     if (tokenModel && tokenModel.newPasswordToken) {
       const mailOptions = {
-        from: '"Company" <' + config.mail.user + '>',
+        from: '"Company" <' + 'Bartar' + '>',
         to: email, // list of receivers (separated by ,)
         subject: 'Frogotten Password',
         text: 'Forgot Password',
@@ -466,15 +474,14 @@ export class AuthService {
       };
 
       const sent = await this.emailService.sendEmail(mailOptions);
-      console.log(sent, 'sent');
 
       console.log('Message sent: %s', sent.messageId);
       if (sent) return true;
       else return false;
     } else {
-      throw 'REGISTER.USER_NOT_REGISTERED';
+      throw ErrorMessage.EMAIL_NOT_SENT;
     }
-  } */
+  }
 
   async register(newUser): Promise<any> {
     newUser.uname = newUser.uname.toLowerCase().replace(/ /g, '');
