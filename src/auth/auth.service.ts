@@ -47,7 +47,7 @@ export class AuthService {
     @InjectModel('User') private readonly userModel: Model<IUser>,
     private jwtService: JwtService,
     private emailService: EmailService,
-  ) { }
+  ) {}
 
   // guid(){
   //   function s4() {
@@ -201,7 +201,7 @@ export class AuthService {
     if (
       emailVerification &&
       (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 <
-      15
+        15
     ) {
       throw new HttpException(
         'LOGIN.EMAIL_SENDED_RECENTLY',
@@ -211,7 +211,7 @@ export class AuthService {
     if (
       emailVerification &&
       (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 >
-      15
+        15
     ) {
       await this.emailVerificationModel.findOneAndUpdate(
         { email: email },
@@ -245,7 +245,7 @@ export class AuthService {
     if (
       forgottenPassword &&
       (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 <
-      15
+        15
     ) {
       throw new HttpException(
         'RESET_PASSWORD.EMAIL_SENDED_RECENTLY',
@@ -255,7 +255,7 @@ export class AuthService {
     if (
       forgottenPassword &&
       (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 >
-      15
+        15
     ) {
       await this.forgottenPasswordModel.findOneAndUpdate(
         { email: email },
@@ -312,8 +312,7 @@ export class AuthService {
   }
 
   async sendEmailVerification(email: string): Promise<any> {
-    return new Promise(async (resolve, reject) => {
-
+    return new Promise(async (resolve) => {
       const model = await this.emailVerificationModel.findOne({ email: email });
       if (model) {
         const transporter = nodemailer.createTransport({
@@ -335,14 +334,12 @@ export class AuthService {
             return err;
           } else {
             console.log(info.response);
-            resolve(info.response)
+            resolve(info.response);
             return info.response;
           }
         });
       }
-
-    })
-
+    });
   }
 
   /* async sendEmailVerification(email: string): Promise<boolean> {   

@@ -27,17 +27,14 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.OK)
-  async register(
-    @Body() regDTO: RegisterDto,
-    @Body() EmailDTO: EmailVerificationDto,
-  ): Promise<IResponse> {
+  async register(@Body() regDTO: RegisterDto): Promise<IResponse> {
     console.log(regDTO, 'auth controller');
     const newUser = await this.authService.register(regDTO);
     console.log(newUser);
     if (newUser) {
       await this.authService.saveUserConsent(newUser.email);
       const emailToken = await this.authService.sendEmailVerification(
-        newUser.email
+        newUser.email,
       );
       if (newUser && emailToken) {
         // console.log(newUser);
@@ -81,7 +78,7 @@ export class AuthController {
   async login(@Body() loginDTO: LoginDto): Promise<IResponse> {
     console.log(loginDTO);
     const data = await this.authService.validateLogin(loginDTO);
-    console.log(data,'validate login ')
+    console.log(data, 'validate login ');
     if (data) {
       return new ResponseSuccess(Message.SUCCESSFULLY_LOGGED_IN, {
         jwtToken: data,

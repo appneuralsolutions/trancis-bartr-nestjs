@@ -12,7 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 export class CardsController {
   constructor(
     private cardsService: CardsService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
   @Get()

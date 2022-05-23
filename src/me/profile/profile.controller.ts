@@ -9,7 +9,6 @@ import { ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
-  Post,
   Body,
   Delete,
   UseInterceptors,

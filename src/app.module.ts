@@ -1,8 +1,10 @@
+import { SharedModule } from 'src/shared/shared.module';
+import { BearerMiddleware } from './shared/@middleware/bearer.middleware';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { AppRoutingModule } from './app.routing.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -18,6 +20,7 @@ import { FeedsModule } from './feeds/feeds.module';
 
 @Module({
   imports: [
+    SharedModule,
     AppRoutingModule,
     MongooseModule.forRoot('mongodb://localhost:27017/bartr-v1', {
       useUnifiedTopology: true,
@@ -46,6 +49,9 @@ import { FeedsModule } from './feeds/feeds.module';
   providers: [AppService],
 })
 export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(BearerMiddleware).forRoutes('*');
+  }
   // constructor() {
   //   console.log(join(__dirname, '../uploads'));
   // }
