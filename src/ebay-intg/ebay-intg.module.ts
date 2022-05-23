@@ -9,7 +9,7 @@ import { AuthModule } from 'src/auth/auth.module';
   controllers: [EbayIntgController],
 })
 export class EbayIntgModule {
-  // configure(consumer: MiddlewareConsumer) {
-  //   consumer.apply(BearerMiddleware).forRoutes('*');
-  // }
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(BearerMiddleware).forRoutes('*');
+  }
 }
