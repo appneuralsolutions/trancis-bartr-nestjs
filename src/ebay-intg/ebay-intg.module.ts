@@ -1,5 +1,6 @@
+import { BearerMiddleware } from './../shared/@middleware/bearer.middleware';
 import { SharedModule } from 'src/shared/shared.module';
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer } from '@nestjs/common';
 import { EbayIntgController } from './ebay-intg.controller';
 import { AuthModule } from 'src/auth/auth.module';
 
@@ -7,4 +8,8 @@ import { AuthModule } from 'src/auth/auth.module';
   imports: [SharedModule, AuthModule],
   controllers: [EbayIntgController],
 })
-export class EbayIntgModule {}
+export class EbayIntgModule {
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(BearerMiddleware).forRoutes('*');
+  // }
+}

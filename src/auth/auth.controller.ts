@@ -1,3 +1,4 @@
+import { EmailService } from './../shared/email.service';
 import { UpdateUserDto } from './../admin/users/dtos/update-user.dto';
 import {
   Body,
@@ -17,22 +18,36 @@ import { ResponseError, ResponseSuccess } from './@dtos/response.dto';
 import { LoginDto } from './@dtos/login.dto';
 import { ResetPasswordDto } from './@dtos/reset-password.dto';
 import { AuthUser } from './auth.decorator';
-import { EmailVerificationDto } from './@dtos/email-verfication.dto';
 import { Message } from 'src/shared/@constants/messages.constant';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 
 @Controller()
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private emailService: EmailService,
+  ) {
+    // emailService
+    //   .sendEmail({
+    //     from: '"Fred Foo 👻" <foo@example.com>', // sender address
+    //     to: 'ajay@appneural.com, nilofar@appneural.com, ajayprajapat@live.com', // list of receivers
+    //     subject: 'Hello ✔', // Subject line
+    //     text: 'Hello world?', // plain text body
+    //     html: '<b>Hello world?</b>', // html body
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //   });
+  }
 
   @Post('register')
   @HttpCode(HttpStatus.OK)
   async register(@Body() regDTO: RegisterDto): Promise<IResponse> {
-    console.log(regDTO, 'auth controller');
     const newUser = await this.authService.register(regDTO);
     console.log(newUser);
     if (newUser) {
       await this.authService.saveUserConsent(newUser.email);
+      await this.authService.createEmailToken(newUser.email);
       const emailToken = await this.authService.sendEmailVerification(
         newUser.email,
       );

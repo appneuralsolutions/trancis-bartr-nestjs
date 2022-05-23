@@ -49,9 +49,9 @@ import { FeedsModule } from './feeds/feeds.module';
   providers: [AppService],
 })
 export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(BearerMiddleware).forRoutes('*');
-  }
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(BearerMiddleware).forRoutes('*');
+  // }
   // constructor() {
   //   console.log(join(__dirname, '../uploads'));
   // }

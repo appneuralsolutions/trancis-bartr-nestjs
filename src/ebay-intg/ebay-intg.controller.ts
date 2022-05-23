@@ -9,13 +9,13 @@ export class EbayIntgController {
     private httpService: HttpService,
     private jwtService: JwtService,
   ) {
-    this.httpService
-      .get(
-        'https://api.sandbox.ebay.com/buy/browse/v1/item_summary/search?q=drone&limit=3',
-      )
-      .subscribe((data) => {
-        console.log(data);
-      });
+    // this.httpService
+    //   .get(
+    //     'https://api.sandbox.ebay.com/buy/browse/v1/item_summary/search?q=drone&limit=3',
+    //   )
+    //   .subscribe((data) => {
+    //     console.log(data);
+    //   });
   }
   @Get()
   async findByProfile(@Me() me: string): Promise<any> {

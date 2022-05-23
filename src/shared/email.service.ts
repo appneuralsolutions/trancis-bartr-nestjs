@@ -40,12 +40,12 @@ export class EmailService {
   async sendEmail(mailInfo) {
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
-      host: config.mail.host,
-      port: config.mail.port,
-      secure: config.mail.secure, // true for 465, false for other ports
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // true for 465, false for other ports
       auth: {
-        user: config.mail.user, // generated ethereal user
-        pass: config.mail.pass, // generated ethereal password
+        user: 'pihup8318@gmail.com', // generated ethereal user
+        pass: 'SapnaPihu', // generated ethereal password
       },
     });
 

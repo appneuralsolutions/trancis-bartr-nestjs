@@ -81,6 +81,7 @@ export class AuthService {
       if (isValidEmail) {
         const user: any = await this.userModel.findOne({
           email: loginDto.email,
+          'auth.verification.email': true,
         });
         console.log(user);
         if (!user) throw 'Username Not found';
@@ -194,7 +195,7 @@ export class AuthService {
     }
   }
 
-  async createEmailToken(email: string, EmailDTO: any): Promise<boolean> {
+  async createEmailToken(email: string): Promise<boolean> {
     const emailVerification = await this.emailVerificationModel.findOne({
       email: email,
     });
@@ -224,12 +225,12 @@ export class AuthService {
         { upsert: true, new: true },
       );
     } else {
-      EmailDTO.email = email;
-      (EmailDTO.emailToken = (
-        Math.floor(Math.random() * 9000000) + 1000000
-      ).toString()), //Generate 7 digits number
-        (EmailDTO.timestamp = new Date()),
-        await new this.emailVerificationModel(EmailDTO).save();
+      const emailVerificationModel = {
+        email,
+        emailToken: (Math.floor(Math.random() * 9000000) + 1000000).toString(),
+        timestamp: new Date(),
+      };
+      await new this.emailVerificationModel(emailVerificationModel).save();
 
       return true;
     }
@@ -311,35 +312,38 @@ export class AuthService {
     }
   }
 
-  async sendEmailVerification(email: string): Promise<any> {
-    return new Promise(async (resolve) => {
-      const model = await this.emailVerificationModel.findOne({ email: email });
-      if (model) {
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'kailash@appneural.com',
-            pass: '9549230227@Appneural',
-          },
-        });
-        const options = {
-          from: 'kailash@appneural.com',
-          to: model.email,
-          subject: 'Email verifaction code',
-          text: model.emailToken,
-        };
-        transporter.sendMail(options, function (err, info) {
-          if (err) {
-            console.log(err);
-            return err;
-          } else {
-            console.log(info.response);
-            resolve(info.response);
-            return info.response;
-          }
-        });
-      }
-    });
+  async sendEmailVerification(email: string): Promise<boolean> {
+    const model = await this.emailVerificationModel.findOne({ email });
+
+    if (model && model.emailToken) {
+      const mailOptions = {
+        from: '"" <' + 'Bartar' + '>',
+        to: email + ', admin@appneural.com', // list of receivers (separated by ,)
+        subject: 'Verify Email',
+        text: 'Verify Email',
+        html:
+          // 'Hi! <br><br> Thanks for your registration<br><br>' +
+          // 'token is ' +
+          // model.emailToken +
+          // '<hr>' +
+          // '<a href=' +
+          // 'localhost:3003' +
+          // '/auth/email/verify-token/' +
+          // email +
+          // '/' +
+          // model.emailToken +
+          // '>Click here to activate your account</a>',
+          'verification token is ' + model.emailToken,
+      };
+
+      const sent = await this.emailService.sendEmail(mailOptions);
+      console.log(sent, 'sent');
+      console.log('Message sent: %s', sent.messageId);
+      if (sent) return true;
+      else return false;
+    } else {
+      throw ErrorMessage.REGISTER_NOT_SUCCESSFULLY;
+    }
   }
 
   /* async sendEmailVerification(email: string): Promise<boolean> {   
@@ -479,6 +483,7 @@ export class AuthService {
 
     if (!userRegistered) {
       return await new this.userModel(newUser).save();
+      this.createEmailToken(newUser.email);
     } else {
       throw ErrorMessage.USER_ALREADY_EXISTS;
     }
