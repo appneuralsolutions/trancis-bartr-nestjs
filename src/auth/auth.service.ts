@@ -83,7 +83,6 @@ export class AuthService {
           email: loginDto.email,
           'auth.verification.email': true,
         });
-        console.log(user);
         if (!user) throw ErrorMessage.VERIFY_LOGIN_EMAIL_TOKEN_FIRST;
         // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
@@ -91,10 +90,8 @@ export class AuthService {
           loginDto.password,
           user.password,
         );
-        console.log(isValidPass, typeof loginDto.password);
         if (isValidPass) {
           const jwtToken = await this.signToken(user);
-          user.jwtToken = await jwtToken;
           console.log(user.jwtToken);
           // console.log(user, jwtToken);
           // return await user;
@@ -103,7 +100,12 @@ export class AuthService {
           // delete resUser['isActive'];
           // delete resUser['jwtToken'];
           // return resUser;
-          return user;
+          const newUser: any = { ...user._doc };
+          delete newUser.auth;
+          return {
+            user: newUser,
+            jwtToken,
+          };
         } else {
           //check email empty or password empty
           throw ErrorMessage.LOGIN_WRONG_USERNAME_OR_PASSWORD;

@@ -91,13 +91,9 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDTO: LoginDto): Promise<IResponse> {
-    console.log(loginDTO);
     const data = await this.authService.validateLogin(loginDTO);
-    console.log(data, 'validate login ');
     if (data) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_LOGGED_IN, {
-        jwtToken: data,
-      });
+      return new ResponseSuccess(Message.SUCCESSFULLY_LOGGED_IN, data);
     } else {
       return new ResponseError(
         ErrorMessage.LOGIN_NOT_SUCCESSFULLY_LOGGED_IN,
