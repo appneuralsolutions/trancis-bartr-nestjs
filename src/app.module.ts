@@ -33,7 +33,7 @@ import { FeedsModule } from './feeds/feeds.module';
     }),
     ServeStaticModule.forRoot({
       serveRoot: '/data',
-      rootPath: join(__dirname, '../uploads'),
+      rootPath: join(__dirname, './uploads'),
     }),
     AuthModule,
     MeModule,

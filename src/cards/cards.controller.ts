@@ -38,7 +38,7 @@ export class CardsController {
   @UseInterceptors(
     AnyFilesInterceptor({
       storage: diskStorage({
-        destination: '../uploads/cards',
+        destination: './uploads/cards',
         filename: editFileName,
       }),
       limits: { files: 20 },
