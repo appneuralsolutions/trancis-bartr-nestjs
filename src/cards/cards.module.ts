@@ -1,3 +1,4 @@
+import { WishlistSchema } from './../me/wishlist/schemas/wishlist.schema';
 import { AuthModule } from '../auth/auth.module';
 import { Module } from '@nestjs/common';
 import { CardsService } from './cards.service';
@@ -11,6 +12,7 @@ import { CardSchema } from './@schemas/card.schema';
     AuthModule,
     SharedModule,
     MongooseModule.forFeature([{ name: 'Card', schema: CardSchema }]),
+    MongooseModule.forFeature([{ name: 'Wishlist', schema: WishlistSchema }]),
   ],
   controllers: [CardsController],
   providers: [CardsService],

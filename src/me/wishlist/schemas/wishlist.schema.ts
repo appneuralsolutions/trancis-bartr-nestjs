@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const WishlistSchema = new mongoose.Schema({
-  title: String,
+  cardId: String,
   like: Boolean,
-  email: String,
+  userId: String,
 }).set('timestamps', true);

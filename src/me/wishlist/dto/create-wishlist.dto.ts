@@ -4,13 +4,11 @@ import { IsNotEmpty } from 'class-validator';
 export class CreateWishlistDto {
   @IsNotEmpty()
   @ApiProperty()
-  title: string;
+  cardId: string;
 
   @IsNotEmpty()
   @ApiProperty()
   like: boolean;
 
-  @IsNotEmpty()
-  @ApiProperty()
-  email: string;
+  userId: string;
 }

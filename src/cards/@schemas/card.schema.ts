@@ -11,6 +11,7 @@ export const CardSchema = new mongoose.Schema({
   email: String,
   subject: String,
   likes: { type: Number, default: 0 },
+  liked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   views: { type: Number, default: 0 },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   modifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

@@ -37,9 +37,9 @@ import { CardsModule } from 'src/cards/cards.module';
     FeedbackModule,
     CardsModule,
     MongooseModule.forFeature([
-      { name: 'NewUser', schema: NewUserSchema },
+      // { name: 'NewUser', schema: NewUserSchema },
       { name: 'Perference', schema: PreferencesSchema },
-      { name: 'wishlist', schema: WishlistSchema },
+      { name: 'Wishlist', schema: WishlistSchema },
     ]),
     ChatModule,
   ],

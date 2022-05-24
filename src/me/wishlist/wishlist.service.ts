@@ -1,3 +1,4 @@
+import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { Injectable } from '@nestjs/common';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -11,51 +12,67 @@ import { CreateCard } from 'src/cards/@interface/card.interface';
 @Injectable()
 export class WishlistService {
   constructor(
-    @InjectModel('wishlist') private WishlistModel: Model<wishlist>,
+    @InjectModel('Wishlist') private WishlistModel: Model<wishlist>,
     @InjectModel('Card') private cardModel: Model<CreateCard>,
   ) {}
-  async create(data: CreateWishlistDto, userPayload): Promise<wishlist> {
-    data.email = userPayload.email;
-    const Card = await this.cardModel.find({ title: data.title });
-    const like = Card[0].likes + 1;
-    console.log(Card);
-    if (Card) {
-      const createdData = await new this.WishlistModel(data).save();
-      const Updatecard = await this.cardModel.findOneAndUpdate(
-        { title: data.title },
-        { $set: { likes: like } },
-        {
-          new: true,
-        },
-      );
-      console.log(Updatecard);
-      return new Promise((resolve) => {
-        resolve(createdData);
-      });
-    }
-  }
 
-  async findAll(userPayload): Promise<any> {
-    const email = userPayload.email;
-    const wishlist = await this.WishlistModel.find({ email: email });
-    for (let i = 0; i < wishlist.length; i++) {
-      var getCard = await this.cardModel.findOne({
-        title: wishlist[i].title,
-      });
+  async create(data: CreateWishlistDto, userPayload): Promise<wishlist> {
+    let wishlist = await this.WishlistModel.findOne({ cardId: data.cardId });
+    if (!wishlist) {
+      wishlist = await new this.WishlistModel({
+        ...data,
+        userId: userPayload.userId,
+      }).save();
+    } else {
+      wishlist.like = data.like;
     }
+    // const card = await this.cardModel.findOne({ _id: data.cardId });
+
+    // if (card) {
+    //   const likes = card.likes + 1;
+    //   await this.cardModel.findOneAndUpdate(
+    //     { _id: data.cardId },
+    //     { $set: { likes: likes } },
+    //     {
+    //       new: true,
+    //     },
+    //   );
+    // } else {
+    //   // throw ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD;
+    // }
     return new Promise((resolve) => {
-      resolve(getCard);
+      resolve(wishlist);
     });
   }
 
-  async findOne(id: number): Promise<string> {
+  async findAll(userPayload): Promise<any> {
+    const userId = userPayload.userId;
+    const likeWishlist = await this.WishlistModel.find(
+      { userId },
+      { cardId: 1, like: true },
+    );
+
+    const dislikeWishlist = await this.WishlistModel.find(
+      { userId },
+      { cardId: 1, like: false },
+    );
+
+    return new Promise((resolve) => {
+      resolve({
+        likeWishlist,
+        dislikeWishlist,
+      });
+    });
+  }
+
+  async findOne(id: string): Promise<string> {
     return new Promise((resolve) => {
       resolve(`This action returns a #${id} wishlist`);
     });
   }
 
   async update(
-    id: number,
+    id: string,
     // updateWishlistDto: UpdateWishlistDto,
   ): Promise<string> {
     return new Promise((resolve) => {

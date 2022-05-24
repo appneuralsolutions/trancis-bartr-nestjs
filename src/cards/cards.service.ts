@@ -1,3 +1,5 @@
+import { CreateWishlistDto } from './../me/wishlist/dto/create-wishlist.dto';
+import { wishlist } from './../me/wishlist/interface/wishlist.interface';
 import { Injectable } from '@nestjs/common';
 import { CreateCardDto } from './@dtos/create-card.dto';
 import { CreateCard } from './@interface/card.interface';
@@ -7,7 +9,10 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class CardsService {
-  constructor(@InjectModel('Card') private cardModel: Model<CreateCard>) {}
+  constructor(
+    @InjectModel('Card') private cardModel: Model<CreateCard>,
+    @InjectModel('Wishlist') private wishlistModel: Model<CreateWishlistDto>,
+  ) {}
 
   async create(data: CreateCardDto, userPayload): Promise<CreateCard> {
     const cardTitle = await this.cardModel
@@ -35,7 +40,21 @@ export class CardsService {
   }
 
   async findByProfile(userPayload): Promise<CreateCard[]> {
-    const cards = await this.cardModel.find({ createdBy: userPayload.userId });
+    let cards: any = await this.cardModel.find({
+      createdBy: userPayload.userId,
+    });
+    const wishlist = await this.wishlistModel.find({
+      userId: userPayload.userId,
+    });
+
+    cards = cards.map((card) => {
+      console.log(card);
+      const myWishlist = wishlist.filter((w) => w.cardId === card._id + '');
+      return {
+        ...card._doc,
+        isLiked: myWishlist.length > 0 ? myWishlist[0].like : null,
+      };
+    });
     return new Promise((resolve) => {
       resolve(cards);
     });

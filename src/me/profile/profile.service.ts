@@ -7,11 +7,7 @@ import { IUser } from '../../auth/@interfaces/user.interface';
 
 @Injectable()
 export class ProfileService {
-  constructor(
-    @InjectModel('NewUser')
-    private readonly NewUserModel: Model<NewUser>,
-    @InjectModel('User') private readonly userModel: Model<IUser>,
-  ) {}
+  constructor(@InjectModel('User') private readonly userModel: Model<IUser>) {}
 
   async uploadPhoto(
     data: CreateProfileDto,

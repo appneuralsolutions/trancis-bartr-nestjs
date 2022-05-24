@@ -22,7 +22,7 @@ import { ErrorMessage } from './../shared/@constants/error.constant';
 import { AnyFilesInterceptor } from '@nestjs/platform-express/multer';
 import { diskStorage } from 'multer';
 import { CreateCard } from './@interface/card.interface';
-import { imageFileFilter, editFileName } from './utils/file-upload.utils';
+import { imageFileFilter, editFileName } from './@utils/file-upload.utils';
 import { JwtService } from '@nestjs/jwt';
 import { Me } from 'src/me/@decorators/me.decorator';
 
