@@ -207,10 +207,7 @@ export class AuthService {
       (new Date().getTime() - emailVerification.timestamp.getTime()) / 60000 <
         15
     ) {
-      throw new HttpException(
-        'LOGIN.EMAIL_SENDED_RECENTLY',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw ErrorMessage.EMAIL_TOKEN_SENT_RECENTLY;
     }
     if (
       emailVerification &&
@@ -243,25 +240,27 @@ export class AuthService {
     const forgottenPassword = await this.forgottenPasswordModel.findOne({
       email,
     });
-    if (
-      forgottenPassword &&
-      (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 <
-        15
-    ) {
-      throw ErrorMessage.EMAIL_TOKEN_SENT_RECENTLY;
-    }
+    // if (
+    //   forgottenPassword &&
+    //   (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 <
+    //     15
+    // ) {
+    //   throw ErrorMessage.EMAIL_TOKEN_SENT_RECENTLY;
+    // }
     if (
       forgottenPassword &&
       (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 >
         15
     ) {
-      await this.forgottenPasswordModel.findOneAndUpdate(
-        { email: email },
+      return await this.forgottenPasswordModel.findOneAndUpdate(
+        { email },
         {
-          newPasswordToken: (
-            Math.floor(Math.random() * 9000000) + 1000000
-          ).toString(), //Generate 7 digits number,
-          timestamp: new Date(),
+          $set: {
+            newPasswordToken: (
+              Math.floor(Math.random() * 9000000) + 1000000
+            ).toString(), //Generate 7 digits number,
+            timestamp: new Date(),
+          },
         },
         { upsert: true, new: true },
       );
