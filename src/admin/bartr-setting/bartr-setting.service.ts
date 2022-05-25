@@ -23,7 +23,7 @@ export class BartrSettingService {
   }
 
   async getBartrSignupRewardValue() {
-    return await this.bartrSignupRewardModel.find();
+    return await this.bartrSignupRewardModel.findOne().sort({ _id: -1 });
   }
 
   async createBartrPoint(BartrPointValueDTO) {
@@ -35,7 +35,7 @@ export class BartrSettingService {
   }
 
   async getBartrPointValue() {
-    return await this.bartrPointValueModel.find();
+    return await this.bartrPointValueModel.findOne().sort({ _id: -1 });
   }
 
   updateSignupRewardValue(_id: string, BartrSignupRewardDTO) {

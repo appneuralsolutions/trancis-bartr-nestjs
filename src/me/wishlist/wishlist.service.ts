@@ -47,21 +47,19 @@ export class WishlistService {
 
   async findAll(userPayload): Promise<any> {
     const userId = userPayload.userId;
-    const likeWishlist = await this.WishlistModel.find(
-      { userId },
-      { cardId: 1, like: true },
+    const wishlist = await this.WishlistModel.find({ userId }).populate(
+      'cardId',
     );
 
-    const dislikeWishlist = await this.WishlistModel.find(
-      { userId },
-      { cardId: 1, like: false },
-    );
+    const likeWishlist = await this.WishlistModel.find({ userId, like: true });
+
+    const dislikeWishlist = await this.WishlistModel.find({
+      userId,
+      like: false,
+    });
 
     return new Promise((resolve) => {
-      resolve({
-        likeWishlist,
-        dislikeWishlist,
-      });
+      resolve(wishlist);
     });
   }
 

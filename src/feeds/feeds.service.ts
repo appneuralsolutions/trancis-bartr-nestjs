@@ -7,9 +7,11 @@ import { CreateCard } from '../cards/@interface/card.interface';
 export class FeedsService {
   constructor(@InjectModel('Card') private feedModel: Model<CreateCard>) {}
 
-  async aggregateFeed(): Promise<CreateCard[]> {
+  async aggregateFeed(categories): Promise<CreateCard[]> {
     // const collection_length = await this.feedModel.count();
-    const feeds = await this.feedModel.find({}).sort({ createdOn: -1 });
+    const feeds = await this.feedModel
+      .find({ categoryId: { $in: categories } })
+      .sort({ _id: -1 });
     return new Promise((resolve) => {
       resolve(feeds);
     });

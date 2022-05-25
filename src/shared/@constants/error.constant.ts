@@ -60,4 +60,5 @@ export const ErrorMessage = {
   USER_NOT_FOUND: 'E00055',
   EMAIL_NOT_SENT: 'E00056',
   INVALID_TOKEN: 'E00057',
+  UPLOAD_FILE: 'E00058',
 };

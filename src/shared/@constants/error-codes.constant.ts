@@ -284,4 +284,9 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00058: {
+    message: 'please upload image',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };

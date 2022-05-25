@@ -5,6 +5,11 @@ export class CreateCardDto {
   @ApiProperty()
   @IsOptional()
   @IsNotEmpty()
+  categoryId: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNotEmpty()
   availableOf: string;
 
   @ApiProperty()

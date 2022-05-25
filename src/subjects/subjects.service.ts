@@ -1,3 +1,4 @@
+import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { ISubjectCategory } from './@interfaces/subject-category.interface';
 import { CreateSubjectCategoryDto } from './@dtos/create-subject-category.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -45,14 +46,18 @@ export class SubjectsService {
   async uploadSubjectCategoryPhoto(
     subjectId: string,
     data: CreateSubjectCategoryDto,
-    file,
+    files,
   ): Promise<any> {
-    const photoUrl = '/data/subject-categories/' + file.filename;
-    data.image = photoUrl;
-    const updatedInDB = await this.createSubjectCategory(subjectId, data);
-    return new Promise((resolve) => {
-      resolve(updatedInDB);
-    });
+    if (files && files.length > 0) {
+      const photoUrl = '/data/subject-categories/' + files[0].filename;
+      data.image = photoUrl;
+      const updatedInDB = await this.createSubjectCategory(subjectId, data);
+      return new Promise((resolve) => {
+        resolve(updatedInDB);
+      });
+    } else {
+      throw ErrorMessage.UPLOAD_FILE;
+    }
   }
 
   async findAll(): Promise<ISubject[]> {

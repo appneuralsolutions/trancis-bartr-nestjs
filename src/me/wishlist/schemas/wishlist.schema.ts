@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const WishlistSchema = new mongoose.Schema({
-  cardId: String,
+  cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Card' },
   like: Boolean,
-  userId: String,
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }).set('timestamps', true);

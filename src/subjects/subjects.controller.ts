@@ -9,15 +9,15 @@ import {
   Patch,
   Delete,
   UseInterceptors,
-  UploadedFile,
   Res,
+  UploadedFiles,
 } from '@nestjs/common';
 import { diskStorage } from 'multer';
 import {
   editFileName,
   imageFileFilter,
 } from '../shared/utils/file-upload.utils';
-import { FileInterceptor } from '@nestjs/platform-express/multer';
+import { AnyFilesInterceptor } from '@nestjs/platform-express/multer';
 import { SubjectsService } from './subjects.service';
 import { CreateSubjectDto } from './@dtos/create-subject.dto';
 import { UpdateSubjectDto } from './@dtos/update-subject.dto';
@@ -56,23 +56,24 @@ export class SubjectsController {
 
   @Post(':id/categories')
   @UseInterceptors(
-    FileInterceptor('image', {
+    AnyFilesInterceptor({
       storage: diskStorage({
         destination: './uploads/subject-categories',
         filename: editFileName,
       }),
+      limits: { files: 20 },
       fileFilter: imageFileFilter,
     }),
   )
   async createSubjectCategory(
-    @UploadedFile() file,
+    @UploadedFiles() files,
     @Body() createSubjectCategoryDto: CreateSubjectCategoryDto,
     @Param('id') subjectId: string,
   ): Promise<IResponse | ISubjectCategory> {
     const result = await this.subjectsService.uploadSubjectCategoryPhoto(
       subjectId,
       createSubjectCategoryDto,
-      file,
+      files,
     );
 
     if (result) {

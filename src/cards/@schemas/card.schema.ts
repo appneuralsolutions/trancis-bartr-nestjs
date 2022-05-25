@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const CardSchema = new mongoose.Schema({
+  categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject-Category' },
   availableOf: String,
   price: String,
   title: String,
