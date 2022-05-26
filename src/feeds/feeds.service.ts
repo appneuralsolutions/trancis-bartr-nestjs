@@ -7,13 +7,20 @@ import { CreateCard } from '../cards/@interface/card.interface';
 export class FeedsService {
   constructor(@InjectModel('Card') private feedModel: Model<CreateCard>) {}
 
-  async aggregateFeed(categories): Promise<CreateCard[]> {
+  async aggregateFeed(categories?): Promise<CreateCard[]> {
     // const collection_length = await this.feedModel.count();
-    const feeds = await this.feedModel
-      .find({ categoryId: { $in: categories } })
-      .sort({ _id: -1 });
-    return new Promise((resolve) => {
-      resolve(feeds);
-    });
+    if (categories) {
+      const feeds = await this.feedModel
+        .find({ categoryId: { $in: categories.split(',') } })
+        .sort({ _id: -1 });
+      return new Promise((resolve) => {
+        resolve(feeds);
+      });
+    } else {
+      const feeds = await this.feedModel.find({}).sort({ _id: -1 });
+      return new Promise((resolve) => {
+        resolve(feeds);
+      });
+    }
   }
 }
