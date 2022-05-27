@@ -102,4 +102,15 @@ export class SubjectsService {
   remove(id: string) {
     return this.subjectModel.findOneAndDelete({ _id: id }).exec();
   }
+
+  deleteCategory(id, cid) {
+    this.subjectModel
+      .findOneAndUpdate({ _id: id }, { $pull: { categories: cid } })
+      .exec();
+    return this.subjectCategoryModel.findOneAndDelete({ _id: id }).exec();
+  }
+
+  udpateCategory(id, data) {
+    return this.subjectCategoryModel.findOneAndUpdate({ _id: id, data }).exec();
+  }
 }

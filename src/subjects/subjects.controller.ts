@@ -141,6 +141,28 @@ export class SubjectsController {
     }
   }
 
+  @Patch(':id/categories/:cid')
+  async updateCategory(
+    @Param('id') id: string,
+    @Param('cid') cid: string,
+    @Body() updateSubjectDto: UpdateSubjectDto,
+  ): Promise<IResponse | ISubject> {
+    const subject = await this.subjectsService.udpateCategory(
+      cid,
+      updateSubjectDto,
+    );
+    if (subject) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_SUBJECT, {
+        subject,
+      });
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_UPDATED_SUBJECT,
+        {},
+      );
+    }
+  }
+
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<IResponse> {
     const subject = await this.subjectsService.remove(id);
@@ -153,6 +175,19 @@ export class SubjectsController {
         ErrorMessage.NOT_SUCCESSFULLY_DELETED_SUBJECT,
         {},
       );
+    }
+  }
+
+  @Delete(':id/categories/:cid')
+  async deleteCategory(
+    @Param('id') id: string,
+    @Param('cid') cid: string,
+  ): Promise<IResponse | ISubject> {
+    const subject = await this.subjectsService.deleteCategory(id, cid);
+    if (subject) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_SUBJECT, subject);
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_SUBJECT, {});
     }
   }
 }

@@ -1,6 +1,6 @@
 import { FeedsService } from './feeds.service';
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { IResponse } from 'src/shared/@interfaces/response.interface';
 import { ResponseError, ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { Message } from 'src/shared/@constants/messages.constant';
@@ -18,10 +18,13 @@ export class FeedsController {
   ) {}
 
   @Get()
-  async findAll(@Me() me: string): Promise<IResponse | CreateCard[]> {
+  async findAll(
+    @Me() me: string,
+    @Query('categories') categories: string,
+  ): Promise<IResponse | CreateCard[]> {
     const userPayload: any = this.jwtService.decode(me);
 
-    const feed = await this.feedsService.aggregateFeed(userPayload);
+    const feed = await this.feedsService.aggregateFeed(userPayload, categories);
     if (feed) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {
         feed,
