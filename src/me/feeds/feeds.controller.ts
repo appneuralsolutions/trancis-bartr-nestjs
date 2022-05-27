@@ -24,11 +24,12 @@ export class FeedsController {
   ): Promise<IResponse | CreateCard[]> {
     const userPayload: any = this.jwtService.decode(me);
 
-    const feed = await this.feedsService.aggregateFeed(userPayload, categories);
-    if (feed) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {
-        feed,
-      });
+    const feeds = await this.feedsService.aggregateFeed(
+      userPayload,
+      categories,
+    );
+    if (feeds) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, feeds);
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
