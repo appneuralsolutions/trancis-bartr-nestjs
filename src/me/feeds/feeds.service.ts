@@ -1,3 +1,4 @@
+import { CreateWishlistDto } from './../wishlist/dto/create-wishlist.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateCard } from 'src/cards/@interface/card.interface';
@@ -5,15 +6,33 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class FeedsService {
-  constructor(@InjectModel('Card') private GetFeedModel: Model<CreateCard>) {}
+  constructor(
+    @InjectModel('Card') private cardModel: Model<CreateCard>,
+    @InjectModel('Wishlist') private wishlistModel: Model<CreateWishlistDto>,
+  ) {}
 
-  async aggregateFeed(): Promise<CreateCard[]> {
-    const collection_length = await this.GetFeedModel.count();
-    const feed = await this.GetFeedModel.aggregate([
-      { $sample: { size: collection_length } },
-    ]);
+  async aggregateFeed(userPayload): Promise<CreateCard[]> {
+    let cards: any = await this.cardModel.find({
+      createdBy: userPayload.userId,
+    });
+    const wishlist = await this.wishlistModel.find({
+      userId: userPayload.userId,
+    });
+
+    cards = cards.map((card) => {
+      console.log(card);
+      const myWishlist = wishlist.filter((w) => w.cardId === card._id + '');
+      return {
+        ...card._doc,
+        isLiked: myWishlist.length > 0 ? myWishlist[0].like : null,
+      };
+    });
+    // const collection_length = await this.cardModel.count();
+    // const feed = await this.cardModel.aggregate([
+    //   { $sample: { size: collection_length } },
+    // ]);
     return new Promise((resolve) => {
-      resolve(feed);
+      resolve(cards);
     });
   }
 }

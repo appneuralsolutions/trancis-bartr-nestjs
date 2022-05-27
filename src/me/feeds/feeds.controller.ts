@@ -19,9 +19,9 @@ export class FeedsController {
 
   @Get()
   async findAll(@Me() me: string): Promise<IResponse | CreateCard[]> {
-    // const userPayload: any = this.jwtService.decode(me);
+    const userPayload: any = this.jwtService.decode(me);
 
-    const feed = await this.feedsService.aggregateFeed();
+    const feed = await this.feedsService.aggregateFeed(userPayload);
     if (feed) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {
         feed,

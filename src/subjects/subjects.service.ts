@@ -61,7 +61,9 @@ export class SubjectsService {
   }
 
   async findAll(): Promise<ISubject[]> {
-    const subjects = await this.subjectModel.find();
+    const subjects = await this.subjectModel
+      .find()
+      .populate({ path: 'categories' });
     return new Promise((resolve) => {
       resolve(subjects);
     });
