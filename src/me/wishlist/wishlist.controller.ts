@@ -75,11 +75,18 @@ export class WishlistController {
 
   @Put(':id')
   async update(
+    @Me() me: string,
     @Param('id') id: string,
     @Body() updateWishlistDto: UpdateWishlistDto,
   ): Promise<IResponse> {
-    if (true) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_WISHLIST, {});
+    const userPayload: any = this.jwtService.decode(me);
+    const result = await this.wishlistService.update(
+      id,
+      userPayload,
+      updateWishlistDto,
+    );
+    if (result) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_WISHLIST, result);
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_UPDATED_WISHLIST,

@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { wishlist } from './interface/wishlist.interface';
 import { Model } from 'mongoose';
 import { CreateCard } from 'src/cards/@interface/card.interface';
+import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 // // import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 // import { Card } from './../../cards/@entities/card.entity';
 // import { UpdateCardDto } from './../../cards/@dtos/update-card.dto';
@@ -25,6 +26,7 @@ export class WishlistService {
       }).save();
     } else {
       wishlist.like = data.like;
+      await wishlist.save();
     }
     // const card = await this.cardModel.findOne({ _id: data.cardId });
 
@@ -47,9 +49,10 @@ export class WishlistService {
 
   async findAll(userPayload): Promise<any> {
     const userId = userPayload.userId;
-    const wishlist = await this.WishlistModel.find({ userId }).populate(
-      'cardId',
-    );
+    const wishlist = await this.WishlistModel.find({
+      userId,
+      like: { $in: [true, false] },
+    }).populate('cardId');
 
     const likeWishlist = await this.WishlistModel.find({ userId, like: true });
 
@@ -70,11 +73,19 @@ export class WishlistService {
   }
 
   async update(
-    id: string,
-    // updateWishlistDto: UpdateWishlistDto,
-  ): Promise<string> {
+    _id: string,
+    userPayload,
+    updateWishlistDto: UpdateWishlistDto,
+  ): Promise<any> {
+    const userId = userPayload.userId;
+    const wishlist = await this.WishlistModel.findOneAndDelete(
+      { _id, userId },
+      {
+        updateWishlistDto,
+      },
+    );
     return new Promise((resolve) => {
-      resolve(`This action updates a #${id} wishlist`);
+      resolve(wishlist);
     });
   }
 

@@ -6,7 +6,6 @@ import { Message } from 'src/shared/@constants/messages.constant';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { CreateCard } from 'src/cards/@interface/card.interface';
 import { JwtService } from '@nestjs/jwt';
-import { query } from 'express';
 
 @Controller('feeds')
 export class FeedsController {
