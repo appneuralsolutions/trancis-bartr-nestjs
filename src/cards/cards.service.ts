@@ -74,7 +74,7 @@ export class CardsService {
     files,
   ): Promise<CreateCard> {
     const images = [];
-    if (files.length > 0) {
+    if (files && files.length > 0) {
       files.forEach((file: any) => {
         images.push(file.path.replace('uploads', '/data'));
       });
@@ -91,9 +91,13 @@ export class CardsService {
   }
 
   async update(_id: string, data: CreateCardDto): Promise<CreateCard> {
-    const card = await this.cardModel.findOneAndUpdate({ _id }, data, {
-      new: true,
-    });
+    const card = await this.cardModel.findOneAndUpdate(
+      { _id },
+      { $set: data },
+      {
+        new: true,
+      },
+    );
     return new Promise((resolve) => {
       resolve(card);
     });

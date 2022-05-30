@@ -10,6 +10,7 @@ import {
   Param,
   Put,
   UploadedFiles,
+  Patch,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
@@ -68,7 +69,7 @@ export class CardsController {
   async findAll(): Promise<IResponse | CreateCard> {
     const card = await this.cardsService.findAll();
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, { card });
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, card);
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
@@ -79,13 +80,13 @@ export class CardsController {
   Promise<IResponse | CreateCard> {
     const card = await this.cardsService.findOne(id);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, { card });
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, card);
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
   }
 
-  @Put(':id/images?')
+  @Patch(':id/images?')
   @UseInterceptors(
     AnyFilesInterceptor({
       storage: diskStorage({
@@ -111,20 +112,20 @@ export class CardsController {
   ): Promise<IResponse | CreateCard> {
     const card = await this.cardsService.uploadImages(id, data, files);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, { card });
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, card);
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_CARD, {});
     }
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update(
     @Body(ValidationPipe) data: CreateCardDto,
     @Param('id') id: string,
   ): Promise<IResponse | CreateCard> {
     const card = await this.cardsService.update(id, data);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, { card });
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, card);
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_CARD, {});
     }
@@ -135,7 +136,7 @@ export class CardsController {
   Promise<IResponse | CreateCard> {
     const card = await this.cardsService.remove(id);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_CARD, { card });
+      return new ResponseSuccess(Message.SUCCESSFULLY_DELETED_CARD, card);
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_DELETED_CARD, {});
     }

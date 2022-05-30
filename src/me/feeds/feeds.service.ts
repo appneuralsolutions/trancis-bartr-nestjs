@@ -18,14 +18,16 @@ export class FeedsService {
           createdBy: userPayload.userId,
           categoryId: { $in: categories.split(',') },
         })
-        .sort({ _id: -1 });
+        .sort({ _id: -1 })
+        .populate('categoryId');
       return new Promise((resolve) => {
         resolve(feeds);
       });
     } else {
       const feeds = await this.cardModel
         .find({ createdBy: userPayload.userId })
-        .sort({ _id: -1 });
+        .sort({ _id: -1 })
+        .populate('categoryId');
       return new Promise((resolve) => {
         resolve(feeds);
       });
