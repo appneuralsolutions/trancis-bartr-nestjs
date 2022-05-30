@@ -1,3 +1,4 @@
+import { ErrorMessage } from './../shared/@constants/error.constant';
 import { CreateWishlistDto } from './../me/wishlist/dto/create-wishlist.dto';
 import { wishlist } from './../me/wishlist/interface/wishlist.interface';
 import { Injectable } from '@nestjs/common';
@@ -28,7 +29,7 @@ export class CardsService {
         resolve(createdData);
       });
     } else {
-      throw 'Card already present';
+      throw ErrorMessage.CARDS_ALREADY_EXISTS;
     }
   }
 
@@ -73,16 +74,20 @@ export class CardsService {
     files,
   ): Promise<CreateCard> {
     const images = [];
-    files.forEach((file: any) => {
-      images.push(file.path.replace('uploads', '/data'));
-    });
-    data.images = images;
-    const card = await this.cardModel.findOneAndUpdate({ _id }, data, {
-      new: true,
-    });
-    return new Promise((resolve) => {
-      resolve(card);
-    });
+    if (files.length > 0) {
+      files.forEach((file: any) => {
+        images.push(file.path.replace('uploads', '/data'));
+      });
+      data.images = images;
+      const card = await this.cardModel.findOneAndUpdate({ _id }, data, {
+        new: true,
+      });
+      return new Promise((resolve) => {
+        resolve(card);
+      });
+    } else {
+      throw ErrorMessage.UPLOAD_IMAGE;
+    }
   }
 
   async update(_id: string, data: CreateCardDto): Promise<CreateCard> {

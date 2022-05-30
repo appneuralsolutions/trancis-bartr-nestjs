@@ -289,4 +289,14 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00059: {
+    message: 'Cards Already Exists',
+    type: 'Auth',
+    statusCode: 405,
+  },
+  E00060: {
+    message: 'Please upload image',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };
