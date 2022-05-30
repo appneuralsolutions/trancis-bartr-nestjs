@@ -45,14 +45,11 @@ export class ProfileService {
     });
   }
 
-  async update(
-    userPayload,
-    CreateProfileDto: CreateProfileDto,
-  ): Promise<IUser> {
+  async update(userPayload, createProfileDto: any): Promise<IUser> {
     const email = userPayload.email;
     const user = await this.userModel.findOneAndUpdate(
       { email: email },
-      CreateProfileDto,
+      { $set: createProfileDto },
       { new: true },
     );
     return new Promise((resolve) => {

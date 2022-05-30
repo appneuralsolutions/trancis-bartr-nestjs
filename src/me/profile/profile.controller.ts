@@ -16,6 +16,7 @@ import {
   ValidationPipe,
   Put,
   Res,
+  Patch,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './@dto/create-profile.dto';
@@ -109,15 +110,15 @@ export class ProfileController {
     }
   }
 
-  @Put()
+  @Patch()
   async update(
     @Me() me: string,
-    @Body() CreateProfileDto: CreateProfileDto,
+    @Body() createProfileDto: any,
   ): Promise<IResponse | IUser> {
     const userPayload: any = this.jwtService.decode(me);
     const userupdate = await this.profileService.update(
       userPayload,
-      CreateProfileDto,
+      createProfileDto,
     );
     if (userupdate) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {

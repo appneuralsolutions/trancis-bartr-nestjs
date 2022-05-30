@@ -1,3 +1,4 @@
+import { ChatModule } from './me/chat/chat.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { BearerMiddleware } from './shared/@middleware/bearer.middleware';
 import { AdminModule } from './admin/admin.module';
@@ -43,6 +44,7 @@ import { FeedsModule } from './feeds/feeds.module';
     CardsModule,
     FeedbackModule,
     SubjectsModule,
+    ChatModule,
     FeedsModule,
   ],
   controllers: [AppController],
