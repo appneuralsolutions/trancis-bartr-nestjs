@@ -15,29 +15,30 @@ export class FeedsService {
     if (categories) {
       const feeds = await this.cardModel
         .find({
-          createdBy: userPayload.userId,
+          // createdBy: userPayload.userId,
           categoryId: { $in: categories.split(',') },
         })
-        .sort({ _id: -1 })
-        .populate(
-          {
-            path: '',
-            populate: {
-              path: '',
-              model: ''
-            }
-          }
-        );
+        .sort({ _id: -1 });
+      // .populate({
+      //   path: 'categoryId',
+      //   populate: {
+      //     path: 'subjectId',
+      //     model: 'categoryId',
+      //   },
+      // });
       return new Promise((resolve) => {
-        resolve(feeds);
+        resolve(feeds.filter((f: any) => f.createdBy !== userPayload.userId));
       });
     } else {
-      const feeds = await this.cardModel
-        .find({ createdBy: userPayload.userId })
-        .sort({ _id: -1 })
-        .populate('categoryId');
+      const feeds = await this.cardModel.find({}).sort({ _id: -1 });
+      // .populate('categoryId');
       return new Promise((resolve) => {
-        resolve(feeds);
+        resolve(
+          feeds.filter((f: any) => {
+            console.log(f.createdBy + '', userPayload.userId);
+            return f.createdBy + '' !== userPayload.userId;
+          }),
+        );
       });
     }
 
