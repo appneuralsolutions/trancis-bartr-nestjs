@@ -19,7 +19,15 @@ export class FeedsService {
           categoryId: { $in: categories.split(',') },
         })
         .sort({ _id: -1 })
-        .populate('categoryId');
+        .populate(
+          {
+            path: '',
+            populate: {
+              path: '',
+              model: ''
+            }
+          }
+        );
       return new Promise((resolve) => {
         resolve(feeds);
       });
