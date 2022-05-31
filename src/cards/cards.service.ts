@@ -34,7 +34,13 @@ export class CardsService {
   }
 
   async findAll(): Promise<CreateCard[]> {
-    const card = await this.cardModel.find();
+    const card = await this.cardModel.find().populate({
+      path: 'categoryId',
+      populate: {
+        path: 'subjectId',
+        model: 'categoryId',
+      },
+    });
     return new Promise((resolve) => {
       resolve(card);
     });
@@ -62,7 +68,13 @@ export class CardsService {
   }
 
   async findOne(_id: string): Promise<CreateCard> {
-    const card = await this.cardModel.findOne({ _id });
+    const card = await this.cardModel.findOne({ _id }).populate({
+      path: 'categoryId',
+      populate: {
+        path: 'subjectId',
+        model: 'categoryId',
+      },
+    });
     return new Promise((resolve) => {
       resolve(card);
     });

@@ -12,12 +12,28 @@ export class FeedsService {
     if (categories) {
       const feeds = await this.feedModel
         .find({ categoryId: { $in: categories.split(',') } })
-        .sort({ _id: -1 });
+        .sort({ _id: -1 })
+        .populate({
+          path: 'categoryId',
+          populate: {
+            path: 'subjectId',
+            model: 'categoryId',
+          },
+        });
       return new Promise((resolve) => {
         resolve(feeds);
       });
     } else {
-      const feeds = await this.feedModel.find({}).sort({ _id: -1 });
+      const feeds = await this.feedModel
+        .find({})
+        .sort({ _id: -1 })
+        .populate({
+          path: 'categoryId',
+          populate: {
+            path: 'subjectId',
+            model: 'categoryId',
+          },
+        });
       return new Promise((resolve) => {
         resolve(feeds);
       });

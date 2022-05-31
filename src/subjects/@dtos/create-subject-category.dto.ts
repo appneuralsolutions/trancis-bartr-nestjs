@@ -6,5 +6,7 @@ export class CreateSubjectCategoryDto {
   @IsNotEmpty()
   name: string;
 
+  subjectId: string;
+
   image: string;
 }

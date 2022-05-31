@@ -26,12 +26,13 @@ export class SubjectsService {
 
   async createSubjectCategory(
     subjectId,
-    createSubjectCategoryDto: any,
+    createSubjectCategoryDto: CreateSubjectCategoryDto,
   ): Promise<ISubjectCategory> {
     //ISubjectCategory
-    const subjectCategory: any = await new this.subjectCategoryModel(
-      createSubjectCategoryDto,
-    ).save();
+    const subjectCategory: any = await new this.subjectCategoryModel({
+      ...createSubjectCategoryDto,
+      subjectId,
+    }).save();
     await this.subjectModel.findOneAndUpdate(
       { _id: subjectId },
       { $push: { categories: subjectCategory._id } },
