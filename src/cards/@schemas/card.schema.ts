@@ -1,7 +1,10 @@
 import * as mongoose from 'mongoose';
 
 export const CardSchema = new mongoose.Schema({
-  categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject-Category' },
+  subCategoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subject-Category',
+  },
   availableOf: String,
   price: String,
   title: String,
@@ -10,7 +13,6 @@ export const CardSchema = new mongoose.Schema({
   description: String,
   images: [String],
   email: String,
-  subject: String,
   likes: { type: Number, default: 0 },
   liked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   views: { type: Number, default: 0 },

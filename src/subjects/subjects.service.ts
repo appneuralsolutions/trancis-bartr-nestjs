@@ -62,18 +62,25 @@ export class SubjectsService {
   }
 
   async findAll(): Promise<ISubject[]> {
-    const subjects = await this.subjectModel
-      .find()
-      .populate({ path: 'categories' });
+    const subjects = await this.subjectModel.find().populate({
+      path: 'categories',
+      populate: {
+        path: 'subjectId',
+      },
+    });
+
     return new Promise((resolve) => {
       resolve(subjects);
     });
   }
 
   async findOne(_id: string): Promise<ISubject> {
-    const subject = await this.subjectModel
-      .findOne({ _id })
-      .populate({ path: 'categories' });
+    const subject = await this.subjectModel.findOne({ _id }).populate({
+      path: 'categories',
+      populate: {
+        path: 'subjectId',
+      },
+    });
     return new Promise((resolve) => {
       resolve(subject);
     });
@@ -112,6 +119,6 @@ export class SubjectsService {
   }
 
   udpateCategory(id, data) {
-    return this.subjectCategoryModel.findOneAndUpdate({ _id: id, data }).exec();
+    return this.subjectCategoryModel.findOneAndUpdate({ _id: id }, data).exec();
   }
 }

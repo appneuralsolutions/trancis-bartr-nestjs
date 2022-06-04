@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 
 export const SubjectCategorySchema = new mongoose.Schema({
   name: { type: String, unique: true, require: true },
+  subjectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject' },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   image: String,
 });
