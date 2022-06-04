@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, isString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCardDto {
   @ApiProperty()
-  @IsOptional()
+  @IsString()
   @IsNotEmpty()
   categoryId: string;
 

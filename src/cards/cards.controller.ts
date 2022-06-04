@@ -120,7 +120,7 @@ export class CardsController {
 
   @Patch(':id')
   async update(
-    @Body(ValidationPipe) data: CreateCardDto,
+    @Body(ValidationPipe) data: any,
     @Param('id') id: string,
   ): Promise<IResponse | CreateCard> {
     const card = await this.cardsService.update(id, data);
