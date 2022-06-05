@@ -38,7 +38,6 @@ export class CardsService {
       path: 'categoryId',
       populate: {
         path: 'subjectId',
-        model: 'categoryId',
       },
     });
     return new Promise((resolve) => {
@@ -72,7 +71,6 @@ export class CardsService {
       path: 'categoryId',
       populate: {
         path: 'subjectId',
-        model: 'categoryId',
       },
     });
     return new Promise((resolve) => {

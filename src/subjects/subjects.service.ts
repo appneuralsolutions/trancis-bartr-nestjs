@@ -107,6 +107,12 @@ export class SubjectsService {
     });
   }
 
+  udpateCategory(cid, data) {
+    return this.subjectCategoryModel
+      .findOneAndUpdate({ _id: cid }, { $set: data })
+      .exec();
+  }
+
   remove(id: string) {
     return this.subjectModel.findOneAndDelete({ _id: id }).exec();
   }
@@ -115,10 +121,6 @@ export class SubjectsService {
     this.subjectModel
       .findOneAndUpdate({ _id: id }, { $pull: { categories: cid } })
       .exec();
-    return this.subjectCategoryModel.findOneAndDelete({ _id: id }).exec();
-  }
-
-  udpateCategory(id, data) {
-    return this.subjectCategoryModel.findOneAndUpdate({ _id: id }, data).exec();
+    return this.subjectCategoryModel.findOneAndDelete({ _id: cid }).exec();
   }
 }
