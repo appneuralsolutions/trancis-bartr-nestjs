@@ -145,12 +145,9 @@ export class SubjectsController {
   async updateCategory(
     @Param('id') id: string,
     @Param('cid') cid: string,
-    @Body() updateSubjectDto: UpdateSubjectDto,
+    @Body() data: any,
   ): Promise<IResponse | ISubject> {
-    const subject = await this.subjectsService.udpateCategory(
-      cid,
-      updateSubjectDto,
-    );
+    const subject = await this.subjectsService.udpateCategory(cid, data);
     if (subject) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_SUBJECT, {
         subject,
