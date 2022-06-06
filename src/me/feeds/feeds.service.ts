@@ -18,14 +18,13 @@ export class FeedsService {
           // createdBy: userPayload.userId,
           categoryId: { $in: categories.split(',') },
         })
-        .sort({ _id: -1 });
-      // .populate({
-      //   path: 'categoryId',
-      //   populate: {
-      //     path: 'subjectId',
-      //     model: 'categoryId',
-      //   },
-      // });
+        .sort({ _id: -1 })
+        .populate({
+          path: 'categoryId',
+          populate: {
+            path: 'subjectId',
+          },
+        });
       return new Promise((resolve) => {
         resolve(feeds.filter((f: any) => f.createdBy !== userPayload.userId));
       });
