@@ -2,6 +2,9 @@ import { HttpService } from '@nestjs/axios';
 import { Body, Controller, Get, Header, Post } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Me } from 'src/me/@decorators/me.decorator';
+import {EbayAuthToken} from 'ebay-oauth-nodejs-client';
+
+
 
 @Controller('ebay-intg')
 export class EbayIntgController {
@@ -17,8 +20,20 @@ export class EbayIntgController {
     //     console.log(data);
     //   });
   }
+  
   @Get()
   async findByProfile(@Body() query: Object): Promise<any> {
+    const ebayAuthToken = new EbayAuthToken({
+      clientId: 'ashwinR-bartar-SBX-fb454faf4-216e98aa',
+      clientSecret: 'SBX-b454faf41f41-b179-40bd-8e48-09b4',
+      redirectUri: 'ashwin_R-ashwinR-bartar--oaikmz'
+    });
+    
+    
+        (async () => {
+          const token = await ebayAuthToken.getApplicationToken('SANDBOX');
+          console.log(token);
+      })();
       let query_value = Object.values(query)
       return new Promise((resolve) => {
         this.httpService
