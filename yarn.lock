@@ -2837,6 +2837,13 @@ duplexify@^4.0.0, duplexify@^4.1.1:
     readable-stream "^3.1.1"
     stream-shift "^1.0.0"
 
+ebay-oauth-nodejs-client@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/ebay-oauth-nodejs-client/-/ebay-oauth-nodejs-client-1.2.1.tgz#8dc1b05df09c52d4e39f4a36b4ad9b94bebd6844"
+  integrity sha512-rVJjUFhDGORMK3B1TLxifeVM2YsUM5yj44Avs35Y7FTnLqX7C4gZ7pOnDeB1lNaUcDw8pFd7L0DJcfOEAz9yZw==
+  dependencies:
+    querystring "^0.2.0"
+
 ecdsa-sig-formatter@1.0.11, ecdsa-sig-formatter@^1.0.11:
   version "1.0.11"
   resolved "https://registry.npmjs.org/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.11.tgz"
@@ -6155,6 +6162,11 @@ qs@^6.10.1:
   integrity sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==
   dependencies:
     side-channel "^1.0.4"
+
+querystring@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.1.tgz#40d77615bb09d16902a85c3e38aa8b5ed761c2dd"
+  integrity sha512-wkvS7mL/JMugcup3/rMitHmd9ecIGd2lhFhK9N3UUQ450h66d1r3Y9nvXzQAW1Lq+wyx61k/1pfKS5KuKiyEbg==
 
 queue-microtask@^1.2.2:
   version "1.2.3"

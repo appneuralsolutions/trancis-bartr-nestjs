@@ -44,8 +44,8 @@ export class EmailService {
       port: 465,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: 'pihup8318@gmail.com', // generated ethereal user
-        pass: 'SapnaPihu', // generated ethereal password
+        user: 'xyz@appneural.com', // generated ethereal user
+        pass: 'vrskilled', // generated ethereal password
       },
     });
 
