@@ -53,7 +53,9 @@ export class FeedsService {
 
     cards = cards.map((card) => {
       console.log(card);
-      const myWishlist = wishlist.filter((w) => w.cardId === card._id + '');
+      const myWishlist = wishlist.filter(
+        (w) => w.cardId + '' === card._id + '',
+      );
       return {
         ...card._doc,
         isLiked: myWishlist.length > 0 ? myWishlist[0].like : null,
