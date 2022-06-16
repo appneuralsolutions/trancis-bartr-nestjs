@@ -461,7 +461,7 @@ export class AuthService {
       const mailOptions = {
         from: '"Company" <' + 'Bartar' + '>',
         to: email, // list of receivers (separated by ,)
-        subject: 'Frogotten Password',
+        subject: 'Forgotten Password',
         text: 'Forgot Password',
         html:
           'Hi! <br><br> If you requested to reset your password<br><br>' +

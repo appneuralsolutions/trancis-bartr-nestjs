@@ -18,30 +18,29 @@ export class WishlistService {
   ) {}
 
   async create(data: CreateWishlistDto, userPayload): Promise<wishlist> {
-    let wishlist = await this.WishlistModel.findOne({ cardId: data.cardId });
-    if (!wishlist) {
-      wishlist = await new this.WishlistModel({
-        ...data,
-        userId: userPayload.userId,
-      }).save();
-    } else {
-      wishlist.like = data.like;
-      await wishlist.save();
-    }
-    // const card = await this.cardModel.findOne({ _id: data.cardId });
+    const card = await this.cardModel.findOne({ _id: data.cardId });
+    let wishlist;
+    if (card) {
+      wishlist = await this.WishlistModel.findOne({ cardId: data.cardId });
+      if (!wishlist) {
+        wishlist = await new this.WishlistModel({
+          ...data,
+          userId: userPayload.userId,
+        }).save();
+      } else {
+        wishlist.like = data.like;
+        await wishlist.save();
+      }
 
-    // if (card) {
-    //   const likes = card.likes + 1;
-    //   await this.cardModel.findOneAndUpdate(
-    //     { _id: data.cardId },
-    //     { $set: { likes: likes } },
-    //     {
-    //       new: true,
-    //     },
-    //   );
-    // } else {
-    //   // throw ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD;
-    // }
+      if (data.like) {
+        card.likes++;
+      } else {
+        card.likes--;
+      }
+      card.save();
+    } else {
+      // throw ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD;
+    }
     return new Promise((resolve) => {
       resolve(wishlist);
     });
