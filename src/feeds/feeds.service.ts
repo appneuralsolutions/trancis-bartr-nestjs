@@ -13,12 +13,17 @@ export class FeedsService {
       const feeds = await this.feedModel
         .find({ categoryId: { $in: categories.split(',') } })
         .sort({ _id: -1 })
-        .populate({
-          path: 'categoryId',
-          populate: {
-            path: 'subjectId',
+        .populate([
+          {
+            path: 'categoryId',
+            populate: {
+              path: 'subjectId',
+            },
           },
-        });
+          {
+            path: 'liked',
+          },
+        ]);
       return new Promise((resolve) => {
         resolve(feeds);
       });
@@ -26,12 +31,17 @@ export class FeedsService {
       const feeds = await this.feedModel
         .find({})
         .sort({ _id: -1 })
-        .populate({
-          path: 'categoryId',
-          populate: {
-            path: 'subjectId',
+        .populate([
+          {
+            path: 'categoryId',
+            populate: {
+              path: 'subjectId',
+            },
           },
-        });
+          {
+            path: 'liked',
+          },
+        ]);
       return new Promise((resolve) => {
         resolve(feeds);
       });

@@ -34,8 +34,15 @@ export class WishlistService {
 
       if (data.like) {
         card.likes++;
+        card.liked = card.liked.filter(
+          (x) => x + '' != userPayload.userId + '',
+        );
+        card.liked.push(userPayload.userId);
       } else {
         card.likes--;
+        card.liked = card.liked.filter(
+          (x) => x + '' != userPayload.userId + '',
+        );
       }
       card.save();
     } else {

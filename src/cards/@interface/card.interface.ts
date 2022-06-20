@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Document } from 'mongoose';
 
 export interface CreateCard extends Document {
@@ -11,6 +12,7 @@ export interface CreateCard extends Document {
   email: string;
   subject: string;
   likes: number;
+  liked: string[];
   views: number;
 }
 

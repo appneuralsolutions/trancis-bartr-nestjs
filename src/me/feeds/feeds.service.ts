@@ -20,12 +20,17 @@ export class FeedsService {
           categoryId: { $in: categories.split(',') },
         })
         .sort({ _id: -1 })
-        .populate({
-          path: 'categoryId',
-          populate: {
-            path: 'subjectId',
+        .populate([
+          {
+            path: 'categoryId',
+            populate: {
+              path: 'subjectId',
+            },
           },
-        });
+          {
+            path: 'liked',
+          },
+        ]);
       // return new Promise((resolve) => {
       //   resolve(feeds.filter((f: any) => f.createdBy !== userPayload.userId));
       // });
@@ -33,12 +38,17 @@ export class FeedsService {
       feeds = await this.cardModel
         .find({})
         .sort({ _id: -1 })
-        .populate({
-          path: 'categoryId',
-          populate: {
-            path: 'subjectId',
+        .populate([
+          {
+            path: 'categoryId',
+            populate: {
+              path: 'subjectId',
+            },
           },
-        });
+          {
+            path: 'liked',
+          },
+        ]);
       // .populate('categoryId');
       // return new Promise((resolve) => {
       //   resolve(
