@@ -6,7 +6,6 @@ export class SingleValidationDto {
   // @IsEmpty()
   // @IsString()
   @IsOptional()
-  @Matches(/^ [0-9a-zA-Z]+$/, {message:"Username must be alphanumeric"})
   @ApiProperty({ default: 'jhon01' })
   username: string;
 

@@ -22,8 +22,25 @@ export class UsersService {
   // }
   
   async singlevalidation(SingleValidationDto: any){
-    const result = await new this.singleModel(SingleValidationDto).save()
-    return result;
+    //console.log(SingleValidationDto.email)
+    const email = await this.userModel.find({email: SingleValidationDto.email})
+    const username = await this.userModel.find({uname: SingleValidationDto.username})
+    const phone = await this.userModel.find({phone: SingleValidationDto.phone})
+    console.log(email)
+    if(email.length === 1){
+      return "Email already present"
+    }
+    if(username.length === 1){
+      return "Username already present"
+    }
+    if(phone.length === 1){
+       return "Phone number already present"
+    }
+    else{
+      const result = await new this.singleModel(SingleValidationDto).save()
+      return result;
+    }
+    
   }
   async createUser(createUserDto: any) {
     const newUser = await new this.userModel(createUserDto).save();

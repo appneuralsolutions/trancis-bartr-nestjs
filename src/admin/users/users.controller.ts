@@ -26,7 +26,7 @@ export class UsersController {
 
   @Post('/validation')
   @HttpCode(HttpStatus.CREATED)
-  async singlevalidation(@Body() SingleValidationDto: SingleValidationDto): Promise<SingleValidation> {
+  async singlevalidation(@Body() SingleValidationDto: SingleValidationDto): Promise<any> {
     try {
       const result = await this.usersService.singlevalidation(SingleValidationDto);
       return result;
