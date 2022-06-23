@@ -6,6 +6,7 @@ import { Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { UserSchema } from '../../auth/@schemas/user.schema';
+import { SingleValidationSchema } from './schemas/single.schema';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UserSchema } from '../../auth/@schemas/user.schema';
     MongooseModule.forFeature([
       { name: 'User', schema: UserSchema },
       { name: 'Audit-Log', schema: AuditSchema },
+      {name:"single-validation", schema: SingleValidationSchema}
     ]),
   ],
   controllers: [UsersController],

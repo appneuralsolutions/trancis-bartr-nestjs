@@ -16,11 +16,24 @@ import {
 import { IResponse } from '../../auth/@interfaces/response.interface';
 import { ResponseError, ResponseSuccess } from '../../auth/@dtos/response.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { SingleValidation } from './interfaces/single.interface';
+import { SingleValidationDto } from './dtos/single.dto';
 
 @ApiTags('Users')
 @Controller()
 export class UsersController {
   constructor(private usersService: UsersService) {}
+
+  @Post('/validation')
+  @HttpCode(HttpStatus.CREATED)
+  async singlevalidation(@Body() SingleValidationDto: SingleValidationDto): Promise<SingleValidation> {
+    try {
+      const result = await this.usersService.singlevalidation(SingleValidationDto);
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
