@@ -37,8 +37,7 @@ export class UsersService {
        return "Phone number already present"
     }
     else{
-      const result = await new this.singleModel(SingleValidationDto).save()
-      return result;
+      return "All data are unique";
     }
     
   }
