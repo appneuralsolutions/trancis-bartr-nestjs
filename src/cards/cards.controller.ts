@@ -122,8 +122,10 @@ export class CardsController {
   async update(
     @Body(ValidationPipe) data: any,
     @Param('id') id: string,
+    @Me() me: string,
   ): Promise<IResponse | CreateCard> {
-    const card = await this.cardsService.update(id, data);
+    const userPayload: any = this.jwtService.decode(me);
+    const card = await this.cardsService.update(id, data, userPayload);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, card);
     } else {
