@@ -10,7 +10,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiParam } from '@nestjs/swagger';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { RegisterDto } from './@dtos/register.dto';
 import { IResponse } from './@interfaces/response.interface';
 import { AuthUserDto } from './@dtos/auth-user.dto';
@@ -21,6 +21,7 @@ import { AuthUser } from './auth.decorator';
 import { Message } from 'src/shared/@constants/messages.constant';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 
+@ApiTags('Auth')
 @Controller()
 export class AuthController {
   constructor(
