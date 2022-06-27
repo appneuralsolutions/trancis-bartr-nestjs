@@ -44,7 +44,7 @@ export class CreateProfileDto {
 
   @IsOptional()
   picture: string;
-  
+
   @IsOptional()
-  userType: string
+  userType: string;
 }

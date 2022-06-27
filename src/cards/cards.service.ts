@@ -23,18 +23,16 @@ export class CardsService {
       .exec();
     if (!cardTitle) {
       data.createdBy = userPayload.userId;
-      let userType = userPayload.userType
-      if(userType === "Buyer"){
+      const userType = userPayload.userType;
+      if (userType === 'Buyer') {
         throw ErrorMessage.UNAUTHORIZED_ACCESS;
-      }
-      else{
+      } else {
         const createdData = await new this.cardModel(data).save();
         console.log(createdData);
         return new Promise((resolve) => {
-        resolve(createdData);
-      });
+          resolve(createdData);
+        });
       }
-      
     } else {
       throw ErrorMessage.CARDS_ALREADY_EXISTS;
     }
@@ -52,9 +50,11 @@ export class CardsService {
         path: 'liked',
       },
       {
-        path: 'email'
-      }
-      
+        path: 'createdBy',
+      },
+      // {
+      //   path: 'email',
+      // },
     ]);
     return new Promise((resolve) => {
       resolve(card);
@@ -96,9 +96,8 @@ export class CardsService {
         path: 'liked',
       },
       {
-        path: 'email'
-      }
-      
+        path: 'createdBy',
+      },
     ]);
     return new Promise((resolve) => {
       resolve(card);
@@ -127,12 +126,15 @@ export class CardsService {
     }
   }
 
-  async update(_id: string, data: CreateCardDto, userPayload): Promise<CreateCard> {
-    const userType = userPayload.userType
-    if(userType === "Buyer"){
-      throw ErrorMessage.UNAUTHORIZED_ACCESS
-    }
-    else{
+  async update(
+    _id: string,
+    data: CreateCardDto,
+    userPayload,
+  ): Promise<CreateCard> {
+    const userType = userPayload.userType;
+    if (userType === 'Buyer') {
+      throw ErrorMessage.UNAUTHORIZED_ACCESS;
+    } else {
       const card = await this.cardModel.findOneAndUpdate(
         { _id },
         { $set: data },
@@ -144,7 +146,6 @@ export class CardsService {
         resolve(card);
       });
     }
-    
   }
 
   async remove(_id: string): Promise<CreateCard> {
