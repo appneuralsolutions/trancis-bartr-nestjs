@@ -129,6 +129,26 @@ export class ProfileController {
     }
   }
 
+  @Patch('usertype')
+  async updateType(
+    @Me() me: string,
+    @Body() createProfileDto: any,
+  ): Promise<IResponse | IUser> {
+    const userPayload: any = this.jwtService.decode(me);
+    const userupdate = await this.profileService.updateUsertype(
+      userPayload,
+      createProfileDto,
+    );
+    if (userupdate) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_USER, {
+        userupdate,
+      });
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_USER, {});
+    }
+  }
+
+
   @Delete()
   async remove(@Me() me: string): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);

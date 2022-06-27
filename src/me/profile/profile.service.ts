@@ -57,6 +57,18 @@ export class ProfileService {
     });
   }
 
+  async updateUsertype(userPayload, createProfileDto: any): Promise<IUser> {
+    const email = userPayload.email;
+    const user = await this.userModel.findOneAndUpdate(
+      { email: email },
+      {$set: {"userType": createProfileDto.userType}},
+      { new: true },
+    );
+    return new Promise((resolve) => {
+      resolve(user);
+    });
+  }
+
   async remove(userPayload): Promise<IUser> {
     const email = userPayload.email;
     const user = this.userModel.findOneAndDelete({ email: email }).exec();

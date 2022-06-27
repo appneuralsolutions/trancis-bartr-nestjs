@@ -9,7 +9,7 @@ export const CardSchema = new mongoose.Schema({
   value: String,
   description: String,
   images: [String],
-  email: String,
+  email: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   // subject: String,
   likes: { type: Number, default: 0 },
   liked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
