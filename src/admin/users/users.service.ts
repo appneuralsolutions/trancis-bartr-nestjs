@@ -26,15 +26,26 @@ export class UsersService {
     const email = await this.userModel.find({email: SingleValidationDto.email})
     const username = await this.userModel.find({uname: SingleValidationDto.username})
     const phone = await this.userModel.find({phone: SingleValidationDto.phone})
+    console.log(email.length)
+    console.log(username.length)
+    console.log(phone.length)
     console.log(email)
-    if(email.length === 1){
-      return "Email already present"
+    console.log(username)
+    if(SingleValidationDto.email){
+      if(email.length === 1){
+        return "Email already present"
+      }
     }
-    if(username.length === 1){
-      return "Username already present"
+    if(SingleValidationDto.username){
+      if(username.length === 1){
+        return "Username already present"
+      }
     }
-    if(phone.length === 1){
-       return "Phone number already present"
+    
+    if(SingleValidationDto.phone){
+      if(phone.length === 1){
+        return "Phone number already present"
+     }
     }
     else{
       return "All data are unique";
