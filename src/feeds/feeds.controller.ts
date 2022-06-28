@@ -6,7 +6,9 @@ import { Message } from 'src/shared/@constants/messages.constant';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { CreateCard } from 'src/cards/@interface/card.interface';
 import { JwtService } from '@nestjs/jwt';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Feeds')
 @Controller('feeds')
 export class FeedsController {
   constructor(
@@ -15,6 +17,7 @@ export class FeedsController {
   ) {}
 
   @Get()
+  @ApiQuery({ name: 'categories', required: false })
   async findAll(
     @Query('categories') categories: string,
   ): Promise<IResponse | CreateCard[]> {

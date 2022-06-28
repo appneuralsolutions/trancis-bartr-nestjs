@@ -15,11 +15,12 @@ import {
 } from '@nestjs/common';
 import { IResponse } from '../../auth/@interfaces/response.interface';
 import { ResponseError, ResponseSuccess } from '../../auth/@dtos/response.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SingleValidation } from './interfaces/single.interface';
 import { SingleValidationDto } from './dtos/single.dto';
 
 @ApiTags('Users')
+@ApiBearerAuth()
 @Controller()
 export class UsersController {
   constructor(private usersService: UsersService) {}
