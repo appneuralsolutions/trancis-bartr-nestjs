@@ -5,7 +5,7 @@ import {
   ResponseError,
 } from './../../shared/@dtos/response.dto';
 import { Message } from './../../shared/@constants/messages.constant';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -35,6 +35,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 @ApiTags('Me -> Profile')
+@ApiBearerAuth()
 @Controller('profile')
 export class ProfileController {
   constructor(

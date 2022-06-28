@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Controller, Post, Body } from '@nestjs/common';
 import { PreferencesService } from './preferences.service';
 import { CreatePreferenceDto } from './@dto/create-preference.dto';
@@ -17,6 +17,7 @@ import { Me } from '../@decorators/me.decorator';
 // import { ErrorMessage } from './../../shared/@constants/error.constant';
 
 @ApiTags('Me -> Preferences')
+@ApiBearerAuth()
 @Controller('preferences')
 export class PreferencesController {
   constructor(
