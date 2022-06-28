@@ -56,9 +56,8 @@ export class WishlistService {
   async findAll(userPayload): Promise<any> {
     const userId = userPayload.userId;
     let wishlist = await this.WishlistModel.find({
-      "userId":userId })
-      console.log(wishlist)
-   /*   like: { $in: [true, false] },
+      "userId":userId, 
+      like: { $in: [true, false] },
     }).populate('cardId');
 
     const likeWishlist = await this.WishlistModel.find({ userId, like: true });
@@ -73,7 +72,7 @@ export class WishlistService {
       const isLiked = { ...w._doc }.like;
       cardId['isLiked'] = isLiked;
       return cardId;
-    });*/
+    });
 
     return new Promise((resolve) => {
       resolve(wishlist);
