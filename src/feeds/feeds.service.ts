@@ -21,7 +21,7 @@ export class FeedsService {
             },
           },
           {
-            path: 'liked',
+            path: 'createdBy',
           },
         ]);
       return new Promise((resolve) => {
@@ -40,6 +40,9 @@ export class FeedsService {
           },
           {
             path: 'liked',
+          },
+          {
+            path: 'createdBy',
           },
         ]);
       return new Promise((resolve) => {

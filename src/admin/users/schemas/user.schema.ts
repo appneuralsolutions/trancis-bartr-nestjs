@@ -10,6 +10,7 @@ export const UserSchema = new mongoose.Schema({
   roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }],
   profile: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Profile' },
   personal: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Personal' },
+  picture: {type: String},
   medical: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Medical' },
   educational: {
     type: mongoose.Schema.Types.ObjectId,

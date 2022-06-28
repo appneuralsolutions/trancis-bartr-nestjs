@@ -488,6 +488,8 @@ export class AuthService {
 
   async register(newUser): Promise<any> {
     newUser.uname = newUser.uname.toLowerCase().replace(/ /g, '');
+    let profile_pic = "No Profile"
+    newUser.picture = profile_pic
     // console.log(newUser);
     const userRegistered = await this.userModel
       .findOne({ email: newUser.email })

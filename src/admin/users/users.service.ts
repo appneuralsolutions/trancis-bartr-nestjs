@@ -27,8 +27,8 @@ export class UsersService {
     const username = await this.userModel.find({uname: SingleValidationDto.username})
     const phone = await this.userModel.find({phone: SingleValidationDto.phone})
     console.log(email.length)
-    console.log(username.length)
-    console.log(phone.length)
+    console.log(SingleValidationDto.username)
+    console.log(username)
     
  
     if(SingleValidationDto.email){
@@ -53,6 +53,8 @@ export class UsersService {
     
   }
   async createUser(createUserDto: any) {
+    let profile_pic = "No Profile"
+    createUserDto.picture = profile_pic
     const newUser = await new this.userModel(createUserDto).save();
     return newUser;
   }
