@@ -75,6 +75,16 @@ export class CardsController {
     }
   }
 
+  @Get('user/:id')
+  async findByUser(@Param('id') id: string): Promise<IResponse | CreateCard> {
+    const card = await this.cardsService.findByUser(id);
+    if (card) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, card);
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
+    }
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): // @Param('id') id: string
   Promise<IResponse | CreateCard> {

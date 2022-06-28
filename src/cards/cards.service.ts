@@ -38,6 +38,12 @@ export class CardsService {
     }
   }
 
+  async findByUser(createdBy): Promise<CreateCard[]>{
+    const card = await this.cardModel.find({"createdBy":createdBy})
+    return new Promise((resolve) => {
+      resolve(card);
+    });
+  }
   async findAll(): Promise<CreateCard[]> {
     const card = await this.cardModel.find().populate([
       {
