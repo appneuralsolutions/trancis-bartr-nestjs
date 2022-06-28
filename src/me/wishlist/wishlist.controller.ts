@@ -50,6 +50,7 @@ export class WishlistController {
 
   @Get()
   async findAll(@Me() me: string): Promise<IResponse> {
+    
     const userPayload: any = this.jwtService.decode(me);
     const result = await this.wishlistService.findAll(userPayload);
     if (result) {
