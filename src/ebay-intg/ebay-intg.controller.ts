@@ -3,7 +3,9 @@ import { Body, Controller, Get, Header, Post } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Me } from 'src/me/@decorators/me.decorator';
 import { EbayAuthToken } from 'ebay-oauth-nodejs-client';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Ebay')
 @Controller('ebay-intg')
 export class EbayIntgController {
   constructor(

@@ -1,5 +1,5 @@
 // import { Me } from '../@decorators/me.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -22,6 +22,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Me } from '../@decorators/me.decorator';
 
 @ApiTags('Me -> Feedback')
+@ApiBearerAuth()
 @Controller('feedback')
 export class FeedbackController {
   constructor(

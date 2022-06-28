@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -20,6 +20,7 @@ import { Me } from '../@decorators/me.decorator';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 
 @ApiTags('Me -> Wishlist')
+@ApiBearerAuth()
 @Controller('wishlist')
 export class WishlistController {
   constructor(

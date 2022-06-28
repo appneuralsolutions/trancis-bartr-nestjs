@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -13,6 +13,7 @@ import { IResponse } from 'src/shared/@interfaces/response.interface';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 
 @ApiTags('Me -> Matches')
+@ApiBearerAuth()
 @Controller('matches')
 export class MatchesController {
   constructor(private readonly matchesService: MatchesService) {}

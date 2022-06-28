@@ -7,7 +7,10 @@ import { Message } from 'src/shared/@constants/messages.constant';
 import { IResponse } from 'src/shared/@interfaces/response.interface';
 import { CreateCard } from 'src/cards/@interface/card.interface';
 import { JwtService } from '@nestjs/jwt';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Me -> cards')
+@ApiBearerAuth()
 @Controller('cards')
 export class CardsController {
   constructor(
