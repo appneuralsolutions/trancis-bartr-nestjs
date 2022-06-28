@@ -29,21 +29,21 @@ export class UsersService {
     console.log(email.length)
     console.log(username.length)
     console.log(phone.length)
-    console.log(email)
-    console.log(username)
+    
+ 
     if(SingleValidationDto.email){
-      if(email.length === 1){
+      if(email.length > 1){
         return "Email already present"
       }
     }
     if(SingleValidationDto.username){
-      if(username.length === 1){
+      if(username.length > 1){
         return "Username already present"
       }
     }
     
     if(SingleValidationDto.phone){
-      if(phone.length === 1){
+      if(phone.length > 1){
         return "Phone number already present"
      }
     }
