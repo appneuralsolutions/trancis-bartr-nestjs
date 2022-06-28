@@ -1,5 +1,5 @@
 import { FeedsService } from './feeds.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Query } from '@nestjs/common';
 import { IResponse } from 'src/shared/@interfaces/response.interface';
 import { ResponseError, ResponseSuccess } from 'src/shared/@dtos/response.dto';
@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Me } from '../@decorators/me.decorator';
 
 @ApiTags('Me -> Feeds')
+@ApiBearerAuth()
 @Controller('feeds')
 export class FeedsController {
   constructor(
@@ -17,6 +18,7 @@ export class FeedsController {
     private jwtService: JwtService,
   ) {}
 
+  @ApiQuery({ name: 'categories', required: false })
   @Get()
   async findAll(
     @Me() me: string,

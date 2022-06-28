@@ -148,7 +148,6 @@ export class ProfileController {
     }
   }
 
-
   @Delete()
   async remove(@Me() me: string): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);

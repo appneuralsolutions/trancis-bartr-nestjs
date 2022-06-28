@@ -61,7 +61,7 @@ export class ProfileService {
     const email = userPayload.email;
     const user = await this.userModel.findOneAndUpdate(
       { email: email },
-      {$set: {"userType": createProfileDto.userType}},
+      { $set: { userType: createProfileDto.userType } },
       { new: true },
     );
     return new Promise((resolve) => {
