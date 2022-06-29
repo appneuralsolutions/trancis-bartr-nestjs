@@ -22,35 +22,27 @@ export class UsersService {
   // }
   
   async singlevalidation(SingleValidationDto: any){
-    //console.log(SingleValidationDto.email)
-    const email = await this.userModel.find({email: SingleValidationDto.email})
-    const username = await this.userModel.find({uname: SingleValidationDto.username})
-    const phone = await this.userModel.find({phone: SingleValidationDto.phone})
-    console.log(email.length)
-    console.log(SingleValidationDto.username)
-    console.log(username)
     
- 
     if(SingleValidationDto.email){
-      if(email.length > 1){
+      let email = await this.userModel.find({email: SingleValidationDto.email})
+      console.log(email)
+      if(email.length >= 1){
         return "Email already present"
       }
     }
-    if(SingleValidationDto.username){
-      if(username.length > 1){
-        return "Username already present"
-      }
-    }
     
+    if(SingleValidationDto.username){
+      var username = await this.userModel.find({uname: SingleValidationDto.username})
+      if(username.length >= 1){
+        return "Username already present"
+      } 
+    }
     if(SingleValidationDto.phone){
-      if(phone.length > 1){
+      var phone = await this.userModel.find({phone: SingleValidationDto.phone})
+      if(phone.length >= 1){
         return "Phone number already present"
      }
-    }
-    else{
-      return "All data are unique";
-    }
-    
+    }    
   }
   async createUser(createUserDto: any) {
     let profile_pic = "No Profile"
