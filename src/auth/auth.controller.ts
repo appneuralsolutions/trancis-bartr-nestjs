@@ -20,6 +20,7 @@ import { ResetPasswordDto } from './@dtos/reset-password.dto';
 import { AuthUser } from './auth.decorator';
 import { Message } from 'src/shared/@constants/messages.constant';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
+import { ForgotPasswordDto } from './@dtos/forgot-password.dto';
 
 @ApiTags('Auth')
 @Controller()
@@ -189,6 +190,26 @@ export class AuthController {
         resetPasswordDto,
       );
       if (resetPassword) {
+        return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY', {});
+      } else {
+        return new ResponseError('RESET.NOT_VERIFIED_SUCCESSFULLY');
+      }
+    } catch (error) {
+      return new ResponseError(error);
+    }
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(
+    @Body() forgotPasswordDto: ForgotPasswordDto,
+    // @Param('email') email: string,
+    // @Param('token') token: string,
+  ): Promise<any> {
+    try {
+      const forgotPassword = await this.authService.forgotPassword(
+        forgotPasswordDto,
+      );
+      if (forgotPassword) {
         return new ResponseSuccess('RESET.VERIFIED_SUCCESSFULLY', {});
       } else {
         return new ResponseError('RESET.NOT_VERIFIED_SUCCESSFULLY');

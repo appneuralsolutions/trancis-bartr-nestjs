@@ -25,11 +25,15 @@ import { SingleValidationDto } from './dtos/single.dto';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Post('/validation')
+  @Post('validation')
   @HttpCode(HttpStatus.CREATED)
-  async singlevalidation(@Body() SingleValidationDto: SingleValidationDto): Promise<any> {
+  async singlevalidation(
+    @Body() SingleValidationDto: SingleValidationDto,
+  ): Promise<any> {
     try {
-      const result = await this.usersService.singlevalidation(SingleValidationDto);
+      const result = await this.usersService.singlevalidation(
+        SingleValidationDto,
+      );
       return result;
     } catch (error) {
       return error;

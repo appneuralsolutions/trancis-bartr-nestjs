@@ -25,6 +25,7 @@ import {
   IUserPersonal,
 } from './@interfaces/user.interface';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
+import { ForgotPasswordDto } from './@dtos/forgot-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -443,6 +444,43 @@ export class AuthService {
     }
   }
 
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<any> {
+    const user: any = await this.userModel.findOne({
+      email: forgotPasswordDto.email,
+    });
+    if (!user) throw ErrorMessage.VERIFY_LOGIN_EMAIL_TOKEN_FIRST;
+
+    const isValidPass = await bcrypt.compare(
+      forgotPasswordDto.oldPassword,
+      user.password,
+    );
+    if (isValidPass) {
+      user.password = forgotPasswordDto.password;
+      user.save();
+
+      // await bcrypt.compare(password, userFromDb.password);
+      // let hasPassword;
+      // bcrypt.genSalt(10, function (err, salt) {
+      //   if (err) return '';
+
+      //   // hash the password using our new salt
+      //   bcrypt.hash(resetPasswordDto.password, salt, async (err, hash) => {
+      //     if (err) return '';
+      //     // override the cleartext password with the hashed one
+      //     hasPassword = hash;
+      //     if (userFromDb) {
+
+      //       // await passwordVerif.remove();
+      //       return !!savedUser;
+      //     }
+      //   });
+      // });
+      return user;
+    } else {
+      throw ErrorMessage.EMAIL_NOT_SENT;
+    }
+  }
+
   async checkPassword(email: string, password: string) {
     const userFromDb = await this.userModel.findOne({ email });
     if (!userFromDb)
@@ -488,8 +526,8 @@ export class AuthService {
 
   async register(newUser): Promise<any> {
     newUser.uname = newUser.uname.toLowerCase().replace(/ /g, '');
-    let profile_pic = "No Profile"
-    newUser.picture = profile_pic
+    let profile_pic = 'No Profile';
+    newUser.picture = profile_pic;
     // console.log(newUser);
     const userRegistered = await this.userModel
       .findOne({ email: newUser.email })

@@ -1,4 +1,4 @@
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Put,
+  Query,
 } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
@@ -48,11 +49,18 @@ export class WishlistController {
     }
   }
 
+  @ApiQuery({
+    name: 'onlyValid',
+    required: false,
+    type: Boolean,
+  })
   @Get()
-  async findAll(@Me() me: string): Promise<IResponse> {
-    
+  async findAll(
+    @Me() me: string,
+    @Query('onlyValid') onlyValid: boolean,
+  ): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);
-    const result = await this.wishlistService.findAll(userPayload);
+    const result = await this.wishlistService.findAll(userPayload, onlyValid);
     if (result) {
       return new ResponseSuccess(
         Message.SUCCESSFULLY_FIND_ALL_WISHLIST,

@@ -16,9 +16,7 @@ export class SingleValidationDto {
 
   @IsOptional()
   @IsString()
-  @Matches(/^\d{10}$/, {message: "Phone number length must be 10"})
+  @Matches(/^\d{10}$/, { message: 'Phone number length must be 10' })
   @ApiProperty({ default: 'Ajay' })
   phone: string;
-
-  
 }

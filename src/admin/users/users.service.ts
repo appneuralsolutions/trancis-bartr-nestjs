@@ -6,8 +6,11 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private readonly userModel: Model<IUser>,
-  @InjectModel('single-validation') private readonly singleModel: Model<SingleValidation>) {}
+  constructor(
+    @InjectModel('User') private readonly userModel: Model<IUser>,
+    @InjectModel('single-validation')
+    private readonly singleModel: Model<SingleValidation>,
+  ) {}
 
   async getUser(_id) {
     return await this.userModel.findOne({ _id });
@@ -20,33 +23,44 @@ export class UsersService {
   // async getUserById(_id){
   //   return await this.userModel.findOne({ _id })
   // }
-  
-  async singlevalidation(SingleValidationDto: any){
-    
-    if(SingleValidationDto.email){
-      let email = await this.userModel.find({email: SingleValidationDto.email})
-      console.log(email)
-      if(email.length >= 1){
-        return "Email already present"
+
+  async singlevalidation(SingleValidationDto: any) {
+    //console.log(SingleValidationDto.email)
+    const email = await this.userModel.find({
+      email: SingleValidationDto.email,
+    });
+    const username = await this.userModel.find({
+      uname: SingleValidationDto.username,
+    });
+    const phone = await this.userModel.find({
+      phone: SingleValidationDto.phone,
+    });
+    console.log(email.length);
+    console.log(SingleValidationDto.username);
+    console.log(username);
+
+    if (SingleValidationDto.email) {
+      if (email.length > 1) {
+        return 'Email already present';
       }
     }
-    
-    if(SingleValidationDto.username){
-      var username = await this.userModel.find({uname: SingleValidationDto.username})
-      if(username.length >= 1){
-        return "Username already present"
-      } 
+    if (SingleValidationDto.username) {
+      if (username.length > 1) {
+        return 'Username already present';
+      }
     }
-    if(SingleValidationDto.phone){
-      var phone = await this.userModel.find({phone: SingleValidationDto.phone})
-      if(phone.length >= 1){
-        return "Phone number already present"
-     }
-    }    
+
+    if (SingleValidationDto.phone) {
+      if (phone.length > 1) {
+        return 'Phone number already present';
+      }
+    } else {
+      return 'All data are unique';
+    }
   }
   async createUser(createUserDto: any) {
-    let profile_pic = "No Profile"
-    createUserDto.picture = profile_pic
+    let profile_pic = 'No Profile';
+    createUserDto.picture = profile_pic;
     const newUser = await new this.userModel(createUserDto).save();
     return newUser;
   }

@@ -299,4 +299,9 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00061: {
+    message: 'CardId is invalid or null',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };

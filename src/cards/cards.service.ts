@@ -38,8 +38,8 @@ export class CardsService {
     }
   }
 
-  async findByUser(createdBy): Promise<CreateCard[]>{
-    const card = await this.cardModel.find({"createdBy":createdBy})
+  async findByUser(createdBy): Promise<CreateCard[]> {
+    const card = await this.cardModel.find({ createdBy });
     return new Promise((resolve) => {
       resolve(card);
     });
@@ -110,20 +110,22 @@ export class CardsService {
     });
   }
 
-  async uploadImages(
-    _id: string,
-    data: CreateCardDto,
-    files,
-  ): Promise<CreateCard> {
+  async uploadImages(_id: string, data: any, files): Promise<CreateCard> {
     const images = [];
     if (files && files.length > 0) {
       files.forEach((file: any) => {
         images.push(file.path.replace('uploads', '/data'));
       });
       data.images = images;
-      const card = await this.cardModel.findOneAndUpdate({ _id }, data, {
-        new: true,
-      });
+      const card = await this.cardModel.findOneAndUpdate(
+        { _id },
+        {
+          $set: data,
+        },
+        {
+          new: true,
+        },
+      );
       return new Promise((resolve) => {
         resolve(card);
       });

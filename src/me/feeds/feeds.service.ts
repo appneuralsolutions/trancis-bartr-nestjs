@@ -31,8 +31,8 @@ export class FeedsService {
             path: 'liked',
           },
           {
-            path: 'email'
-          }
+            path: 'createdBy',
+          },
         ]);
       // return new Promise((resolve) => {
       //   resolve(feeds.filter((f: any) => f.createdBy !== userPayload.userId));
@@ -52,8 +52,8 @@ export class FeedsService {
             path: 'liked',
           },
           {
-            path: 'email'
-          }
+            path: 'createdBy',
+          },
         ]);
       // .populate('categoryId');
       // return new Promise((resolve) => {

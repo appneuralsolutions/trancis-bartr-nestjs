@@ -117,7 +117,7 @@ export class CardsController {
   )
   async uploadImages(
     @UploadedFiles() files: any,
-    @Body() data: CreateCardDto,
+    @Body() data: any,
     @Param('id') id: string,
   ): Promise<IResponse | CreateCard> {
     const card = await this.cardsService.uploadImages(id, data, files);

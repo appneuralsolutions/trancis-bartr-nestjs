@@ -2,14 +2,14 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ResetPasswordDto {
+export class ForgotPasswordDto {
   @IsEmail()
   @ApiProperty({ default: 'ajayprajapat@live.com' })
   email: string;
 
   @IsNotEmpty()
   @ApiProperty()
-  token: string;
+  oldPassword: string;
 
   @IsNotEmpty()
   @ApiProperty({ default: '123456' })

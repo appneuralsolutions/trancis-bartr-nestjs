@@ -15,7 +15,7 @@ import { SingleValidationSchema } from './schemas/single.schema';
     MongooseModule.forFeature([
       { name: 'User', schema: UserSchema },
       { name: 'Audit-Log', schema: AuditSchema },
-      {name:"single-validation", schema: SingleValidationSchema}
+      { name: 'single-validation', schema: SingleValidationSchema },
     ]),
   ],
   controllers: [UsersController],

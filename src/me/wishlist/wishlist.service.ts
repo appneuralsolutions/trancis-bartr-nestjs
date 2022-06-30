@@ -53,29 +53,42 @@ export class WishlistService {
     });
   }
 
-  async findAll(userPayload): Promise<any> {
+  async findAll(userPayload, onlyValid): Promise<any> {
     const userId = userPayload.userId;
     let wishlist = await this.WishlistModel.find({
-      "userId":userId, 
+      userId: userId,
       like: { $in: [true, false] },
     }).populate('cardId');
 
-    const likeWishlist = await this.WishlistModel.find({ userId, like: true });
+    // const likeWishlist = await this.WishlistModel.find({ userId, like: true });
 
-    const dislikeWishlist = await this.WishlistModel.find({
-      userId,
-      like: false,
-    });
+    // const dislikeWishlist = await this.WishlistModel.find({
+    //   userId,
+    //   like: false,
+    // });
 
+    const wl = [];
     wishlist = wishlist.map((w: any) => {
-      const cardId = { ...{ ...w._doc }.cardId._doc };
-      const isLiked = { ...w._doc }.like;
-      cardId['isLiked'] = isLiked;
-      return cardId;
+      if (!w.cardId) {
+        if (!onlyValid) {
+          throw ErrorMessage.CARDID_IS_NULL_OR_INVALID;
+        } else {
+          // const cardId = w.cardId;
+          // const isLiked = { ...w._doc }.like;
+          // cardId['isLiked'] = isLiked;
+          // return cardId;
+        }
+      } else {
+        const cardId = { ...{ ...w._doc }.cardId._doc };
+        const isLiked = { ...w._doc }.like;
+        cardId['isLiked'] = isLiked;
+        wl.push(cardId);
+        return cardId;
+      }
     });
 
     return new Promise((resolve) => {
-      resolve(wishlist);
+      resolve(wl);
     });
   }
 

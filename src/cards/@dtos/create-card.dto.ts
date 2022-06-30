@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsOptional, IsString, isString } from 'class-validator';
+
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCardDto {
@@ -52,6 +53,12 @@ export class CreateCardDto {
   views: number;
 
   @ApiProperty()
-  @IsOptional()
+  @IsString()
+  year: number;
+
+  @ApiProperty()
+  @IsString()
+  location: number;
+
   createdBy: string;
 }

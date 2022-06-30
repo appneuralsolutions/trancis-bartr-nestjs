@@ -1,18 +1,18 @@
-import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcryptjs';
+import * as mongoose from 'mongoose';
 
 export const UserSchema = new mongoose.Schema({
   firstName: { type: String, require: true },
   lastName: { type: String },
   email: { type: String, unique: true, require: true },
-  uname: { type: String, require: true, unique: true },
+  uname: { type: String, require: true, unique: false },
   phone: { type: String, unique: true, require: true },
   userType: { type: String, require: true },
   // empCode: { type: String, unique: true, require: true },
   dob: { type: String, require: true },
-  location: { type: String, require: true },
-  password: { require: true, type: String },
-  picture: { type: String },
+  location: { type: String, require: false },
+  password: { type: String, require: true },
+  picture: { type: String, default: '' },
   // roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }],
   // privileges: {},
   // profile: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Profile' },
