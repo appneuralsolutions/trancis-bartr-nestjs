@@ -17,11 +17,13 @@ export class FeedsController {
   ) {}
 
   @Get()
-  @ApiQuery({ name: 'categories', required: false })
+  @ApiQuery({ name: 'type', required: false, type: String })
+  @ApiQuery({ name: 'value', required: false, type: String })
   async findAll(
-    @Query('categories') categories: string,
+    @Query('type') type: string,
+    @Query('value') value: string,
   ): Promise<IResponse | CreateCard[]> {
-    const feed = await this.feedsService.aggregateFeed(categories);
+    const feed = await this.feedsService.aggregateFeed(type, value);
     if (feed) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {
         feed,
