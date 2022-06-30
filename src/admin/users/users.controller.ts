@@ -31,11 +31,10 @@ export class UsersController {
     @Body() SingleValidationDto: SingleValidationDto,
   ): Promise<any> {
     try {
-      const result = await this.usersService.singlevalidation(
-        SingleValidationDto,
-      );
+      const result = await this.usersService.singlevalidation(SingleValidationDto);
       return result;
-    } catch (error) {
+    } 
+    catch (error) {
       return error;
     }
   }
