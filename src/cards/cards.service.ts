@@ -90,6 +90,30 @@ export class CardsService {
     });
   }
 
+  async findOneByProfile(_id, userPayload): Promise<CreateCard[]> {
+    let cards: any = await this.cardModel.find({
+      _id,
+      createdBy: userPayload.userId,
+    });
+    const wishlist = await this.wishlistModel.find({
+      userId: userPayload.userId,
+    });
+
+    cards = cards.map((card) => {
+      console.log(card);
+      const myWishlist = wishlist.filter(
+        (w) => w.cardId + '' === card._id + '',
+      );
+      return {
+        ...card._doc,
+        isLiked: myWishlist.length > 0 ? myWishlist[0].like : null,
+      };
+    });
+    return new Promise((resolve) => {
+      resolve(cards);
+    });
+  }
+
   async findOne(_id: string): Promise<CreateCard> {
     const card = await this.cardModel.findOne({ _id }).populate([
       {

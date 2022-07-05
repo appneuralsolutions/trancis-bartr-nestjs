@@ -60,6 +60,30 @@ export class AuthService {
   //   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   // }
 
+  async singlevalidation(SingleValidationDto) {
+    if (SingleValidationDto.email) {
+      const email = await this.userModel.findOne({
+        email: SingleValidationDto.email,
+      });
+      if (email) throw ErrorMessage.EMAIL_ALREADY_EXISTS;
+    }
+    if (SingleValidationDto.username) {
+      const username = await this.userModel.findOne({
+        uname: SingleValidationDto.username,
+      });
+      if (username) throw ErrorMessage.UNAME_ALREADY_EXISTS;
+    }
+    if (SingleValidationDto.phone) {
+      const phone = await this.userModel.findOne({
+        phone: SingleValidationDto.phone,
+      });
+      if (phone) throw ErrorMessage.MOBILENO_ALREADY_EXISTS;
+    }
+    return new Promise((resolve) => {
+      return resolve('not exists');
+    });
+  }
+
   isValidEmail(email: string) {
     if (email) {
       const re =

@@ -36,6 +36,11 @@ export class CreateCardDto {
   @ApiProperty()
   @IsOptional()
   @IsNotEmpty()
+  hpValue: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNotEmpty()
   description: string;
 
   images: string[];

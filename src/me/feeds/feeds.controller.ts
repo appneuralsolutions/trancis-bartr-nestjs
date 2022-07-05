@@ -18,17 +18,20 @@ export class FeedsController {
     private jwtService: JwtService,
   ) {}
 
-  @ApiQuery({ name: 'categories', required: false })
+  @ApiQuery({ name: 'type', required: false, type: String })
+  @ApiQuery({ name: 'value', required: false, type: String })
   @Get()
   async findAll(
     @Me() me: string,
-    @Query('categories') categories: string,
+    @Query('type') type: string,
+    @Query('value') value: string,
   ): Promise<IResponse | CreateCard[]> {
     const userPayload: any = this.jwtService.decode(me);
 
     const feeds = await this.feedsService.aggregateFeed(
       userPayload,
-      categories,
+      type,
+      value,
     );
     if (feeds) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, feeds);

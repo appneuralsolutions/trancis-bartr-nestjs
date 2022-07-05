@@ -11,14 +11,11 @@ export class FeedsService {
     @InjectModel('Wishlist') private wishlistModel: Model<CreateWishlistDto>,
   ) {}
 
-  async aggregateFeed(userPayload, categories): Promise<CreateCard[]> {
+  async aggregateFeed(userPayload, type, value): Promise<CreateCard[]> {
     let feeds;
-    if (categories) {
+    if (type && value) {
       feeds = await this.cardModel
-        .find({
-          // createdBy: userPayload.userId,
-          categoryId: { $in: categories.split(',') },
-        })
+        .find({ [type]: { $in: value.split(',') } })
         .sort({ _id: -1 })
         .populate([
           {

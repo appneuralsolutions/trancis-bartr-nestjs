@@ -1,3 +1,4 @@
+import { SingleValidationDto } from './@dtos/single.dto';
 import { EmailService } from './../shared/email.service';
 import { UpdateUserDto } from './../admin/users/dtos/update-user.dto';
 import {
@@ -40,6 +41,18 @@ export class AuthController {
     //   .then((data) => {
     //     console.log(data);
     //   });
+  }
+
+  @Post('validate')
+  async singlevalidation(@Body() singleValidationDto: SingleValidationDto) {
+    const result: any = await this.authService.singlevalidation(
+      singleValidationDto,
+    );
+    if (result) {
+      return new ResponseSuccess(result, {});
+    } else {
+      return new ResponseError(ErrorMessage.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Post('register')
