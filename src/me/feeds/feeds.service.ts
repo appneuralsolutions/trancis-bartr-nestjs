@@ -11,57 +11,31 @@ export class FeedsService {
     @InjectModel('Wishlist') private wishlistModel: Model<CreateWishlistDto>,
   ) {}
 
-  async aggregateFeed(userPayload, type, value): Promise<CreateCard[]> {
+  async aggregateFeed(userPayload, queries): Promise<CreateCard[]> {
+    // const collection_length = await this.feedModel.count();
+    Object.keys(queries).map((q) => {
+      queries[q] = { $in: queries[q].split(',') };
+    });
     let feeds;
-    if (type && value) {
-      feeds = await this.cardModel
-        .find({ [type]: { $in: value.split(',') } })
-        .sort({ _id: -1 })
-        .populate([
-          {
-            path: 'categoryId',
-            populate: {
-              path: 'subjectId',
-            },
+
+    // console.log(queries);
+    feeds = await this.cardModel
+      .find(queries)
+      .sort({ _id: -1 })
+      .populate([
+        {
+          path: 'categoryId',
+          populate: {
+            path: 'subjectId',
           },
-          {
-            path: 'liked',
-          },
-          {
-            path: 'createdBy',
-          },
-        ]);
-      // return new Promise((resolve) => {
-      //   resolve(feeds.filter((f: any) => f.createdBy !== userPayload.userId));
-      // });
-    } else {
-      feeds = await this.cardModel
-        .find({})
-        .sort({ _id: -1 })
-        .populate([
-          {
-            path: 'categoryId',
-            populate: {
-              path: 'subjectId',
-            },
-          },
-          {
-            path: 'liked',
-          },
-          {
-            path: 'createdBy',
-          },
-        ]);
-      // .populate('categoryId');
-      // return new Promise((resolve) => {
-      //   resolve(
-      //     feeds.filter((f: any) => {
-      //       console.log(f.createdBy + '', userPayload.userId);
-      //       return f.createdBy + '' !== userPayload.userId;
-      //     }),
-      //   );
-      // });
-    }
+        },
+        {
+          path: 'liked',
+        },
+        {
+          path: 'createdBy',
+        },
+      ]);
 
     const wishlist = await this.wishlistModel.find({
       userId: userPayload.userId,

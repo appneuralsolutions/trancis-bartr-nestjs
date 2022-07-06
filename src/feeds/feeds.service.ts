@@ -7,47 +7,32 @@ import { CreateCard } from '../cards/@interface/card.interface';
 export class FeedsService {
   constructor(@InjectModel('Card') private feedModel: Model<CreateCard>) {}
 
-  async aggregateFeed(type, value): Promise<CreateCard[]> {
+  async aggregateFeed(queries): Promise<CreateCard[]> {
     // const collection_length = await this.feedModel.count();
-    if (type && value) {
-      const feeds = await this.feedModel
-        .find({ [type]: { $in: value.split(',') } })
-        .sort({ _id: -1 })
-        .populate([
-          {
-            path: 'categoryId',
-            populate: {
-              path: 'subjectId',
-            },
+    Object.keys(queries).map((q) => {
+      queries[q] = { $in: queries[q].split(',') };
+    });
+
+    // console.log(queries);
+    const feeds = await this.feedModel
+      .find(queries)
+      .sort({ _id: -1 })
+      .populate([
+        {
+          path: 'categoryId',
+          populate: {
+            path: 'subjectId',
           },
-          {
-            path: 'createdBy',
-          },
-        ]);
-      return new Promise((resolve) => {
-        resolve(feeds);
-      });
-    } else {
-      const feeds = await this.feedModel
-        .find({})
-        .sort({ _id: -1 })
-        .populate([
-          {
-            path: 'categoryId',
-            populate: {
-              path: 'subjectId',
-            },
-          },
-          {
-            path: 'liked',
-          },
-          {
-            path: 'createdBy',
-          },
-        ]);
-      return new Promise((resolve) => {
-        resolve(feeds);
-      });
-    }
+        },
+        {
+          path: 'liked',
+        },
+        {
+          path: 'createdBy',
+        },
+      ]);
+    return new Promise((resolve) => {
+      resolve(feeds);
+    });
   }
 }
