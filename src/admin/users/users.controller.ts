@@ -16,7 +16,6 @@ import {
 import { IResponse } from '../../auth/@interfaces/response.interface';
 import { ResponseError, ResponseSuccess } from '../../auth/@dtos/response.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { SingleValidation } from './interfaces/single.interface';
 import { SingleValidationDto } from './dtos/single.dto';
 
 @ApiTags('Users')
@@ -31,10 +30,11 @@ export class UsersController {
     @Body() SingleValidationDto: SingleValidationDto,
   ): Promise<any> {
     try {
-      const result = await this.usersService.singlevalidation(SingleValidationDto);
+      const result = await this.usersService.singlevalidation(
+        SingleValidationDto,
+      );
       return result;
-    } 
-    catch (error) {
+    } catch (error) {
       return error;
     }
   }
@@ -90,6 +90,16 @@ export class UsersController {
     } catch (error) {
       return new ResponseError('USER.NOT_UPDATED_SUCCESSFULLY');
     }
+  }
+
+  @Post(':id/add-bartr-point')
+  async addBartrPoint(@Param('id') id: string) {
+    return await this.usersService.addBartPoint(id);
+  }
+
+  @Post(':id/deduct-bartr-point')
+  async deductBartrPoint(@Param('id') id: string) {
+    return await this.usersService.deductBartPoint(id);
   }
 
   // @Patch(':id')
