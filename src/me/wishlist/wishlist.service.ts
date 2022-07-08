@@ -92,6 +92,38 @@ export class WishlistService {
     });
   }
 
+  async findAllmatch(userPayload): Promise<any> {
+    const userId = userPayload.userId;
+    let wishlist = await this.WishlistModel.find({
+      userId: userId,
+      like: { $in: [true, false] },
+    }).populate('cardId');
+
+    // const likeWishlist = await this.WishlistModel.find({ userId, like: true });
+
+    // const dislikeWishlist = await this.WishlistModel.find({
+    //   userId,
+    //   like: false,
+    // });
+
+    const wl = [];
+    wishlist = wishlist.map((w: any) => {
+      if (!w.cardId) {
+        
+      } else {
+        const cardId = { ...{ ...w._doc }.cardId._doc };
+        const isLiked = { ...w._doc }.like;
+        cardId['isLiked'] = isLiked;
+        wl.push(cardId);
+        return cardId;
+      }
+    });
+
+    return new Promise((resolve) => {
+      resolve(wl);
+    });
+  }
+
   async findOne(id: string): Promise<string> {
     return new Promise((resolve) => {
       resolve(`This action returns a #${id} wishlist`);
