@@ -24,7 +24,7 @@ export class CardsController {
 
     const card = await this.cardsService.findByProfile(userPayload);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, { card });
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, card);
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
@@ -39,7 +39,25 @@ export class CardsController {
 
     const card = await this.cardsService.findOneByProfile(id, userPayload);
     if (card) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, { card });
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, card);
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
+    }
+  }
+
+  @Get('user/:id')
+  async findByUser(
+    @Me() me: string,
+    @Param('id') id: string,
+  ): Promise<IResponse | CreateCard> {
+    const userPayload: any = this.jwtService.decode(me);
+
+    const cards = await this.cardsService.findUserCardsByAuthUser(
+      userPayload,
+      id,
+    );
+    if (cards) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, cards);
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }

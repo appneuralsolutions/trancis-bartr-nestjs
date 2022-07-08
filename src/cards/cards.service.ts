@@ -60,6 +60,49 @@ export class CardsService {
       resolve(cards);
     });
   }
+
+  async findUserCardsByAuthUser(userPayload, createdBy): Promise<CreateCard[]> {
+    let cards = await this.cardModel.find({ createdBy }).populate([
+      {
+        path: 'categoryId',
+        populate: {
+          path: 'subjectId',
+        },
+      },
+      {
+        path: 'liked',
+      },
+      {
+        path: 'createdBy',
+      },
+
+      // {
+      //   path: 'email',
+      // },
+    ]);
+    const wishlist = await this.wishlistModel.find({
+      userId: userPayload.userId,
+    });
+
+    cards = cards.map((card: any) => {
+      console.log(card);
+      const myWishlist = wishlist.filter(
+        (w) => w.cardId + '' === card._id + '',
+      );
+      return {
+        ...card._doc,
+        isLiked: myWishlist.length > 0 ? myWishlist[0].like : null,
+      };
+    });
+    // const collection_length = await this.cardModel.count();
+    // const feed = await this.cardModel.aggregate([
+    //   { $sample: { size: collection_length } },
+    // ]);
+    return new Promise((resolve) => {
+      resolve(cards);
+    });
+  }
+
   async findAll(): Promise<CreateCard[]> {
     const card = await this.cardModel.find().populate([
       {
