@@ -304,4 +304,19 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00062: {
+    message: 'Email Already Exists!',
+    type: 'Auth',
+    statusCode: 405,
+  },
+  E00063: {
+    message: 'Username Already Exists!',
+    type: 'Auth',
+    statusCode: 405,
+  },
+  E00064: {
+    message: 'Mobileno Already Exists',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };

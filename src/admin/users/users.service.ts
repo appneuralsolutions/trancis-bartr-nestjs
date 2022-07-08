@@ -54,8 +54,7 @@ export class UsersService {
       if (phone.length >= 1) {
         return 'Phone number already present';
       }
-    } 
-    else {
+    } else {
       return 'All data are unique';
     }
   }
@@ -71,6 +70,20 @@ export class UsersService {
   }
   async deleteRole(_id: string) {
     return await this.userModel.findByIdAndDelete({ _id });
+  }
+
+  async addBartPoint(_id: string) {
+    return await this.userModel.findOneAndUpdate(
+      { _id },
+      { $inc: { bartrPoints: 1 } },
+    );
+  }
+
+  async deductBartPoint(_id: string) {
+    return await this.userModel.findOneAndUpdate(
+      { _id },
+      { $inc: { bartrPoints: -1 } },
+    );
   }
 
   async lockUser() {

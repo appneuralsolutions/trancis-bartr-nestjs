@@ -12,6 +12,7 @@ export const CardSchema = new mongoose.Schema({
   email: String,
   year: String,
   location: String,
+  hpValue: String,
   // subject: String,
   likes: { type: Number, default: 0 },
   liked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
