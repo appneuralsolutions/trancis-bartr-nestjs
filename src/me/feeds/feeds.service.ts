@@ -16,6 +16,7 @@ export class FeedsService {
     Object.keys(queries).map((q) => {
       queries[q] = { $in: queries[q].split(',') };
     });
+    queries['createdBy'] = { $ne: userPayload.userId };
     let feeds;
 
     // console.log(queries);
@@ -56,9 +57,7 @@ export class FeedsService {
     //   { $sample: { size: collection_length } },
     // ]);
     return new Promise((resolve) => {
-      resolve(
-        feeds.filter((f: any) => f.createdBy + '' !== userPayload.userId + ''),
-      );
+      resolve(feeds);
     });
   }
 }
