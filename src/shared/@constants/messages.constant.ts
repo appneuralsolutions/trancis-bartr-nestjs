@@ -39,6 +39,7 @@ export const Message = {
   SUCCESSFULLY_DELETED_PREFERENCE: 'Successfully Deleted Preferences',
   SUCCESSFULLY_CREATED_WISHLIST: 'Successfully Created Wishlist',
   SUCCESSFULLY_FIND_ALL_WISHLIST: 'Successfully Find All Wishlist',
+  SUCCESSFULLY_FIND_ALL_MATCHES: 'Successfully Find All Matches',
   SUCCESSFULLY_FIMD_WISHLIST: 'Successfully Find Wishlist',
   SUCCESSFULLY_UPDATED_WISHLIST: 'Successfully Updated Wishlist',
   SUCCESSFULLY_DELETED_WISHLIST: 'Successfully Deleted Wishlist',

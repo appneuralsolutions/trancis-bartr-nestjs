@@ -61,6 +61,7 @@ export class WishlistController {
   ): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);
     const result = await this.wishlistService.findAll(userPayload, onlyValid);
+    
     if (result) {
       return new ResponseSuccess(
         Message.SUCCESSFULLY_FIND_ALL_WISHLIST,
@@ -74,6 +75,46 @@ export class WishlistController {
     }
   }
 
+
+  @ApiQuery({
+    name: 'onlyValid',
+    required: false,
+    type: Boolean,
+  })
+  @Get('matches')
+  async findAllMatch(
+    @Me() me: string,
+    @Query('onlyValid') onlyValid: boolean,
+  ): Promise<IResponse> {
+    var matches = []
+    const userPayload: any = this.jwtService.decode(me);
+    const result = await this.wishlistService.findAll(userPayload, onlyValid);
+    result.map(wishlist => {
+      this.wishlistService.findMatch(wishlist.createdBy, onlyValid)
+      .then(response => response.data)
+      .then(data => data.map(match => {
+        if(match.createdBy === userPayload._id){
+          matches.push({
+            title1:wishlist.title,
+            user1:userPayload._id,
+            title2:match.title,
+            user2:match.createdBy
+          })
+        }
+      }))     
+    })
+    if (matches) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_FIND_ALL_MATCHES,
+        matches,
+      );
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_MATCHES,
+        {},
+      );
+    }
+  }
   // @Get(':id')
   // async findOne(@Param('id') id: string): Promise<IResponse> {
   //   if (true) {

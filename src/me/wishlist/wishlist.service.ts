@@ -92,8 +92,8 @@ export class WishlistService {
     });
   }
 
-  async findAllmatch(userPayload): Promise<any> {
-    const userId = userPayload.userId;
+  async findMatch(Id, onlyValid): Promise<any> {
+    const userId = Id;
     let wishlist = await this.WishlistModel.find({
       userId: userId,
       like: { $in: [true, false] },
@@ -109,7 +109,14 @@ export class WishlistService {
     const wl = [];
     wishlist = wishlist.map((w: any) => {
       if (!w.cardId) {
-        
+        if (!onlyValid) {
+          throw ErrorMessage.CARDID_IS_NULL_OR_INVALID;
+        } else {
+          // const cardId = w.cardId;
+          // const isLiked = { ...w._doc }.like;
+          // cardId['isLiked'] = isLiked;
+          // return cardId;
+        }
       } else {
         const cardId = { ...{ ...w._doc }.cardId._doc };
         const isLiked = { ...w._doc }.like;
