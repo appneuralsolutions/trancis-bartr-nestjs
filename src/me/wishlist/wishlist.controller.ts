@@ -121,7 +121,7 @@ export class WishlistController {
     required: false,
     type: Boolean,
   })
-  @Get('singlematch:id')
+  @Get('singlematch/:id')
   async findSingleMatch(
     @Me() me: string,
     @Query('onlyValid') onlyValid: boolean,
