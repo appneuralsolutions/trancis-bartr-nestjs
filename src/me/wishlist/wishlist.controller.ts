@@ -91,8 +91,8 @@ export class WishlistController {
     const result = await this.wishlistService.findAll(userPayload, onlyValid);
     result.map(wishlist => {
       this.wishlistService.findMatch(wishlist.createdBy, onlyValid)
-      .then(response => response.data)
-      .then(data => data.map(match => {
+      .then(response => response.map
+        (match => {
         if(match.createdBy === userPayload._id){
           matches.push({
             title1:wishlist.title,
