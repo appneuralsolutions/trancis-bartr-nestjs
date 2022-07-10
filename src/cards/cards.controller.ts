@@ -1,4 +1,3 @@
-import { ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -12,6 +11,7 @@ import {
   UploadedFiles,
   Patch,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
 // import { UpdateCardDto } from './@dtos/update-card.dto';
@@ -28,6 +28,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Me } from 'src/me/@decorators/me.decorator';
 
 @ApiTags('Cards')
+@ApiBearerAuth()
 @Controller()
 export class CardsController {
   constructor(
