@@ -115,6 +115,54 @@ export class WishlistController {
       );
     }
   }
+
+  @ApiQuery({
+    name: 'onlyValid',
+    required: false,
+    type: Boolean,
+  })
+  @Get('singlematch:id')
+  async findSingleMatch(
+    @Me() me: string,
+    @Query('onlyValid') onlyValid: boolean,
+    @Param('id') id: string,
+  ): Promise<IResponse> {
+    var matches = []
+    const userPayload: any = this.jwtService.decode(me);
+    const result = await this.wishlistService.findAll(userPayload, onlyValid);
+    var user1 = result.filter(wishlist => {
+      wishlist.createdBy==id
+    })
+    user1.map(user => {
+      matches.push({
+        title1:user.title,
+        user1:userPayload._id,
+      })
+    })
+      this.wishlistService.findMatch(id, onlyValid)
+      .then(response => response.map
+        (match => {
+        if(match.createdBy === userPayload._id){
+          matches.push({
+            title2:match.title,
+            user2:match.createdBy
+          })
+        }
+      }))     
+    if (matches) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_FIND_ALL_MATCHES,
+        matches,
+      );
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_FIND_ALL_MATCHES,
+        {},
+      );
+    }
+  }
+
+
   // @Get(':id')
   // async findOne(@Param('id') id: string): Promise<IResponse> {
   //   if (true) {
