@@ -17,6 +17,13 @@ export class FeedsService {
       queries[q] = { $in: queries[q].split(',') };
     });
     queries['createdBy'] = { $ne: userPayload.userId };
+    if (queries.value && queries.value.split(',').length > 1) {
+      queries['value'] = {
+        $gte: queries.value.split(',')[0],
+        $lte: queries.value.split(',')[1],
+      };
+    }
+
     let feeds;
 
     // console.log(queries);

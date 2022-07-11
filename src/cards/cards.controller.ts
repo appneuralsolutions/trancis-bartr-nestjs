@@ -16,7 +16,7 @@ import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
 // import { UpdateCardDto } from './@dtos/update-card.dto';
 import { IResponse } from './../shared/@interfaces/response.interface';
-import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
+import { ResponseSuccess } from '../shared/@dtos/response.dto';
 import { Message } from './../shared/@constants/messages.constant';
 import { ResponseError } from './../shared/@dtos/response.dto';
 import { ErrorMessage } from './../shared/@constants/error.constant';
@@ -25,7 +25,7 @@ import { diskStorage } from 'multer';
 import { CreateCard } from './@interface/card.interface';
 import { imageFileFilter, editFileName } from './@utils/file-upload.utils';
 import { JwtService } from '@nestjs/jwt';
-import { Me } from 'src/me/@decorators/me.decorator';
+import { Me } from '../me/@decorators/me.decorator';
 
 @ApiTags('Cards')
 @ApiBearerAuth()
