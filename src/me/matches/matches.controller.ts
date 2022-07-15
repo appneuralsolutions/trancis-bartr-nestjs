@@ -1,8 +1,11 @@
+import { CreateMatchDto } from './dto/create-match.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
+  Body,
   Controller,
   Get,
   Param,
+  Post,
   // , Post, Get
 } from '@nestjs/common';
 // import { IResponse } from './../../shared/@interfaces/response.interface';
@@ -68,6 +71,26 @@ export class MatchesController {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, matches);
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES, {});
+    }
+  }
+
+  @Post()
+  async create(
+    @Body() createWishlistDto: CreateMatchDto,
+    @Me() me: string,
+  ): Promise<IResponse> {
+    const userPayload: any = this.jwtService.decode(me);
+    const result = await this.matchesService.create(
+      createWishlistDto,
+      userPayload,
+    );
+    if (result) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_WISHLIST, result);
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_CREATED_WISHLIST,
+        {},
+      );
     }
   }
 }

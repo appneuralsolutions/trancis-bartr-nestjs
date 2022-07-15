@@ -10,7 +10,9 @@ export class FeedsService {
   async aggregateFeed(queries): Promise<CreateCard[]> {
     // const collection_length = await this.feedModel.count();
     Object.keys(queries).map((q) => {
-      queries[q] = { $in: queries[q].split(',') };
+      if (q !== 'value') {
+        queries[q] = { $in: queries[q].split(',') };
+      }
     });
 
     if (queries.value && queries.value.split(',').length > 1) {
