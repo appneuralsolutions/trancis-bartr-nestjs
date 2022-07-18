@@ -55,27 +55,32 @@ export class MatchesService {
   }
 
   async findMatches(user1, user2): Promise<any> {
-    const match1 = await this.matchModel
-      .findOne({
+    let match1 = await this.matchModel
+      .find({
         // 'cardId.createdBy': user2,
         userId: user1,
         rightSwiped: { $in: [true] },
-        'cardId.createdBy': user2,
+        // 'cardId.createdBy': user2,
       })
       .populate('cardId');
+    match1 = match1.filter((w: any) => w.cardId.createdBy + '' === user2);
 
-    const match2 = await this.matchModel
-      .findOne({
+    let match2 = await this.matchModel
+      .find({
         // 'cardId.createdBy': user2,
         userId: user2,
         rightSwiped: { $in: [true] },
-        'cardId.createdBy': user2,
+        // 'cardId.createdBy': user1,
       })
       .populate('cardId');
 
-    // match2 = match2.filter((w: any) => w.cardId.createdBy + '' === user2);
+    match2 = match2.filter((w: any) => w.cardId.createdBy + '' === user1);
     return new Promise((resolve) => {
-      resolve(match1 === match2 && match1 !== null);
+      if (match1 && match1.length && match2 && match2.length) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
     });
   }
 }
