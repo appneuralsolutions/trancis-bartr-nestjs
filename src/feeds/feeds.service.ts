@@ -44,4 +44,11 @@ export class FeedsService {
       resolve(feeds);
     });
   }
+
+  async getLocations(): Promise<string[]> {
+    const locations = await this.feedModel.find({}).distinct('location');
+    return new Promise((resolve) => {
+      resolve(locations);
+    });
+  }
 }

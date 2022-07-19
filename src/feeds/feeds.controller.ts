@@ -20,9 +20,20 @@ export class FeedsController {
   async findAll(@Query() queries: string): Promise<IResponse | CreateCard[]> {
     const feed = await this.feedsService.aggregateFeed(queries);
     if (feed) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, {
-        feed,
-      });
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_ALL_CARDS, feed);
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
+    }
+  }
+
+  @Get('locations')
+  async getLocations(): Promise<IResponse | CreateCard[]> {
+    const locations = await this.feedsService.getLocations();
+    if (locations) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_FIND_ALL_CARDS,
+        locations,
+      );
     } else {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }

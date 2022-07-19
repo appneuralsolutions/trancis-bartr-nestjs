@@ -24,11 +24,11 @@ import { join } from 'path';
   imports: [
     SharedModule,
     AppRoutingModule,
-    MongooseModule.forRoot('mongodb://64.227.166.146:28018/bartr-v1', {
+    MongooseModule.forRoot('mongodb://64.227.166.146:25290/bartr-v1', {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     }),
-    TypegooseModule.forRoot('mongodb://64.227.166.146:28018/bartr-v1', {}),
+    TypegooseModule.forRoot('mongodb://64.227.166.146:25290/bartr-v1', {}),
     ServeStaticModule.forRoot({
       serveRoot: '/',
       rootPath: join(__dirname, '../www'),
