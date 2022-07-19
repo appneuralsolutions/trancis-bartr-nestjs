@@ -57,26 +57,27 @@ export class MatchesController {
   //   }
   // }
 
-  @Get(':userId')
-  async findAll(
-    @Me() me: string,
-    @Param('userId') userId: string,
-  ): Promise<IResponse> {
-    const userPayload: any = this.jwtService.decode(me);
-    const matches = await this.matchesService.findMatches(
-      userPayload.userId,
-      userId,
-    );
-    if (matches) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, matches);
-    } else {
-      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES, {});
-    }
-  }
+  // @Get(':userId')
+  // async findAll(
+  //   @Me() me: string,
+  //   @Param('userId') userId: string,
+  // ): Promise<IResponse> {
+  //   const userPayload: any = this.jwtService.decode(me);
+  //   const matches = await this.matchesService.findMatches(
+  //     userPayload.userId,
+  //     userId,
+  //   );
+  //   if (matches) {
+  //     return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, matches);
+  //   } else {
+  //     return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES, {});
+  //   }
+  // }
 
   @Post()
   async create(
     @Body() createWishlistDto: CreateMatchDto,
+    @Param('userId') user2: string,
     @Me() me: string,
   ): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);
@@ -84,8 +85,14 @@ export class MatchesController {
       createWishlistDto,
       userPayload,
     );
+    const isMatched = await this.matchesService.findMatches(
+      userPayload.userId,
+      user2,
+    );
     if (result) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_WISHLIST, result);
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_WISHLIST, {
+        isMatched,
+      });
     } else {
       return new ResponseError(
         ErrorMessage.NOT_SUCCESSFULLY_CREATED_WISHLIST,
