@@ -74,7 +74,7 @@ export class MatchesController {
   //   }
   // }
 
-  @Post()
+  @Post(':userId')
   async create(
     @Body() createWishlistDto: CreateMatchDto,
     @Param('userId') user2: string,
