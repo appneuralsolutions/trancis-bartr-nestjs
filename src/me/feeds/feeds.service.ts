@@ -14,18 +14,22 @@ export class FeedsService {
   async aggregateFeed(userPayload, queries): Promise<CreateCard[]> {
     // const collection_length = await this.feedModel.count();
     Object.keys(queries).map((q) => {
-      if (q !== 'value') {
+      if (
+        (q !== 'value' && q !== 'year') ||
+        ((q === 'value' || q === 'year') && !queries[q].includes('-'))
+      ) {
+        queries[q] = { $in: queries[q].split(',') };
+      } else if (Number.isInteger(parseInt(queries[q]))) {
+        if (queries[q] && queries[q].split('-').length > 1) {
+          queries[q] = {
+            $gte: queries[q].split('-')[0],
+            $lte: queries[q].split('-')[1],
+          };
+        }
+      } else {
         queries[q] = { $in: queries[q].split(',') };
       }
     });
-    queries['createdBy'] = { $ne: userPayload.userId };
-
-    if (queries.value && queries.value.split(',').length > 1) {
-      queries['value'] = {
-        $gte: queries.value.split(',')[0],
-        $lte: queries.value.split(',')[1],
-      };
-    }
 
     let feeds;
 
