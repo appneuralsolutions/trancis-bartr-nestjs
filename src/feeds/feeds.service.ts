@@ -15,7 +15,7 @@ export class FeedsService {
         ((q === 'value' || q === 'year') && !queries[q].includes('-'))
       ) {
         queries[q] = { $in: queries[q].split(',') };
-      } else if (Number.isInteger(parseInt(queries[q]))) {
+      } else if (Number.isInteger(parseInt(queries[q].split('-')[0]))) {
         if (queries[q] && queries[q].split('-').length > 1) {
           queries[q] = {
             $gte: queries[q].split('-')[0],
