@@ -15,13 +15,15 @@ export class FeedsService {
         ((q === 'value' || q === 'year') && !queries[q].includes('-'))
       ) {
         queries[q] = { $in: queries[q].split(',') };
-      } else {
+      } else if (Number.isInteger(parseInt(queries[q]))) {
         if (queries[q] && queries[q].split('-').length > 1) {
           queries[q] = {
             $gte: queries[q].split('-')[0],
             $lte: queries[q].split('-')[1],
           };
         }
+      } else {
+        queries[q] = { $in: queries[q].split(',') };
       }
     });
 
