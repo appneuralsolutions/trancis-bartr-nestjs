@@ -47,7 +47,7 @@ export const UserSchema = new mongoose.Schema({
     },
     isLocked: { type: Boolean, default: false },
   },
-  bartrPoints: { type: Number, default: 10 },
+  bartrPoints: { type: Number, default: 30 },
   isActive: { type: Boolean, default: true },
   createdBy: String,
   modifiedBy: String,
