@@ -1,8 +1,11 @@
+import { CreateMatchDto } from './dto/create-match.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
+  Body,
   Controller,
   Get,
   Param,
+  Post,
   // , Post, Get
 } from '@nestjs/common';
 // import { IResponse } from './../../shared/@interfaces/response.interface';
@@ -54,20 +57,47 @@ export class MatchesController {
   //   }
   // }
 
-  @Get(':userId')
-  async findAll(
+  // @Get(':userId')
+  // async findAll(
+  //   @Me() me: string,
+  //   @Param('userId') userId: string,
+  // ): Promise<IResponse> {
+  //   const userPayload: any = this.jwtService.decode(me);
+  //   const matches = await this.matchesService.findMatches(
+  //     userPayload.userId,
+  //     userId,
+  //   );
+  //   if (matches) {
+  //     return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, matches);
+  //   } else {
+  //     return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES, {});
+  //   }
+  // }
+
+  @Post(':userId')
+  async create(
+    @Body() createWishlistDto: CreateMatchDto,
+    @Param('userId') user2: string,
     @Me() me: string,
-    @Param('userId') userId: string,
   ): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);
-    const matches = await this.matchesService.findMatches(
-      userPayload.userId,
-      userId,
+    const result = await this.matchesService.create(
+      createWishlistDto,
+      userPayload,
     );
-    if (matches) {
-      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, matches);
+    const isMatched = await this.matchesService.findMatches(
+      userPayload.userId,
+      user2,
+    );
+    if (result) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_WISHLIST, {
+        isMatched,
+      });
     } else {
-      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES, {});
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_CREATED_WISHLIST,
+        {},
+      );
     }
   }
 }

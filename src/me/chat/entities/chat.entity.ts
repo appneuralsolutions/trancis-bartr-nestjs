@@ -21,6 +21,11 @@ export class Chat {
   })
   time: string;
 
+  @prop({
+    required: [false, 'counter offer is optional'],
+  })
+  counter: boolean;
+
   constructor(chat?: Partial<Chat>) {
     Object.assign(this, chat);
   }

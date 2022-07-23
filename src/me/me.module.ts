@@ -1,3 +1,4 @@
+import { MatchSchema } from './wishlist/schemas/matches.schema';
 import { PreferencesSchema } from './preferences/@schemas/preferences.schema';
 import { NewUserSchema } from '../auth/@schemas/new-user.schema';
 import { AuthModule } from '../auth/auth.module';
@@ -40,6 +41,7 @@ import { CardsModule } from 'src/cards/cards.module';
       // { name: 'NewUser', schema: NewUserSchema },
       { name: 'Perference', schema: PreferencesSchema },
       { name: 'Wishlist', schema: WishlistSchema },
+      { name: 'Match', schema: MatchSchema },
     ]),
     ChatModule,
   ],

@@ -10,15 +10,22 @@ export class FeedsService {
   async aggregateFeed(queries): Promise<CreateCard[]> {
     // const collection_length = await this.feedModel.count();
     Object.keys(queries).map((q) => {
-      queries[q] = { $in: queries[q].split(',') };
+      if (
+        (q !== 'value' && q !== 'year') ||
+        ((q === 'value' || q === 'year') && !queries[q].includes('-'))
+      ) {
+        queries[q] = { $in: queries[q].split(',') };
+      } else if (Number.isInteger(parseInt(queries[q].split('-')[0]))) {
+        if (queries[q] && queries[q].split('-').length > 1) {
+          queries[q] = {
+            $gte: queries[q].split('-')[0],
+            $lte: queries[q].split('-')[1],
+          };
+        }
+      } else {
+        queries[q] = { $in: queries[q].split(',') };
+      }
     });
-
-    if (queries.value && queries.value.split(',').length > 1) {
-      queries['value'] = {
-        $gte: queries.value.split(',')[0],
-        $lte: queries.value.split(',')[1],
-      };
-    }
 
     // console.log(queries);
     const feeds = await this.feedModel
@@ -40,6 +47,13 @@ export class FeedsService {
       ]);
     return new Promise((resolve) => {
       resolve(feeds);
+    });
+  }
+
+  async getLocations(): Promise<string[]> {
+    const locations = await this.feedModel.find({}).distinct('location');
+    return new Promise((resolve) => {
+      resolve(locations);
     });
   }
 }
