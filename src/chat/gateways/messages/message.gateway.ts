@@ -17,7 +17,7 @@ export class MessagesGateway implements OnGatewayDisconnect {
   async handleDisconnect(client: Socket) { // <2>
     const user = await this.usersModel.findOne({clientId: client.id});
     if (user) {
-      client.server.emit('users-changed', {user: user.nickname, event: 'left'});
+      // client.server.emit('users-changed', {user: user.nickname, event: 'left'});
       user.clientId = null;
       await this.usersModel.findByIdAndUpdate(user._id, user);
     }
@@ -48,6 +48,6 @@ export class MessagesGateway implements OnGatewayDisconnect {
     message.owner = await this.usersModel.findOne({clientId: client.id});
     message.created = new Date();
     message = await this.messagesModel.create(message);
-    client.server.in(message.room as string).emit('message', message);
+    // client.server.in(message.room as string).emit('message', message);
   }
 }
