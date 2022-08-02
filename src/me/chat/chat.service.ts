@@ -1,73 +1,52 @@
 import { Injectable } from '@nestjs/common';
-import { ReturnModelType } from '@typegoose/typegoose';
-import { InjectModel } from 'nestjs-typegoose';
-import { Chat } from './entities/chat.entity';
-import { defaultApp } from './auth/firebaseAdmin';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Chat } from './interface/chat.interface';
+import { CreateChatDto } from './dto/chat.dto';
 
 @Injectable()
 export class ChatService {
-  constructor(
-    @InjectModel(Chat) private readonly chatModel: ReturnModelType<typeof Chat>,
-  ) {}
+    constructor(
+        @InjectModel('Chat') private readonly chatModel: Model<Chat>,
+      ) {}
 
-  private allUsers = [];
-  private connectedUsers = [];
+      async create(data: CreateChatDto): Promise<Chat> {
+        //data.createdBy = userPayload.userId;
+        const createdData = await new this.chatModel(data).save();
+        return new Promise((resolve) => {
+          resolve(createdData);
+        });
+      }
 
-  async getChats(): Promise<Chat[]> {
-    return await this.chatModel.find();
-  }
+      async findMy(id): Promise<Chat[]> {
+        //const me = userPayload.userId;
+        const data = await this.chatModel.find({  _id: id});
+        return new Promise((resolve) => {
+          resolve(data);
+        });
+      }
 
-  async saveChat(chat: Chat): Promise<void> {
-    const createdChat = new this.chatModel(chat);
-    await createdChat.save();
-  }
-
-  userConnected(userName: string, registrationToken: string) {
-    let user = { userName: userName, registrationToken: registrationToken };
-    const filteredUsers = this.allUsers.filter((u) => u.userName === userName);
-    if (filteredUsers.length == 0) {
-      this.allUsers.push(user);
-    } else {
-      user = filteredUsers[0];
-      user.registrationToken = registrationToken;
-    }
-    this.connectedUsers.push(userName);
-    console.log('All Users', this.allUsers);
-    console.log('Connected Users', this.connectedUsers);
-  }
-
-  userDisconnected(userName: string) {
-    const userIndex = this.connectedUsers.indexOf(userName);
-    this.connectedUsers.splice(userIndex, 1);
-    console.log('All Users', this.allUsers);
-    console.log('Connected Users', this.connectedUsers);
-  }
-
-  async sendMessagesToOfflineUsers(chat: any) {
-    const messagePayload = {
-      data: {
-        type: 'CHAT',
-        title: 'chat',
-        message: chat.message,
-        sender: chat.sender,
-        recipient: chat.recipient,
-        time: chat.time,
-      },
-      tokens: [],
-    };
-    const userTokens = this.allUsers
-      .filter((user) => !this.connectedUsers.includes(user.userName))
-      .map((user) => {
-        return user.registrationToken;
-      });
-    if (userTokens.length == 0) {
-      return;
-    }
-    messagePayload.tokens = userTokens;
-    try {
-      await defaultApp.messaging().sendMulticast(messagePayload);
-    } catch (ex) {
-      console.log(JSON.stringify(ex));
-    }
-  }
+      async findAll(user): Promise<Chat[]> {
+        //const me = userPayload.userId;
+        const data = await this.chatModel.find({ user: user});
+        return new Promise((resolve) => {
+          resolve(data);
+        });
+      }
+    
+      async update(
+        id: string,
+        data: CreateChatDto,
+      ): Promise<Chat> {
+        const feedback = await this.chatModel.findOneAndUpdate(
+          { _id: id},
+          data,
+          {
+            new: true,
+          },
+        );
+        return new Promise((resolve) => {
+          resolve(feedback);
+        });
+      }
 }

@@ -9,6 +9,7 @@ import { InjectModel } from 'nestjs-typegoose';
 @WebSocketGateway()
 export class MessagesGateway implements OnGatewayDisconnect {
 
+  //@WebSocketServer() wss: Server;
   constructor(@InjectModel(Message) private readonly messagesModel: ModelType<Message>,
               @InjectModel(Room) private readonly roomsModel: ModelType<Room>,
               @InjectModel(User) private readonly usersModel: ModelType<User>) { // <1>

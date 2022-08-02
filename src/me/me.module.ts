@@ -1,6 +1,7 @@
 import { MatchSchema } from './wishlist/schemas/matches.schema';
 import { PreferencesSchema } from './preferences/@schemas/preferences.schema';
 import { NewUserSchema } from '../auth/@schemas/new-user.schema';
+import { ChatSchema } from './chat/schema/chat.schema';
 import { AuthModule } from '../auth/auth.module';
 import { WishlistService } from './wishlist/wishlist.service';
 import { PreferencesService } from './preferences/preferences.service';
@@ -19,9 +20,11 @@ import { MatchesService } from './matches/matches.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { WishlistSchema } from './wishlist/schemas/wishlist.schema';
 import { FeedbackModule } from 'src/feedback/feedback.module';
-import { ChatModule } from './chat/chat.module';
+//import { ChatModule } from './chat/chat.module';
 import { CardsController } from './cards/cards.controller';
 import { CardsModule } from 'src/cards/cards.module';
+import { ChatController } from './chat/chat.controller';
+import { ChatService } from './chat/chat.service';
 
 @Module({
   controllers: [
@@ -32,6 +35,7 @@ import { CardsModule } from 'src/cards/cards.module';
     WishlistController,
     FeedbackController,
     CardsController,
+    ChatController,
   ],
   imports: [
     AuthModule,
@@ -42,8 +46,9 @@ import { CardsModule } from 'src/cards/cards.module';
       { name: 'Perference', schema: PreferencesSchema },
       { name: 'Wishlist', schema: WishlistSchema },
       { name: 'Match', schema: MatchSchema },
+      { name: 'Chat', schema: ChatSchema}
     ]),
-    ChatModule,
+    //ChatModule,
   ],
   providers: [
     FeedsService,
@@ -52,11 +57,12 @@ import { CardsModule } from 'src/cards/cards.module';
     PreferencesService,
     WishlistService,
     FeedbackService,
+    ChatService,
     // {
     //   provide: APP_INTERCEPTOR,
     //   useClass: AuthInterceptor,
     // },
   ],
-  exports: [ChatModule],
+  //exports: [ChatModule],
 })
 export class MeModule {}

@@ -7,7 +7,6 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { BearerMiddleware } from './shared/@middleware/bearer.middleware';
 import { CardsModule } from './cards/cards.module';
-import { ChatModule } from './me/chat/chat.module';
 import { EbayIntgModule } from './ebay-intg/ebay-intg.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { FeedsModule } from './feeds/feeds.module';
@@ -52,7 +51,6 @@ import { User } from './chat/models/user.model';
     CardsModule,
     FeedbackModule,
     SubjectsModule,
-    ChatModule,
     FeedsModule,
   ],
   controllers: [AppController, MessagesController, RoomsController],
