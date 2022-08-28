@@ -10,7 +10,7 @@ import { User } from '../../models/user.model';
 import { Room } from '../../models/room.model';
 import { InjectModel } from 'nestjs-typegoose';
 
-@WebSocketGateway(3004, { namespace: 'events', cors: '*:*' })
+@WebSocketGateway(3001, { namespace: 'events', cors: '*:*' })
 export class MessagesGateway implements OnGatewayDisconnect {
   //@WebSocketServer() wss: Server;
   constructor(
