@@ -10,7 +10,7 @@ import { User } from '../../models/user.model';
 import { Room } from '../../models/room.model';
 import { InjectModel } from 'nestjs-typegoose';
 
-@WebSocketGateway({ cors: '*:*' })
+@WebSocketGateway(3004, { namespace: 'events', cors: '*:*' })
 export class MessagesGateway implements OnGatewayDisconnect {
   //@WebSocketServer() wss: Server;
   constructor(
@@ -34,14 +34,15 @@ export class MessagesGateway implements OnGatewayDisconnect {
   @SubscribeMessage('enter-chat-room') // <3>
   async enterChatRoom(
     client: Socket,
-    data: { nickname: string; roomId: string },
+    data: { userId: string; roomId: string },
   ) {
-    let user = await this.usersModel.findOne({ nickname: data.nickname });
+    let user = await this.usersModel.findOne({ _id: data.userId });
     if (!user) {
-      user = await this.usersModel.create({
-        nickname: data.nickname,
-        clientId: client.id,
-      });
+      console.log('user not found');
+      // user = await this.usersModel.create({
+      //   nickname: data.nickname,
+      //   clientId: client.id,
+      // });
     } else {
       user.clientId = client.id;
       user = await this.usersModel.findByIdAndUpdate(user._id, user, {
@@ -54,9 +55,9 @@ export class MessagesGateway implements OnGatewayDisconnect {
   @SubscribeMessage('leave-chat-room') // <4>
   async leaveChatRoom(
     client: Socket,
-    data: { nickname: string; roomId: string },
+    data: { userId: string; roomId: string },
   ) {
-    const user = await this.usersModel.findOne({ nickname: data.nickname });
+    const user = await this.usersModel.findOne({ _id: data.userId });
     client.broadcast
       .to(data.roomId)
       .emit('users-changed', { user: user.nickname, event: 'left' }); // <3>
