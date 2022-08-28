@@ -102,6 +102,12 @@ export class UsersController {
     return await this.usersService.deductBartPoint(id);
   }
 
+  @Get(':id/bartr-point')
+  async getBartrPoint(@Param('id') id: string) {
+    const user: any = await this.usersService.getBartPoint(id);
+    return user.bartrPoints;
+  }
+
   // @Patch(':id')
   // @HttpCode(HttpStatus.CREATED)
   // async patchUser(

@@ -86,6 +86,10 @@ export class UsersService {
     );
   }
 
+  async getBartPoint(_id: string) {
+    return await this.userModel.findOne({ _id });
+  }
+
   async lockUser() {
     // return await this.userModel.findByIdAndDelete({_id: id});
   }

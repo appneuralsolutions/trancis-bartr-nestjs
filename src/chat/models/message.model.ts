@@ -4,18 +4,17 @@ import { Room } from './room.model';
 import { ObjectID } from 'bson';
 
 export class Message extends Typegoose {
-
   _id: ObjectID | string;
 
-  @prop({required: true})
+  @prop({ required: true })
   text: string;
 
-  @prop({required: true})
+  @prop({ required: true })
   created: Date;
 
-  @prop({required: true, ref: User})
+  @prop({ required: true, ref: User })
   owner: Ref<User>;
 
-  @prop({required: true, ref: Room})
+  @prop({ required: true, ref: Room })
   room: Ref<Room> | string;
 }

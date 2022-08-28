@@ -6,10 +6,10 @@ import { ObjectID } from 'bson';
 export class User extends Typegoose {
   _id?: ObjectID | string;
 
-  @prop({required: true, maxlength: 20, minlength: 5})
+  @prop({ required: true, maxlength: 20, minlength: 5 })
   nickname: string;
 
-  @prop({required: true})
+  @prop({ required: true })
   clientId: string;
 
   messages?: Ref<Message[]>;
