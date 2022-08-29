@@ -66,4 +66,7 @@ export class CreateCardDto {
   location: number;
 
   createdBy: string;
+
+  latlong: string[];
+  
 }

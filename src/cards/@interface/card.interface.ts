@@ -14,6 +14,7 @@ export interface CreateCard extends Document {
   likes: number;
   liked: string[];
   views: number;
+  latlong: string[];
 }
 
 /* availableOf: String,

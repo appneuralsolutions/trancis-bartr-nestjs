@@ -9,6 +9,8 @@ export class User extends Typegoose {
   @prop({ required: true, maxlength: 20, minlength: 5 })
   nickname: string;
 
+  
+
   @prop({ required: true })
   clientId: string;
 

@@ -2,6 +2,7 @@ import {
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { ModelType } from 'typegoose';
@@ -9,6 +10,9 @@ import { Message } from '../../models/message.model';
 import { User } from '../../models/user.model';
 import { Room } from '../../models/room.model';
 import { InjectModel } from 'nestjs-typegoose';
+import {Server} from "socket.io";
+
+
 
 @WebSocketGateway(3001, { namespace: 'events', cors: '*:*' })
 export class MessagesGateway implements OnGatewayDisconnect {
@@ -20,55 +24,44 @@ export class MessagesGateway implements OnGatewayDisconnect {
   ) {
     // <1>
   }
+  @WebSocketServer()
+  server: Server;
 
-  async handleDisconnect(client: Socket) {
-    // <2>
-    const user = await this.usersModel.findOne({ clientId: client.id });
+  async handleDisconnect(client: Socket) { // <2>
+    const user = await this.usersModel.findOne({clientId: client.id});
     if (user) {
-      // client.server.emit('users-changed', {user: user.nickname, event: 'left'});
+      this.server.emit('users-changed', {user: user.nickname, event: 'left'});
       user.clientId = null;
       await this.usersModel.findByIdAndUpdate(user._id, user);
     }
   }
 
   @SubscribeMessage('enter-chat-room') // <3>
-  async enterChatRoom(
-    client: Socket,
-    data: { userId: string; roomId: string },
-  ) {
-    let user = await this.usersModel.findOne({ _id: data.userId });
+  async enterChatRoom(client: Socket, data: { nickname: string, roomId: string }) {
+    let user = await this.usersModel.findOne({nickname: data.nickname});
     if (!user) {
-      console.log('user not found');
-      // user = await this.usersModel.create({
-      //   nickname: data.nickname,
-      //   clientId: client.id,
-      // });
+      user = await this.usersModel.create({nickname: data.nickname, clientId: client.id});
     } else {
       user.clientId = client.id;
-      user = await this.usersModel.findByIdAndUpdate(user._id, user, {
-        new: true,
-      });
+      user = await this.usersModel.findByIdAndUpdate(user._id, user, {new: true});
     }
-    /*client.join(data.roomId).broadcast.to(data.roomId).emit('users-changed', {user: user.nickname, event: 'joined'});*/ // <3>
+    client.join(data.roomId);
+    client.broadcast.to(data.roomId)
+      .emit('users-changed', {user: user.nickname, event: 'joined'}); // <3>
   }
 
   @SubscribeMessage('leave-chat-room') // <4>
-  async leaveChatRoom(
-    client: Socket,
-    data: { userId: string; roomId: string },
-  ) {
-    const user = await this.usersModel.findOne({ _id: data.userId });
-    client.broadcast
-      .to(data.roomId)
-      .emit('users-changed', { user: user.nickname, event: 'left' }); // <3>
+  async leaveChatRoom(client: Socket, data: { nickname: string, roomId: string }) {
+    const user = await this.usersModel.findOne({nickname: data.nickname});
+    client.broadcast.to(data.roomId).emit('users-changed', {user: user.nickname, event: 'left'}); // <3>
     client.leave(data.roomId);
   }
 
   @SubscribeMessage('add-message') // <5>
   async addMessage(client: Socket, message: Message) {
-    message.owner = await this.usersModel.findOne({ clientId: client.id });
+    message.owner = await this.usersModel.findOne({clientId: client.id});
     message.created = new Date();
     message = await this.messagesModel.create(message);
-    // client.server.in(message.room as string).emit('message', message);
+    this.server.in(message.room as string).emit('message', message);
   }
 }

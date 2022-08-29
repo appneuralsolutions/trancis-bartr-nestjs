@@ -20,4 +20,8 @@ export class ChatDto {
   @IsNotEmpty()
   name: string;
 
+  counter: string;
+
+  offer: boolean
+
 }

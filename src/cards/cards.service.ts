@@ -61,6 +61,22 @@ export class CardsService {
     });
   }
 
+  async findByLocation(long,lat): Promise<CreateCard[]> {
+    const cards = await this.cardModel.find({latlong:
+          { $near :
+             {
+               $geometry: { type: "Point",  coordinates: [long,lat] },
+              //  $minDistance: 1000,
+                $maxDistance: 5000
+             }
+          }
+      
+    })
+    return new Promise((resolve) => {
+      resolve(cards);
+    });
+  }
+
   async findUserCardsByAuthUser(userPayload, createdBy): Promise<CreateCard[]> {
     let cards = await this.cardModel.find({ createdBy }).populate([
       {

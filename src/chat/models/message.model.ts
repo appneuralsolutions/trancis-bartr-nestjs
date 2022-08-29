@@ -17,4 +17,8 @@ export class Message extends Typegoose {
 
   @prop({ required: true, ref: Room })
   room: Ref<Room> | string;
+
+  counter: string;
+
+  offer: boolean
 }
