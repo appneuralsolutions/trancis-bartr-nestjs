@@ -11,19 +11,7 @@ export class FeedsService {
   async aggregateFeed(queries): Promise<CreateCard[]> {
     // const collection_length = await this.feedModel.count();
     Object.keys(queries).map((q) => {
-      if (
-        (q !== 'value' && q !== 'year') ||
-        ((q === 'value' || q === 'year') && !queries[q].includes('-'))
-      ) {
-        queries[q] = { $in: queries[q].split(',') };
-      } else if (Number.isInteger(parseInt(queries[q].split('-')[0]))) {
-        if (queries[q] && queries[q].split('-').length > 1) {
-          queries[q] = {
-            $gte: queries[q].split('-')[0],
-            $lte: queries[q].split('-')[1],
-          };
-        }
-      } else if (q == 'location') {
+      if (q == 'location') {
         const latLong = {
           $near: {
             $geometry: {
@@ -38,6 +26,18 @@ export class FeedsService {
           },
         };
         queries[q] = latLong;
+      } else if (
+        (q !== 'value' && q !== 'year') ||
+        ((q === 'value' || q === 'year') && !queries[q].includes('-'))
+      ) {
+        queries[q] = { $in: queries[q].split(',') };
+      } else if (Number.isInteger(parseInt(queries[q].split('-')[0]))) {
+        if (queries[q] && queries[q].split('-').length > 1) {
+          queries[q] = {
+            $gte: queries[q].split('-')[0],
+            $lte: queries[q].split('-')[1],
+          };
+        }
       } else {
         queries[q] = { $in: queries[q].split(',') };
       }
