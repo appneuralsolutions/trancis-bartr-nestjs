@@ -14,7 +14,23 @@ export class FeedsService {
   async aggregateFeed(userPayload, queries): Promise<CreateCard[]> {
     // const collection_length = await this.feedModel.count();
     Object.keys(queries).map((q) => {
-      if (
+      if (q == 'location') {
+        const latLong = {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: [
+                parseFloat(queries['location'].split(',')[0]),
+                parseFloat(queries['location'].split(',')[1]),
+              ],
+            },
+            $minDistance: 0,
+            $maxDistance: parseInt(queries['location'].split(',')[2]),
+          },
+        };
+        delete queries['location'];
+        queries['latlong'] = latLong;
+      } else if (
         (q !== 'value' && q !== 'year') ||
         ((q === 'value' || q === 'year') && !queries[q].includes('-'))
       ) {
