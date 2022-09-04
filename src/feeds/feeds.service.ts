@@ -26,7 +26,7 @@ export class FeedsService {
           },
         };
         delete queries['location'];
-        queries['latLong'] = latLong;
+        queries['latlong'] = latLong;
       } else if (
         (q !== 'value' && q !== 'year') ||
         ((q === 'value' || q === 'year') && !queries[q].includes('-'))
@@ -44,7 +44,7 @@ export class FeedsService {
       }
     });
 
-    // console.log(queries);
+    console.log(JSON.stringify(queries));
     const feeds = await this.feedModel
       .find(queries)
       .sort({ _id: -1 })
