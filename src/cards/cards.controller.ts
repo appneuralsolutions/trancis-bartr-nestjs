@@ -96,10 +96,14 @@ export class CardsController {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD, {});
     }
   }
-  @Get(':lat:long')
-  async findByLocation(@Param('lat') lat: string, @Param('long') long: string): // @Param('id') id: string
+  @Get(':lat/:long')
+  async findByLocation(
+    @Param('lat') lat: string,
+    @Param('long') long: string,
+  ): // @Param('id') id: string
   Promise<IResponse | CreateCard> {
-    const card = await this.cardsService.findByLocation(lat,long);
+    console.log(lat, long)
+    const card = await this.cardsService.findByLocation(lat, long);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, card);
     } else {

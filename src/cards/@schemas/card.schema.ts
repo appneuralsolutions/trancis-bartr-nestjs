@@ -19,11 +19,15 @@ export const CardSchema = new mongoose.Schema({
   views: { type: Number, default: 0 },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   modifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  latlong :
-  {
-      type:{
-          type:String,
-      },
-      coordinates:[Number],
+  latlong: {
+    type: {
+      type: String, // Don't do `{ location: { type: String } }`
+      enum: ['Point'], // 'location.type' must be 'Point'
+      required: false,
+    },
+    coordinates: {
+      type: [Number],
+      required: false,
+    },
   },
 }).set('timestamps', true);

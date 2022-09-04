@@ -29,6 +29,11 @@ import { User } from './chat/models/user.model';
   imports: [
     SharedModule,
     AppRoutingModule,
+    // MongooseModule.forRoot('mongodb://localhost:27017/bartr-v1', {
+    //   useUnifiedTopology: true,
+    //   useNewUrlParser: true,
+    // }),
+    // TypegooseModule.forRoot('mongodb://localhost:27017/bartr-v1', {}),
     MongooseModule.forRoot('mongodb://64.227.166.146:25290/bartr-v1', {
       useUnifiedTopology: true,
       useNewUrlParser: true,

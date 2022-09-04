@@ -61,17 +61,20 @@ export class CardsService {
     });
   }
 
-  async findByLocation(long,lat): Promise<CreateCard[]> {
-    const cards = await this.cardModel.find({latlong:
-          { $near :
-             {
-               $geometry: { type: "Point",  coordinates: [long,lat] },
-              //  $minDistance: 1000,
-                $maxDistance: 5000
-             }
-          }
-      
-    })
+  async findByLocation(long, lat): Promise<CreateCard[]> {
+    const cards = await this.cardModel.find({
+      latlong: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [parseFloat(long), parseFloat(lat)],
+          },
+          $minDistance: 0,
+          $maxDistance: 1000000,
+        },
+      },
+    });
+    console.log(cards);
     return new Promise((resolve) => {
       resolve(cards);
     });
