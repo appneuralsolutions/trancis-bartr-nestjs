@@ -23,7 +23,7 @@ export class FeedsService {
             $lte: queries[q].split('-')[1],
           };
         }
-      } else if (queries['location']) {
+      } else if (q == 'location') {
         const latLong = {
           $near: {
             $geometry: {
