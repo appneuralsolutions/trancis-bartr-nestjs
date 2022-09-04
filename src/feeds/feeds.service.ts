@@ -25,7 +25,8 @@ export class FeedsService {
             $maxDistance: parseInt(queries['location'].split(',')[2]),
           },
         };
-        queries[q] = latLong;
+        delete queries['location'];
+        queries['latLong'] = latLong;
       } else if (
         (q !== 'value' && q !== 'year') ||
         ((q === 'value' || q === 'year') && !queries[q].includes('-'))
