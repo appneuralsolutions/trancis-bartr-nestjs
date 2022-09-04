@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { CreateCard } from '../cards/@interface/card.interface';
 
 @Injectable()
@@ -22,6 +23,21 @@ export class FeedsService {
             $lte: queries[q].split('-')[1],
           };
         }
+      } else if (queries['location']) {
+        const latLong = {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: [
+                parseFloat(queries['location'].split(',')[0]),
+                parseFloat(queries['location'].split(',')[1]),
+              ],
+            },
+            $minDistance: 0,
+            $maxDistance: parseInt(queries['location'].split(',')[2]),
+          },
+        };
+        queries[q] = latLong;
       } else {
         queries[q] = { $in: queries[q].split(',') };
       }
