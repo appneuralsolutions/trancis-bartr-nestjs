@@ -48,6 +48,17 @@ export const UserSchema = new mongoose.Schema({
     isLocked: { type: Boolean, default: false },
   },
   bartrPoints: { type: Number, default: 30 },
+  latlong: {
+    type: {
+      type: String, // Don't do `{ location: { type: String } }`
+      enum: ['Point'], // 'location.type' must be 'Point'
+      required: false,
+    },
+    coordinates: {
+      type: [Number],
+      required: false,
+    },
+  },
   isActive: { type: Boolean, default: true },
   createdBy: String,
   modifiedBy: String,

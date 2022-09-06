@@ -55,4 +55,10 @@ export class RegisterDto {
 
   @IsOptional()
   picture: string;
+
+  @IsOptional()
+  latlong: {
+    type: string; //'Point'
+    coordinates: [number];
+  };
 }
