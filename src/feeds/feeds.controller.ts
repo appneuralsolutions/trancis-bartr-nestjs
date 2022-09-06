@@ -38,4 +38,17 @@ export class FeedsController {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
   }
+
+  @Get('years')
+  async getYears(): Promise<IResponse | CreateCard[]> {
+    const locations = await this.feedsService.getYears();
+    if (locations) {
+      return new ResponseSuccess(
+        Message.SUCCESSFULLY_FIND_ALL_CARDS,
+        locations,
+      );
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
+    }
+  }
 }

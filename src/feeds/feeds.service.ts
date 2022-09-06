@@ -73,4 +73,11 @@ export class FeedsService {
       resolve(locations);
     });
   }
+
+  async getYears(): Promise<string[]> {
+    const years = await this.feedModel.find({}).distinct('year');
+    return new Promise((resolve) => {
+      resolve(years);
+    });
+  }
 }
