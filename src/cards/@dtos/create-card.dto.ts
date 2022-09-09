@@ -67,8 +67,15 @@ export class CreateCardDto {
 
   createdBy: string;
 
+  @ApiProperty()
   latlong: {
     type: string; //'Point'
-    coordinates: [number];
+    coordinates: [number, number];
   };
+
+  @ApiProperty()
+  lat: number;
+
+  @ApiProperty()
+  long: number;
 }

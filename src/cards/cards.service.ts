@@ -22,6 +22,13 @@ export class CardsService {
       })
       .exec();
     if (!cardTitle) {
+      if (data.lat) {
+        data.latlong = {
+          type: 'Point', //'Point'
+          coordinates: [data.lat, data.long],
+        };
+      }
+
       data.createdBy = userPayload.userId;
       const userType = userPayload.userType;
       if (userType === 'Buyer') {
