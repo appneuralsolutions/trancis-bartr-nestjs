@@ -57,6 +57,7 @@ export class RegisterDto {
   picture: string;
 
   @IsOptional()
+  @ApiProperty()
   latlong: {
     type: string; //'Point'
     coordinates: [number];

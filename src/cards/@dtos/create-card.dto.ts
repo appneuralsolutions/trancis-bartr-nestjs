@@ -67,6 +67,10 @@ export class CreateCardDto {
 
   createdBy: string;
 
+<<<<<<< HEAD
+=======
+  @IsOptional()
+>>>>>>> e1d43a64617c29eed11e03d5ff1a5bfcab63bfc0
   @ApiProperty()
   latlong: {
     type: string; //'Point'
