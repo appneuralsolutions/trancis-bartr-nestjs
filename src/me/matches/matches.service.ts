@@ -83,4 +83,30 @@ export class MatchesService {
       }
     });
   }
+
+  async findInterestShown(user1): Promise<any> {
+    const match1 = await this.matchModel
+      .find({
+        // 'cardId.createdBy': user2,
+        userId: user1,
+        rightSwiped: { $in: [true] },
+        // 'cardId.createdBy': user2,
+      })
+      .populate('cardId');
+    // match1 = match1.filter((w: any) => w.cardId.createdBy + '' === user2);
+
+    // let match2 = await this.matchModel
+    //   .find({
+    //     // 'cardId.createdBy': user2,
+    //     userId: user2,
+    //     rightSwiped: { $in: [true] },
+    //     // 'cardId.createdBy': user1,
+    //   })
+    //   .populate('cardId');
+
+    // match2 = match2.filter((w: any) => w.cardId.createdBy + '' === user1);
+    return new Promise((resolve) => {
+      resolve(match1);
+    });
+  }
 }

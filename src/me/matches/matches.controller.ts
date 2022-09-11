@@ -57,22 +57,18 @@ export class MatchesController {
   //   }
   // }
 
-  // @Get(':userId')
-  // async findAll(
-  //   @Me() me: string,
-  //   @Param('userId') userId: string,
-  // ): Promise<IResponse> {
-  //   const userPayload: any = this.jwtService.decode(me);
-  //   const matches = await this.matchesService.findMatches(
-  //     userPayload.userId,
-  //     userId,
-  //   );
-  //   if (matches) {
-  //     return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, matches);
-  //   } else {
-  //     return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES, {});
-  //   }
-  // }
+  @Get()
+  async findAll(@Me() me: string): Promise<IResponse> {
+    const userPayload: any = this.jwtService.decode(me);
+    const matches = await this.matchesService.findInterestShown(
+      userPayload.userId,
+    );
+    if (matches) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MATECHES, matches);
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_FIND_MATECHES, {});
+    }
+  }
 
   @Post(':userId')
   async create(
