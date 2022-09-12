@@ -139,8 +139,8 @@ export class WishlistService {
 
   async update(
     _id: string,
-    // userPayload,
-    // updateWishlistDto: UpdateWishlistDto,
+    userPayload,
+    updateWishlistDto: UpdateWishlistDto,
   ): Promise<any> {
     //const userId = userPayload.userId;
     const wishlist = await this.WishlistModel.findOneAndDelete({
