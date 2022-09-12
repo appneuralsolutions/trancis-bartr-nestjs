@@ -25,11 +25,31 @@ export class ChatService {
     });
   }
 
-  async createChat(data: CreateChatDto): Promise<Chat> {
-    //data.createdBy = userPayload.userId;
-    const createdData = await new this.chatModel(data).save();
+  async getRooms(byUsers): Promise<ChatRoom[]> {
+    let query;
+    if (byUsers) {
+      query = {
+        users: { $in: [byUsers.split(',')[0], byUsers.split(',')[1]] },
+      };
+    } else {
+      query = {};
+    }
+    const getRooms = await this.chatRoomModel.find(query);
     return new Promise((resolve) => {
-      resolve(createdData);
+      resolve(getRooms);
+    });
+  }
+
+  async createChat(roomId: string, data: CreateChatDto): Promise<ChatRoom> {
+    //data.createdBy = userPayload.userId;
+    const createdData: any = await new this.chatModel(data).save();
+    const pushData: any = { chats: createdData };
+    const chat = await this.chatRoomModel.findByIdAndUpdate(
+      { _id: roomId },
+      { $push: pushData },
+    );
+    return new Promise((resolve) => {
+      resolve(chat);
     });
   }
 
@@ -76,10 +96,19 @@ export class ChatService {
     });
   }
 
-  async createCounter(data: CreateCounterDto): Promise<ICounter> {
-    const createdData = await new this.counterModel(data).save();
+  async createCounter(
+    roomId: string,
+    data: CreateCounterDto,
+  ): Promise<ICounter> {
+    const counter = await new this.counterModel(data).save();
+    const createdData = await new this.chatModel(data).save();
+    const room = await this.chatRoomModel.findOneAndUpdate(
+      { _id: roomId },
+      { count },
+    );
+
     return new Promise((resolve) => {
-      resolve(createdData);
+      resolve(counter);
     });
   }
 

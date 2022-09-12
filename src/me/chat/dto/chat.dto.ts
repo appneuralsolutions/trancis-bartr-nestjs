@@ -10,6 +10,5 @@ export class CreateChatDto {
   @IsOptional()
   sentBy: string;
 
-  @ApiProperty({ type: Number })
   counter: string;
 }
