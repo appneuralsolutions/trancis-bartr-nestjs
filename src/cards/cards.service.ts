@@ -1,6 +1,5 @@
 import { ErrorMessage } from './../shared/@constants/error.constant';
 import { CreateWishlistDto } from './../me/wishlist/dto/create-wishlist.dto';
-import { wishlist } from './../me/wishlist/interface/wishlist.interface';
 import { Injectable } from '@nestjs/common';
 import { CreateCardDto } from './@dtos/create-card.dto';
 import { CreateCard } from './@interface/card.interface';

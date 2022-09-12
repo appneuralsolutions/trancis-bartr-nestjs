@@ -59,7 +59,7 @@ export class UsersService {
     }
   }
   async createUser(createUserDto: any) {
-    let profile_pic = 'No Profile';
+    const profile_pic = 'No Profile';
     createUserDto.picture = profile_pic;
     const newUser = await new this.userModel(createUserDto).save();
     return newUser;

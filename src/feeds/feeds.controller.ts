@@ -6,7 +6,7 @@ import { Message } from 'src/shared/@constants/messages.constant';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { CreateCard } from 'src/cards/@interface/card.interface';
 import { JwtService } from '@nestjs/jwt';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Feeds')
 @Controller('feeds')

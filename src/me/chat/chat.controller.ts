@@ -1,10 +1,11 @@
 import { Controller, Post, Body, Get, Put, Param } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ChatService } from './chat.service';
 import { CreateRoomDto } from './dto/chat-room.dto';
 import { CreateChatDto } from './dto/chat.dto';
 import { CreateCounterDto } from './dto/counter.dto';
-import { Chat } from './interface/chat.interface';
 
+@ApiTags('Chat and Counter')
 @Controller('chat')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
@@ -80,6 +81,40 @@ export class ChatController {
       return data;
     } else {
       return 'Not Created';
+    }
+  }
+
+  @Get(':id')
+  async AcceptCounter(@Param('id') id: string): // @Me() me: string
+  Promise<any> {
+    //const userPayload: any = this.jwtService.decode(me);
+    const data = await this.chatService.AcceptCounter(id);
+    if (data) {
+      return data;
+    } else {
+      return 'not able to fetch';
+    }
+  }
+
+  @Get(':id')
+  async RejectCounter(@Param('id') id: string): // @Me() me: string
+  Promise<any> {
+    const data = await this.chatService.RejectCounter(id);
+    if (data) {
+      return data;
+    } else {
+      return 'not able to fetch';
+    }
+  }
+
+  @Get(':id')
+  async DealClose(@Param('id') id: string): // @Me() me: string
+  Promise<any> {
+    const data = await this.chatService.DealClose(id);
+    if (data) {
+      return data;
+    } else {
+      return 'not able to fetch';
     }
   }
 }

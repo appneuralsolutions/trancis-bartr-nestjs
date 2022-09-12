@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { Document } from 'mongoose';
 
 export interface CreateCard extends Document {

@@ -20,5 +20,5 @@ export class Message extends Typegoose {
 
   counter: string;
 
-  offer: boolean
+  offer: boolean;
 }

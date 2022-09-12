@@ -7,11 +7,10 @@ import {
   ValidationPipe,
   Body,
   Param,
-  Put,
   UploadedFiles,
   Patch,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './@dtos/create-card.dto';
 // import { UpdateCardDto } from './@dtos/update-card.dto';
@@ -102,7 +101,7 @@ export class CardsController {
     @Param('long') long: string,
   ): // @Param('id') id: string
   Promise<IResponse | CreateCard> {
-    console.log(lat, long)
+    console.log(lat, long);
     const card = await this.cardsService.findByLocation(lat, long);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_FIND_CARD, card);

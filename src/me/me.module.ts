@@ -1,6 +1,5 @@
 import { MatchSchema } from './wishlist/schemas/matches.schema';
 import { PreferencesSchema } from './preferences/@schemas/preferences.schema';
-import { NewUserSchema } from '../auth/@schemas/new-user.schema';
 import {
   ChatRoomSchema,
   ChatSchema,

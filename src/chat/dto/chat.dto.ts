@@ -1,9 +1,6 @@
-import { IsNotEmpty, Max } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class ChatDto {
-    
-
-
   @ApiProperty()
   @IsNotEmpty()
   message: string;
@@ -22,6 +19,5 @@ export class ChatDto {
 
   counter: string;
 
-  offer: boolean
-
+  offer: boolean;
 }

@@ -1,7 +1,6 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Get, Header, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Me } from 'src/me/@decorators/me.decorator';
 import { EbayAuthToken } from 'ebay-oauth-nodejs-client';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -33,7 +32,7 @@ export class EbayIntgController {
       const token = await ebayAuthToken.getApplicationToken('SANDBOX');
       console.log(token);
     })();
-    let query_value = Object.values(query);
+    const query_value = Object.values(query);
     return new Promise((resolve) => {
       this.httpService
         .get(
@@ -51,8 +50,8 @@ export class EbayIntgController {
     @Body() sort: Object,
     @Body() category_ids: Object,
   ): Promise<any> {
-    let sort_value = Object.values(sort);
-    let category = Object.values(category_ids);
+    const sort_value = Object.values(sort);
+    const category = Object.values(category_ids);
     console.log(category);
     return new Promise((resolve) => {
       this.httpService

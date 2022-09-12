@@ -16,10 +16,7 @@ import { ErrorMessage } from './../../shared/@constants/error.constant';
 import { IResponse } from 'src/shared/@interfaces/response.interface';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { JwtService } from '@nestjs/jwt';
-import { CreateCard } from 'src/cards/@interface/card.interface';
-import { CardsService } from '../../cards/cards.service';
 import { Me } from '../@decorators/me.decorator';
-import { response } from 'express';
 
 @ApiTags('Me -> Matches')
 @ApiBearerAuth()

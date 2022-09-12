@@ -87,7 +87,9 @@ export class FeedsService {
     //   { $sample: { size: collection_length } },
     // ]);
     return new Promise((resolve) => {
-      resolve(feeds.filter((f) => (f.createdBy._id + '') !== (userPayload.userId + '')));
+      resolve(
+        feeds.filter((f) => f.createdBy._id + '' !== userPayload.userId + ''),
+      );
     });
   }
 }

@@ -1,4 +1,3 @@
-import { NewUser } from '../../auth/@interfaces/new-user.interface';
 import { Injectable } from '@nestjs/common';
 import { CreateProfileDto } from './@dto/create-profile.dto';
 import { Model } from 'mongoose';

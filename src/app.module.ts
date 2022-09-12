@@ -1,11 +1,10 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
 import { AdminModule } from './admin/admin.module';
 import { AppController } from './app.controller';
 import { AppRoutingModule } from './app.routing.module';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { BearerMiddleware } from './shared/@middleware/bearer.middleware';
 import { CardsModule } from './cards/cards.module';
 import { EbayIntgModule } from './ebay-intg/ebay-intg.module';
 import { FeedbackModule } from './feedback/feedback.module';

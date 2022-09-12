@@ -131,7 +131,7 @@ export class WishlistController {
     const matches = [];
     const userPayload: any = this.jwtService.decode(me);
     const result = await this.wishlistService.findAll(userPayload, onlyValid);
-    var user1 = result.filter((wishlist) => {
+    const user1 = result.filter((wishlist) => {
       wishlist.createdBy == id;
     });
     user1.map((user) => {
