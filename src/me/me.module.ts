@@ -1,7 +1,11 @@
 import { MatchSchema } from './wishlist/schemas/matches.schema';
 import { PreferencesSchema } from './preferences/@schemas/preferences.schema';
 import { NewUserSchema } from '../auth/@schemas/new-user.schema';
-import { ChatSchema } from './chat/schema/chat.schema';
+import {
+  ChatRoomSchema,
+  ChatSchema,
+  CounterSchema,
+} from './chat/schema/chat.schema';
 import { AuthModule } from '../auth/auth.module';
 import { WishlistService } from './wishlist/wishlist.service';
 import { PreferencesService } from './preferences/preferences.service';
@@ -46,7 +50,9 @@ import { ChatService } from './chat/chat.service';
       { name: 'Perference', schema: PreferencesSchema },
       { name: 'Wishlist', schema: WishlistSchema },
       { name: 'Match', schema: MatchSchema },
-      { name: 'Chat', schema: ChatSchema}
+      { name: 'Chat', schema: ChatSchema },
+      { name: 'ChatRoom', schema: ChatRoomSchema },
+      { name: 'Counter', schema: CounterSchema },
     ]),
     //ChatModule,
   ],

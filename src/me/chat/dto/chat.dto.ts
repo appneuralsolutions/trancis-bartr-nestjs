@@ -1,19 +1,15 @@
-import { IsNotEmpty, Max } from 'class-validator';
+import { IsNotEmpty, IsOptional, Max } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class CreateChatDto {
-  createdBy: string;
-
-  @IsNotEmpty()
-  UUID: string;
-  
-  @ApiProperty()
-  @IsNotEmpty()
+  @ApiProperty({ type: String })
   message: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  user: string;
+  @ApiProperty({ type: String })
+  sentTo: string;
 
-  @ApiProperty()
-  counter: boolean;
+  @IsOptional()
+  sentBy: string;
+
+  @ApiProperty({ type: Number })
+  counter: string;
 }
