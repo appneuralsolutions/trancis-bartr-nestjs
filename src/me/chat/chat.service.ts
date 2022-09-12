@@ -43,7 +43,7 @@ export class ChatService {
   async createChat(roomId: string, data: CreateChatDto): Promise<ChatRoom> {
     //data.createdBy = userPayload.userId;
     const createdData: any = await new this.chatModel(data).save();
-    const pushData: any = { chats: createdData };
+    const pushData: any = { chats: createdData._id };
     const chat = await this.chatRoomModel.findByIdAndUpdate(
       { _id: roomId },
       { $push: pushData },
@@ -99,16 +99,17 @@ export class ChatService {
   async createCounter(
     roomId: string,
     data: CreateCounterDto,
-  ): Promise<ICounter> {
-    const counter = await new this.counterModel(data).save();
+  ): Promise<ChatRoom> {
+    const counter = await new this.counterModel({ amount: data.amount }).save();
     const createdData = await new this.chatModel(data).save();
-    const room = await this.chatRoomModel.findOneAndUpdate(
+    const pushData: any = { chats: createdData._id };
+    const chatRoom = await this.chatRoomModel.findByIdAndUpdate(
       { _id: roomId },
-      { count },
+      { $push: pushData },
     );
 
     return new Promise((resolve) => {
-      resolve(counter);
+      resolve(chatRoom);
     });
   }
 
