@@ -1,13 +1,15 @@
 import { Controller, Post, Body, Get, Put, Param, Query } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Me } from '../@decorators/me.decorator';
+// import { Me } from '../@decorators/me.decorator';
 import { ChatService } from './chat.service';
 import { CreateRoomDto } from './dto/chat-room.dto';
 import { CreateChatDto } from './dto/chat.dto';
 import { CreateCounterDto } from './dto/counter.dto';
 
 @ApiTags('Chat and Counter')
+@ApiBearerAuth()
 @Controller('chat')
 export class ChatController {
   constructor(
@@ -33,7 +35,22 @@ export class ChatController {
     @Me() me: string,
     @Query('byUsers') byUsers: string,
   ): Promise<any> {
-    const data = await this.chatService.getRooms(byUsers);
+    const userPayload: any = this.jwtService.decode(me);
+    const data = await this.chatService.getRooms(byUsers, userPayload.userId); //byUsers
+    if (data) {
+      return data;
+    } else {
+      return 'Not Created';
+    }
+  }
+
+  @Get(':roomId/chats')
+  async getChats(
+    @Param('roomId') roomId: string,
+    @Me() me: string,
+    // @Query('byUsers') byUsers: string,
+  ): Promise<any> {
+    const data = await this.chatService.getChats(roomId); //byUsers
     if (data) {
       return data;
     } else {
@@ -76,7 +93,6 @@ export class ChatController {
 
   Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
-    console.log(uuid);
     const data = await this.chatService.findAll(uuid);
     if (data) {
       return data;
@@ -92,6 +108,7 @@ export class ChatController {
     @Me() me: string,
   ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
+    createFeedbackDto.sentBy = userPayload.userId;
     const data = await this.chatService.update(id, createFeedbackDto);
     if (data) {
       return data;
@@ -100,13 +117,14 @@ export class ChatController {
     }
   }
 
-  @Post('roomId')
+  @Post('counter/:roomId')
   async createCounter(
     @Body() counterDto: CreateCounterDto,
     @Param('roomId') roomId: string,
     @Me() me: string,
   ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
+    counterDto.sentBy = userPayload.userId;
     const data = await this.chatService.createCounter(roomId, counterDto);
     if (data) {
       return data;
@@ -115,12 +133,8 @@ export class ChatController {
     }
   }
 
-  @Get(':id')
-  async AcceptCounter(
-    @Param('id') id: string,
-    @Me() me: string,
-  ): // @Me() me: string
-  Promise<any> {
+  @Post('counter/:id/accept')
+  async AcceptCounter(@Param('id') id: string, me: string): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
     const data = await this.chatService.AcceptCounter(id);
     if (data) {
@@ -130,7 +144,7 @@ export class ChatController {
     }
   }
 
-  @Get(':id')
+  @Post('counter/:id/reject')
   async RejectCounter(
     @Param('id') id: string,
     @Me() me: string,
@@ -144,12 +158,8 @@ export class ChatController {
     }
   }
 
-  @Get(':id')
-  async DealClose(
-    @Param('id') id: string,
-    @Me() me: string,
-  ): // @Me() me: string
-  Promise<any> {
+  @Get('deal-close/:id')
+  async DealClose(@Param('id') id: string, @Me() me: string): Promise<any> {
     const data = await this.chatService.DealClose(id);
     if (data) {
       return data;

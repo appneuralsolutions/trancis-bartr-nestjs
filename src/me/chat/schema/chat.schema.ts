@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 
 export const ChatSchema = new mongoose.Schema({
   message: String,
+  roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'ChatRoom' },
   sentTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   sentBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   counter: { type: mongoose.Schema.Types.ObjectId, ref: 'Counter' },
@@ -16,5 +17,5 @@ export const ChatRoomSchema = new mongoose.Schema({
 
 export const CounterSchema = new mongoose.Schema({
   amount: Number,
-  isAccepted: Boolean,
+  isAccepted: { type: Boolean || null, default: null },
 }).set('timestamps', true);

@@ -18,26 +18,61 @@ export class ChatService {
   ) {}
 
   async createRoom(data: CreateRoomDto): Promise<ChatRoom> {
-    const createdData = await new this.chatRoomModel({
-      users: [data.userId1, data.userId2],
-    }).save();
-    return new Promise((resolve) => {
-      resolve(createdData);
+    const getRoom: any = await this.chatRoomModel.findOne({
+      users: {
+        $in: [data.userId1, data.userId2],
+      },
     });
+    if (!getRoom) {
+      const createdData = await new this.chatRoomModel({
+        users: [data.userId1, data.userId2],
+      }).save();
+      return new Promise((resolve) => {
+        resolve(createdData);
+      });
+    } else {
+      throw ErrorMessage.ROOM_ALREADY_EXISTS;
+    }
   }
 
-  async getRooms(byUsers): Promise<ChatRoom[]> {
+  async getRooms(byUsers: string, cUser: string): Promise<ChatRoom[]> {
     let query;
-    if (byUsers) {
+    if (byUsers.includes(',')) {
       query = {
-        users: { $in: [byUsers.split(',')[0], byUsers.split(',')[1]] },
+        users: {
+          $in: [byUsers.split(',')[0].trim(), byUsers.split(',')[1].trim()],
+        },
+      };
+    } else if (!byUsers.includes(',')) {
+      query = {
+        users: {
+          $in: [cUser.trim()],
+        },
       };
     } else {
       query = {};
     }
-    const getRooms = await this.chatRoomModel.find(query);
+    const getRooms: any = await this.chatRoomModel
+      .find(query)
+      .populate('users');
     return new Promise((resolve) => {
-      resolve(getRooms);
+      resolve(
+        getRooms.map((r) => {
+          let s = { ...r._doc };
+          const user = r.users.filter((e) => e._id + '' !== cUser)[0];
+          s.name = user.firstName + ' ' + user.lastName;
+          return s;
+        }),
+      );
+    });
+  }
+
+  async getChats(roomId: string): Promise<ChatRoom> {
+    const getRoomChats = await this.chatRoomModel
+      .findOne({ _id: roomId })
+      .populate('chats');
+    return new Promise((resolve) => {
+      resolve(getRoomChats);
     });
   }
 
@@ -102,7 +137,15 @@ export class ChatService {
     data: CreateCounterDto,
   ): Promise<ChatRoom> {
     const counter = await new this.counterModel({ amount: data.amount }).save();
-    const createdData = await new this.chatModel(data).save();
+    const chat = {
+      roomId: roomId,
+      message: null,
+      sentTo: data.sentTo,
+      sentBy: data.sentBy,
+      counter: counter._id,
+    };
+
+    const createdData = await new this.chatModel(chat).save();
     const pushData: any = { chats: createdData._id };
     const chatRoom = await this.chatRoomModel.findByIdAndUpdate(
       { _id: roomId },

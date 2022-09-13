@@ -28,6 +28,7 @@ import { CardsController } from './cards/cards.controller';
 import { CardsModule } from 'src/cards/cards.module';
 import { ChatController } from './chat/chat.controller';
 import { ChatService } from './chat/chat.service';
+import { ChatGateway } from './chat/chat.gateway';
 
 @Module({
   controllers: [
@@ -63,6 +64,7 @@ import { ChatService } from './chat/chat.service';
     WishlistService,
     FeedbackService,
     ChatService,
+    ChatGateway,
     // {
     //   provide: APP_INTERCEPTOR,
     //   useClass: AuthInterceptor,

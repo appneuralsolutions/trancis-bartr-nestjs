@@ -329,4 +329,9 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00067: {
+    message: 'Room already exists!',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };
