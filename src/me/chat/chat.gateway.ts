@@ -8,6 +8,7 @@ import {
 import { Model } from 'mongoose';
 import { Socket } from 'socket.io';
 import { IUser } from 'src/auth/@interfaces/user.interface';
+import { ChatService } from './chat.service';
 import { Chat } from './interface/chat.interface';
 import { ChatRoom } from './interface/chatRoom.interface';
 import { ICounter } from './interface/counter.interface';
@@ -22,6 +23,7 @@ export class ChatGateway {
     @InjectModel('User') private readonly userModel: Model<IUser>,
     @InjectModel('ChatRoom') private readonly chatRoomModel: Model<ChatRoom>,
     @InjectModel('Counter') private readonly counterModel: Model<ICounter>,
+    public chatService: ChatService,
   ) {}
 
   @SubscribeMessage('join-room') // <3>
@@ -37,11 +39,19 @@ export class ChatGateway {
   }
 
   @SubscribeMessage('message')
-  handleMessage(@MessageBody() msgData: Chat): void {
+  async handleMessage(@MessageBody() msgData: Chat) {
     console.log(msgData);
     // this.server.emit('message', msgData.message);
     // message.owner = await this.usersModel.findOne({ clientId: client.id });
     // message = await this.chatModel.create(msgData);
+    // const msg = {
+    //  roomId: msgData.roomId
+    //   message: msgData.message,
+    //   sentTo: msgData.sentTo,
+    //   sentBy: msgData.sentBy,
+    //   counter: msgData.counter,
+    // };
+    await this.chatService.createChat(msgData.roomId, msgData);
     this.server.in(msgData.roomId as string).emit('message', msgData.message);
   }
 }
