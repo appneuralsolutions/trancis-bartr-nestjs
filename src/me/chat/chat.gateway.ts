@@ -13,7 +13,12 @@ import { Chat } from './interface/chat.interface';
 import { ChatRoom } from './interface/chatRoom.interface';
 import { ICounter } from './interface/counter.interface';
 
-@WebSocketGateway(3001, { transports: ['websocket'] })
+@WebSocketGateway(3001, {
+  transports: ['websocket'],
+  cors: {
+    origin: '*',
+  },
+})
 export class ChatGateway {
   @WebSocketServer()
   server;
