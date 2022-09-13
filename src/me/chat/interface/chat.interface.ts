@@ -4,4 +4,5 @@ export interface Chat {
   sentTo: string;
   sentBy: string;
   counter: string;
+  amount: string;
 }

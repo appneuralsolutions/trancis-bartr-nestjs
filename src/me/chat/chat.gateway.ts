@@ -49,9 +49,48 @@ export class ChatGateway {
     //   message: msgData.message,
     //   sentTo: msgData.sentTo,
     //   sentBy: msgData.sentBy,
-    //   counter: msgData.counter,
+    //   amount: msgData.counter,
     // };
-    await this.chatService.createChat(msgData.roomId, msgData);
+    if (!msgData.amount) {
+      await this.chatService.createChat(msgData.roomId, {
+        // roomId: msgData.roomId,
+        message: msgData.message,
+        sentTo: msgData.sentTo,
+        sentBy: msgData.sentBy,
+        counter: msgData.counter,
+        // amount: msgData.counter,
+      });
+    } else {
+      await this.chatService.createCounter(msgData.roomId, {
+        sentTo: msgData.sentTo,
+        sentBy: msgData.sentBy,
+        amount: msgData.counter,
+      });
+    }
     this.server.in(msgData.roomId as string).emit('message', msgData.message);
+  }
+
+  @SubscribeMessage('accept-counter')
+  async acceptCounter(@MessageBody() msgData: any) {
+    await this.chatService.acceptCounter(msgData.counterId);
+    this.server
+      .in(msgData.roomId as string)
+      .emit('counter', { message: 'counter-accepted', isAccepted: true });
+  }
+
+  @SubscribeMessage('reject-counter')
+  async rejectCounter(@MessageBody() msgData: any) {
+    await this.chatService.rejectCounter(msgData.counterId);
+    this.server
+      .in(msgData.roomId as string)
+      .emit('counter', { message: 'counter-rejected', isAccepted: false });
+  }
+
+  @SubscribeMessage('deal-close')
+  async dealClose(@MessageBody() msgData: any) {
+    await this.chatService.dealClose(msgData.roomId);
+    this.server
+      .in(msgData.roomId as string)
+      .emit('deal-close', { message: 'deal-closed' });
   }
 }

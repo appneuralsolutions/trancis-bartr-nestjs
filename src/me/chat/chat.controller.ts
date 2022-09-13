@@ -136,7 +136,7 @@ export class ChatController {
   @Post('counter/:id/accept')
   async AcceptCounter(@Param('id') id: string, me: string): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
-    const data = await this.chatService.AcceptCounter(id);
+    const data = await this.chatService.acceptCounter(id);
     if (data) {
       return data;
     } else {
@@ -150,7 +150,7 @@ export class ChatController {
     @Me() me: string,
   ): // @Me() me: string
   Promise<any> {
-    const data = await this.chatService.RejectCounter(id);
+    const data = await this.chatService.rejectCounter(id);
     if (data) {
       return data;
     } else {
@@ -160,7 +160,7 @@ export class ChatController {
 
   @Get('deal-close/:id')
   async DealClose(@Param('id') id: string, @Me() me: string): Promise<any> {
-    const data = await this.chatService.DealClose(id);
+    const data = await this.chatService.dealClose(id);
     if (data) {
       return data;
     } else {

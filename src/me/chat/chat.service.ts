@@ -157,7 +157,7 @@ export class ChatService {
     });
   }
 
-  async AcceptCounter(_id): Promise<ICounter> {
+  async acceptCounter(_id): Promise<ICounter> {
     if (await this.counterModel.findOne({ _id, isAccepted: null })) {
       const counter = await this.counterModel.findOneAndUpdate(
         { _id, isAccepted: null },
@@ -173,7 +173,7 @@ export class ChatService {
     }
   }
 
-  async RejectCounter(_id): Promise<ICounter> {
+  async rejectCounter(_id): Promise<ICounter> {
     if (await this.counterModel.findOne({ _id, isAccepted: null })) {
       const counter = await this.counterModel.findOneAndUpdate(
         { _id, isAccepted: null },
@@ -189,7 +189,7 @@ export class ChatService {
     }
   }
 
-  async DealClose(_id: string): Promise<ChatRoom> {
+  async dealClose(_id: string): Promise<ChatRoom> {
     const room = await this.chatRoomModel.findOneAndUpdate(
       { _id },
       { isDealClosed: true },
