@@ -319,4 +319,14 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00065: {
+    message: 'Mobileno Already Exists',
+    type: 'Auth',
+    statusCode: 405,
+  },
+  E00066: {
+    message: 'Counter not found!',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };

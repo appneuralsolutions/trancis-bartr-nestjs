@@ -7,6 +7,7 @@ import { CreateRoomDto } from './dto/chat-room.dto';
 import { ICounter } from './interface/counter.interface';
 import { CreateCounterDto } from './dto/counter.dto';
 import { ChatRoom } from './interface/chatRoom.interface';
+import { ErrorMessage } from 'src/shared/@constants/error.constant';
 
 @Injectable()
 export class ChatService {
@@ -114,27 +115,35 @@ export class ChatService {
   }
 
   async AcceptCounter(_id): Promise<ICounter> {
-    const counter = await this.counterModel.findOneAndUpdate(
-      { _id, isAccepted: null },
-      {
-        isAccepted: true,
-      },
-    );
-    return new Promise((resolve) => {
-      resolve(counter);
-    });
+    if (await this.counterModel.findOne({ _id, isAccepted: null })) {
+      const counter = await this.counterModel.findOneAndUpdate(
+        { _id, isAccepted: null },
+        {
+          isAccepted: true,
+        },
+      );
+      return new Promise((resolve) => {
+        resolve(counter);
+      });
+    } else {
+      throw ErrorMessage.COUNTER_NOT_APPLICABLE;
+    }
   }
 
   async RejectCounter(_id): Promise<ICounter> {
-    const counter = await this.counterModel.findOneAndUpdate(
-      { _id, isAccepted: null },
-      {
-        isAccepted: false,
-      },
-    );
-    return new Promise((resolve) => {
-      resolve(counter);
-    });
+    if (await this.counterModel.findOne({ _id, isAccepted: null })) {
+      const counter = await this.counterModel.findOneAndUpdate(
+        { _id, isAccepted: null },
+        {
+          isAccepted: false,
+        },
+      );
+      return new Promise((resolve) => {
+        resolve(counter);
+      });
+    } else {
+      throw ErrorMessage.COUNTER_NOT_APPLICABLE;
+    }
   }
 
   async DealClose(_id: string): Promise<ChatRoom> {
