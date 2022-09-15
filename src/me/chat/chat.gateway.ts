@@ -12,6 +12,7 @@ import { ChatService } from './chat.service';
 import { Chat } from './interface/chat.interface';
 import { ChatRoom } from './interface/chatRoom.interface';
 import { ICounter } from './interface/counter.interface';
+import { Server } from 'socket.io';
 
 @WebSocketGateway(3001, {
   transports: ['websocket'],
@@ -21,7 +22,7 @@ import { ICounter } from './interface/counter.interface';
 })
 export class ChatGateway {
   @WebSocketServer()
-  server;
+  server: Server;
 
   constructor(
     @InjectModel('Chat') private readonly chatModel: Model<Chat>,
