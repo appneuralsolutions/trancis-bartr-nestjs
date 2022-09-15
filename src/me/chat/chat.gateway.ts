@@ -42,7 +42,7 @@ export class ChatGateway {
     client.broadcast
       .to(data.roomId)
       .emit('users-changed', { user: user._id, event: 'joined' }); // <3>
-    this.server.to(client.id as string).emit('message', await this.chatService.getChats(data.roomId));
+    this.server.to(client.id as string).emit('messages', await this.chatService.getChats(data.roomId));
   }
 
   @SubscribeMessage('message')
@@ -75,7 +75,7 @@ export class ChatGateway {
       });
     }
     // this.server.to(msgData.sentTo as string).emit('message', msgData);
-    this.server.in(msgData.roomId as string).emit('messages', msgData);
+    this.server.in(msgData.roomId as string).emit('message', msgData);
   }
 
   @SubscribeMessage('counter')
