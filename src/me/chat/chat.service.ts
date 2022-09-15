@@ -15,7 +15,7 @@ export class ChatService {
     @InjectModel('Chat') private readonly chatModel: Model<Chat>,
     @InjectModel('ChatRoom') private readonly chatRoomModel: Model<ChatRoom>,
     @InjectModel('Counter') private readonly counterModel: Model<ICounter>,
-  ) {}
+  ) { }
 
   async createRoom(data: CreateRoomDto): Promise<ChatRoom> {
     const getRoom: any = await this.chatRoomModel.findOne({
@@ -25,7 +25,7 @@ export class ChatService {
     });
     if (!getRoom) {
       const createdData = await new this.chatRoomModel({
-        users: [data.userId1, data.userId2],
+        users: { $all: [data.userId1, data.userId2] }
       }).save();
       return new Promise((resolve) => {
         resolve(createdData);

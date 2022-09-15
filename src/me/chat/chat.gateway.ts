@@ -38,10 +38,11 @@ export class ChatGateway {
     data: { userId: string; roomId: string },
   ) {
     let user = await this.userModel.findOne({ _id: data.userId });
-    client.join(data.roomId);
-    client.broadcast
-      .to(data.roomId)
-      .emit('users-changed', { user: user._id, event: 'joined' }); // <3>
+    // client.join(data.roomId);
+    // client.broadcast
+    //   .to(data.roomId)
+    //   .emit('users-changed', { user: user._id, event: 'joined' }); // <3>
+    this.server.to(data.userId as string).emit('message', await this.chatService.getChats(data.roomId));
   }
 
   @SubscribeMessage('message')
@@ -73,7 +74,8 @@ export class ChatGateway {
         amount: msgData.counter,
       });
     }
-    this.server.in(msgData.roomId as string).emit('message', msgData.message);
+    this.server.to(msgData.sentTo as string).emit('message', msgData);
+    // this.server.in(msgData.roomId as string).emit('message', msgData);
   }
 
   @SubscribeMessage('accept-counter')
