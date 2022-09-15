@@ -19,13 +19,11 @@ export class ChatService {
 
   async createRoom(data: CreateRoomDto): Promise<ChatRoom> {
     const getRoom: any = await this.chatRoomModel.findOne({
-      users: {
-        $in: [data.userId1, data.userId2],
-      },
+      users: { $all: [data.userId1, data.userId2] }
     });
     if (!getRoom) {
       const createdData = await new this.chatRoomModel({
-        users: { $all: [data.userId1, data.userId2] }
+        users: [data.userId1, data.userId2],
       }).save();
       return new Promise((resolve) => {
         resolve(createdData);
