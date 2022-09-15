@@ -37,6 +37,7 @@ export class ChatGateway {
     client: Socket,
     data: { userId: string; roomId: string },
   ) {
+
     let user = await this.userModel.findOne({ _id: data.userId });
     client.join(data.roomId);
     client.broadcast
