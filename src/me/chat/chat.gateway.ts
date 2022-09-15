@@ -75,7 +75,7 @@ export class ChatGateway {
       });
     }
     // this.server.to(msgData.sentTo as string).emit('message', msgData);
-    this.server.in(msgData.roomId as string).emit('message', msgData);
+    this.server.in(msgData.roomId as string).emit('messages', msgData);
   }
 
   @SubscribeMessage('counter')
