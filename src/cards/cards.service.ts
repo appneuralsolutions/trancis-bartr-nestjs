@@ -87,24 +87,25 @@ export class CardsService {
   }
 
   async findUserCardsByAuthUser(userPayload, createdBy): Promise<CreateCard[]> {
-    let cards = await this.cardModel.find({ createdBy }).populate([
-      {
-        path: 'categoryId',
-        populate: {
-          path: 'subjectId',
-        },
-      },
-      {
-        path: 'liked',
-      },
-      {
-        path: 'createdBy',
-      },
+    let cards = await this.cardModel.find({ createdBy })
+    // .populate([
+    //   {
+    //     path: 'categoryId',
+    //     populate: {
+    //       path: 'subjectId',
+    //     },
+    //   },
+    //   {
+    //     path: 'liked',
+    //   },
+    //   {
+    //     path: 'createdBy',
+    //   },
 
-      // {
-      //   path: 'email',
-      // },
-    ]);
+    //   // {
+    //   //   path: 'email',
+    //   // },
+    // ]);
     const wishlist = await this.wishlistModel.find({
       userId: userPayload.userId,
     });
