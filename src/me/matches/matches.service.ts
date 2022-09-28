@@ -84,15 +84,8 @@ export class MatchesService {
     });
   }
 
-  async findInterestShown(user1): Promise<any> {
-    const match1 = await this.matchModel
-      .find({
-        // 'cardId.createdBy': user2,
-        userId: user1,
-        rightSwiped: { $in: [true] },
-        // 'cardId.createdBy': user2,
-      })
-      .populate('cardId');
+  async findInterestShown(userId): Promise<any> {
+    const matches = await this.matchModel.find({ userId});
     // match1 = match1.filter((w: any) => w.cardId.createdBy + '' === user2);
 
     // let match2 = await this.matchModel
@@ -106,7 +99,7 @@ export class MatchesService {
 
     // match2 = match2.filter((w: any) => w.cardId.createdBy + '' === user1);
     return new Promise((resolve) => {
-      resolve(match1);
+      resolve(matches);
     });
   }
 }
