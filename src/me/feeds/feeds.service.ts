@@ -1,3 +1,4 @@
+import { Match } from './../matches/interface/match.interface';
 import { CreateWishlistDto } from './../wishlist/dto/create-wishlist.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -9,9 +10,11 @@ export class FeedsService {
   constructor(
     @InjectModel('Card') private cardModel: Model<CreateCard>,
     @InjectModel('Wishlist') private wishlistModel: Model<CreateWishlistDto>,
+    @InjectModel('Match') private matchModel: Model<Match>,
   ) {}
 
   async aggregateFeed(userPayload, queries): Promise<CreateCard[]> {
+
     // const collection_length = await this.feedModel.count();
     Object.keys(queries).map((q) => {
       if (q == 'location') {
@@ -46,6 +49,9 @@ export class FeedsService {
         queries[q] = { $in: queries[q].split(',') };
       }
     });
+
+    const matches = await this.matchModel.find({ userId: userPayload.userId });
+    queries._id = { $nin: matches.map((m: Match) => m.cardId) };
 
     let feeds;
 

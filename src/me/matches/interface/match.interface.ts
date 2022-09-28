@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface Match extends Document {
-  title: string;
+  cardId: string;
   rightSwiped: boolean;
-  email: string;
+  userId: string;
 }
