@@ -98,7 +98,10 @@ export class UsersController {
   }
 
   @Post(':id/deduct-bartr-point/:cardId')
-  async deductBartrPoint(@Param('id') id: string, @Param('cardId') cardId: string) {
+  async deductBartrPoint(
+    @Param('id') id: string,
+    @Param('cardId') cardId: string,
+  ) {
     return await this.usersService.deductBartPoint(id, cardId);
   }
 
