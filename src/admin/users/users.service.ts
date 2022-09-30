@@ -81,12 +81,17 @@ export class UsersService {
     );
   }
 
-  async deductBartPoint(_id: string, cardId: string,) {
+  async deductBartPoint(_id: string, cardId: string) {
     const foundDeductedAmount = await this.deductedAmountModel.findOne({
       userId: _id,
       cardId,
     });
     if (!foundDeductedAmount) {
+      await new this.deductedAmountModel({
+        userId: _id,
+        cardId,
+        deductedAmount: 1,
+      }).save();
       return await this.userModel.findOneAndUpdate(
         { _id },
         { $inc: { bartrPoints: -1 } },
