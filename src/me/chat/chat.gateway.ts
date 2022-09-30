@@ -27,23 +27,37 @@ export class ChatGateway {
   constructor(
     @InjectModel('Chat') private readonly chatModel: Model<Chat>,
     @InjectModel('User') private readonly userModel: Model<IUser>,
+    @InjectModel('Card') private readonly cardModel: Model<IUser>,
     @InjectModel('ChatRoom') private readonly chatRoomModel: Model<ChatRoom>,
     @InjectModel('Counter') private readonly counterModel: Model<ICounter>,
+    @InjectModel('Deducted-Amount') private readonly deductedAmountModel: Model<any>,
     public chatService: ChatService,
-  ) {}
+  ) { }
 
   @SubscribeMessage('join-room') // <3>
   async enterChatRoom(
     client: Socket,
-    data: { userId: string; roomId: string },
+    data: {
+      userId: string;
+      roomId: string;
+      cardId: string;
+      matchUserId: string;
+    },
   ) {
-
-    let user = await this.userModel.findOne({ _id: data.userId });
+    const user = await this.userModel.findOne({ _id: data.userId });
+    const deductedAmount = await this.deductedAmountModel.findOne({
+      user: data.userId,
+      cardId: data.cardId,
+    });
     client.join(data.roomId);
     client.broadcast
       .to(data.roomId)
       .emit('users-changed', { user: user._id, event: 'joined' }); // <3>
-    this.server.to(client.id as string).emit('messages', await this.chatService.getChats(data.roomId));
+    this.server.to(client.id as string).emit('messages', {
+      cardDetails: this.cardModel.findOne({ _id: data.cardId }),
+      isDeductedAmount: deductedAmount ? true : false,
+      roomData: await this.chatService.getChats(data.roomId),
+    });
   }
 
   @SubscribeMessage('message')

@@ -334,4 +334,9 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00068: {
+    message: 'Already Deducted Bartr Point from User',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };

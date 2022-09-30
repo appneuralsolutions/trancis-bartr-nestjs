@@ -7,6 +7,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { UserSchema } from '../../auth/@schemas/user.schema';
 import { SingleValidationSchema } from './schemas/single.schema';
+import { DeductedAmountSchema } from './schemas/deducted-amount.schema';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SingleValidationSchema } from './schemas/single.schema';
     AuthModule,
     MongooseModule.forFeature([
       { name: 'User', schema: UserSchema },
+      { name: 'Deducted-Amount', schema: DeductedAmountSchema },
       { name: 'Audit-Log', schema: AuditSchema },
       { name: 'single-validation', schema: SingleValidationSchema },
     ]),

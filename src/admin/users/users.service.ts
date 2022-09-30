@@ -3,14 +3,16 @@ import { SingleValidation } from './interfaces/single.interface';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ErrorMessage } from 'src/shared/@constants/error.constant';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<IUser>,
+    @InjectModel('Deducted-Amount') private readonly deductedAmountModel: Model<any>,
     @InjectModel('single-validation')
     private readonly singleModel: Model<SingleValidation>,
-  ) {}
+  ) { }
 
   async getUser(_id) {
     return await this.userModel.findOne({ _id });
@@ -79,11 +81,19 @@ export class UsersService {
     );
   }
 
-  async deductBartPoint(_id: string) {
-    return await this.userModel.findOneAndUpdate(
-      { _id },
-      { $inc: { bartrPoints: -1 } },
-    );
+  async deductBartPoint(_id: string, cardId: string,) {
+    const foundDeductedAmount = await this.deductedAmountModel.findOne({
+      userId: _id,
+      cardId,
+    });
+    if (!foundDeductedAmount) {
+      return await this.userModel.findOneAndUpdate(
+        { _id },
+        { $inc: { bartrPoints: -1 } },
+      );
+    } else {
+      throw ErrorMessage.ALREADY_DEDUCTED_BARTR_POINT;
+    }
   }
 
   async getBartPoint(_id: string) {

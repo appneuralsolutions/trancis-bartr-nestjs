@@ -29,6 +29,7 @@ import { CardsModule } from 'src/cards/cards.module';
 import { ChatController } from './chat/chat.controller';
 import { ChatService } from './chat/chat.service';
 import { ChatGateway } from './chat/chat.gateway';
+import { DeductedAmountSchema } from 'src/admin/users/schemas/deducted-amount.schema';
 
 @Module({
   controllers: [
@@ -53,6 +54,7 @@ import { ChatGateway } from './chat/chat.gateway';
       { name: 'Chat', schema: ChatSchema },
       { name: 'ChatRoom', schema: ChatRoomSchema },
       { name: 'Counter', schema: CounterSchema },
+      { name: 'Deducted-Amount', schema: DeductedAmountSchema },
     ]),
     //ChatModule,
   ],

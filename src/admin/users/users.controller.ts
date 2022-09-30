@@ -22,7 +22,7 @@ import { SingleValidationDto } from './dtos/single.dto';
 @ApiBearerAuth()
 @Controller()
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) { }
 
   @Post('validation')
   @HttpCode(HttpStatus.CREATED)
@@ -97,9 +97,9 @@ export class UsersController {
     return await this.usersService.addBartPoint(id);
   }
 
-  @Post(':id/deduct-bartr-point')
-  async deductBartrPoint(@Param('id') id: string) {
-    return await this.usersService.deductBartPoint(id);
+  @Post(':id/deduct-bartr-point/:cardId')
+  async deductBartrPoint(@Param('id') id: string, @Param('cardId') cardId: string) {
+    return await this.usersService.deductBartPoint(id, cardId);
   }
 
   @Get(':id/bartr-point')
