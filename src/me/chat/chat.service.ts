@@ -24,6 +24,7 @@ export class ChatService {
     if (!getRoom) {
       const createdData = await new this.chatRoomModel({
         users: [data.userId1, data.userId2],
+        cardId: data.cardId,
       }).save();
       return new Promise((resolve) => {
         resolve(createdData);
