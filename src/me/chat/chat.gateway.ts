@@ -54,7 +54,7 @@ export class ChatGateway {
       .to(data.roomId)
       .emit('users-changed', { user: user._id, event: 'joined' }); // <3>
     this.server.to(client.id as string).emit('messages', {
-      cardDetails: this.cardModel.findOne({ _id: data.cardId }),
+      // cardDetails: this.cardModel.findOne({ _id: data.cardId }),
       isDeductedAmount: deductedAmount ? true : false,
       roomData: await this.chatService.getChats(data.roomId),
     });
