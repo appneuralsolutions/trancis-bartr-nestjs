@@ -86,27 +86,27 @@ export class ChatGateway {
       await this.chatService.createCounter(msgData.roomId, {
         sentTo: msgData.sentTo,
         sentBy: msgData.sentBy,
-        amount: msgData.counter,
+        amount: msgData.amount,
       });
     }
     // this.server.to(msgData.sentTo as string).emit('message', msgData);
     this.server.in(msgData.roomId as string).emit('message', msgData);
   }
 
-  @SubscribeMessage('counter')
+  @SubscribeMessage('accept-counter')
   async acceptCounter(@MessageBody() msgData: any) {
     await this.chatService.acceptCounter(msgData.counterId);
     this.server
       .in(msgData.roomId as string)
-      .emit('counter', { message: 'counter-accepted', isAccepted: true });
+      .emit('counter', { message: 'counter', isAccepted: true });
   }
 
-  @SubscribeMessage('counter')
+  @SubscribeMessage('reject-counter')
   async rejectCounter(@MessageBody() msgData: any) {
     await this.chatService.rejectCounter(msgData.counterId);
     this.server
       .in(msgData.roomId as string)
-      .emit('counter', { message: 'counter-rejected', isAccepted: false });
+      .emit('counter', { message: 'counter', isAccepted: false });
   }
 
   @SubscribeMessage('deal-close')
