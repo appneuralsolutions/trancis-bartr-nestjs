@@ -70,7 +70,7 @@ export class ChatService {
   async getChats(roomId: string): Promise<ChatRoom> {
     const getRoomChats = await this.chatRoomModel
       .findOne({ _id: roomId })
-      .populate(['chats', 'counter']);
+      .populate(['chats']);
     return new Promise((resolve) => {
       resolve(getRoomChats);
     });
