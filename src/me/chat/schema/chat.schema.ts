@@ -6,6 +6,7 @@ export const ChatSchema = new mongoose.Schema({
   sentTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   sentBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   counter: { type: mongoose.Schema.Types.ObjectId, ref: 'Counter' },
+  amount: String,
 }).set('timestamps', true);
 
 export const ChatRoomSchema = new mongoose.Schema({

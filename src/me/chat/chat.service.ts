@@ -15,11 +15,11 @@ export class ChatService {
     @InjectModel('Chat') private readonly chatModel: Model<Chat>,
     @InjectModel('ChatRoom') private readonly chatRoomModel: Model<ChatRoom>,
     @InjectModel('Counter') private readonly counterModel: Model<ICounter>,
-  ) { }
+  ) {}
 
   async createRoom(data: CreateRoomDto): Promise<ChatRoom> {
     const getRoom: any = await this.chatRoomModel.findOne({
-      users: { $all: [data.userId1, data.userId2] }
+      users: { $all: [data.userId1, data.userId2] },
     });
     if (!getRoom) {
       const createdData = await new this.chatRoomModel({
@@ -53,7 +53,8 @@ export class ChatService {
     }
     const getRooms: any = await this.chatRoomModel
       .find(query)
-      .populate(['users', 'chats', 'cardId']).sort({ updatedAt: -1 });
+      .populate(['users', 'chats', 'cardId'])
+      .sort({ updatedAt: -1 });
     return new Promise((resolve) => {
       resolve(
         getRooms.map((r) => {
@@ -69,7 +70,7 @@ export class ChatService {
   async getChats(roomId: string): Promise<ChatRoom> {
     const getRoomChats = await this.chatRoomModel
       .findOne({ _id: roomId })
-      .populate(['chats', 'cardId']);
+      .populate(['chats', 'counter']);
     return new Promise((resolve) => {
       resolve(getRoomChats);
     });
@@ -142,6 +143,7 @@ export class ChatService {
       sentTo: data.sentTo,
       sentBy: data.sentBy,
       counter: counter._id,
+      amount: data.amount,
     };
 
     const createdData = await new this.chatModel(chat).save();
