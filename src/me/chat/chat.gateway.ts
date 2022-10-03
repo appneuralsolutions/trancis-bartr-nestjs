@@ -89,7 +89,7 @@ export class ChatGateway {
         sentBy: msgData.sentBy,
         amount: msgData.amount,
       });
-      this.server.in(msgData.roomId as string).emit('message', { ...msgData, counter: counter._id });
+      this.server.in(msgData.roomId as string).emit('message', { ...msgData, counter: counter._id, isAccepted: counter.isAccepted });
     }
     // this.server.to(msgData.sentTo as string).emit('message', msgData);
   }
