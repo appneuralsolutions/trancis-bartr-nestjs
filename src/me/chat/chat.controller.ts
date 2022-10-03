@@ -158,7 +158,7 @@ export class ChatController {
     }
   }
 
-  @Get('deal-close/:id')
+  @Post('deal-close/:id')
   async DealClose(@Param('id') id: string, @Me() me: string): Promise<any> {
     const data = await this.chatService.dealClose(id);
     if (data) {

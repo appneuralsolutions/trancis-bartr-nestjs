@@ -82,15 +82,16 @@ export class ChatGateway {
         counter: msgData.counter,
         // amount: msgData.counter,
       });
+      this.server.in(msgData.roomId as string).emit('message', msgData);
     } else {
-      await this.chatService.createCounter(msgData.roomId, {
+      const counter = await this.chatService.createCounter(msgData.roomId, {
         sentTo: msgData.sentTo,
         sentBy: msgData.sentBy,
         amount: msgData.amount,
       });
+      this.server.in(msgData.roomId as string).emit('message', { ...msgData, counter: counter._id });
     }
     // this.server.to(msgData.sentTo as string).emit('message', msgData);
-    this.server.in(msgData.roomId as string).emit('message', msgData);
   }
 
   @SubscribeMessage('accept-counter')

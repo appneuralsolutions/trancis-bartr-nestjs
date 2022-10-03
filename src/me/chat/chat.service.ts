@@ -135,7 +135,7 @@ export class ChatService {
   async createCounter(
     roomId: string,
     data: CreateCounterDto,
-  ): Promise<ChatRoom> {
+  ): Promise<any> {
     const counter = await new this.counterModel({ amount: data.amount }).save();
     const chat = {
       roomId: roomId,
@@ -154,7 +154,7 @@ export class ChatService {
     );
 
     return new Promise((resolve) => {
-      resolve(chatRoom);
+      resolve(counter);
     });
   }
 
