@@ -77,7 +77,7 @@ export class ChatService {
       .findOne({ _id: roomId })
       .populate(['chats', 'chats.counter']);
     return new Promise((resolve) => {
-      resolve({ ...getRoomChats, deductedAmount });
+      resolve(getRoomChats);
     });
   }
 
