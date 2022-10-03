@@ -56,7 +56,7 @@ export class ChatGateway {
     this.server.to(client.id as string).emit('messages', {
       // cardDetails: this.cardModel.findOne({ _id: data.cardId }),
       isDeductedAmount: deductedAmount ? true : false,
-      roomData: await this.chatService.getChats(data.roomId),
+      roomData: await this.chatService.getChats(data.roomId, data.userId, data.cardId),
     });
   }
 
