@@ -75,7 +75,7 @@ export class ChatService {
     }): null;
     const getRoomChats = await this.chatRoomModel
       .findOne({ _id: roomId })
-      .populate(['chats', 'chats.counter']);
+      .populate({ path: 'chats', populate: { path: 'counter' } });
     return new Promise((resolve) => {
       resolve(getRoomChats);
     });
