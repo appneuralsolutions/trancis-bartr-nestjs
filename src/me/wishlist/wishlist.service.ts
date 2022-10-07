@@ -21,7 +21,7 @@ export class WishlistService {
     const card = await this.cardModel.findOne({ _id: data.cardId });
     let wishlist;
     if (card) {
-      wishlist = await this.WishlistModel.findOne({ cardId: data.cardId });
+      wishlist = await this.WishlistModel.findOne({ cardId: data.cardId, userId: userPayload.userId });
       if (!wishlist) {
         wishlist = await new this.WishlistModel({
           ...data,
