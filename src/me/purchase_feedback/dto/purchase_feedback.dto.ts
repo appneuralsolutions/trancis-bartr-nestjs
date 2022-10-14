@@ -5,7 +5,6 @@ export class PurchaseFeedbackDto {
   @ApiProperty()
   cardId: string;
 
-  @IsNotEmpty()
   @ApiProperty()
   createdBy: string;
 

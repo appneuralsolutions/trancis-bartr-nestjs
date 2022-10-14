@@ -33,7 +33,9 @@ export class PurchaseFeedbackController {
         @Body() PurchaseFeedbackDto: PurchaseFeedbackDto,
         @Me() me: string,
     ): Promise<IResponse | PurchaseFeedback> {
+
         const userPayload: any = this.jwtService.decode(me);
+        console.log("payload",userPayload)
         const data = await this.PurchaseFeedbackService.create(
             PurchaseFeedbackDto,
             userPayload,
