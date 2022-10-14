@@ -22,6 +22,7 @@ import { MatchesService } from './matches/matches.service';
 // import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { WishlistSchema } from './wishlist/schemas/wishlist.schema';
+import { PurchaseFeedbackSchema } from './purchase_feedback/schema/purchase_feedback.schema';
 import { FeedbackModule } from 'src/feedback/feedback.module';
 //import { ChatModule } from './chat/chat.module';
 import { CardsController } from './cards/cards.controller';
@@ -30,6 +31,8 @@ import { ChatController } from './chat/chat.controller';
 import { ChatService } from './chat/chat.service';
 import { ChatGateway } from './chat/chat.gateway';
 import { DeductedAmountSchema } from 'src/admin/users/schemas/deducted-amount.schema';
+import { PurchaseFeedbackController } from './purchase_feedback/purchase_feedback.controller';
+import { PurchaseFeedbackService } from './purchase_feedback/purchase_feedback.service';
 
 @Module({
   controllers: [
@@ -41,6 +44,7 @@ import { DeductedAmountSchema } from 'src/admin/users/schemas/deducted-amount.sc
     FeedbackController,
     CardsController,
     ChatController,
+    PurchaseFeedbackController,
   ],
   imports: [
     AuthModule,
@@ -55,10 +59,12 @@ import { DeductedAmountSchema } from 'src/admin/users/schemas/deducted-amount.sc
       { name: 'ChatRoom', schema: ChatRoomSchema },
       { name: 'Counter', schema: CounterSchema },
       { name: 'Deducted-Amount', schema: DeductedAmountSchema },
+      { name: 'PurchaseFeedback', schema: PurchaseFeedbackSchema}
     ]),
     //ChatModule,
   ],
   providers: [
+    PurchaseFeedbackService,
     FeedsService,
     MatchesService,
     ProfileService,
