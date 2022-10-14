@@ -36,6 +36,9 @@ import { PurchaseFeedbackService } from './purchase_feedback/purchase_feedback.s
 import { PurchaseCardController } from './purchase_card/purchase_card.controller';
 import { PurchaseCardService } from './purchase_card/purchase_card.service';
 import { PurchaseCardSchema } from './purchase_card/schema/purchase_card.schema';
+import { UserSchema } from 'src/auth/@schemas/user.schema';
+import { UsersService } from 'src/admin/users/users.service';
+import { UsersModule } from 'src/admin/users/users.module';
 
 @Module({
   controllers: [
@@ -54,6 +57,7 @@ import { PurchaseCardSchema } from './purchase_card/schema/purchase_card.schema'
     AuthModule,
     FeedbackModule,
     CardsModule,
+    UsersModule,
     MongooseModule.forFeature([
       // { name: 'NewUser', schema: NewUserSchema },
       { name: 'Perference', schema: PreferencesSchema },
@@ -64,7 +68,8 @@ import { PurchaseCardSchema } from './purchase_card/schema/purchase_card.schema'
       { name: 'Counter', schema: CounterSchema },
       { name: 'Deducted-Amount', schema: DeductedAmountSchema },
       { name: 'PurchaseFeedback', schema: PurchaseFeedbackSchema},
-      { name: 'PurchaseCard', schema: PurchaseCardSchema}
+      { name: 'PurchaseCard', schema: PurchaseCardSchema},
+      { name: 'User', schema: UserSchema },
     ]),
     //ChatModule,
   ],
@@ -79,6 +84,7 @@ import { PurchaseCardSchema } from './purchase_card/schema/purchase_card.schema'
     ChatService,
     ChatGateway,
     PurchaseCardService,
+    UsersService,
     // {
     //   provide: APP_INTERCEPTOR,
     //   useClass: AuthInterceptor,

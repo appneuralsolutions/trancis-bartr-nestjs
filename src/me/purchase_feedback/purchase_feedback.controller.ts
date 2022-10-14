@@ -18,6 +18,7 @@ import { PurchaseFeedbackService } from './purchase_feedback.service';
 import { JwtService } from '@nestjs/jwt';
 import { Me } from '../@decorators/me.decorator';
 import { ErrorMessage } from '../../shared/@constants/error.constant'
+import { UsersService } from 'src/admin/users/users.service';
 @ApiTags('Me -> Feedback')
 @ApiBearerAuth()
 
@@ -26,6 +27,7 @@ export class PurchaseFeedbackController {
     constructor(
         private readonly PurchaseFeedbackService: PurchaseFeedbackService,
         private jwtService: JwtService,
+        private readonly usersService: UsersService,
     ) { }
 
     @Post()
@@ -40,7 +42,10 @@ export class PurchaseFeedbackController {
             PurchaseFeedbackDto,
             userPayload,
         );
-        if (data) {
+        const addBartPoint =
+        await this.usersService.addBartPoint(userPayload.userId)
+        console.log(addBartPoint);
+        if (data && addBartPoint) {
             return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_MY_FEEDBACK, {
                 data,
             });
