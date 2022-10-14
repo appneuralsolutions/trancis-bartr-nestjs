@@ -33,6 +33,9 @@ import { ChatGateway } from './chat/chat.gateway';
 import { DeductedAmountSchema } from 'src/admin/users/schemas/deducted-amount.schema';
 import { PurchaseFeedbackController } from './purchase_feedback/purchase_feedback.controller';
 import { PurchaseFeedbackService } from './purchase_feedback/purchase_feedback.service';
+import { PurchaseCardController } from './purchase_card/purchase_card.controller';
+import { PurchaseCardService } from './purchase_card/purchase_card.service';
+import { PurchaseCardSchema } from './purchase_card/schema/purchase_card.schema';
 
 @Module({
   controllers: [
@@ -45,6 +48,7 @@ import { PurchaseFeedbackService } from './purchase_feedback/purchase_feedback.s
     CardsController,
     ChatController,
     PurchaseFeedbackController,
+    PurchaseCardController,
   ],
   imports: [
     AuthModule,
@@ -59,7 +63,8 @@ import { PurchaseFeedbackService } from './purchase_feedback/purchase_feedback.s
       { name: 'ChatRoom', schema: ChatRoomSchema },
       { name: 'Counter', schema: CounterSchema },
       { name: 'Deducted-Amount', schema: DeductedAmountSchema },
-      { name: 'PurchaseFeedback', schema: PurchaseFeedbackSchema}
+      { name: 'PurchaseFeedback', schema: PurchaseFeedbackSchema},
+      { name: 'PurchaseCard', schema: PurchaseCardSchema}
     ]),
     //ChatModule,
   ],
@@ -73,6 +78,7 @@ import { PurchaseFeedbackService } from './purchase_feedback/purchase_feedback.s
     FeedbackService,
     ChatService,
     ChatGateway,
+    PurchaseCardService,
     // {
     //   provide: APP_INTERCEPTOR,
     //   useClass: AuthInterceptor,

@@ -13,6 +13,8 @@ export interface CreateCard extends Document {
   likes: number;
   liked: string[];
   views: number;
+  purchase: boolean;
+  status: string
   latlong: string[];
 }
 

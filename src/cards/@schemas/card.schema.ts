@@ -13,6 +13,8 @@ export const CardSchema = new mongoose.Schema({
   year: String,
   location: String,
   hpValue: String,
+  purchase: Boolean,
+  status: String,
   // subject: String,
   likes: { type: Number, default: 0 },
   liked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

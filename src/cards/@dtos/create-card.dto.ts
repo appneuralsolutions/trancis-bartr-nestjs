@@ -57,6 +57,13 @@ export class CreateCardDto {
   @IsOptional()
   views: number;
 
+ 
+  @IsOptional()
+  puchase: boolean;
+
+  @IsOptional()
+  status: boolean;
+
   @ApiProperty()
   @IsString()
   year: number;
