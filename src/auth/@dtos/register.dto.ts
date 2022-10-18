@@ -62,4 +62,6 @@ export class RegisterDto {
     type: string; //'Point'
     coordinates: [number];
   };
+  @ApiProperty()
+  fcmToken: string;
 }

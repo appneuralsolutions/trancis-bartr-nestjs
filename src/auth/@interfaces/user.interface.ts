@@ -211,4 +211,5 @@ export interface IUser {
   isActive: boolean;
   jwtToken: string;
   picture: string;
+  
 }

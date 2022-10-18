@@ -13,6 +13,7 @@ export const UserSchema = new mongoose.Schema({
   location: { type: String, require: false },
   password: { type: String, require: true },
   picture: { type: String, default: '' },
+  fcmToken: String,
   // roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }],
   // privileges: {},
   // profile: { type: mongoose.Schema.Types.ObjectId, ref: 'User-Profile' },

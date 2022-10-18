@@ -13,4 +13,6 @@ export class LoginDto {
   @IsNotEmpty()
   @ApiProperty({ default: '12345678' })
   password: string;
+  @ApiProperty()
+  fcmToken: string;
 }
