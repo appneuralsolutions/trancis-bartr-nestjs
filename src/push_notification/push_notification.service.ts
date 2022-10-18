@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin'
 import { ServiceAccount } from 'firebase-admin';
-import * as serviceAccount from '../../push-notification-google-service.json'
+import * as serviceAccount from './../push-notification-google-service.json'
 import { PushNotificationDTO } from './dto/push_notification.dto';
 
 @Injectable()
