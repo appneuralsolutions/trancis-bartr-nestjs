@@ -23,6 +23,7 @@ import { MessagesGateway } from './chat/gateways/messages/message.gateway';
 import { Message } from './chat//models/message.model';
 import { Room } from './chat/models/room.model';
 import { User } from './chat/models/user.model';
+import { PushNotificationModule } from './push_notification/push_notification.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { User } from './chat/models/user.model';
     FeedbackModule,
     SubjectsModule,
     FeedsModule,
+    PushNotificationModule,
   ],
   controllers: [AppController, MessagesController, RoomsController],
   providers: [AppService, MessagesGateway],

@@ -44,7 +44,7 @@
         "cookie-parser": "^1.4.6",
         "ebay-oauth-nodejs-client": "^1.2.1",
         "express-session": "^1.17.2",
-        "firebase-admin": "^10.0.0",
+        "firebase-admin": "^10.3.0",
         "mongoose": "^6.2.3",
         "nest-puppeteer": "^1.1.1",
         "nestjs-typegoose": "^7.1.38",

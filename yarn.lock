@@ -3742,7 +3742,7 @@
     "locate-path" "^5.0.0"
     "path-exists" "^4.0.0"
 
-"firebase-admin@^10.0.0":
+"firebase-admin@^10.3.0":
   "integrity" "sha512-A0wgMLEjyVyUE+heyMJYqHRkPVjpebhOYsa47RHdrTM4ltApcx8Tn86sUmjqxlfh09gNnILAm7a8q5+FmgBYpg=="
   "resolved" "https://registry.npmjs.org/firebase-admin/-/firebase-admin-10.3.0.tgz"
   "version" "10.3.0"
