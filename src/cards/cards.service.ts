@@ -147,6 +147,7 @@ export class CardsService {
       //   path: 'email',
       // },
     ]);
+    
     return new Promise((resolve) => {
       resolve(card);
     });

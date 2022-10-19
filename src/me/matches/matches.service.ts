@@ -4,16 +4,19 @@ import { CreateMatchDto } from './dto/create-match.dto';
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
+import { PushNotificationService } from 'src/push_notification/push_notification.service';
 
 @Injectable()
 export class MatchesService {
   constructor(
     @InjectModel('Match') private matchModel: Model<Match>,
     @InjectModel('Card') private cardModel: Model<CreateCard>,
+    private readonly pushnotificationService: PushNotificationService,
   ) {}
 
-  async create(data: CreateMatchDto, userPayload): Promise<Match> {
-    const card = await this.cardModel.findOne({ _id: data.cardId });
+  async create(data: CreateMatchDto, userPayload, pushnotificationDto: PushNotificationDTO): Promise<Match> {
+    const card = await this.cardModel.findOne({ _id: data.cardId }).populate([{path: 'createdBy',}]);
     let match;
     if (card) {
       match = await this.matchModel.findOne({ cardId: data.cardId });
@@ -33,6 +36,7 @@ export class MatchesService {
           (x) => x + '' != userPayload.userId + '',
         );
         card.liked.push(userPayload.userId);
+        await this.pushnotificationService.send(pushnotificationDto)
       } else {
         card.likes--;
         card.liked = card.liked.filter(

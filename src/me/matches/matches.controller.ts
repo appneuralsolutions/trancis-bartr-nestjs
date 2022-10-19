@@ -17,6 +17,7 @@ import { IResponse } from 'src/shared/@interfaces/response.interface';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Me } from '../@decorators/me.decorator';
+import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 
 @ApiTags('Me -> Matches')
 @ApiBearerAuth()
@@ -70,6 +71,7 @@ export class MatchesController {
   @Post(':userId')
   async create(
     @Body() createWishlistDto: CreateMatchDto,
+    @Body() PushNotificationDTO: PushNotificationDTO,
     @Param('userId') user2: string,
     @Me() me: string,
   ): Promise<IResponse> {
@@ -77,6 +79,7 @@ export class MatchesController {
     const result = await this.matchesService.create(
       createWishlistDto,
       userPayload,
+      PushNotificationDTO
     );
     const isMatched = await this.matchesService.findMatches(
       userPayload.userId,
