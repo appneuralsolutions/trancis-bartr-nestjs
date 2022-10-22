@@ -60,6 +60,7 @@ export const UserSchema = new mongoose.Schema({
       required: false,
     },
   },
+  isSocial: { type: Boolean, default: false },
   isActive: { type: Boolean, default: true },
   createdBy: String,
   modifiedBy: String,

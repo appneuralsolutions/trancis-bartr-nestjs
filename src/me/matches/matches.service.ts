@@ -89,8 +89,7 @@ export class MatchesService {
   }
 
   async findInterestShown(userId): Promise<any> {
-    const matches = await this.matchModel.find({ userId})
-    .populate('cardId');
+    const matches = await this.matchModel.find({ userId}).populate('cardId');
     // match1 = match1.filter((w: any) => w.cardId.createdBy + '' === user2);
 
     // let match2 = await this.matchModel

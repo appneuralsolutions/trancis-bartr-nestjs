@@ -107,9 +107,12 @@ export class AuthService {
       if (isValidEmail) {
         const user: any = await this.userModel.findOne({
           email: loginDto.email,
-          'auth.verification.email': true,
         });
-        if (!user) throw ErrorMessage.VERIFY_LOGIN_EMAIL_TOKEN_FIRST;
+        if (!user) throw ErrorMessage.USER_NOT_FOUND;
+
+        if(user && !user.auth.verification.email && user.isSocial) {
+          throw ErrorMessage.VERIFY_LOGIN_EMAIL_TOKEN_FIRST;
+        } 
         // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
         const isValidPass = await bcrypt.compare(
