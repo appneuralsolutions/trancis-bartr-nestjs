@@ -29,14 +29,14 @@ export class EbayIntgController {
     });
 
     (async () => {
-      const token = await ebayAuthToken.getApplicationToken('SANDBOX');
+      const token = await ebayAuthToken.getApplicationToken('Production');
       console.log(token);
     })();
     const query_value = Object.values(query);
     return new Promise((resolve) => {
       this.httpService
         .get(
-          `https://api.sandbox.ebay.com/buy/browse/v1/item_summary/search?q=${query_value}`,
+          `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${query_value}`,
         )
         .subscribe((data) => {
           //let result = JSON.stringify(data) comparing price, query
@@ -56,7 +56,7 @@ export class EbayIntgController {
     return new Promise((resolve) => {
       this.httpService
         .get(
-          `https://api.sandbox.ebay.com/buy/browse/v1/item_summary/search?category_ids=${category[0]}&sort=${category[1]}`,
+          `https://api.ebay.com/buy/browse/v1/item_summary/search?category_ids=${category[0]}&sort=${category[1]}`,
         )
 
         .subscribe((data) => {

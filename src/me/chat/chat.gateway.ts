@@ -13,6 +13,8 @@ import { Chat } from './interface/chat.interface';
 import { ChatRoom } from './interface/chatRoom.interface';
 import { ICounter } from './interface/counter.interface';
 import { Server } from 'socket.io';
+import { Body } from '@nestjs/common';
+import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 
 @WebSocketGateway(3001, {
   transports: ['websocket'],
@@ -95,8 +97,8 @@ export class ChatGateway {
   }
 
   @SubscribeMessage('accept-counter')
-  async acceptCounter(@MessageBody() msgData: any) {
-    await this.chatService.acceptCounter(msgData.counterId);
+  async acceptCounter(@MessageBody() msgData: any,@Body() PushNotificationDTO: PushNotificationDTO,) {
+    await this.chatService.acceptCounter(msgData.counterId, PushNotificationDTO);
     this.server
       .in(msgData.roomId as string)
       .emit('counter', { message: 'counter', isAccepted: true });
@@ -111,10 +113,12 @@ export class ChatGateway {
   }
 
   @SubscribeMessage('deal-close')
-  async dealClose(@MessageBody() msgData: any) {
-    await this.chatService.dealClose(msgData.roomId);
+  async dealClose(@MessageBody() msgData: any,@Body() PushNotificationDTO: PushNotificationDTO,) {
+    await this.chatService.dealClose(msgData.roomId, PushNotificationDTO);
     this.server
       .in(msgData.roomId as string)
       .emit('deal-close', { message: 'deal-closed' });
   }
 }
+
+//TODO: chat created deal closed room created

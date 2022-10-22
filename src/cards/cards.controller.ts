@@ -25,6 +25,7 @@ import { CreateCard } from './@interface/card.interface';
 import { imageFileFilter, editFileName } from './@utils/file-upload.utils';
 import { JwtService } from '@nestjs/jwt';
 import { Me } from '../me/@decorators/me.decorator';
+import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 
 @ApiTags('Cards')
 @ApiBearerAuth()
@@ -150,6 +151,22 @@ export class CardsController {
   ): Promise<IResponse | CreateCard> {
     const userPayload: any = this.jwtService.decode(me);
     const card = await this.cardsService.update(id, data, userPayload);
+    if (card) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, card);
+    } else {
+      return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_UPDATED_CARD, {});
+    }
+  }
+
+  @Patch('status/:id')
+  async updatestatus(
+    @Body(ValidationPipe) data: any,
+    @Body() PushNotificationDTO: PushNotificationDTO,
+    @Param('id') id: string,
+    @Me() me: string,
+  ): Promise<IResponse | CreateCard> {
+    const userPayload: any = this.jwtService.decode(me);
+    const card = await this.cardsService.updateStatus(id, data, userPayload, PushNotificationDTO);
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, card);
     } else {

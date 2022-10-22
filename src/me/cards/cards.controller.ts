@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Patch, Body,ValidationPipe } from '@nestjs/common';
 import { Me } from '../@decorators/me.decorator';
 import { ResponseSuccess, ResponseError } from 'src/shared/@dtos/response.dto';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
@@ -8,6 +8,7 @@ import { IResponse } from 'src/shared/@interfaces/response.interface';
 import { CreateCard } from 'src/cards/@interface/card.interface';
 import { JwtService } from '@nestjs/jwt';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 
 @ApiTags('Me -> cards')
 @ApiBearerAuth()
@@ -45,6 +46,8 @@ export class CardsController {
     }
   }
 
+
+
   @Get('user/:id')
   async findByUser(
     @Me() me: string,
@@ -62,4 +65,7 @@ export class CardsController {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
   }
+
+
+  //TODO:update api with push notification
 }

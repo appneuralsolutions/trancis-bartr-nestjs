@@ -5,6 +5,8 @@ import { CreateCardDto } from './@dtos/create-card.dto';
 import { CreateCard } from './@interface/card.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { PushNotificationService } from 'src/push_notification/push_notification.service';
+import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 // import { UpdateCardDto } from './@dtos/update-card.dto';
 
 @Injectable()
@@ -12,6 +14,7 @@ export class CardsService {
   constructor(
     @InjectModel('Card') private cardModel: Model<CreateCard>,
     @InjectModel('Wishlist') private wishlistModel: Model<CreateWishlistDto>,
+    private readonly pushnotificationService: PushNotificationService,
   ) {}
 
   async create(data: CreateCardDto, userPayload): Promise<CreateCard> {
@@ -283,6 +286,32 @@ export class CardsService {
           new: true,
         },
       );
+      
+      return new Promise((resolve) => {
+        resolve(card);
+      });
+    }
+  }
+  async updateStatus(
+    _id: string,
+    data: CreateCardDto,
+    userPayload,
+    pushnotificationDto: PushNotificationDTO
+  ): Promise<CreateCard> {
+    const userType = userPayload.userType;
+    if (userType === 'Buyer') {
+      throw ErrorMessage.UNAUTHORIZED_ACCESS;
+    } else {
+      const card = await this.cardModel.findOneAndUpdate(
+        { _id },
+        { $set: data },
+        {
+          new: true,
+        },
+      );
+      if(card.status ==="accept"){
+        await this.pushnotificationService.send(pushnotificationDto)
+      }
       return new Promise((resolve) => {
         resolve(card);
       });

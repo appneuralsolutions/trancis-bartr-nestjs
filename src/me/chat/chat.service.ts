@@ -8,7 +8,8 @@ import { ICounter } from './interface/counter.interface';
 import { CreateCounterDto } from './dto/counter.dto';
 import { ChatRoom } from './interface/chatRoom.interface';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
-
+import { PushNotificationService } from 'src/push_notification/push_notification.service';
+import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 @Injectable()
 export class ChatService {
   constructor(
@@ -16,6 +17,7 @@ export class ChatService {
     @InjectModel('ChatRoom') private readonly chatRoomModel: Model<ChatRoom>,
     @InjectModel('Counter') private readonly counterModel: Model<ICounter>,
     @InjectModel('Deducted-Amount') private readonly deductedAmountModel: Model<any>,
+    private readonly pushnotificationService: PushNotificationService,
   ) { }
 
   async createRoom(data: CreateRoomDto): Promise<ChatRoom> {
@@ -163,7 +165,7 @@ export class ChatService {
     });
   }
 
-  async acceptCounter(_id): Promise<ICounter> {
+  async acceptCounter(_id,pushnotificationDto: PushNotificationDTO): Promise<ICounter> {
     if (await this.counterModel.findOne({ _id, isAccepted: null })) {
       const counter = await this.counterModel.findOneAndUpdate(
         { _id, isAccepted: null },
@@ -171,6 +173,9 @@ export class ChatService {
           isAccepted: true,
         },
       );
+      if(counter.isAccepted === true){
+        await this.pushnotificationService.send(pushnotificationDto)
+      }
       return new Promise((resolve) => {
         resolve(counter);
       });
@@ -195,11 +200,14 @@ export class ChatService {
     }
   }
 
-  async dealClose(_id: string): Promise<ChatRoom> {
+  async dealClose(_id: string,pushnotificationDto: PushNotificationDTO): Promise<ChatRoom> {
     const room = await this.chatRoomModel.findOneAndUpdate(
       { _id },
       { isDealClosed: true },
     );
+    if(room.isDealClosed === true){
+      await this.pushnotificationService.send(pushnotificationDto)
+    }
     return new Promise((resolve) => {
       resolve(room);
     });

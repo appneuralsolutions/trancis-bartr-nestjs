@@ -7,6 +7,7 @@ import { ChatService } from './chat.service';
 import { CreateRoomDto } from './dto/chat-room.dto';
 import { CreateChatDto } from './dto/chat.dto';
 import { CreateCounterDto } from './dto/counter.dto';
+import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 
 @ApiTags('Chat and Counter')
 @ApiBearerAuth()
@@ -134,9 +135,9 @@ export class ChatController {
   }
 
   @Post('counter/:id/accept')
-  async AcceptCounter(@Param('id') id: string, me: string): Promise<any> {
+  async AcceptCounter(@Param('id') id: string, me: string, @Body() PushNotificationDTO: PushNotificationDTO,): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
-    const data = await this.chatService.acceptCounter(id);
+    const data = await this.chatService.acceptCounter(id, PushNotificationDTO);
     if (data) {
       return data;
     } else {
@@ -159,8 +160,8 @@ export class ChatController {
   }
 
   @Post('deal-close/:id')
-  async DealClose(@Param('id') id: string, @Me() me: string): Promise<any> {
-    const data = await this.chatService.dealClose(id);
+  async DealClose(@Param('id') id: string, @Me() me: string, @Body() PushNotificationDTO: PushNotificationDTO,): Promise<any> {
+    const data = await this.chatService.dealClose(id,PushNotificationDTO);
     if (data) {
       return data;
     } else {
