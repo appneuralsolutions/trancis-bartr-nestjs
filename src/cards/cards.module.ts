@@ -1,3 +1,4 @@
+import { PushNotificationModule } from './../push_notification/push_notification.module';
 import { WishlistSchema } from './../me/wishlist/schemas/wishlist.schema';
 import { AuthModule } from '../auth/auth.module';
 import { Module } from '@nestjs/common';
@@ -11,6 +12,7 @@ import { CardSchema } from './@schemas/card.schema';
   imports: [
     AuthModule,
     SharedModule,
+    PushNotificationModule,
     MongooseModule.forFeature([{ name: 'Card', schema: CardSchema }]),
     MongooseModule.forFeature([{ name: 'Wishlist', schema: WishlistSchema }]),
   ],
