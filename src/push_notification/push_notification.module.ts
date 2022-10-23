@@ -4,6 +4,7 @@ import { PushNotificationService } from './push_notification.service';
 
 @Module({
   controllers: [PushNotificationController],
-  providers: [PushNotificationService]
+  providers: [PushNotificationService],
+  exports: [PushNotificationService]
 })
 export class PushNotificationModule {}

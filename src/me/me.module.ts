@@ -1,3 +1,4 @@
+import { PushNotificationModule } from './../push_notification/push_notification.module';
 import { MatchSchema } from './wishlist/schemas/matches.schema';
 import { PreferencesSchema } from './preferences/@schemas/preferences.schema';
 import {
@@ -58,6 +59,7 @@ import { UsersModule } from 'src/admin/users/users.module';
     FeedbackModule,
     CardsModule,
     UsersModule,
+    PushNotificationModule,
     MongooseModule.forFeature([
       // { name: 'NewUser', schema: NewUserSchema },
       { name: 'Perference', schema: PreferencesSchema },
