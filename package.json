@@ -42,6 +42,7 @@
         "class-validator": "^0.13.2",
         "compression": "^1.7.4",
         "cookie-parser": "^1.4.6",
+        "ebay-api": "^7.0.2",
         "ebay-oauth-nodejs-client": "^1.2.1",
         "express-session": "^1.17.2",
         "firebase-admin": "^10.3.0",
