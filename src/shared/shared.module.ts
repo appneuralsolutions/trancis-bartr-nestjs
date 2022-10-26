@@ -38,14 +38,14 @@ import { EmailService } from './email.service';
   exports: [HttpModule, MailerModule, MongooseModule, EmailService],
   providers: [
     EmailService,
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: MongoExceptionFilter,
-    // },
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: AllExceptionsFilter,
-    // },
+    {
+      provide: APP_FILTER,
+      useClass: MongoExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
   ],
 })
 export class SharedModule {}
