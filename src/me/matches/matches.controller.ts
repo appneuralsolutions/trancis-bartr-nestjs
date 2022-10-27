@@ -79,7 +79,7 @@ export class MatchesController {
     const result = await this.matchesService.create(
       createWishlistDto,
       userPayload,
-      PushNotificationDTO
+      PushNotificationDTO,
     );
     const isMatched = await this.matchesService.findMatches(
       userPayload.userId,

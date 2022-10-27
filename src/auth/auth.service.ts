@@ -110,9 +110,9 @@ export class AuthService {
         });
         if (!user) throw ErrorMessage.USER_NOT_FOUND;
 
-        if(user && !user.auth.verification.email && user.isSocial) {
+        if (user && !user.auth.verification.email && !user.isSocial) {
           throw ErrorMessage.VERIFY_LOGIN_EMAIL_TOKEN_FIRST;
-        } 
+        }
         // if (!user.auth.verification.email) throw 'LOGIN.EMAIL_NOT_VERIFIED';
 
         const isValidPass = await bcrypt.compare(
