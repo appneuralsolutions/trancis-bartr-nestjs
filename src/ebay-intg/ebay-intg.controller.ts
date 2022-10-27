@@ -1,29 +1,63 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EbayAuthToken } from 'ebay-oauth-nodejs-client';
 import { ApiTags } from '@nestjs/swagger';
 import eBayApi from 'ebay-api';
+import { resolve } from 'path';
 
 @ApiTags('Ebay')
 @Controller('ebay-intg')
 export class EbayIntgController {
+   eBay: any
   constructor(
     private httpService: HttpService,
     private jwtService: JwtService,
-  ) { }
-  @Get('/getToken')
-  async findByItems(@Body() query: Object): Promise<any> {
-    const eBay: any = new eBayApi({
+  ) { 
+     this.eBay = new eBayApi({
       appId: 'ashwinR-bartar-PRD-3b44d57bd-5cc21870',
       certId: 'PRD-b44d57bd4ec7-67da-4ca5-82f8-0b9b',
       sandbox: false,
       autoRefreshToken: true
     });
-    eBay.OAuth2.on('refreshAuthToken', (token) => {
+    this.eBay.OAuth2.on('refreshAuthToken', (token) => {
       console.log(token)
       // Store this token in DB
     });
+  }
+  @Get('search/:query')
+  async findByItems(@Param('query') query: string): Promise<any> {
+    return new Promise((resolve) => {
+     this.eBay.buy.browse.search({
+      q: query,
+      //category_ids: ['15724','12345','34567'],
+      //aspect_filter: 'categoryId:15724,Color:{Red}'
+    })
+      .then(result => {
+        console.log(JSON.stringify(result, null, 2));
+        return resolve(result)
+      })
+      .catch(e => {
+        console.log(e);
+      }); 
+    })
+  }
+  @Get('category/:query')
+  async findBycategory(@Param('query') query: string): Promise<any> {
+    return new Promise((resolve) => {
+     this.eBay.buy.browse.search({
+      //q: query,
+      category_ids: query,
+      //aspect_filter: 'categoryId:15724,Color:{Red}'
+    })
+      .then(result => {
+        console.log(JSON.stringify(result, null, 2));
+        return resolve(result)
+      })
+      .catch(e => {
+        console.log(e);
+      }); 
+    })
   }
 
   // @Get()
