@@ -15,8 +15,14 @@ export class MatchesService {
     private readonly pushnotificationService: PushNotificationService,
   ) {}
 
-  async create(data: CreateMatchDto, userPayload, pushnotificationDto: PushNotificationDTO): Promise<Match> {
-    const card = await this.cardModel.findOne({ _id: data.cardId }).populate([{path: 'createdBy',}]);
+  async create(
+    data: CreateMatchDto,
+    userPayload,
+    pushnotificationDto: PushNotificationDTO,
+  ): Promise<Match> {
+    const card = await this.cardModel
+      .findOne({ _id: data.cardId })
+      .populate([{ path: 'createdBy' }]);
     let match;
     if (card) {
       match = await this.matchModel.findOne({ cardId: data.cardId });
@@ -36,7 +42,7 @@ export class MatchesService {
           (x) => x + '' != userPayload.userId + '',
         );
         card.liked.push(userPayload.userId);
-        await this.pushnotificationService.send(pushnotificationDto)
+        await this.pushnotificationService.send(pushnotificationDto);
       } else {
         card.likes--;
         card.liked = card.liked.filter(
@@ -81,15 +87,29 @@ export class MatchesService {
     match2 = match2.filter((w: any) => w.cardId.createdBy + '' === user1);
     return new Promise((resolve) => {
       if (match1 && match1.length && match2 && match2.length) {
+        this.pushnotificationService.send({
+          fcmToken: null,
+          //'c3E2ZYvxQB6Zdb0KKhSBoH:APA91bEhRQhDnPj_bBVOAMQLksvW7MT5Aqb4vg4WghCwxe8sW8rVMMLkxZkQDuzHMpaAieyvMEGOfBEK0b5ygWDqUzIn2ga6IgYhmS_92n6ofrErsA8Bn-Y-uakv3Eu7_OSGcHCtd2z6',
+          title: 'Match Request',
+          body: 'your request is accepted',
+          userId: user2,
+        });
         resolve(true);
       } else {
+        this.pushnotificationService.send({
+          fcmToken: null,
+          //'c3E2ZYvxQB6Zdb0KKhSBoH:APA91bEhRQhDnPj_bBVOAMQLksvW7MT5Aqb4vg4WghCwxe8sW8rVMMLkxZkQDuzHMpaAieyvMEGOfBEK0b5ygWDqUzIn2ga6IgYhmS_92n6ofrErsA8Bn-Y-uakv3Eu7_OSGcHCtd2z6',
+          title: 'Match Request',
+          body: 'you have received request for a match',
+          userId: user2,
+        });
         resolve(false);
       }
     });
   }
 
   async findInterestShown(userId): Promise<any> {
-    const matches = await this.matchModel.find({ userId}).populate('cardId');
+    const matches = await this.matchModel.find({ userId }).populate('cardId');
     // match1 = match1.filter((w: any) => w.cardId.createdBy + '' === user2);
 
     // let match2 = await this.matchModel

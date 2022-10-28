@@ -17,7 +17,6 @@ import { IResponse } from 'src/shared/@interfaces/response.interface';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Me } from '../@decorators/me.decorator';
-import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 import { PushNotificationService } from 'src/push_notification/push_notification.service';
 
 @ApiTags('Me -> Matches')
@@ -27,7 +26,6 @@ export class MatchesController {
   constructor(
     private readonly matchesService: MatchesService,
     private jwtService: JwtService,
-    private pushNotificationService: PushNotificationService,
   ) {}
 
   // @Get()
@@ -73,11 +71,17 @@ export class MatchesController {
   @Post(':userId')
   async create(
     @Body() createWishlistDto: CreateMatchDto,
-    @Body() pushNotificationDTO: PushNotificationDTO,
     @Param('userId') user2: string,
     @Me() me: string,
   ): Promise<IResponse> {
     const userPayload: any = this.jwtService.decode(me);
+    const pushNotificationDTO = {
+      fcmToken: null,
+      //'c3E2ZYvxQB6Zdb0KKhSBoH:APA91bEhRQhDnPj_bBVOAMQLksvW7MT5Aqb4vg4WghCwxe8sW8rVMMLkxZkQDuzHMpaAieyvMEGOfBEK0b5ygWDqUzIn2ga6IgYhmS_92n6ofrErsA8Bn-Y-uakv3Eu7_OSGcHCtd2z6',
+      title: 'Match Request',
+      body: 'you have received request for a match',
+      userId: user2,
+    };
     const result = await this.matchesService.create(
       createWishlistDto,
       userPayload,
@@ -87,8 +91,6 @@ export class MatchesController {
       userPayload.userId,
       user2,
     );
-
-    await this.pushNotificationService.send(pushNotificationDTO);
 
     if (result) {
       return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_WISHLIST, {

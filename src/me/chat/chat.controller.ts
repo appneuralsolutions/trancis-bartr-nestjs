@@ -139,13 +139,13 @@ export class ChatController {
     @Param('id') id: string,
     @Param('roomId') roomId: string,
     me: string,
-    @Body() PushNotificationDTO: PushNotificationDTO,
+    @Body() pushNotificationDTO: PushNotificationDTO,
   ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
     const data = await this.chatService.acceptCounter(
       roomId,
       id,
-      PushNotificationDTO,
+      pushNotificationDTO,
     );
     if (data) {
       return data;
@@ -159,10 +159,10 @@ export class ChatController {
     @Param('id') id: string,
     @Param('roomId') roomId: string,
     @Me() me: string,
-    @Body() pushnotificationDto: PushNotificationDTO,
+    @Body() pushNotificationDTO: PushNotificationDTO,
   ): // @Me() me: string
   Promise<any> {
-    const data = await this.chatService.rejectCounter(id, pushnotificationDto);
+    const data = await this.chatService.rejectCounter(id, pushNotificationDTO);
     if (data) {
       return data;
     } else {
@@ -174,9 +174,9 @@ export class ChatController {
   async DealClose(
     @Param('id') id: string,
     @Me() me: string,
-    @Body() PushNotificationDTO: PushNotificationDTO,
+    @Body() pushNotificationDTO: PushNotificationDTO,
   ): Promise<any> {
-    const data = await this.chatService.dealClose(id, PushNotificationDTO);
+    const data = await this.chatService.dealClose(id, pushNotificationDTO);
     if (data) {
       return data;
     } else {

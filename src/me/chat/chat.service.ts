@@ -160,6 +160,12 @@ export class ChatService {
       { _id: roomId },
       { $push: pushData },
     );
+    await this.pushnotificationService.send({
+      fcmToken: null,
+      title: 'Offer',
+      body: 'you got an new offer!',
+      userId: data.sentTo,
+    });
 
     return new Promise((resolve) => {
       resolve(counter);
