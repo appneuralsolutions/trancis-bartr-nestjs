@@ -4,6 +4,14 @@ import { JwtService } from '@nestjs/jwt';
 // import { EbayAuthToken } from 'ebay-oauth-nodejs-client';
 import { ApiTags } from '@nestjs/swagger';
 import eBayApi from 'ebay-api';
+import { Me } from 'src/me/@decorators/me.decorator';
+import { ErrorMessage } from 'src/shared/@constants/error.constant';
+import { Message } from 'src/shared/@constants/messages.constant';
+import { ResponseError, ResponseSuccess } from 'src/shared/@dtos/response.dto';
+import { IResponse } from 'src/shared/@interfaces/response.interface';
+import { EbayDto } from './dto/ebay-intg.dto';
+import { EbayIntgService } from './ebay-intg.service';
+import { Ebay } from './interface/ebay-intg.interface';
 
 @ApiTags('Ebay')
 @Controller('ebay-intg')
@@ -12,6 +20,7 @@ export class EbayIntgController {
   constructor(
     private httpService: HttpService,
     private jwtService: JwtService,
+    private readonly ebayService: EbayIntgService
   ) {
     this.eBay = new eBayApi({
       appId: 'ashwinR-bartar-PRD-3b44d57bd-5cc21870',
@@ -24,6 +33,26 @@ export class EbayIntgController {
       // Store this token in DB
     });
   }
+
+  @Post()
+  async create(
+    @Body() ebayDto: EbayDto
+  ): Promise<IResponse | Ebay> {
+    const data = await this.ebayService.create(
+      ebayDto,
+    );
+    if (data) {
+      return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_MY_FEEDBACK, {
+        data,
+      });
+    } else {
+      return new ResponseError(
+        ErrorMessage.NOT_SUCCESSFULLY_CREATED_MY_FEEDBACK,
+        {},
+      );
+    }
+  }
+
   @Get('search/:query')
   async findByItems(@Param('query') query: string): Promise<any> {
     return new Promise((resolve) => {
@@ -49,6 +78,30 @@ export class EbayIntgController {
         .search({
           //q: query,
           category_ids: query,
+          //aspect_filter: 'categoryId:15724,Color:{Red}'
+        })
+        .then((result) => {
+          console.log(JSON.stringify(result, null, 2));
+          return resolve(result);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    });
+  }
+
+  @Get('search/category/:query')
+  async findByCategory(@Param('query') query: string): Promise<any> {
+    const category = await this.ebayService.findAll();
+    let category_arr = []
+    for(let i=0; i<category.length; i++){
+      category_arr.push(category[i].category)
+    }
+    return new Promise((resolve) => {
+      this.eBay.buy.browse
+        .search({
+          q: query,
+          category_ids: category_arr,
           //aspect_filter: 'categoryId:15724,Color:{Red}'
         })
         .then((result) => {
