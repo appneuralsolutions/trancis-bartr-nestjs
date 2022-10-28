@@ -47,6 +47,7 @@ export class AuthService {
     @InjectModel('User-Employment')
     private readonly userEmploymentModel: Model<IUserEmployeement>,
     @InjectModel('User') private readonly userModel: Model<IUser>,
+    @InjectModel('FCM') private readonly FCMModel: Model<any>,
     private jwtService: JwtService,
     private emailService: EmailService,
   ) {}
@@ -687,5 +688,33 @@ export class AuthService {
 
     await userFromDb.save();
     return userFromDb;
+  }
+
+  async newFCMToken(userId: string, fcmToken: string) {
+    const user = await this.FCMModel.findOne({ userId });
+    return new Promise((resolve, reject) => {
+      let fcm;
+      if (!user) {
+        fcm = new this.FCMModel({
+          userId,
+          fcmTokens: [fcmToken],
+        }).save();
+      } else {
+        fcm = this.FCMModel.findOneAndUpdate(
+          { _id: userId },
+          {
+            $set: { fcmTokens: [fcmToken] },
+          },
+        );
+      }
+      resolve(fcm);
+    });
+  }
+
+  async getFCMToken(userId: string) {
+    const fcm = await this.FCMModel.findOne({ userId });
+    return new Promise((resolve, reject) => {
+      resolve(fcm);
+    });
   }
 }

@@ -134,10 +134,19 @@ export class ChatController {
     }
   }
 
-  @Post('counter/:id/accept')
-  async AcceptCounter(@Param('id') id: string, me: string, @Body() PushNotificationDTO: PushNotificationDTO,): Promise<any> {
+  @Post('counter/:roomId/:id/accept')
+  async AcceptCounter(
+    @Param('id') id: string,
+    @Param('roomId') roomId: string,
+    me: string,
+    @Body() PushNotificationDTO: PushNotificationDTO,
+  ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
-    const data = await this.chatService.acceptCounter(id, PushNotificationDTO);
+    const data = await this.chatService.acceptCounter(
+      roomId,
+      id,
+      PushNotificationDTO,
+    );
     if (data) {
       return data;
     } else {
@@ -145,13 +154,15 @@ export class ChatController {
     }
   }
 
-  @Post('counter/:id/reject')
+  @Post('counter/:roomId/:id/reject')
   async RejectCounter(
     @Param('id') id: string,
+    @Param('roomId') roomId: string,
     @Me() me: string,
+    @Body() pushnotificationDto: PushNotificationDTO,
   ): // @Me() me: string
   Promise<any> {
-    const data = await this.chatService.rejectCounter(id);
+    const data = await this.chatService.rejectCounter(id, pushnotificationDto);
     if (data) {
       return data;
     } else {
@@ -160,8 +171,12 @@ export class ChatController {
   }
 
   @Post('deal-close/:id')
-  async DealClose(@Param('id') id: string, @Me() me: string, @Body() PushNotificationDTO: PushNotificationDTO,): Promise<any> {
-    const data = await this.chatService.dealClose(id,PushNotificationDTO);
+  async DealClose(
+    @Param('id') id: string,
+    @Me() me: string,
+    @Body() PushNotificationDTO: PushNotificationDTO,
+  ): Promise<any> {
+    const data = await this.chatService.dealClose(id, PushNotificationDTO);
     if (data) {
       return data;
     } else {

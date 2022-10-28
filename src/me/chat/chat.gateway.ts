@@ -32,9 +32,10 @@ export class ChatGateway {
     @InjectModel('Card') private readonly cardModel: Model<IUser>,
     @InjectModel('ChatRoom') private readonly chatRoomModel: Model<ChatRoom>,
     @InjectModel('Counter') private readonly counterModel: Model<ICounter>,
-    @InjectModel('Deducted-Amount') private readonly deductedAmountModel: Model<any>,
+    @InjectModel('Deducted-Amount')
+    private readonly deductedAmountModel: Model<any>,
     public chatService: ChatService,
-  ) { }
+  ) {}
 
   @SubscribeMessage('join-room') // <3>
   async enterChatRoom(
@@ -58,7 +59,11 @@ export class ChatGateway {
     this.server.to(client.id as string).emit('messages', {
       // cardDetails: this.cardModel.findOne({ _id: data.cardId }),
       isDeductedAmount: deductedAmount ? true : false,
-      roomData: await this.chatService.getChats(data.roomId, data.userId, data.cardId),
+      roomData: await this.chatService.getChats(
+        data.roomId,
+        data.userId,
+        data.cardId,
+      ),
     });
   }
 
@@ -91,14 +96,22 @@ export class ChatGateway {
         sentBy: msgData.sentBy,
         amount: msgData.amount,
       });
-      this.server.in(msgData.roomId as string).emit('message', { ...msgData, counter: counter._id, isAccepted: counter.isAccepted });
+      this.server.in(msgData.roomId as string).emit('message', {
+        ...msgData,
+        counter: counter._id,
+        isAccepted: counter.isAccepted,
+      });
     }
     // this.server.to(msgData.sentTo as string).emit('message', msgData);
   }
 
   @SubscribeMessage('accept-counter')
-  async acceptCounter(@MessageBody() msgData: any,@Body() PushNotificationDTO: PushNotificationDTO,) {
-    await this.chatService.acceptCounter(msgData.counterId, PushNotificationDTO);
+  async acceptCounter(@MessageBody() msgData: any) {
+    await this.chatService.acceptCounter(
+      msgData.roomId,
+      msgData.counterId,
+      msgData.pushNotification,
+    );
     this.server
       .in(msgData.roomId as string)
       .emit('counter', { message: 'counter', isAccepted: true });
@@ -106,15 +119,18 @@ export class ChatGateway {
 
   @SubscribeMessage('reject-counter')
   async rejectCounter(@MessageBody() msgData: any) {
-    await this.chatService.rejectCounter(msgData.counterId);
+    await this.chatService.rejectCounter(
+      msgData.counterId,
+      msgData.pushNotification,
+    );
     this.server
       .in(msgData.roomId as string)
       .emit('counter', { message: 'counter', isAccepted: false });
   }
 
   @SubscribeMessage('deal-close')
-  async dealClose(@MessageBody() msgData: any,@Body() PushNotificationDTO: PushNotificationDTO,) {
-    await this.chatService.dealClose(msgData.roomId, PushNotificationDTO);
+  async dealClose(@MessageBody() msgData: any) {
+    await this.chatService.dealClose(msgData.roomId, msgData.pushNotification);
     this.server
       .in(msgData.roomId as string)
       .emit('deal-close', { message: 'deal-closed' });

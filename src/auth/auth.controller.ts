@@ -107,6 +107,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDTO: LoginDto): Promise<IResponse> {
     const data = await this.authService.validateLogin(loginDTO);
+    const fcm = await this.authService.newFCMToken(data._id, loginDTO.fcmToken);
     if (data) {
       return new ResponseSuccess(Message.SUCCESSFULLY_LOGGED_IN, data);
     } else {

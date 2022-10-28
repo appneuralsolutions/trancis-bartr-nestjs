@@ -16,6 +16,7 @@ import { UserEmploymentSchema } from './@schemas/user-employment.schema';
 import { UserSchema } from './@schemas/user.schema';
 import { AuthGateway } from './auth.gateway';
 import { ConsentRegistrySchema } from './@schemas/consent-registry.schema';
+import { FCMMgmtSchema } from './@schemas/fcm-mgmt.schema';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ConsentRegistrySchema } from './@schemas/consent-registry.schema';
       { name: 'User-Educational', schema: UserEducationalSchema },
       { name: 'User-Employment', schema: UserEmploymentSchema },
       { name: 'User', schema: UserSchema },
+      { name: 'FCM', schema: FCMMgmtSchema },
     ]),
     PassportModule.register({
       defaultStrategy: 'jwt',

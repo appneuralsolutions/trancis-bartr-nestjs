@@ -16,9 +16,10 @@ export class ChatService {
     @InjectModel('Chat') private readonly chatModel: Model<Chat>,
     @InjectModel('ChatRoom') private readonly chatRoomModel: Model<ChatRoom>,
     @InjectModel('Counter') private readonly counterModel: Model<ICounter>,
-    @InjectModel('Deducted-Amount') private readonly deductedAmountModel: Model<any>,
+    @InjectModel('Deducted-Amount')
+    private readonly deductedAmountModel: Model<any>,
     private readonly pushnotificationService: PushNotificationService,
-  ) { }
+  ) {}
 
   async createRoom(data: CreateRoomDto): Promise<ChatRoom> {
     const getRoom: any = await this.chatRoomModel.findOne({
@@ -71,10 +72,13 @@ export class ChatService {
   }
 
   async getChats(roomId: string, userId?, cardId?): Promise<any> {
-    const deductedAmount = userId && cardId ? await this.deductedAmountModel.findOne({
-      user: userId,
-      cardId: cardId,
-    }): null;
+    const deductedAmount =
+      userId && cardId
+        ? await this.deductedAmountModel.findOne({
+            user: userId,
+            cardId: cardId,
+          })
+        : null;
     const getRoomChats = await this.chatRoomModel
       .findOne({ _id: roomId })
       .populate({ path: 'chats', populate: { path: 'counter' } });
@@ -139,10 +143,7 @@ export class ChatService {
     });
   }
 
-  async createCounter(
-    roomId: string,
-    data: CreateCounterDto,
-  ): Promise<any> {
+  async createCounter(roomId: string, data: CreateCounterDto): Promise<any> {
     const counter = await new this.counterModel({ amount: data.amount }).save();
     const chat = {
       roomId: roomId,
@@ -165,17 +166,20 @@ export class ChatService {
     });
   }
 
-  async acceptCounter(_id,pushnotificationDto: PushNotificationDTO): Promise<ICounter> {
+  async acceptCounter(
+    roomId,
+    _id,
+    pushnotificationDto: PushNotificationDTO,
+  ): Promise<ICounter> {
     if (await this.counterModel.findOne({ _id, isAccepted: null })) {
+      // const room = await this.chatRoomModel.findOne({ _id: roomId });
       const counter = await this.counterModel.findOneAndUpdate(
         { _id, isAccepted: null },
         {
           isAccepted: true,
         },
       );
-      if(counter.isAccepted === true){
-        await this.pushnotificationService.send(pushnotificationDto)
-      }
+      await this.pushnotificationService.send(pushnotificationDto);
       return new Promise((resolve) => {
         resolve(counter);
       });
@@ -184,7 +188,10 @@ export class ChatService {
     }
   }
 
-  async rejectCounter(_id): Promise<ICounter> {
+  async rejectCounter(
+    _id,
+    pushnotificationDto: PushNotificationDTO,
+  ): Promise<ICounter> {
     if (await this.counterModel.findOne({ _id, isAccepted: null })) {
       const counter = await this.counterModel.findOneAndUpdate(
         { _id, isAccepted: null },
@@ -192,6 +199,7 @@ export class ChatService {
           isAccepted: false,
         },
       );
+      await this.pushnotificationService.send(pushnotificationDto);
       return new Promise((resolve) => {
         resolve(counter);
       });
@@ -200,13 +208,16 @@ export class ChatService {
     }
   }
 
-  async dealClose(_id: string,pushnotificationDto: PushNotificationDTO): Promise<ChatRoom> {
+  async dealClose(
+    _id: string,
+    pushnotificationDto: PushNotificationDTO,
+  ): Promise<ChatRoom> {
     const room = await this.chatRoomModel.findOneAndUpdate(
       { _id },
       { isDealClosed: true },
     );
-    if(room.isDealClosed === true){
-      await this.pushnotificationService.send(pushnotificationDto)
+    if (room.isDealClosed === true) {
+      await this.pushnotificationService.send(pushnotificationDto);
     }
     return new Promise((resolve) => {
       resolve(room);
