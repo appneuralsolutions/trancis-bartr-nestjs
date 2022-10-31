@@ -64,7 +64,7 @@ export class PushNotificationService {
       },
     };
 
-    fcmToken = pushnotificationDto.fcmToken;
+    fcmToken = pushnotificationDto?.fcmToken;
     if (pushnotificationDto.userId) {
       const fcm: any = await this.authService.getFCMToken(
         pushnotificationDto.userId,

@@ -692,21 +692,26 @@ export class AuthService {
 
   async newFCMToken(userId: string, fcmToken: string) {
     const user = await this.FCMModel.findOne({ userId });
+    if (user) await this.FCMModel.deleteOne({ userId });
+    const fcm = await new this.FCMModel({
+      userId,
+      fcmTokens: [fcmToken],
+    }).save();
+    // let fcm;
+    // if (!user) {
+    //   fcm = await new this.FCMModel({
+    //     userId,
+    //     fcmTokens: [fcmToken],
+    //   }).save();
+    // } else {
+    //   fcm = await this.FCMModel.findOneAndUpdate(
+    //     { _id: userId },
+    //     {
+    //       $set: { fcmTokens: [fcmToken] },
+    //     },
+    //   );
+    // }
     return new Promise((resolve, reject) => {
-      let fcm;
-      if (!user) {
-        fcm = new this.FCMModel({
-          userId,
-          fcmTokens: [fcmToken],
-        }).save();
-      } else {
-        fcm = this.FCMModel.findOneAndUpdate(
-          { _id: userId },
-          {
-            $set: { fcmTokens: [fcmToken] },
-          },
-        );
-      }
       resolve(fcm);
     });
   }
