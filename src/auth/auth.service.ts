@@ -719,6 +719,7 @@ export class AuthService {
   async getFCMToken(userId: string) {
     const fcm = await this.FCMModel.findOne({ userId });
     return new Promise((resolve, reject) => {
+      if (!fcm) ErrorMessage.FCMTOKEN_NOT_FOUND;
       resolve(fcm);
     });
   }

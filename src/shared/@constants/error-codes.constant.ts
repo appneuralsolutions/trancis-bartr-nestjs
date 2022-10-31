@@ -339,4 +339,9 @@ export const ErrorCodes = {
     type: 'Auth',
     statusCode: 405,
   },
+  E00069: {
+    message: 'FCM Token Not Found!',
+    type: 'Auth',
+    statusCode: 405,
+  },
 };
