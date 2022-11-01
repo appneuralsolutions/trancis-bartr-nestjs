@@ -73,7 +73,7 @@ export class PushNotificationService {
     new Promise((resolve, reject) => {
       admin
         .messaging()
-        .sendToDevice(fcmToken, payload)
+        .sendToDevice(fcmToken, messagingPayload)
         .then((e) => {
           resolve(e);
           console.log(e);
