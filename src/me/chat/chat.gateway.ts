@@ -81,21 +81,31 @@ export class ChatGateway {
     //   amount: msgData.counter,
     // };
     if (!msgData.amount) {
-      await this.chatService.createChat(msgData.roomId, {
-        // roomId: msgData.roomId,
-        message: msgData.message,
-        sentTo: msgData.sentTo,
-        sentBy: msgData.sentBy,
-        counter: msgData.counter,
-        // amount: msgData.counter,
-      });
+      await this.chatService.createChat(
+        msgData.roomId,
+        {
+          // roomId: msgData.roomId,
+          message: msgData.message,
+          sentTo: msgData.sentTo,
+          sentBy: msgData.sentBy,
+          counter: msgData.counter,
+          messagingPayload: msgData.messagingPayload,
+          // amount: msgData.counter,
+        },
+        msgData.messagingPayload,
+      );
       this.server.in(msgData.roomId as string).emit('message', msgData);
     } else {
-      const counter = await this.chatService.createCounter(msgData.roomId, {
-        sentTo: msgData.sentTo,
-        sentBy: msgData.sentBy,
-        amount: msgData.amount,
-      });
+      const counter = await this.chatService.createCounter(
+        msgData.roomId,
+        {
+          sentTo: msgData.sentTo,
+          sentBy: msgData.sentBy,
+          amount: msgData.amount,
+          messagingPayload: msgData.messagingPayload,
+        },
+        msgData.messagingPayload,
+      );
       this.server.in(msgData.roomId as string).emit('message', {
         ...msgData,
         counter: counter._id,
@@ -111,6 +121,7 @@ export class ChatGateway {
       msgData.roomId,
       msgData.counterId,
       msgData.pushNotification,
+      msgData.messagingPayload,
     );
     this.server
       .in(msgData.roomId as string)
@@ -122,6 +133,7 @@ export class ChatGateway {
     await this.chatService.rejectCounter(
       msgData.counterId,
       msgData.pushNotification,
+      msgData.messagingPayload,
     );
     this.server
       .in(msgData.roomId as string)
@@ -130,7 +142,11 @@ export class ChatGateway {
 
   @SubscribeMessage('deal-close')
   async dealClose(@MessageBody() msgData: any) {
-    await this.chatService.dealClose(msgData.roomId, msgData.pushNotification);
+    await this.chatService.dealClose(
+      msgData.roomId,
+      msgData.pushNotification,
+      msgData.messagingPayload,
+    );
     this.server
       .in(msgData.roomId as string)
       .emit('deal-close', { message: 'deal-closed' });

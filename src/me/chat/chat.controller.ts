@@ -67,7 +67,11 @@ export class ChatController {
   ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
     chatDto.sentBy = userPayload.userId;
-    const data = await this.chatService.createChat(roomId, chatDto);
+    const data = await this.chatService.createChat(
+      roomId,
+      chatDto,
+      chatDto.messagingPayload,
+    );
     if (data) {
       return data;
     } else {
@@ -126,7 +130,11 @@ export class ChatController {
   ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
     counterDto.sentBy = userPayload.userId;
-    const data = await this.chatService.createCounter(roomId, counterDto);
+    const data = await this.chatService.createCounter(
+      roomId,
+      counterDto,
+      counterDto.messagingPayload,
+    );
     if (data) {
       return data;
     } else {
@@ -146,6 +154,7 @@ export class ChatController {
       roomId,
       id,
       pushNotificationDTO,
+      pushNotificationDTO.messagingPayload,
     );
     if (data) {
       return data;
@@ -162,7 +171,11 @@ export class ChatController {
     @Body() pushNotificationDTO: PushNotificationDTO,
   ): // @Me() me: string
   Promise<any> {
-    const data = await this.chatService.rejectCounter(id, pushNotificationDTO);
+    const data = await this.chatService.rejectCounter(
+      id,
+      pushNotificationDTO,
+      pushNotificationDTO.messagingPayload,
+    );
     if (data) {
       return data;
     } else {
@@ -176,7 +189,11 @@ export class ChatController {
     @Me() me: string,
     @Body() pushNotificationDTO: PushNotificationDTO,
   ): Promise<any> {
-    const data = await this.chatService.dealClose(id, pushNotificationDTO);
+    const data = await this.chatService.dealClose(
+      id,
+      pushNotificationDTO,
+      pushNotificationDTO.messagingPayload,
+    );
     if (data) {
       return data;
     } else {

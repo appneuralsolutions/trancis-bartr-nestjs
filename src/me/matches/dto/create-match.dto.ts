@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
+import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 
 export class CreateMatchDto {
   @IsNotEmpty()
@@ -11,4 +12,7 @@ export class CreateMatchDto {
   rightSwiped: boolean;
 
   userId: string;
+
+  @ApiProperty()
+  messagingPayload: MessagingPayload;
 }

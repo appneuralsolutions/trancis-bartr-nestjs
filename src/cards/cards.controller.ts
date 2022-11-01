@@ -161,12 +161,18 @@ export class CardsController {
   @Patch('status/:id')
   async updatestatus(
     @Body(ValidationPipe) data: any,
-    @Body() PushNotificationDTO: PushNotificationDTO,
+    @Body() pushNotificationDTO: PushNotificationDTO,
     @Param('id') id: string,
     @Me() me: string,
   ): Promise<IResponse | CreateCard> {
     const userPayload: any = this.jwtService.decode(me);
-    const card = await this.cardsService.updateStatus(id, data, userPayload, PushNotificationDTO);
+    const card = await this.cardsService.updateStatus(
+      id,
+      data,
+      userPayload,
+      pushNotificationDTO,
+      pushNotificationDTO.messagingPayload,
+    );
     if (card) {
       return new ResponseSuccess(Message.SUCCESSFULLY_UPDATED_CARD, card);
     } else {

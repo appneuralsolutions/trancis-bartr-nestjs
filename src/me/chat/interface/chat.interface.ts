@@ -1,3 +1,5 @@
+import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
+
 export interface Chat {
   roomId: string;
   message: string;
@@ -5,4 +7,5 @@ export interface Chat {
   sentBy: string;
   counter: string;
   amount: string;
+  messagingPayload: MessagingPayload;
 }

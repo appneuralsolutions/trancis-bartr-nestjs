@@ -10,6 +10,9 @@ export class PushNotificationController {
   @Post()
   async send(@Body() pushnotificationDto: PushNotificationDTO) {
     console.log(`method called ${this.send.name}()`);
-    return await this.pushnotificationService.send(pushnotificationDto);
+    return await this.pushnotificationService.send(
+      pushnotificationDto,
+      pushnotificationDto.messagingPayload,
+    );
   }
 }

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
+import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 export class CreateCounterDto {
   @ApiProperty({ type: String })
   sentTo: string;
@@ -9,4 +10,6 @@ export class CreateCounterDto {
 
   @ApiProperty({ type: String })
   amount: string;
+
+  messagingPayload: MessagingPayload;
 }

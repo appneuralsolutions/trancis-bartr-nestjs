@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 
 export class PushNotificationDTO {
   @ApiProperty()
@@ -9,4 +10,6 @@ export class PushNotificationDTO {
   public readonly body: string;
   @ApiProperty()
   public readonly userId: string;
+  @ApiProperty()
+  messagingPayload: MessagingPayload;
 }

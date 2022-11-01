@@ -10,6 +10,7 @@ import { ChatRoom } from './interface/chatRoom.interface';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { PushNotificationService } from 'src/push_notification/push_notification.service';
 import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
+import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 @Injectable()
 export class ChatService {
   constructor(
@@ -87,7 +88,11 @@ export class ChatService {
     });
   }
 
-  async createChat(roomId: string, data: CreateChatDto): Promise<ChatRoom> {
+  async createChat(
+    roomId: string,
+    data: CreateChatDto,
+    messagingPayload: MessagingPayload,
+  ): Promise<ChatRoom> {
     //data.createdBy = userPayload.userId;
     const createdData: any = await new this.chatModel(data).save();
     const pushData: any = { chats: createdData._id };
@@ -143,7 +148,11 @@ export class ChatService {
     });
   }
 
-  async createCounter(roomId: string, data: CreateCounterDto): Promise<any> {
+  async createCounter(
+    roomId: string,
+    data: CreateCounterDto,
+    messagingPayload: MessagingPayload,
+  ): Promise<any> {
     const counter = await new this.counterModel({ amount: data.amount }).save();
     const chat = {
       roomId: roomId,
@@ -160,12 +169,15 @@ export class ChatService {
       { _id: roomId },
       { $push: pushData },
     );
-    await this.pushnotificationService.send({
-      fcmToken: null,
-      title: 'Offer',
-      body: 'you got an new offer!',
-      userId: data.sentTo,
-    });
+    await this.pushnotificationService.send(
+      {
+        fcmToken: null,
+        title: 'Offer',
+        body: 'you got an new offer!',
+        userId: data.sentTo,
+      },
+      messagingPayload,
+    );
 
     return new Promise((resolve) => {
       resolve(counter);
@@ -176,6 +188,7 @@ export class ChatService {
     roomId,
     _id,
     pushnotificationDto: PushNotificationDTO,
+    messagingPayload: MessagingPayload,
   ): Promise<ICounter> {
     if (await this.counterModel.findOne({ _id, isAccepted: null })) {
       // const room = await this.chatRoomModel.findOne({ _id: roomId });
@@ -185,7 +198,10 @@ export class ChatService {
           isAccepted: true,
         },
       );
-      await this.pushnotificationService.send(pushnotificationDto);
+      await this.pushnotificationService.send(
+        pushnotificationDto,
+        messagingPayload,
+      );
       return new Promise((resolve) => {
         resolve(counter);
       });
@@ -197,6 +213,7 @@ export class ChatService {
   async rejectCounter(
     _id,
     pushnotificationDto: PushNotificationDTO,
+    messagingPayload: MessagingPayload,
   ): Promise<ICounter> {
     if (await this.counterModel.findOne({ _id, isAccepted: null })) {
       const counter = await this.counterModel.findOneAndUpdate(
@@ -205,7 +222,10 @@ export class ChatService {
           isAccepted: false,
         },
       );
-      await this.pushnotificationService.send(pushnotificationDto);
+      await this.pushnotificationService.send(
+        pushnotificationDto,
+        messagingPayload,
+      );
       return new Promise((resolve) => {
         resolve(counter);
       });
@@ -217,13 +237,17 @@ export class ChatService {
   async dealClose(
     _id: string,
     pushnotificationDto: PushNotificationDTO,
+    messagingPayload: MessagingPayload,
   ): Promise<ChatRoom> {
     const room = await this.chatRoomModel.findOneAndUpdate(
       { _id },
       { isDealClosed: true },
     );
     if (room.isDealClosed === true) {
-      await this.pushnotificationService.send(pushnotificationDto);
+      await this.pushnotificationService.send(
+        pushnotificationDto,
+        messagingPayload,
+      );
     }
     return new Promise((resolve) => {
       resolve(room);

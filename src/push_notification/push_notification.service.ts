@@ -4,6 +4,7 @@ import { ServiceAccount } from 'firebase-admin';
 import * as serviceAccount from './../push-notification-google-service.json';
 import { PushNotificationDTO } from './dto/push_notification.dto';
 import { AuthService } from '../auth/auth.service';
+import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 
 @Injectable()
 export class PushNotificationService {
@@ -55,13 +56,10 @@ export class PushNotificationService {
     //   });
     console.log('constructor executed()');
   }
-  async send(pushnotificationDto: PushNotificationDTO) {
+  async send(pushnotificationDto: any, messagingPayload: MessagingPayload) {
     let fcmToken;
     const payload = {
-      notification: {
-        title: pushnotificationDto.title,
-        body: pushnotificationDto.body,
-      },
+      notification: messagingPayload.notification,
     };
 
     fcmToken = pushnotificationDto?.fcmToken;

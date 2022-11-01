@@ -6,6 +6,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 import { PushNotificationService } from 'src/push_notification/push_notification.service';
+import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 
 @Injectable()
 export class MatchesService {
@@ -19,6 +20,7 @@ export class MatchesService {
     data: CreateMatchDto,
     userPayload,
     pushnotificationDto: PushNotificationDTO,
+    messagingPayload: MessagingPayload,
   ): Promise<Match> {
     const card = await this.cardModel
       .findOne({ _id: data.cardId })
@@ -42,7 +44,10 @@ export class MatchesService {
           (x) => x + '' != userPayload.userId + '',
         );
         card.liked.push(userPayload.userId);
-        await this.pushnotificationService.send(pushnotificationDto);
+        await this.pushnotificationService.send(
+          pushnotificationDto,
+          messagingPayload,
+        );
       } else {
         card.likes--;
         card.liked = card.liked.filter(
@@ -64,7 +69,7 @@ export class MatchesService {
     });
   }
 
-  async findMatches(user1, user2): Promise<any> {
+  async findMatches(user1, user2, messagingPayload): Promise<any> {
     let match1 = await this.matchModel
       .find({
         // 'cardId.createdBy': user2,
@@ -87,22 +92,28 @@ export class MatchesService {
     match2 = match2.filter((w: any) => w.cardId.createdBy + '' === user1);
     return new Promise((resolve) => {
       if (match1 && match1.length && match2 && match2.length) {
-        this.pushnotificationService.send({
-          fcmToken: null,
-          //'c3E2ZYvxQB6Zdb0KKhSBoH:APA91bEhRQhDnPj_bBVOAMQLksvW7MT5Aqb4vg4WghCwxe8sW8rVMMLkxZkQDuzHMpaAieyvMEGOfBEK0b5ygWDqUzIn2ga6IgYhmS_92n6ofrErsA8Bn-Y-uakv3Eu7_OSGcHCtd2z6',
-          title: 'Match Request',
-          body: 'your request is accepted',
-          userId: user2,
-        });
+        this.pushnotificationService.send(
+          {
+            fcmToken: null,
+            //'c3E2ZYvxQB6Zdb0KKhSBoH:APA91bEhRQhDnPj_bBVOAMQLksvW7MT5Aqb4vg4WghCwxe8sW8rVMMLkxZkQDuzHMpaAieyvMEGOfBEK0b5ygWDqUzIn2ga6IgYhmS_92n6ofrErsA8Bn-Y-uakv3Eu7_OSGcHCtd2z6',
+            title: 'Match Request',
+            body: 'your request is accepted',
+            userId: user2,
+          },
+          messagingPayload,
+        );
         resolve(true);
       } else {
-        this.pushnotificationService.send({
-          fcmToken: null,
-          //'c3E2ZYvxQB6Zdb0KKhSBoH:APA91bEhRQhDnPj_bBVOAMQLksvW7MT5Aqb4vg4WghCwxe8sW8rVMMLkxZkQDuzHMpaAieyvMEGOfBEK0b5ygWDqUzIn2ga6IgYhmS_92n6ofrErsA8Bn-Y-uakv3Eu7_OSGcHCtd2z6',
-          title: 'Match Request',
-          body: 'you have received request for a match',
-          userId: user2,
-        });
+        this.pushnotificationService.send(
+          {
+            fcmToken: null,
+            //'c3E2ZYvxQB6Zdb0KKhSBoH:APA91bEhRQhDnPj_bBVOAMQLksvW7MT5Aqb4vg4WghCwxe8sW8rVMMLkxZkQDuzHMpaAieyvMEGOfBEK0b5ygWDqUzIn2ga6IgYhmS_92n6ofrErsA8Bn-Y-uakv3Eu7_OSGcHCtd2z6',
+            title: 'Match Request',
+            body: 'you have received request for a match',
+            userId: user2,
+          },
+          messagingPayload,
+        );
         resolve(false);
       }
     });

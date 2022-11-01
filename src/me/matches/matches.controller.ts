@@ -81,15 +81,18 @@ export class MatchesController {
       title: 'Match Request',
       body: 'you have received request for a match',
       userId: user2,
+      messagingPayload: createWishlistDto.messagingPayload,
     };
     const result = await this.matchesService.create(
       createWishlistDto,
       userPayload,
       pushNotificationDTO,
+      createWishlistDto.messagingPayload,
     );
     const isMatched = await this.matchesService.findMatches(
       userPayload.userId,
       user2,
+      createWishlistDto.messagingPayload,
     );
 
     if (result) {
