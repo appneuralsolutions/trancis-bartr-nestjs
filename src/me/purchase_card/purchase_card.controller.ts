@@ -42,12 +42,12 @@ export class PurchaseCardController {
             userPayload,
         );
         if (data) {
-            return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_MY_FEEDBACK, {
+            return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_MY_PURCHASE, {
                 data,
             });
         } else {
             return new ResponseError(
-                ErrorMessage.NOT_SUCCESSFULLY_CREATED_MY_FEEDBACK,
+                ErrorMessage.NOT_SUCCESSFULLY_CREATED_MY_PURCHASE,
                 {},
             );
         }
@@ -58,10 +58,10 @@ export class PurchaseCardController {
         const userPayload: any = this.jwtService.decode(me);
         const data = await this.PurchaseCardService.findMy(userPayload);
         if (data) {
-            return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MY_FEEDBACK, data);
+            return new ResponseSuccess(Message.SUCCESSFULLY_FIND_MY_PURCHASE, data);
         } else {
             return new ResponseError(
-                ErrorMessage.NOT_SUCCESSFULLY_FIND_MY_FEEDBACK,
+                ErrorMessage.NOT_SUCCESSFULLY_FIND_MY_PURCHASE,
                 {},
             );
         }
@@ -81,12 +81,12 @@ export class PurchaseCardController {
         );
         if (data) {
             return new ResponseSuccess(
-                Message.SUCCESSFULLY_UPDATED_MY_FEEDBACK,
+                Message.SUCCESSFULLY_UPDATED_MY_PURCHASE,
                 data,
             );
         } else {
             return new ResponseError(
-                ErrorMessage.NOT_SUCCESSFULLY_UPDATED_MY_FEEDBACK,
+                ErrorMessage.NOT_SUCCESSFULLY_UPDATED_MY_PURCHASE,
                 {},
             );
         }
@@ -97,12 +97,12 @@ export class PurchaseCardController {
         const data = await this.PurchaseCardService.remove(id);
         if (data) {
             return new ResponseSuccess(
-                Message.SUCCESSFULLY_DELETED_MY_FEEDBACK,
+                Message.SUCCESSFULLY_DELETED_MY_PURCHASE,
                 data,
             );
         } else {
             return new ResponseError(
-                ErrorMessage.NOT_SUCCESSFULLY_DELETED_MY_FEEDBACK,
+                ErrorMessage.NOT_SUCCESSFULLY_DELETED_MY_PURCHASE,
                 {},
             );
         }

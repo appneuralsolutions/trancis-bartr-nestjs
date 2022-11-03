@@ -28,14 +28,14 @@ export class PurchaseCardService {
         });
     }
     async findAll(): Promise<PurchaseCard[]> {
-        const feedback = await this.PurchaseCard.find();
+        const feedback = await this.PurchaseCard.find().populate('cardId');
         return new Promise((resolve) => {
             resolve(feedback);
         });
     }
     async findMy(userPayload): Promise<PurchaseCard[]> {
         const me = userPayload.userId;
-        const data = await this.PurchaseCard.find({ createdBy: me });
+        const data = await this.PurchaseCard.find({ createdBy: me }).populate('cardId');
         return new Promise((resolve) => {
             resolve(data);
         });
