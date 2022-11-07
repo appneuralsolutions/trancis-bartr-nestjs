@@ -4,7 +4,5 @@ export class PurchaseCardDto {
   @IsNotEmpty()
   @ApiProperty()
   cardId: string;
-
-  
   purchaseBy: string;
 }
