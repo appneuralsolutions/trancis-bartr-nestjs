@@ -63,7 +63,7 @@ export class ChatService {
     return new Promise((resolve) => {
       resolve(
         getRooms.map((r) => {
-          let s = { ...r._doc };
+          const s = { ...r._doc };
           const user = r.users.filter((e) => e._id + '' !== cUser)[0];
           s.name = user.firstName + ' ' + user.lastName;
           return s;
@@ -85,6 +85,31 @@ export class ChatService {
       .populate({ path: 'chats', populate: { path: 'counter' } });
     return new Promise((resolve) => {
       resolve(getRoomChats);
+    });
+  }
+
+  async getAllCardChatsInARoom(roomId: string, userId?): Promise<any> {
+    let cardsInARoom: any = await this.getCardsInARoom(roomId, userId);
+    if (cardsInARoom && cardsInARoom.length > 0) {
+      cardsInARoom = cardsInARoom.map(async () => {
+        const getRoomChats = await this.chatRoomModel
+          .findOne({ _id: roomId })
+          .populate({ path: 'chats', populate: { path: 'counter' } });
+        return getRoomChats;
+      });
+    }
+
+    return new Promise((resolve) => {
+      resolve(cardsInARoom);
+    });
+  }
+
+  async getCardsInARoom(roomId: string, userId: string) {
+    const cardsInARoom = await this.chatRoomModel
+      .find({ _id: roomId, sendBy: userId })
+      .distinct('cardId');
+    return new Promise((resolve) => {
+      resolve(cardsInARoom);
     });
   }
 
@@ -156,6 +181,7 @@ export class ChatService {
     const counter = await new this.counterModel({ amount: data.amount }).save();
     const chat = {
       roomId: roomId,
+      cardId: data.cardId,
       message: null,
       sentTo: data.sentTo,
       sentBy: data.sentBy,
@@ -185,7 +211,6 @@ export class ChatService {
   }
 
   async acceptCounter(
-    roomId,
     _id,
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
@@ -236,11 +261,12 @@ export class ChatService {
 
   async dealClose(
     _id: string,
+    cardId: string,
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
   ): Promise<ChatRoom> {
     const room = await this.chatRoomModel.findOneAndUpdate(
-      { _id },
+      { _id, cardId },
       { isDealClosed: true },
     );
     if (room.isDealClosed === true) {

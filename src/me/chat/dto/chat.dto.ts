@@ -6,6 +6,9 @@ export class CreateChatDto {
   message: string;
 
   @ApiProperty({ type: String })
+  cardId: string;
+
+  @ApiProperty({ type: String })
   sentTo: string;
 
   @IsOptional()

@@ -52,6 +52,26 @@ export class ChatController {
     // @Query('byUsers') byUsers: string,
   ): Promise<any> {
     const data = await this.chatService.getChats(roomId); //byUsers
+
+    if (data) {
+      return data;
+    } else {
+      return 'Not Created';
+    }
+  }
+
+  @Get(':roomId/chats/all')
+  async getChatsAll(
+    @Param('roomId') roomId: string,
+    @Me() me: string,
+    // @Query('byUsers') byUsers: string,
+  ): Promise<any> {
+    const userPayload: any = this.jwtService.decode(me);
+    const data = await this.chatService.getAllCardChatsInARoom(
+      roomId,
+      userPayload.userId,
+    ); //byUsers
+
     if (data) {
       return data;
     } else {
@@ -106,6 +126,25 @@ export class ChatController {
     }
   }
 
+  @Get(':roomId')
+  async getCardsInARoom(
+    @Param('roomId') roomId: string,
+    @Me() me: string,
+  ): // @Me() me: string
+
+  Promise<any> {
+    const userPayload: any = this.jwtService.decode(me);
+    const data = await this.chatService.getCardsInARoom(
+      roomId,
+      userPayload.userId,
+    );
+    if (data) {
+      return data;
+    } else {
+      return 'not able to fetch';
+    }
+  }
+
   @Put(':id')
   async update(
     @Body() createFeedbackDto: CreateChatDto,
@@ -151,7 +190,6 @@ export class ChatController {
   ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
     const data = await this.chatService.acceptCounter(
-      roomId,
       id,
       pushNotificationDTO,
       pushNotificationDTO.messagingPayload,
@@ -183,14 +221,16 @@ export class ChatController {
     }
   }
 
-  @Post('deal-close/:id')
+  @Post('deal-close/:id/:cardId')
   async DealClose(
     @Param('id') id: string,
+    @Param('cardId') cardId: string,
     @Me() me: string,
     @Body() pushNotificationDTO: PushNotificationDTO,
   ): Promise<any> {
     const data = await this.chatService.dealClose(
       id,
+      cardId,
       pushNotificationDTO,
       pushNotificationDTO.messagingPayload,
     );

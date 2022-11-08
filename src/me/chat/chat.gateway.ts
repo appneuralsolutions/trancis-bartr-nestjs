@@ -59,10 +59,14 @@ export class ChatGateway {
     this.server.to(client.id as string).emit('messages', {
       // cardDetails: this.cardModel.findOne({ _id: data.cardId }),
       isDeductedAmount: deductedAmount ? true : false,
-      roomData: await this.chatService.getChats(
+      // roomData: await this.chatService.getChats(
+      //   data.roomId,
+      //   data.userId,
+      //   data.cardId,
+      // ),
+      roomData: await this.chatService.getAllCardChatsInARoom(
         data.roomId,
         data.userId,
-        data.cardId,
       ),
     });
   }
@@ -86,6 +90,7 @@ export class ChatGateway {
         {
           // roomId: msgData.roomId,
           message: msgData.message,
+          cardId: msgData.cardId,
           sentTo: msgData.sentTo,
           sentBy: msgData.sentBy,
           counter: msgData.counter,
@@ -99,6 +104,7 @@ export class ChatGateway {
       const counter = await this.chatService.createCounter(
         msgData.roomId,
         {
+          cardId: msgData.cardId,
           sentTo: msgData.sentTo,
           sentBy: msgData.sentBy,
           amount: msgData.amount,
@@ -118,7 +124,6 @@ export class ChatGateway {
   @SubscribeMessage('accept-counter')
   async acceptCounter(@MessageBody() msgData: any) {
     await this.chatService.acceptCounter(
-      msgData.roomId,
       msgData.counterId,
       msgData.pushNotification,
       msgData.messagingPayload,
@@ -144,6 +149,7 @@ export class ChatGateway {
   async dealClose(@MessageBody() msgData: any) {
     await this.chatService.dealClose(
       msgData.roomId,
+      msgData.cardId,
       msgData.pushNotification,
       msgData.messagingPayload,
     );
