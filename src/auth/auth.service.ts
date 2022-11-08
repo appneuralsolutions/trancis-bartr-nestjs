@@ -368,7 +368,7 @@ export class AuthService {
 
       const sent = await this.emailService.sendEmail(mailOptions);
       console.log(sent, 'sent');
-      console.log('Message sent: %s', sent.messageId);
+      // console.log('Message sent: %s', sent.messageId);
       if (sent) return true;
       else return false;
     } else {
@@ -544,7 +544,7 @@ export class AuthService {
 
       const sent = await this.emailService.sendEmail(mailOptions);
 
-      console.log('Message sent: %s', sent.messageId);
+      // console.log('Message sent: %s', sent.messageId);
       if (sent) return true;
       else return false;
     } else {
