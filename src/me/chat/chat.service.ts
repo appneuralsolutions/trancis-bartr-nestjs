@@ -91,9 +91,9 @@ export class ChatService {
   async getAllCardChatsInARoom(roomId: string, userId?): Promise<any> {
     let cardsInARoom: any = await this.getCardsInARoom(roomId, userId);
     if (cardsInARoom && cardsInARoom.length > 0) {
-      cardsInARoom = cardsInARoom.map(async () => {
+      cardsInARoom = cardsInARoom.map(async (c) => {
         const getRoomChats = await this.chatRoomModel
-          .findOne({ _id: roomId })
+          .findOne({ _id: roomId, cardId: c })
           .populate({ path: 'chats', populate: { path: 'counter' } });
         return getRoomChats;
       });
