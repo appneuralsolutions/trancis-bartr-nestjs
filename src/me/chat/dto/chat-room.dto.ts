@@ -5,7 +5,4 @@ export class CreateRoomDto {
 
   @ApiProperty({ type: String })
   userId2: string;
-
-  @ApiProperty({ type: String })
-  cardId: string;
 }

@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 
 export const ChatSchema = new mongoose.Schema({
   message: String,
+  cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Card' },
   roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'ChatRoom' },
   sentTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   sentBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -11,8 +12,9 @@ export const ChatSchema = new mongoose.Schema({
 
 export const ChatRoomSchema = new mongoose.Schema({
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Card' },
+  // cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Card' },
   isDealClosed: Boolean,
+  isCompleteDealClosed: Boolean,
   chats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
   finalCounter: { type: mongoose.Schema.Types.ObjectId, ref: 'Counter' },
 }).set('timestamps', true);

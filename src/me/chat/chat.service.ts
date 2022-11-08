@@ -29,7 +29,7 @@ export class ChatService {
     if (!getRoom) {
       const createdData = await new this.chatRoomModel({
         users: [data.userId1, data.userId2],
-        cardId: data.cardId,
+        // cardId: data.cardId,
       }).save();
       return new Promise((resolve) => {
         resolve(createdData);
@@ -58,7 +58,7 @@ export class ChatService {
     }
     const getRooms: any = await this.chatRoomModel
       .find(query)
-      .populate(['users', 'chats', 'cardId'])
+      .populate(['users', 'chats'])
       .sort({ updatedAt: -1 });
     return new Promise((resolve) => {
       resolve(
@@ -73,13 +73,6 @@ export class ChatService {
   }
 
   async getChats(roomId: string, userId?, cardId?): Promise<any> {
-    const deductedAmount =
-      userId && cardId
-        ? await this.deductedAmountModel.findOne({
-            user: userId,
-            cardId: cardId,
-          })
-        : null;
     const getRoomChats = await this.chatRoomModel
       .findOne({ _id: roomId })
       .populate({ path: 'chats', populate: { path: 'counter' } });
