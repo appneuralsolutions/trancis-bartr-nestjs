@@ -126,7 +126,7 @@ export class ChatController {
     }
   }
 
-  @Get(':roomId')
+  @Get(':roomId/cards-in-room')
   async getCardsInARoom(
     @Param('roomId') roomId: string,
     @Me() me: string,

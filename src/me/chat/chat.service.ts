@@ -25,6 +25,7 @@ export class ChatService {
   async createRoom(data: CreateRoomDto): Promise<ChatRoom> {
     const getRoom: any = await this.chatRoomModel.findOne({
       users: { $all: [data.userId1, data.userId2] },
+      cardId: data.cardId,
     });
     if (!getRoom) {
       const createdData = await new this.chatRoomModel({
@@ -58,7 +59,7 @@ export class ChatService {
     }
     const getRooms: any = await this.chatRoomModel
       .find(query)
-      .populate(['chats', 'cardId'])
+      .populate(['users', 'chats'])
       .sort({ updatedAt: -1 });
     return new Promise((resolve) => {
       resolve(
@@ -100,7 +101,7 @@ export class ChatService {
   async getCardsInARoom(roomId: string, userId: string) {
     const cardsInARoom = await this.chatRoomModel
       .find({ _id: roomId, sendBy: userId })
-      .distinct('cardId');
+      .distinct('cardId')
     return new Promise((resolve) => {
       resolve(cardsInARoom);
     });
