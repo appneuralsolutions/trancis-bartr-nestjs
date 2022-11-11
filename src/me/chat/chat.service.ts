@@ -23,11 +23,10 @@ export class ChatService {
   ) {}
 
   async createRoom(data: CreateRoomDto): Promise<ChatRoom> {
-    const getRoom = null;
-    // const getRoom: any = await this.chatRoomModel.find({
-    //   users: { $all: [data.userId1, data.userId2] },
-    //   cardId: data.cardId,
-    // });
+    const getRoom: any = await this.chatRoomModel.find({
+      users: { $all: [data.userId1, data.userId2] },
+      // cardId: data.cardId,
+    });
     if (!getRoom) {
       const createdData = await new this.chatRoomModel({
         users: [data.userId1, data.userId2],
@@ -37,6 +36,9 @@ export class ChatService {
         resolve(createdData);
       });
     } else {
+      return new Promise((resolve) => {
+        resolve(getRoom);
+      });
       throw ErrorMessage.ROOM_ALREADY_EXISTS;
     }
   }
@@ -102,7 +104,7 @@ export class ChatService {
   async getCardsInARoom(roomId: string, userId: string) {
     const cardsInARoom = await this.chatRoomModel
       .find({ _id: roomId, sendBy: userId })
-      .distinct('cardId')
+      .distinct('cardId');
     return new Promise((resolve) => {
       resolve(cardsInARoom);
     });
