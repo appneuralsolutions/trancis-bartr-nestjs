@@ -58,7 +58,7 @@ export class ChatService {
     }
     const getRooms: any = await this.chatRoomModel
       .find(query)
-      .populate(['users', 'chats'])
+      .populate(['chats', 'cardId'])
       .sort({ updatedAt: -1 });
     return new Promise((resolve) => {
       resolve(
