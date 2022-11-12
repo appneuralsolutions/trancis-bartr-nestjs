@@ -44,34 +44,34 @@ export class EmailService {
     return transport;
   }
 
-  // async sendEmail(mailInfo) {
-  //   // create reusable transporter object using the default SMTP transport
-  //   const transporter = nodemailer.createTransport({
-  //     host: 'smtp.gmail.com',
-  //     port: 465,
-  //     secure: true, // true for 465, false for other ports
-  //     auth: {
-  //       user: 'xyz@appneural.com', // generated ethereal user
-  //       pass: 'vrskilled', // generated ethereal password
-  //     },
-  //   });
+  async sendEmail(mailInfo) {
+    // create reusable transporter object using the default SMTP transport
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: 'xyz@appneural.com', // generated ethereal user
+        pass: 'vrskilled', // generated ethereal password
+      },
+    });
 
-  //   // send mail with defined transport object
-  //   const sentMail = await transporter.sendMail(mailInfo);
+    // send mail with defined transport object
+    const sentMail = await transporter.sendMail(mailInfo);
 
-  //   console.log('Message sent: %s', sentMail.messageId);
-  //   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    console.log('Message sent: %s', sentMail.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-  //   // Preview only available when sending through an Ethereal account
-  //   console.log(sentMail);
-  //   if (sentMail.accepted.length === 0) {
-  //     console.log('Email sent: ' + sentMail.response);
-  //     return null;
-  //   }
-  //   return sentMail;
-  // }
+    // Preview only available when sending through an Ethereal account
+    console.log(sentMail);
+    if (sentMail.accepted.length === 0) {
+      console.log('Email sent: ' + sentMail.response);
+      return null;
+    }
+    return sentMail;
+  }
 
-  async sendEmail(mail: SendGrid.MailDataRequired) {
+  async sendSendGridEmail(mail: SendGrid.MailDataRequired) {
     const transport = await SendGrid.send(mail);
     // avoid this on production. use log instead :)
     console.log(`E-Mail sent to ${mail.to}`);
