@@ -100,7 +100,7 @@ export class ChatService {
   }
 
   async getChatsByCardId(roomId: string, userId?, cardId?): Promise<any> {
-    const getRoomChats = await this.chatRoomModel
+    const getRoomChats = await this.chatModel
       .findOne({ _id: roomId, cardId: cardId })
       .populate({ path: 'chats', populate: { path: 'counter' } });
     return new Promise((resolve) => {
@@ -138,8 +138,10 @@ export class ChatService {
     data: CreateChatDto,
     messagingPayload: MessagingPayload,
   ): Promise<ChatRoom> {
-    //data.createdBy = userPayload.userId;
-    const createdData: any = await new this.chatModel(data).save();
+    // data.createdBy = userPayload.userId;
+    const d: any = data;
+    d.roomId = roomId;
+    const createdData: any = await new this.chatModel(d).save();
     const pushData: any = { chats: createdData._id };
     const chat = await this.chatRoomModel.findByIdAndUpdate(
       { _id: roomId },
