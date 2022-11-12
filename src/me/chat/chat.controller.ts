@@ -23,6 +23,7 @@ export class ChatController {
     @Body() roomDto: CreateRoomDto,
     @Me() me: string,
   ): Promise<any> {
+    const userPayload: any = this.jwtService.decode(me);
     const data = await this.chatService.createRoom(roomDto);
     if (data) {
       return data;

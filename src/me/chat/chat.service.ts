@@ -23,19 +23,33 @@ export class ChatService {
   ) {}
 
   async createRoom(data: CreateRoomDto): Promise<ChatRoom> {
-    const getRoom: any = await this.chatRoomModel.find({
+    let getRoom: any = await this.chatRoomModel.findOne({
       users: { $all: [data.userId1, data.userId2] },
       // cardId: data.cardId,
     });
     if (!getRoom) {
       const createdData = await new this.chatRoomModel({
         users: [data.userId1, data.userId2],
-        cardId: data.cardId,
+        cardId: [data.cardId],
       }).save();
       return new Promise((resolve) => {
         resolve(createdData);
       });
     } else {
+      if (!getRoom.cardId.includes(data.cardId)) {
+        await this.chatRoomModel.findOneAndUpdate(
+          {
+            users: { $all: [data.userId1, data.userId2] },
+          },
+          {
+            $push: { cardId: data.cardId },
+          },
+        );
+        getRoom = await this.chatRoomModel.findOne({
+          users: { $all: [data.userId1, data.userId2] },
+          // cardId: data.cardId,
+        });
+      }
       return new Promise((resolve) => {
         resolve(getRoom);
       });
@@ -79,6 +93,15 @@ export class ChatService {
   async getChats(roomId: string, userId?, cardId?): Promise<any> {
     const getRoomChats = await this.chatRoomModel
       .findOne({ _id: roomId })
+      .populate({ path: 'chats', populate: { path: 'counter' } });
+    return new Promise((resolve) => {
+      resolve(getRoomChats);
+    });
+  }
+
+  async getChatsByCardId(roomId: string, userId?, cardId?): Promise<any> {
+    const getRoomChats = await this.chatRoomModel
+      .findOne({ _id: roomId, cardId: cardId })
       .populate({ path: 'chats', populate: { path: 'counter' } });
     return new Promise((resolve) => {
       resolve(getRoomChats);

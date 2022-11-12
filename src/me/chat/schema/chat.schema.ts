@@ -12,7 +12,7 @@ export const ChatSchema = new mongoose.Schema({
 
 export const ChatRoomSchema = new mongoose.Schema({
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  // cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Card' },
+  cardId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Card' }],
   isDealClosed: Boolean,
   isCompleteDealClosed: Boolean,
   chats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
