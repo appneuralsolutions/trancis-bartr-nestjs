@@ -125,6 +125,7 @@ export class ChatGateway {
   async acceptCounter(@MessageBody() msgData: any) {
     await this.chatService.acceptCounter(
       msgData.counterId,
+      msgData.cardId,
       msgData.pushNotification,
       msgData.messagingPayload,
     );
@@ -137,6 +138,7 @@ export class ChatGateway {
   async rejectCounter(@MessageBody() msgData: any) {
     await this.chatService.rejectCounter(
       msgData.counterId,
+      msgData.cardId,
       msgData.pushNotification,
       msgData.messagingPayload,
     );

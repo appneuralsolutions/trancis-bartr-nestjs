@@ -183,16 +183,18 @@ export class ChatController {
     }
   }
 
-  @Post('counter/:roomId/:id/accept')
+  @Post('counter/:roomId/:id/:cardId/accept')
   async AcceptCounter(
     @Param('id') id: string,
     @Param('roomId') roomId: string,
+    @Param('cardId') cardId: string,
     me: string,
     @Body() pushNotificationDTO: PushNotificationDTO,
   ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
     const data = await this.chatService.acceptCounter(
       id,
+      cardId,
       pushNotificationDTO,
       pushNotificationDTO.messagingPayload,
     );
@@ -207,12 +209,14 @@ export class ChatController {
   async RejectCounter(
     @Param('id') id: string,
     @Param('roomId') roomId: string,
+    @Param('cardId') cardId: string,
     @Me() me: string,
     @Body() pushNotificationDTO: PushNotificationDTO,
   ): // @Me() me: string
   Promise<any> {
     const data = await this.chatService.rejectCounter(
       id,
+      cardId,
       pushNotificationDTO,
       pushNotificationDTO.messagingPayload,
     );

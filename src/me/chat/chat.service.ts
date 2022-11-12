@@ -201,7 +201,7 @@ export class ChatService {
     messagingPayload: MessagingPayload,
   ): Promise<any> {
     const counter = await new this.counterModel({
-      cardId: data.amount,
+      cardId: data.cardId,
       amount: data.amount,
     }).save();
     const chat = {
@@ -237,13 +237,14 @@ export class ChatService {
 
   async acceptCounter(
     _id,
+    cardId,
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
   ): Promise<ICounter> {
-    if (await this.counterModel.findOne({ _id, isAccepted: null })) {
+    if (await this.counterModel.findOne({ _id, cardId, isAccepted: null })) {
       // const room = await this.chatRoomModel.findOne({ _id: roomId });
       const counter = await this.counterModel.findOneAndUpdate(
-        { _id, isAccepted: null },
+        { _id, cardId, isAccepted: null },
         {
           isAccepted: true,
         },
@@ -262,12 +263,13 @@ export class ChatService {
 
   async rejectCounter(
     _id,
+    cardId,
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
   ): Promise<ICounter> {
-    if (await this.counterModel.findOne({ _id, isAccepted: null })) {
+    if (await this.counterModel.findOne({ _id, cardId, isAccepted: null })) {
       const counter = await this.counterModel.findOneAndUpdate(
-        { _id, isAccepted: null },
+        { _id, cardId, isAccepted: null },
         {
           isAccepted: false,
         },
