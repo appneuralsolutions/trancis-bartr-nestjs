@@ -173,7 +173,6 @@ export class ChatController {
     counterDto.sentBy = userPayload.userId;
     const data = await this.chatService.createCounter(
       roomId,
-      cardId,
       counterDto,
       counterDto.messagingPayload,
     );

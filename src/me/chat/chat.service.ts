@@ -197,12 +197,11 @@ export class ChatService {
 
   async createCounter(
     roomId: string,
-    cardId: string,
     data: CreateCounterDto,
     messagingPayload: MessagingPayload,
   ): Promise<any> {
     const counter = await new this.counterModel({
-      cardId,
+      cardId: data.amount,
       amount: data.amount,
     }).save();
     const chat = {
