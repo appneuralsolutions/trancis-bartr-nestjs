@@ -313,16 +313,13 @@ export class ChatService {
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
   ): Promise<ChatRoom> {
-    const room = await this.chatRoomModel.findOne(
-      { _id, cardId },
-      { isDealClosed: true },
-    );
-    if (room.isDealClosed === true) {
-      await this.pushnotificationService.send(
-        pushnotificationDto,
-        messagingPayload,
-      );
-    }
+    const room = await this.chatRoomModel.findOne({ _id, cardId });
+    // if (room.isDealClosed === true) {
+    //   await this.pushnotificationService.send(
+    //     pushnotificationDto,
+    //     messagingPayload,
+    //   );
+    // }
     return new Promise((resolve) => {
       resolve(room);
     });
