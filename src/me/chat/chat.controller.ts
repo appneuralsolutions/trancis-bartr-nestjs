@@ -162,16 +162,18 @@ export class ChatController {
     }
   }
 
-  @Post('counter/:roomId')
+  @Post('counter/:roomId/:cardId')
   async createCounter(
     @Body() counterDto: CreateCounterDto,
     @Param('roomId') roomId: string,
+    @Param('cardId') cardId: string,
     @Me() me: string,
   ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
     counterDto.sentBy = userPayload.userId;
     const data = await this.chatService.createCounter(
       roomId,
+      cardId,
       counterDto,
       counterDto.messagingPayload,
     );
@@ -224,6 +226,26 @@ export class ChatController {
 
   @Post('deal-close/:id/:cardId')
   async DealClose(
+    @Param('id') id: string,
+    @Param('cardId') cardId: string,
+    @Me() me: string,
+    @Body() pushNotificationDTO: PushNotificationDTO,
+  ): Promise<any> {
+    const data = await this.chatService.dealClose(
+      id,
+      cardId,
+      pushNotificationDTO,
+      pushNotificationDTO.messagingPayload,
+    );
+    if (data) {
+      return data;
+    } else {
+      return 'not able to fetch';
+    }
+  }
+
+  @Get('deal-close/:id/:cardId')
+  async getDealClose(
     @Param('id') id: string,
     @Param('cardId') cardId: string,
     @Me() me: string,

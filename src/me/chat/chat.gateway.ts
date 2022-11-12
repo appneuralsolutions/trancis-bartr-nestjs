@@ -103,6 +103,7 @@ export class ChatGateway {
     } else {
       const counter = await this.chatService.createCounter(
         msgData.roomId,
+        msgData.cardId,
         {
           cardId: msgData.cardId,
           sentTo: msgData.sentTo,

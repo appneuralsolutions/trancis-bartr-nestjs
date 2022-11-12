@@ -197,10 +197,14 @@ export class ChatService {
 
   async createCounter(
     roomId: string,
+    cardId: string,
     data: CreateCounterDto,
     messagingPayload: MessagingPayload,
   ): Promise<any> {
-    const counter = await new this.counterModel({ amount: data.amount }).save();
+    const counter = await new this.counterModel({
+      cardId,
+      amount: data.amount,
+    }).save();
     const chat = {
       roomId: roomId,
       cardId: data.cardId,
@@ -288,6 +292,27 @@ export class ChatService {
     messagingPayload: MessagingPayload,
   ): Promise<ChatRoom> {
     const room = await this.chatRoomModel.findOneAndUpdate(
+      { _id, cardId },
+      { isDealClosed: true },
+    );
+    if (room.isDealClosed === true) {
+      await this.pushnotificationService.send(
+        pushnotificationDto,
+        messagingPayload,
+      );
+    }
+    return new Promise((resolve) => {
+      resolve(room);
+    });
+  }
+
+  async getDealClose(
+    _id: string,
+    cardId: string,
+    pushnotificationDto: PushNotificationDTO,
+    messagingPayload: MessagingPayload,
+  ): Promise<ChatRoom> {
+    const room = await this.chatRoomModel.findOne(
       { _id, cardId },
       { isDealClosed: true },
     );
