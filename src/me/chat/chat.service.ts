@@ -125,7 +125,7 @@ export class ChatService {
   }
 
   async getCardsInARoom(roomId: string, userId: string) {
-    const cardsInARoom = await this.chatRoomModel
+    const cardsInARoom = await this.chatModel
       .find({ _id: roomId, sendBy: userId })
       .distinct('cardId');
     return new Promise((resolve) => {
