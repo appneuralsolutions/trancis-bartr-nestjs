@@ -5,6 +5,7 @@ import {
   ChatRoomSchema,
   ChatSchema,
   CounterSchema,
+  DealSchema,
 } from './chat/schema/chat.schema';
 import { AuthModule } from '../auth/auth.module';
 import { WishlistService } from './wishlist/wishlist.service';
@@ -68,9 +69,10 @@ import { UsersModule } from 'src/admin/users/users.module';
       { name: 'Chat', schema: ChatSchema },
       { name: 'ChatRoom', schema: ChatRoomSchema },
       { name: 'Counter', schema: CounterSchema },
+      { name: 'Deal', schema: DealSchema },
       { name: 'Deducted-Amount', schema: DeductedAmountSchema },
-      { name: 'PurchaseFeedback', schema: PurchaseFeedbackSchema},
-      { name: 'PurchaseCard', schema: PurchaseCardSchema},
+      { name: 'PurchaseFeedback', schema: PurchaseFeedbackSchema },
+      { name: 'PurchaseCard', schema: PurchaseCardSchema },
       { name: 'User', schema: UserSchema },
     ]),
     //ChatModule,

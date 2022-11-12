@@ -23,6 +23,12 @@ export const CounterSchema = new mongoose.Schema({
   cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Card' },
   amount: Number,
   isAccepted: { type: Boolean || null, default: null },
-  isDealClose: Boolean,
+}).set('timestamps', true);
+
+export const DealSchema = new mongoose.Schema({
+  roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'ChatRoom' },
+  cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Card' },
+  isAccepted: { type: Boolean || null, default: null },
+  isDealClosed: Boolean,
   isCompleteDealClosed: Boolean,
 }).set('timestamps', true);

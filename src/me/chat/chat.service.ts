@@ -11,12 +11,14 @@ import { ErrorMessage } from 'src/shared/@constants/error.constant';
 import { PushNotificationService } from 'src/push_notification/push_notification.service';
 import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
+import { IDeal } from './interface/deal.interface';
 @Injectable()
 export class ChatService {
   constructor(
     @InjectModel('Chat') private readonly chatModel: Model<Chat>,
     @InjectModel('ChatRoom') private readonly chatRoomModel: Model<ChatRoom>,
     @InjectModel('Counter') private readonly counterModel: Model<ICounter>,
+    @InjectModel('Deal') private readonly dealModel: Model<IDeal>,
     @InjectModel('Deducted-Amount')
     private readonly deductedAmountModel: Model<any>,
     private readonly pushnotificationService: PushNotificationService,
@@ -291,8 +293,8 @@ export class ChatService {
     cardId: string,
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
-  ): Promise<ChatRoom> {
-    const room = await this.chatRoomModel.findOneAndUpdate(
+  ): Promise<any> {
+    const room = await this.dealModel.findOneAndUpdate(
       { _id, cardId },
       { isDealClosed: true },
     );
