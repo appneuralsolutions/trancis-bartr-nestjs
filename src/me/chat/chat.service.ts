@@ -104,7 +104,10 @@ export class ChatService {
   async getChatsByCardId(roomId: string, userId?, cardId?): Promise<any> {
     const getRoomChats = await this.chatModel
       .findOne({ _id: roomId, cardId: cardId })
-      .populate({ path: 'chats', populate: { path: 'counter' } });
+      .populate([
+        { path: 'chats', populate: { path: 'counter' } },
+        { path: 'cardId' },
+      ]);
     return new Promise((resolve) => {
       resolve(getRoomChats);
     });
