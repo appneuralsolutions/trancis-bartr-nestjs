@@ -261,9 +261,9 @@ export class ChatController {
       pushNotificationDTO.messagingPayload,
     );
     if (data) {
-      return data;
+      return new ResponseSuccess(Message.DEAL_CLOSED, data);
     } else {
-      return 'not able to fetch';
+      return new ResponseSuccess(Message.NO_RECORD_IN_DEAL, null);
     }
   }
 }

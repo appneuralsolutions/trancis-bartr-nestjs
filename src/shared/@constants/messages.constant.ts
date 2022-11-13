@@ -53,4 +53,5 @@ export const Message = {
   SUCCESSFULLY_UPDATED_SUBJECT: 'Successfully Updated Subject',
   SUCCESSFULLY_DELETED_SUBJECT: 'Successfully Deleted Subject',
   DEAL_CLOSED: 'Deal Closed',
+  NO_RECORD_IN_DEAL: 'No Record In Deal',
 };
