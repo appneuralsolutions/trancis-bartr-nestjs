@@ -244,13 +244,7 @@ export class ChatController {
       pushNotificationDTO.isDealClosed,
       pushNotificationDTO.isCompleteDealClosed,
     );
-    if (data === true) {
-      return new ResponseSuccess(Message.DEAL_ACCEPTED);
-    } else if (data === false) {
-      return new ResponseSuccess(Message.DEAL_REJECTED);
-    } else {
-      return new ResponseSuccess(Message.DEAL_NOT_DONE);
-    }
+    return new ResponseSuccess(Message.DEAL_CLOSED, data);
   }
 
   @Get('deal-close/:id/:cardId')
