@@ -69,7 +69,7 @@ import { UsersModule } from 'src/admin/users/users.module';
       { name: 'Chat', schema: ChatSchema },
       { name: 'ChatRoom', schema: ChatRoomSchema },
       { name: 'Counter', schema: CounterSchema },
-      { name: 'Deal', schema: DealSchema },
+      { name: 'DealClose', schema: DealSchema },
       { name: 'Deducted-Amount', schema: DeductedAmountSchema },
       { name: 'PurchaseFeedback', schema: PurchaseFeedbackSchema },
       { name: 'PurchaseCard', schema: PurchaseCardSchema },

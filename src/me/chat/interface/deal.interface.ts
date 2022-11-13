@@ -4,5 +4,5 @@ export interface IDeal {
   cardId: string;
   isAccepted: boolean;
   isDealClosed: string;
-  isCompleteDealClosed: boolean;
+  isCompleteDealClosed: string;
 }

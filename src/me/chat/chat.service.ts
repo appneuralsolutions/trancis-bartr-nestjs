@@ -19,7 +19,7 @@ export class ChatService {
     @InjectModel('Chat') private readonly chatModel: Model<Chat>,
     @InjectModel('ChatRoom') private readonly chatRoomModel: Model<ChatRoom>,
     @InjectModel('Counter') private readonly counterModel: Model<ICounter>,
-    @InjectModel('Deal') private readonly dealModel: Model<IDeal>,
+    @InjectModel('DealClose') private readonly dealCloseModel: Model<IDeal>,
     @InjectModel('Deducted-Amount')
     private readonly deductedAmountModel: Model<any>,
     private readonly pushnotificationService: PushNotificationService,
@@ -301,7 +301,7 @@ export class ChatService {
     isDealClosed: string,
     isCompleteDealClosed: string,
   ): Promise<any> {
-    let room = await this.dealModel.findOneAndUpdate(
+    let room = await this.dealCloseModel.findOneAndUpdate(
       { roomId, cardId },
       {
         $set: {
@@ -310,7 +310,7 @@ export class ChatService {
       },
     );
     if (!room) {
-      room = await new this.dealModel({
+      room = await new this.dealCloseModel({
         roomId,
         cardId,
         isDealClosed,
@@ -327,7 +327,7 @@ export class ChatService {
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
   ): Promise<any> {
-    const room = await this.dealModel.findOneAndUpdate({ roomId, cardId });
+    const room = await this.dealCloseModel.findOneAndUpdate({ roomId, cardId });
     // let response = null;
     // if (room) {
     //   if (room.isDealClosed === true) {

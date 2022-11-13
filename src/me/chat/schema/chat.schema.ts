@@ -13,8 +13,8 @@ export const ChatSchema = new mongoose.Schema({
 export const ChatRoomSchema = new mongoose.Schema({
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   cardId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Card' }],
-  // isDealClosed: Boolean,
-  // isCompleteDealClosed: Boolean,
+  // isDealClosed: String,
+  // isCompleteDealClosed: String,
   chats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
   finalCounter: { type: mongoose.Schema.Types.ObjectId, ref: 'Counter' },
 }).set('timestamps', true);
@@ -30,5 +30,5 @@ export const DealSchema = new mongoose.Schema({
   cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Card' },
   isAccepted: { type: Boolean || null, default: null },
   isDealClosed: String,
-  isCompleteDealClosed: Boolean,
+  isCompleteDealClosed: String,
 }).set('timestamps', true);
