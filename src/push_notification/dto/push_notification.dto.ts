@@ -12,4 +12,10 @@ export class PushNotificationDTO {
   public readonly userId: string;
   @ApiProperty()
   messagingPayload: MessagingPayload;
+
+  @ApiProperty()
+  isDealClosed: string;
+
+  @ApiProperty()
+  isCompleteDealClosed: string;
 }

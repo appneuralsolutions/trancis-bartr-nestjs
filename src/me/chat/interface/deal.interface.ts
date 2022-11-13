@@ -3,6 +3,6 @@ export interface IDeal {
   roomId: string;
   cardId: string;
   isAccepted: boolean;
-  isDealClosed: boolean;
+  isDealClosed: string;
   isCompleteDealClosed: boolean;
 }

@@ -154,6 +154,8 @@ export class ChatGateway {
       msgData.cardId,
       msgData.pushNotification,
       msgData.messagingPayload,
+      msgData.isDealClosed,
+      msgData.isCompleteDealClosed,
     );
     this.server
       .in(msgData.roomId as string)

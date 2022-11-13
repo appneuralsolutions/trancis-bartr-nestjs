@@ -29,6 +29,6 @@ export const DealSchema = new mongoose.Schema({
   roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'ChatRoom' },
   cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'Card' },
   isAccepted: { type: Boolean || null, default: null },
-  isDealClosed: Boolean,
+  isDealClosed: String,
   isCompleteDealClosed: Boolean,
 }).set('timestamps', true);

@@ -1,7 +1,7 @@
 export interface ChatRoom {
   users: string;
-  isDealClosed: boolean;
-  isCompleteDealClosed: boolean;
+  isDealClosed: string;
+  isCompleteDealClosed: string;
   chats: string;
   finalCounter: string;
 }

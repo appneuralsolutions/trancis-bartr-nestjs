@@ -269,18 +269,19 @@ export class ChatService {
   }
 
   async rejectCounter(
-    _id,
+    roomId,
     cardId,
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
   ): Promise<ICounter> {
-    if (await this.counterModel.findOne({ _id, cardId, isAccepted: null })) {
-      const counter = await this.counterModel.findOneAndUpdate(
-        { _id, cardId, isAccepted: null },
-        {
-          isAccepted: false,
-        },
-      );
+    if (await this.counterModel.findOne({ roomId, cardId, isAccepted: null })) {
+      const counter = await new this.counterModel({
+        roomId: roomId,
+        cardId: cardId,
+        isAccepted: false,
+        isDealClosed: null,
+        isCompleteDealClosed: null,
+      });
       await this.pushnotificationService.send(
         pushnotificationDto,
         messagingPayload,
@@ -294,50 +295,51 @@ export class ChatService {
   }
 
   async dealClose(
-    _id: string,
+    roomId: string,
     cardId: string,
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
+    isDealClosed: string,
+    isCompleteDealClosed: string,
   ): Promise<any> {
     const room = await this.dealModel.findOneAndUpdate(
-      { _id, cardId },
-      { isDealClosed: true },
+      { roomId, cardId },
+      {
+        $set: {
+          isDealClosed: isDealClosed,
+          isCompleteDealClosed: isCompleteDealClosed,
+        },
+      },
     );
-    let response = null;
-    if (room) {
-      if (room.isDealClosed === true) {
-        await this.pushnotificationService.send(
-          pushnotificationDto,
-          messagingPayload,
-        );
-        response = true;
-      } else {
-        await this.pushnotificationService.send(
-          pushnotificationDto,
-          messagingPayload,
-        );
-        response = false;
-      }
-    } else {
-      response = null;
-    }
     return new Promise((resolve) => {
-      resolve(response);
+      resolve(room);
     });
   }
 
   async getDealClose(
-    _id: string,
+    roomId: string,
     cardId: string,
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
-  ): Promise<ChatRoom> {
-    const room = await this.chatRoomModel.findOne({ _id, cardId });
-    // if (room.isDealClosed === true) {
-    //   await this.pushnotificationService.send(
-    //     pushnotificationDto,
-    //     messagingPayload,
-    //   );
+  ): Promise<any> {
+    const room = await this.dealModel.findOneAndUpdate({ roomId, cardId });
+    // let response = null;
+    // if (room) {
+    //   if (room.isDealClosed === true) {
+    //     await this.pushnotificationService.send(
+    //       pushnotificationDto,
+    //       messagingPayload,
+    //     );
+    //     response = true;
+    //   } else {
+    //     await this.pushnotificationService.send(
+    //       pushnotificationDto,
+    //       messagingPayload,
+    //     );
+    //     response = false;
+    //   }
+    // } else {
+    //   response = null;
     // }
     return new Promise((resolve) => {
       resolve(room);

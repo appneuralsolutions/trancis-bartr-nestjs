@@ -4,7 +4,6 @@ import { CreateMatchDto } from './dto/create-match.dto';
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 import { PushNotificationService } from 'src/push_notification/push_notification.service';
 import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 
@@ -19,7 +18,7 @@ export class MatchesService {
   async create(
     data: CreateMatchDto,
     userPayload,
-    pushnotificationDto: PushNotificationDTO,
+    pushnotificationDto: any,
     messagingPayload: MessagingPayload,
   ): Promise<Match> {
     const card = await this.cardModel
