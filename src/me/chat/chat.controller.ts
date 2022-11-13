@@ -252,14 +252,8 @@ export class ChatController {
     @Param('id') id: string,
     @Param('cardId') cardId: string,
     @Me() me: string,
-    @Body() pushNotificationDTO: PushNotificationDTO,
   ): Promise<any> {
-    const data = await this.chatService.getDealClose(
-      id,
-      cardId,
-      pushNotificationDTO,
-      pushNotificationDTO.messagingPayload,
-    );
+    const data = await this.chatService.getDealClose(id, cardId);
     if (data) {
       return new ResponseSuccess(Message.DEAL_CLOSED, data);
     } else {

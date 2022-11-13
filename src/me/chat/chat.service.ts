@@ -321,12 +321,7 @@ export class ChatService {
     });
   }
 
-  async getDealClose(
-    roomId: string,
-    cardId: string,
-    pushnotificationDto: PushNotificationDTO,
-    messagingPayload: MessagingPayload,
-  ): Promise<any> {
+  async getDealClose(roomId: string, cardId: string): Promise<any> {
     const room = await this.dealCloseModel.findOneAndUpdate({ roomId, cardId });
     // let response = null;
     // if (room) {
