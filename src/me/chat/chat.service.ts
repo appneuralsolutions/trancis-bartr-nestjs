@@ -302,15 +302,21 @@ export class ChatService {
     isDealClosed: string,
     isCompleteDealClosed: string,
   ): Promise<any> {
-    const room = await this.dealModel.findOneAndUpdate(
+    let room = await this.dealModel.findOneAndUpdate(
       { roomId, cardId },
       {
         $set: {
-          isDealClosed: isDealClosed,
           isCompleteDealClosed: isCompleteDealClosed,
         },
       },
     );
+    if (!room) {
+      room = await new this.dealModel({
+        roomId,
+        cardId,
+        isDealClosed,
+      });
+    }
     return new Promise((resolve) => {
       resolve(room);
     });
