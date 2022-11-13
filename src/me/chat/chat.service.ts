@@ -314,6 +314,7 @@ export class ChatService {
         roomId,
         cardId,
         isDealClosed,
+        isCompleteDealClosed: null,
       }).save();
     }
     return new Promise((resolve) => {
