@@ -8,6 +8,8 @@ import { CreateRoomDto } from './dto/chat-room.dto';
 import { CreateChatDto } from './dto/chat.dto';
 import { CreateCounterDto } from './dto/counter.dto';
 import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
+import { Message } from 'src/shared/@constants/messages.constant';
+import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
 
 @ApiTags('Chat and Counter')
 @ApiBearerAuth()
@@ -241,11 +243,11 @@ export class ChatController {
       pushNotificationDTO.messagingPayload,
     );
     if (data === true) {
-      return data;
+      return new ResponseSuccess(Message.DEAL_ACCEPTED);
     } else if (data === false) {
-      return 'not able to fetch';
+      return new ResponseSuccess(Message.DEAL_REJECTED);
     } else {
-      
+      return new ResponseSuccess(Message.DEAL_NOT_DONE);
     }
   }
 
