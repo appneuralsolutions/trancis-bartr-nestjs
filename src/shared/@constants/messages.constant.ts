@@ -52,4 +52,7 @@ export const Message = {
   SUCCESSFULLY_FIND_SUBJECT: 'Successfully Find Subject',
   SUCCESSFULLY_UPDATED_SUBJECT: 'Successfully Updated Subject',
   SUCCESSFULLY_DELETED_SUBJECT: 'Successfully Deleted Subject',
+  DEAL_NOT_DONE: 'Deal Not Done!',
+  DEAL_ACCEPTED: 'Deal Accepted',
+  DEAL_REJECTED: 'Deal Rejected',
 };

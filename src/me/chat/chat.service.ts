@@ -12,6 +12,7 @@ import { PushNotificationService } from 'src/push_notification/push_notification
 import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 import { IDeal } from './interface/deal.interface';
+import { Message } from '../../shared/@constants/messages.constant';
 @Injectable()
 export class ChatService {
   constructor(
@@ -95,7 +96,9 @@ export class ChatService {
   async getChats(roomId: string, userId?, cardId?): Promise<any> {
     const getRoomChats = await this.chatRoomModel
       .findOne({ _id: roomId })
-      .populate({ path: 'chats', populate: { path: 'counter' } });
+      .populate([
+        { path: 'chats', populate: [{ path: 'counter' }, { path: 'cardId' }] },
+      ]);
     return new Promise((resolve) => {
       resolve(getRoomChats);
     });
@@ -105,8 +108,7 @@ export class ChatService {
     const getRoomChats = await this.chatModel
       .findOne({ _id: roomId, cardId: cardId })
       .populate([
-        { path: 'chats', populate: { path: 'counter' } },
-        { path: 'cardId' },
+        { path: 'chats', populate: [{ path: 'counter' }, { path: 'cardId' }] },
       ]);
     return new Promise((resolve) => {
       resolve(getRoomChats);
@@ -301,14 +303,26 @@ export class ChatService {
       { _id, cardId },
       { isDealClosed: true },
     );
-    if (room.isDealClosed === true) {
-      await this.pushnotificationService.send(
-        pushnotificationDto,
-        messagingPayload,
-      );
+    let response = null;
+    if (room) {
+      if (room.isDealClosed === true) {
+        await this.pushnotificationService.send(
+          pushnotificationDto,
+          messagingPayload,
+        );
+        response = true;
+      } else {
+        await this.pushnotificationService.send(
+          pushnotificationDto,
+          messagingPayload,
+        );
+        response = false;
+      }
+    } else {
+      response = null;
     }
     return new Promise((resolve) => {
-      resolve(room);
+      resolve(response);
     });
   }
 

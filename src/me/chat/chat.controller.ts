@@ -240,10 +240,12 @@ export class ChatController {
       pushNotificationDTO,
       pushNotificationDTO.messagingPayload,
     );
-    if (data) {
+    if (data === true) {
       return data;
-    } else {
+    } else if (data === false) {
       return 'not able to fetch';
+    } else {
+      
     }
   }
 
