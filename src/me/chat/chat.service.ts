@@ -323,7 +323,7 @@ export class ChatService {
   }
 
   async getDealClose(roomId: string, cardId: string): Promise<any> {
-    const room = await this.dealCloseModel.findOneAndUpdate({ roomId, cardId });
+    const room = await this.dealCloseModel.findOne({ roomId, cardId });
     // let response = null;
     // if (room) {
     //   if (room.isDealClosed === true) {
