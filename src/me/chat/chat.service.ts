@@ -268,19 +268,18 @@ export class ChatService {
   }
 
   async rejectCounter(
-    roomId,
+    _id,
     cardId,
     pushnotificationDto: PushNotificationDTO,
     messagingPayload: MessagingPayload,
   ): Promise<ICounter> {
-    if (await this.counterModel.findOne({ roomId, cardId, isAccepted: null })) {
-      const counter = await new this.counterModel({
-        roomId: roomId,
-        cardId: cardId,
-        isAccepted: false,
-        isDealClosed: null,
-        isCompleteDealClosed: null,
-      });
+    if (await this.counterModel.findOne({ _id, cardId, isAccepted: null })) {
+      const counter = await this.counterModel.findOneAndUpdate(
+        { _id, cardId, isAccepted: null },
+        {
+          isAccepted: false,
+        },
+      );
       await this.pushnotificationService.send(
         pushnotificationDto,
         messagingPayload,
