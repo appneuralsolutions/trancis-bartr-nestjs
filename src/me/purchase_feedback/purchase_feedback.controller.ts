@@ -22,7 +22,7 @@ import { UsersService } from 'src/admin/users/users.service';
 @ApiTags('Me -> Feedback')
 @ApiBearerAuth()
 
-@Controller('purchase-feedback')
+@Controller('purchase/feedback')
 export class PurchaseFeedbackController {
     constructor(
         private readonly PurchaseFeedbackService: PurchaseFeedbackService,
@@ -38,13 +38,16 @@ export class PurchaseFeedbackController {
 
         const userPayload: any = this.jwtService.decode(me);
         console.log("payload",userPayload)
+        
         const data = await this.PurchaseFeedbackService.create(
             PurchaseFeedbackDto,
             userPayload,
         );
-        const addBartPoint =
+        if(data){
+        var addBartPoint =
         await this.usersService.addBartPoint(userPayload.userId)
         console.log(addBartPoint);
+        }
         if (data && addBartPoint) {
             return new ResponseSuccess(Message.SUCCESSFULLY_CREATED_MY_FEEDBACK, {
                 data,
@@ -96,7 +99,7 @@ export class PurchaseFeedbackController {
         }
     }
 
-    @Delete()
+    @Delete('?')
     async remove(@Me() me: string, @Param('id') id: string): Promise<IResponse> {
         const data = await this.PurchaseFeedbackService.remove(id);
         if (data) {

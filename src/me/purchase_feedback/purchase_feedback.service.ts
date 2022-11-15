@@ -10,11 +10,23 @@ export class PurchaseFeedbackService {
         @InjectModel('PurchaseFeedback') private readonly feedbackModel: Model<PurchaseFeedback>,
     ) { }
     async create(data: PurchaseFeedbackDto, userPayload): Promise<PurchaseFeedback> {
+        let getfeedback
         data.createdBy = userPayload.userId;
-        const createdData = await new this.feedbackModel(data).save();
-        return new Promise((resolve) => {
-            resolve(createdData);
-        });
+        if(data){
+        getfeedback = await this.feedbackModel.find({ createdBy: userPayload.userId});
+        let cardId = data.cardId
+        var arr =[] 
+        for(let i= 0; i<getfeedback.length; i++){
+        arr.push(getfeedback[i].cardId.valueOf())
+        }
+        if(!arr.includes(cardId)){
+            const createdData = await new this.feedbackModel(data).save();
+            return new Promise((resolve) => {
+                resolve(createdData);
+            });
+            }
+        }
+    
     }
     async findAll(): Promise<PurchaseFeedback[]> {
         const feedback = await this.feedbackModel.find();
@@ -50,7 +62,7 @@ export class PurchaseFeedbackService {
     async remove(id: string): Promise<PurchaseFeedback> {
         const feedback = await this.feedbackModel
             .findOneAndDelete({ _id: id })
-            .exec();
+            .exec()
         return new Promise((resolve) => {
             resolve(feedback);
         });
