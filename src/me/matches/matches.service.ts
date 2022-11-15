@@ -26,34 +26,16 @@ export class MatchesService {
       .populate([{ path: 'createdBy' }]);
     let match;
     if (card) {
-      match = await this.matchModel.findOne({ cardId: data.cardId });
+      match = await this.matchModel.findOne({
+        cardId: data.cardId,
+        userId: userPayload.userId,
+      });
       if (!match) {
         match = await new this.matchModel({
           ...data,
           userId: userPayload.userId,
         }).save();
-      } else {
-        match.like = data.rightSwiped;
-        await match.save();
       }
-
-      if (data.rightSwiped) {
-        card.likes++;
-        card.liked = card.liked.filter(
-          (x) => x + '' != userPayload.userId + '',
-        );
-        card.liked.push(userPayload.userId);
-        await this.pushnotificationService.send(
-          pushnotificationDto,
-          messagingPayload,
-        );
-      } else {
-        card.likes--;
-        card.liked = card.liked.filter(
-          (x) => x + '' != userPayload.userId + '',
-        );
-      }
-      card.save();
     } else {
       // throw ErrorMessage.NOT_SUCCESSFULLY_FIND_CARD;
     }
