@@ -8,7 +8,7 @@ let config: any;
 export class EmailService {
   constructor() {
     SendGrid.setApiKey(
-      'SG.oX_yWh5KRGeGQY-DKw6bKQ.HBx9SrMa5Tub2H5nTUGlvUSxaesg4JcTDF2Zl',
+      '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',
     );
   }
 

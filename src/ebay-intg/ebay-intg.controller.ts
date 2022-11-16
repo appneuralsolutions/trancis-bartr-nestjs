@@ -23,7 +23,7 @@ export class EbayIntgController {
     private readonly ebayService: EbayIntgService
   ) {
     this.eBay = new eBayApi({
-      appId: 'ashwinR-bartar-PRD-3b44d57bd-5cc21870',
+      appId: 'ashwinR-Bartr-PRD-3b44d57bd-5cc21870',
       certId: 'PRD-b44d57bd4ec7-67da-4ca5-82f8-0b9b',
       sandbox: false,
       autoRefreshToken: true,
@@ -117,9 +117,9 @@ export class EbayIntgController {
   // @Get()
   // async findByProfile(@Body() query: Object): Promise<any> {
   //   const ebayAuthToken = new EbayAuthToken({
-  //     clientId: 'ashwinR-bartar-SBX-fb454faf4-216e98aa',
+  //     clientId: 'ashwinR-Bartr-SBX-fb454faf4-216e98aa',
   //     clientSecret: 'SBX-b454faf41f41-b179-40bd-8e48-09b4',
-  //     redirectUri: 'ashwin_R-ashwinR-bartar--oaikmz',
+  //     redirectUri: 'ashwin_R-ashwinR-Bartr--oaikmz',
   //   });
 
   //   (async () => {

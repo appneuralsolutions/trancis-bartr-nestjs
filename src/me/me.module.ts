@@ -41,6 +41,7 @@ import { PurchaseCardSchema } from './purchase_card/schema/purchase_card.schema'
 import { UserSchema } from 'src/auth/@schemas/user.schema';
 import { UsersService } from 'src/admin/users/users.service';
 import { UsersModule } from 'src/admin/users/users.module';
+import { CardSchema } from 'src/cards/@schemas/card.schema';
 
 @Module({
   controllers: [
@@ -64,6 +65,7 @@ import { UsersModule } from 'src/admin/users/users.module';
     MongooseModule.forFeature([
       // { name: 'NewUser', schema: NewUserSchema },
       { name: 'Perference', schema: PreferencesSchema },
+      { name: 'Card', schema: CardSchema },
       { name: 'Wishlist', schema: WishlistSchema },
       { name: 'Match', schema: MatchSchema },
       { name: 'Chat', schema: ChatSchema },

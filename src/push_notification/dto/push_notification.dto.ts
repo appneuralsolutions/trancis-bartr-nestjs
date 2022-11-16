@@ -18,4 +18,7 @@ export class PushNotificationDTO {
 
   @ApiProperty()
   isCompleteDealClosed: string;
+
+  @ApiProperty()
+  dealType: string;
 }

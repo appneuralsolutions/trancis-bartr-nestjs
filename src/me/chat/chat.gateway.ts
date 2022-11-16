@@ -156,6 +156,7 @@ export class ChatGateway {
       msgData.messagingPayload,
       msgData.isDealClosed,
       msgData.isCompleteDealClosed,
+      msgData.dealType,
     );
     this.server
       .in(msgData.roomId as string)

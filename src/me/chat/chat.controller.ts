@@ -243,6 +243,7 @@ export class ChatController {
       pushNotificationDTO.messagingPayload,
       pushNotificationDTO.isDealClosed,
       pushNotificationDTO.isCompleteDealClosed,
+      pushNotificationDTO.dealType,
     );
     return new ResponseSuccess(Message.DEAL_CLOSED, data);
   }

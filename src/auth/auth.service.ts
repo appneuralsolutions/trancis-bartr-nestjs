@@ -347,7 +347,7 @@ export class AuthService {
 
     if (model && model.emailToken) {
       const mailOptions = {
-        from: '"" <' + 'Bartar' + '>',
+        from: '"" <' + 'Bartr' + '>',
         to: email + ', admin@appneural.com', // list of receivers (separated by ,)
         subject: 'Verify Email',
         text: 'Verify Email',
@@ -366,8 +366,9 @@ export class AuthService {
           'verification token is ' + model.emailToken,
       };
 
-      const sent = await this.emailService.sendEmail(mailOptions);
-      await this.emailService.sendSendGridEmail(mailOptions);
+      let sent: any = await this.emailService.sendEmail(mailOptions);
+      console.log(sent, 'sent');
+      sent = await this.emailService.sendSendGridEmail(mailOptions);
       console.log(sent, 'sent');
       // console.log('Message sent: %s', sent.messageId);
       if (sent) return true;
@@ -526,7 +527,7 @@ export class AuthService {
 
     if (tokenModel && tokenModel.newPasswordToken) {
       const mailOptions = {
-        from: '"Company" <' + 'Bartar' + '>',
+        from: '"Company" <' + 'Bartr' + '>',
         to: email, // list of receivers (separated by ,)
         subject: 'Forgotten Password',
         text: 'Forgot Password',
@@ -543,9 +544,10 @@ export class AuthService {
         // '>Click here</a>', // html body
       };
 
-      const sent = await this.emailService.sendEmail(mailOptions);
-      await this.emailService.sendSendGridEmail(mailOptions);
-      // console.log('Message sent: %s', sent.messageId);
+      let sent: any = await this.emailService.sendEmail(mailOptions);
+      console.log('Message sent: %s', sent.messageId);
+      sent = await this.emailService.sendSendGridEmail(mailOptions);
+      console.log('Message sent: %s', sent.messageId);
       if (sent) return true;
       else return false;
     } else {

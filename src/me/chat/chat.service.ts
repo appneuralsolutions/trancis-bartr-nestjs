@@ -12,7 +12,7 @@ import { PushNotificationService } from 'src/push_notification/push_notification
 import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 import { IDeal } from './interface/deal.interface';
-import { Message } from '../../shared/@constants/messages.constant';
+import { CreateCard } from '../../cards/@interface/card.interface';
 @Injectable()
 export class ChatService {
   constructor(
@@ -22,6 +22,7 @@ export class ChatService {
     @InjectModel('DealClose') private readonly dealCloseModel: Model<IDeal>,
     @InjectModel('Deducted-Amount')
     private readonly deductedAmountModel: Model<any>,
+    @InjectModel('Card') private cardModel: Model<CreateCard>,
     private readonly pushnotificationService: PushNotificationService,
   ) {}
 
@@ -299,12 +300,21 @@ export class ChatService {
     messagingPayload: MessagingPayload,
     isDealClosed: string,
     isCompleteDealClosed: string,
+    dealType: string,
   ): Promise<any> {
     let room = await this.dealCloseModel.findOneAndUpdate(
       { roomId, cardId },
       {
         $set: {
           isCompleteDealClosed: isCompleteDealClosed,
+        },
+      },
+    );
+    const cardData = await this.cardModel.findOneAndUpdate(
+      { _id: cardId },
+      {
+        $set: {
+          status: dealType,
         },
       },
     );
