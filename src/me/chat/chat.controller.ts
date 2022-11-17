@@ -236,6 +236,7 @@ export class ChatController {
     @Me() me: string,
     @Body() pushNotificationDTO: PushNotificationDTO,
   ): Promise<any> {
+    const userPayload: any = this.jwtService.decode(me);
     const data = await this.chatService.dealClose(
       id,
       cardId,
@@ -244,6 +245,12 @@ export class ChatController {
       pushNotificationDTO.isDealClosed,
       pushNotificationDTO.isCompleteDealClosed,
       pushNotificationDTO.dealType,
+    );
+    await this.chatService.saveTradeExchange(
+      userPayload.userId,
+      pushNotificationDTO.card1,
+      pushNotificationDTO.userId,
+      pushNotificationDTO.card2,
     );
     return new ResponseSuccess(Message.DEAL_CLOSED, data);
   }
@@ -259,6 +266,20 @@ export class ChatController {
       return new ResponseSuccess(Message.DEAL_CLOSED, data);
     } else {
       return new ResponseSuccess(Message.NO_RECORD_IN_DEAL, null);
+    }
+  }
+
+  @Get('trade/:id/:cardId')
+  async getTradeExchange(
+    @Param('id') id: string,
+    @Param('cardId') cardId: string,
+    @Me() me: string,
+  ): Promise<any> {
+    const data = await this.chatService.getTradeExchange(id, cardId);
+    if (data) {
+      return new ResponseSuccess(Message.DEAL_CLOSED, data);
+    } else {
+      return new ResponseSuccess(Message.NO_RECORD_IN_EXCHANGE, null);
     }
   }
 }

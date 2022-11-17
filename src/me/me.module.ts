@@ -42,6 +42,7 @@ import { UserSchema } from 'src/auth/@schemas/user.schema';
 import { UsersService } from 'src/admin/users/users.service';
 import { UsersModule } from 'src/admin/users/users.module';
 import { CardSchema } from 'src/cards/@schemas/card.schema';
+import { TradeSchema } from './wishlist/schemas/trade.schema';
 
 @Module({
   controllers: [
@@ -76,6 +77,7 @@ import { CardSchema } from 'src/cards/@schemas/card.schema';
       { name: 'PurchaseFeedback', schema: PurchaseFeedbackSchema },
       { name: 'PurchaseCard', schema: PurchaseCardSchema },
       { name: 'User', schema: UserSchema },
+      { name: 'Trade', schema: TradeSchema },
     ]),
     //ChatModule,
   ],

@@ -13,6 +13,7 @@ import { PushNotificationDTO } from 'src/push_notification/dto/push_notification
 import { MessagingPayload } from 'firebase-admin/lib/messaging/messaging-api';
 import { IDeal } from './interface/deal.interface';
 import { CreateCard } from '../../cards/@interface/card.interface';
+import { ITrade } from '../wishlist/interface/trade.interface';
 @Injectable()
 export class ChatService {
   constructor(
@@ -23,6 +24,7 @@ export class ChatService {
     @InjectModel('Deducted-Amount')
     private readonly deductedAmountModel: Model<any>,
     @InjectModel('Card') private cardModel: Model<CreateCard>,
+    @InjectModel('Trade') private tradeModel: Model<ITrade>,
     private readonly pushnotificationService: PushNotificationService,
   ) {}
 
@@ -353,6 +355,63 @@ export class ChatService {
     // }
     return new Promise((resolve) => {
       resolve(room);
+    });
+  }
+
+  async saveTradeExchange(
+    user1: string,
+    card1: string,
+    user2: string,
+    card2: string,
+  ): Promise<any> {
+    const tradeExchange = await new this.tradeModel({
+      user1,
+      card1,
+      user2,
+      card2,
+    });
+
+    return new Promise((resolve) => {
+      resolve(tradeExchange);
+    });
+  }
+
+  async getTradeExchange(userId: string, cardId: string): Promise<any> {
+    let tradeExchange;
+    if (userId && cardId) {
+      tradeExchange = await this.tradeModel.findOne({
+        user1: userId,
+        card1: cardId,
+      });
+
+      if (!tradeExchange) {
+        tradeExchange = await this.tradeModel.findOne({
+          user2: userId,
+          card2: cardId,
+        });
+      }
+    } else if (cardId) {
+      tradeExchange = await this.tradeModel.findOne({
+        card1: cardId,
+      });
+      if (!tradeExchange) {
+        tradeExchange = await this.tradeModel.findOne({
+          card2: cardId,
+        });
+      }
+    } else if (userId) {
+      tradeExchange = await this.tradeModel.findOne({
+        user1: userId,
+      });
+      if (!tradeExchange) {
+        tradeExchange = await this.tradeModel.findOne({
+          card2: cardId,
+        });
+      }
+    }
+
+    return new Promise((resolve) => {
+      resolve(tradeExchange);
     });
   }
 }
