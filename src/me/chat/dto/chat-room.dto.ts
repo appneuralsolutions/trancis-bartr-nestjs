@@ -8,4 +8,13 @@ export class CreateRoomDto {
 
   @ApiProperty({ type: String })
   cardId: string;
+
+  @ApiProperty()
+  cardId1: string;
+
+  @ApiProperty()
+  cardId2: string;
+
+  @ApiProperty()
+  usedFor: string;
 }

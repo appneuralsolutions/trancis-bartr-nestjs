@@ -414,4 +414,29 @@ export class ChatService {
       resolve(tradeExchange);
     });
   }
+
+  async cardUseIn(roomDto) {
+    const cardData = await this.cardModel.findOneAndUpdate(
+      { _id: roomDto.cardId1 },
+      {
+        $set: {
+          usedFor: roomDto.usedFor,
+        },
+      },
+    );
+    if (roomDto.cardId2) {
+      await this.cardModel.findOneAndUpdate(
+        { _id: roomDto.cardId2 },
+        {
+          $set: {
+            usedFor: roomDto.usedFor,
+          },
+        },
+      );
+    }
+
+    return new Promise((resolve) => {
+      resolve(cardData);
+    });
+  }
 }

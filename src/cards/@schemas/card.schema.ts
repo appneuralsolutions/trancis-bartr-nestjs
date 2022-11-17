@@ -32,4 +32,5 @@ export const CardSchema = new mongoose.Schema({
       required: false,
     },
   },
+  usedFor: String,
 }).set('timestamps', true);

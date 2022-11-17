@@ -10,6 +10,8 @@ import { CreateCounterDto } from './dto/counter.dto';
 import { PushNotificationDTO } from 'src/push_notification/dto/push_notification.dto';
 import { Message } from 'src/shared/@constants/messages.constant';
 import { ResponseSuccess } from 'src/shared/@dtos/response.dto';
+import { InjectModel } from 'nestjs-typegoose';
+import { Model } from 'mongoose';
 
 @ApiTags('Chat and Counter')
 @ApiBearerAuth()
@@ -27,6 +29,13 @@ export class ChatController {
   ): Promise<any> {
     const userPayload: any = this.jwtService.decode(me);
     const data = await this.chatService.createRoom(roomDto);
+    await this.chatService.saveTradeExchange(
+      roomDto.userId1,
+      roomDto.cardId1,
+      roomDto.userId2,
+      roomDto.cardId2,
+    );
+    const cardData = await this.chatService.cardUseIn(roomDto);
     if (data) {
       return data;
     } else {
@@ -246,12 +255,7 @@ export class ChatController {
       pushNotificationDTO.isCompleteDealClosed,
       pushNotificationDTO.dealType,
     );
-    await this.chatService.saveTradeExchange(
-      userPayload.userId,
-      pushNotificationDTO.card1,
-      pushNotificationDTO.userId,
-      pushNotificationDTO.card2,
-    );
+
     return new ResponseSuccess(Message.DEAL_CLOSED, data);
   }
 

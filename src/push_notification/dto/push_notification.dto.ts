@@ -21,10 +21,4 @@ export class PushNotificationDTO {
 
   @ApiProperty()
   dealType: string;
-
-  @ApiProperty()
-  card1: string;
-
-  @ApiProperty()
-  card2: string;
 }
