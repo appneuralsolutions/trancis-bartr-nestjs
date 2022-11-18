@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Patch, Body,ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Body,
+  ValidationPipe,
+} from '@nestjs/common';
 import { Me } from '../@decorators/me.decorator';
 import { ResponseSuccess, ResponseError } from 'src/shared/@dtos/response.dto';
 import { ErrorMessage } from 'src/shared/@constants/error.constant';
@@ -46,8 +53,6 @@ export class CardsController {
     }
   }
 
-
-
   @Get('user/:id')
   async findByUser(
     @Me() me: string,
@@ -65,7 +70,6 @@ export class CardsController {
       return new ResponseError(ErrorMessage.NOT_SUCCESSFULLY_ALL_FIND_CARD, {});
     }
   }
-
 
   //TODO:update api with push notification
 }

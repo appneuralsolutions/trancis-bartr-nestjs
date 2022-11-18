@@ -369,7 +369,7 @@ export class ChatService {
       card1,
       user2,
       card2,
-    });
+    }).save();
 
     return new Promise((resolve) => {
       resolve(tradeExchange);
