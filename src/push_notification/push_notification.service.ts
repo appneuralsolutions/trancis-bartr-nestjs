@@ -58,9 +58,9 @@ export class PushNotificationService {
   }
   async send(pushnotificationDto: any, messagingPayload: MessagingPayload) {
     let fcmToken;
-    const payload = {
-      notification: messagingPayload.notification,
-    };
+    // const payload = {
+    //   notification: messagingPayload.notification,
+    // };
 
     fcmToken = pushnotificationDto?.fcmToken;
     if (pushnotificationDto.userId) {
