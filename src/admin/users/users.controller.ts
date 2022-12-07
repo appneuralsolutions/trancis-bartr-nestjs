@@ -22,7 +22,7 @@ import { SingleValidationDto } from './dtos/single.dto';
 @ApiBearerAuth()
 @Controller()
 export class UsersController {
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService) {}
 
   @Post('validation')
   @HttpCode(HttpStatus.CREATED)
@@ -56,6 +56,50 @@ export class UsersController {
     console.log('get all user');
     try {
       return await this.usersService.getUsers();
+    } catch (error) {
+      return new ResponseError('USER.NOT_FETCHED_SUCCESSFULLY');
+    }
+  }
+
+  @Post(':userId')
+  @HttpCode(HttpStatus.CREATED)
+  async setUserActivate(@Param('userId') userId: string) {
+    console.log('get all user');
+    try {
+      return await this.usersService.setUserActivate(userId);
+    } catch (error) {
+      return new ResponseError('USER.NOT_FETCHED_SUCCESSFULLY');
+    }
+  }
+
+  @Post(':userId')
+  @HttpCode(HttpStatus.CREATED)
+  async setUserDeactivate(@Param('userId') userId: string) {
+    console.log('get all user');
+    try {
+      return await this.usersService.setUserDeactivate(userId);
+    } catch (error) {
+      return new ResponseError('USER.NOT_FETCHED_SUCCESSFULLY');
+    }
+  }
+
+  @Post(':userId')
+  @HttpCode(HttpStatus.CREATED)
+  async setUserAsAdmin(@Param('userId') userId: string) {
+    console.log('get all user');
+    try {
+      return await this.usersService.setUserAsAdmin(userId);
+    } catch (error) {
+      return new ResponseError('USER.NOT_FETCHED_SUCCESSFULLY');
+    }
+  }
+
+  @Post(':userId')
+  @HttpCode(HttpStatus.CREATED)
+  async setUserAsNonAdmin(@Param('userId') userId: string) {
+    console.log('get all user');
+    try {
+      return await this.usersService.setUserAsNonAdmin(userId);
     } catch (error) {
       return new ResponseError('USER.NOT_FETCHED_SUCCESSFULLY');
     }

@@ -62,6 +62,7 @@ export const UserSchema = new mongoose.Schema({
   },
   isSocial: { type: Boolean, default: false },
   isActive: { type: Boolean, default: true },
+  isAdmin: { type: Boolean, default: false },
   createdBy: String,
   modifiedBy: String,
 }).set('timestamps', true);

@@ -9,10 +9,11 @@ import { ErrorMessage } from 'src/shared/@constants/error.constant';
 export class UsersService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<IUser>,
-    @InjectModel('Deducted-Amount') private readonly deductedAmountModel: Model<any>,
+    @InjectModel('Deducted-Amount')
+    private readonly deductedAmountModel: Model<any>,
     @InjectModel('single-validation')
     private readonly singleModel: Model<SingleValidation>,
-  ) { }
+  ) {}
 
   async getUser(_id) {
     return await this.userModel.findOne({ _id });
@@ -20,6 +21,22 @@ export class UsersService {
 
   async getUsers() {
     return await this.userModel.find();
+  }
+
+  async setUserActivate(_id) {
+    return await this.userModel.find({ _id }, { $set: { isActive: true } });
+  }
+
+  async setUserDeactivate(_id) {
+    return await this.userModel.find({ _id }, { $set: { isActive: false } });
+  }
+
+  async setUserAsAdmin(_id) {
+    return await this.userModel.find({ _id }, { $set: { isAdmin: true } });
+  }
+
+  async setUserAsNonAdmin(_id) {
+    return await this.userModel.find({ _id }, { $set: { isAdmin: false } });
   }
 
   // async getUserById(_id){
