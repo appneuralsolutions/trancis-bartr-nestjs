@@ -61,7 +61,7 @@ export class UsersController {
     }
   }
 
-  @Post(':userId')
+  @Post(':userId/activate')
   @HttpCode(HttpStatus.CREATED)
   async setUserActivate(@Param('userId') userId: string) {
     console.log('get all user');
@@ -72,7 +72,7 @@ export class UsersController {
     }
   }
 
-  @Post(':userId')
+  @Post(':userId/deactivate')
   @HttpCode(HttpStatus.CREATED)
   async setUserDeactivate(@Param('userId') userId: string) {
     console.log('get all user');
@@ -83,7 +83,7 @@ export class UsersController {
     }
   }
 
-  @Post(':userId')
+  @Post(':userId/set-as-admin')
   @HttpCode(HttpStatus.CREATED)
   async setUserAsAdmin(@Param('userId') userId: string) {
     console.log('get all user');
@@ -94,7 +94,7 @@ export class UsersController {
     }
   }
 
-  @Post(':userId')
+  @Post(':userId/unset-as-admin')
   @HttpCode(HttpStatus.CREATED)
   async setUserAsNonAdmin(@Param('userId') userId: string) {
     console.log('get all user');
