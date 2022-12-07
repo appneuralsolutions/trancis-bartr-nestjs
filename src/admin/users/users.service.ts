@@ -24,19 +24,31 @@ export class UsersService {
   }
 
   async setUserActivate(_id) {
-    return await this.userModel.find({ _id }, { $set: { isActive: true } });
+    return await this.userModel.findOneAndUpdate(
+      { _id },
+      { $set: { isActive: true } },
+    );
   }
 
   async setUserDeactivate(_id) {
-    return await this.userModel.find({ _id }, { $set: { isActive: false } });
+    return await this.userModel.findOneAndUpdate(
+      { _id },
+      { $set: { isActive: false } },
+    );
   }
 
   async setUserAsAdmin(_id) {
-    return await this.userModel.find({ _id }, { $set: { isAdmin: true } });
+    return await this.userModel.findOneAndUpdate(
+      { _id },
+      { $set: { isAdmin: true } },
+    );
   }
 
   async setUserAsNonAdmin(_id) {
-    return await this.userModel.find({ _id }, { $set: { isAdmin: false } });
+    return await this.userModel.findOneAndUpdate(
+      { _id },
+      { $set: { isAdmin: false } },
+    );
   }
 
   // async getUserById(_id){
