@@ -349,8 +349,8 @@ export class AuthService {
       const mailOptions = {
         from: '"" <' + 'Bartr' + '>',
         to: email + ', admin@appneural.com', // list of receivers (separated by ,)
-        subject: 'Verify Email',
-        text: 'Verify Email',
+        subject: ' Please Verify Email',
+        text: ' Please Verify Email',
         html:
           // 'Hi! <br><br> Thanks for your registration<br><br>' +
           // 'token is ' +
@@ -363,7 +363,11 @@ export class AuthService {
           // '/' +
           // model.emailToken +
           // '>Click here to activate your account</a>',
-          'verification token is ' + model.emailToken,
+          'Your verification code is (' +
+          model.emailToken +
+          ').' +
+          'Thanks,' +
+          'Bartr',
       };
 
       let sent: any = await this.emailService.sendEmail(mailOptions);
