@@ -372,7 +372,7 @@ export class AuthService {
 
       let sent: any = await this.emailService.sendEmail(mailOptions);
       console.log(sent, 'sent');
-      sent = await this.emailService.sendSendGridEmail(mailOptions);
+      // sent = await this.emailService.sendSendGridEmail(mailOptions);
       console.log(sent, 'sent');
       // console.log('Message sent: %s', sent.messageId);
       if (sent) return true;
@@ -550,7 +550,7 @@ export class AuthService {
 
       let sent: any = await this.emailService.sendEmail(mailOptions);
       console.log('Message sent: %s', sent.messageId);
-      sent = await this.emailService.sendSendGridEmail(mailOptions);
+      // sent = await this.emailService.sendSendGridEmail(mailOptions);
       console.log('Message sent: %s', sent.messageId);
       if (sent) return true;
       else return false;
